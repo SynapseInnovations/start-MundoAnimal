@@ -15,7 +15,16 @@ const navigation = () => {
       path: '/mui',
       icon: 'mdi:email-outline'
     },
-
+    {
+      title: 'Mantenedor',
+      path: '/',
+      icon: 'mdi:email-outline'
+    },
+    {
+      title: 'Usuarios',
+      path: '/',
+      icon: 'mdi:email-outline'
+    },
     {
       path: '/acl',
       action: 'read',

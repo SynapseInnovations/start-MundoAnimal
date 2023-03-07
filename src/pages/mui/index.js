@@ -76,7 +76,7 @@ const TableStickyHeader = () => {
 
   return (
     <>
-      <TableContainer component={Paper} sx={{ maxHeight: 440 }}>
+      <TableContainer component={Paper} sx={{ maxHeight: 900 }}>
         <Table stickyHeader aria-label='sticky table'>
           <TableHead>
             <TableRow>

@@ -23,14 +23,14 @@ const data = [
   {
     value: 'home',
     isSelected: true,
-    title: 'John Doe (Default)',
-    meta: <CustomChip size='small' skin='light' label='Home' color='primary' />,
+    title: 'Venta en local',
+    meta: <CustomChip size='small' skin='light' label='Mundo Animal' color='primary' />,
     content: (
       <Box sx={{ mt: 3, height: '100%', display: 'flex', flexDirection: 'column' }}>
         <Typography variant='body2' sx={{ mb: 'auto' }}>
-          4135 Parkway Street, Los Angeles, CA, 90017.
+          Agro linderos norte 141
           <br />
-          Mobile : 1234567890 Cash / Card on delivery available
+          Numero 392482190
         </Typography>
         <Divider sx={{ m: theme => `${theme.spacing(3, 0, 4)} !important` }} />
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -43,7 +43,7 @@ const data = [
               e.stopPropagation()
             }}
           >
-            Edit
+            Editar
           </Box>
           <Box
             href='/'
@@ -54,7 +54,7 @@ const data = [
               e.stopPropagation()
             }}
           >
-            Remove
+            Remover
           </Box>
         </Box>
       </Box>
@@ -62,8 +62,8 @@ const data = [
   },
   {
     value: 'office',
-    title: 'ACME Inc.',
-    meta: <CustomChip size='small' skin='light' label='Office' color='success' />,
+    title: 'Direccion Cliente',
+    meta: <CustomChip size='small' skin='light' label='Direcciones Guardadas' color='success' />,
     content: (
       <Box sx={{ mt: 3, height: '100%', display: 'flex', flexDirection: 'column' }}>
         <Typography variant='body2' sx={{ mb: 'auto' }}>
@@ -82,7 +82,7 @@ const data = [
               e.stopPropagation()
             }}
           >
-            Edit
+            Editar
           </Box>
           <Box
             href='/'
@@ -93,7 +93,7 @@ const data = [
               e.stopPropagation()
             }}
           >
-            Remove
+            Remover
           </Box>
         </Box>
       </Box>
@@ -101,75 +101,13 @@ const data = [
   }
 ]
 
-const dataIcons = [
-  {
-    isSelected: true,
-    value: 'standard',
-    title: 'Standard',
-    content: (
-      <>
-        <CustomChip
-          size='small'
-          skin='light'
-          label='Free'
-          color='success'
-          sx={{ top: 12, right: 12, position: 'absolute' }}
-        />
-        <Typography variant='body2' sx={{ my: 'auto', textAlign: 'center' }}>
-          Get your product in 1 Week.
-        </Typography>
-      </>
-    )
-  },
-  {
-    value: 'express',
-    title: 'Express',
-    content: (
-      <>
-        <CustomChip
-          label='$10'
-          size='small'
-          skin='light'
-          color='secondary'
-          sx={{ top: 12, right: 12, position: 'absolute' }}
-        />
-        <Typography variant='body2' sx={{ my: 'auto', textAlign: 'center' }}>
-          Get your product in 3-4 days.
-        </Typography>
-      </>
-    )
-  },
-  {
-    value: 'overnight',
-    title: 'Overnight',
-    content: (
-      <>
-        <CustomChip
-          label='$15'
-          size='small'
-          skin='light'
-          color='secondary'
-          sx={{ top: 12, right: 12, position: 'absolute' }}
-        />
-        <Typography variant='body2' sx={{ my: 'auto', textAlign: 'center' }}>
-          Get your product in 1 day.
-        </Typography>
-      </>
-    )
-  }
-]
+const dataIcons = []
 
 const StepAddress = ({ handleNext }) => {
   const initialBasicSelected = data.filter(item => item.isSelected)[data.filter(item => item.isSelected).length - 1]
     .value
 
-  const initialIconSelected = dataIcons.filter(item => item.isSelected)[
-    dataIcons.filter(item => item.isSelected).length - 1
-  ].value
-
   // ** States
-  const [selectedIconRadio, setSelectedIconRadio] = useState(initialIconSelected)
-  const [selectedBasicRadio, setSelectedBasicRadio] = useState(initialBasicSelected)
 
   // ** Hook
   const theme = useTheme()
@@ -209,30 +147,28 @@ const StepAddress = ({ handleNext }) => {
   return (
     <Grid container spacing={6}>
       <Grid item xs={12} lg={8}>
-        <Typography sx={{ mb: 4 }}>Select your preferable address</Typography>
+        <Typography sx={{ mb: 4 }}>Selecciona la direccion</Typography>
         <Grid container spacing={4}>
           {data.map((item, index) => (
             <CustomRadioBasic
               key={index}
               data={data[index]}
               name='custom-radios-address'
-              selected={selectedBasicRadio}
               gridProps={{ sm: 6, xs: 12 }}
               handleChange={handleBasicRadioChange}
             />
           ))}
         </Grid>
         <Button variant='outlined' sx={{ mt: 4 }}>
-          Add new address
+          Agregar nueva dirección
         </Button>
-        <Typography sx={{ mt: 9, mb: 4 }}>Choose Delivery Speed</Typography>
+        {/* <Typography sx={{ mt: 9, mb: 4 }}>Choose Delivery Speed</Typography> */}
         <Grid container spacing={4}>
           {dataIcons.map((item, index) => (
             <CustomRadioIcons
               key={index}
               data={dataIcons[index]}
               icon={icons[index].icon}
-              selected={selectedIconRadio}
               name='custom-radios-delivery'
               gridProps={{ sm: 4, xs: 12 }}
               iconProps={icons[index].iconProps}
@@ -244,33 +180,21 @@ const StepAddress = ({ handleNext }) => {
       <Grid item xs={12} lg={4}>
         <Box sx={{ mb: 4, borderRadius: 1, border: theme => `1px solid ${theme.palette.divider}` }}>
           <CardContent>
-            <Typography sx={{ mb: 4, fontWeight: 600 }}>Estimated Delivery Date</Typography>
-            <Box sx={{ mb: 4, display: 'flex' }}>
-              <Box sx={{ mr: 4 }}>
-                <img width={50} src='/images/products/google-home.png' alt='Google Home' />
-              </Box>
-              <div>
-                <Typography variant='body2'>Google - Google Home - White</Typography>
-                <Typography variant='body2' sx={{ fontWeight: 600 }}>
-                  18th Nov 2021
-                </Typography>
-              </div>
-            </Box>
             <Box sx={{ display: 'flex' }}>
               <Box sx={{ mr: 4 }}>
-                <img width={50} src='/images/products/iphone-11.png' alt='iphone 11' />
+                <img width={50} src='/images/products/google-home.png' alt='Purina Dog Chow' />
               </Box>
               <div>
-                <Typography variant='body2'>Apple iPhone 11 (64GB, Black)</Typography>
+                <Typography variant='body2'>Purina Dog Chow</Typography>
                 <Typography variant='body2' sx={{ fontWeight: 600 }}>
-                  20th Nov 2021
+                  Martes 07 de marzo de 2023
                 </Typography>
               </div>
             </Box>
           </CardContent>
           <Divider sx={{ m: '0 !important' }} />
           <CardContent>
-            <Typography sx={{ mb: 4, fontWeight: 600 }}>Price Details</Typography>
+            <Typography sx={{ mb: 4, fontWeight: 600 }}>Detalle de Envio</Typography>
             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
               <Box
                 sx={{
@@ -283,9 +207,9 @@ const StepAddress = ({ handleNext }) => {
                 }}
               >
                 <Typography variant='body2' sx={{ color: 'text.primary' }}>
-                  Order Total
+                  Total
                 </Typography>
-                <Typography variant='body2'>$1198.00</Typography>
+                <Typography variant='body2'>9.990 $</Typography>
               </Box>
               <Box
                 sx={{
@@ -301,7 +225,7 @@ const StepAddress = ({ handleNext }) => {
                 </Typography>
                 <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                   <Typography variant='body2' sx={{ mr: 2, textDecoration: 'line-through', color: 'text.disabled' }}>
-                    $5.00
+                    2.000 $
                   </Typography>
                   <CustomChip size='small' skin='light' color='success' label='Free' />
                 </Box>
@@ -314,13 +238,13 @@ const StepAddress = ({ handleNext }) => {
               sx={{ gap: 2, display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between' }}
             >
               <Typography sx={{ fontWeight: 600 }}>Total</Typography>
-              <Typography sx={{ fontWeight: 600 }}>$1198.00</Typography>
+              <Typography sx={{ fontWeight: 600 }}>9.990$</Typography>
             </Box>
           </CardContent>
         </Box>
         <Box sx={{ display: 'flex', ...(breakpointMD ? { justifyContent: 'flex-end' } : {}) }}>
           <Button fullWidth={!breakpointMD} variant='contained' onClick={handleNext}>
-            Place Order
+            Pagar
           </Button>
         </Box>
       </Grid>

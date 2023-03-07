@@ -89,7 +89,7 @@ const StepCart = ({ handleNext }) => {
               <Grid item xs={12} md={8}>
                 <ListItemText primary='Purina Dog Chow ' />
                 <Box sx={{ display: 'flex' }}>
-                  <Typography sx={{ mr: 2, color: 'text.disabled' }}>Vendedor:</Typography>
+                  <Typography sx={{ mr: 2, mb: 4, color: 'text.disabled' }}>Vendedor:</Typography>
 
                   <Typography
                     href='/'
@@ -101,7 +101,7 @@ const StepCart = ({ handleNext }) => {
                   </Typography>
                   <CustomChip size='small' skin='light' color='success' label='En Stock' />
                 </Box>
-                <Rating name='google-nest-rating' value={4} readOnly sx={{ mb: 6 }} />
+
                 <TextField size='small' type='number' defaultValue='1' sx={{ maxWidth: 100, display: 'block' }} />
               </Grid>
               <Grid item xs={12} md={4} sx={{ mt: [6, 6, 8] }}>
@@ -150,9 +150,8 @@ const StepCart = ({ handleNext }) => {
       </Grid>
       <Grid item xs={12} lg={4}>
         <Box sx={{ mb: 4, borderRadius: 1, border: theme => `1px solid ${theme.palette.divider}` }}>
-          <Divider sx={{ my: '0 !important' }} />
           <CardContent>
-            <Typography sx={{ mb: 4, fontWeight: 600 }}>Detalle</Typography>
+            <Typography sx={{ mb: 10, fontWeight: 800 }}>Detalle</Typography>
             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
               <Box
                 sx={{
@@ -165,34 +164,9 @@ const StepCart = ({ handleNext }) => {
                 }}
               >
                 <Typography variant='body2' sx={{ color: 'text.primary' }}>
-                  Subtotal
+                  Purina Dog Chow
                 </Typography>
-                <Typography variant='body2'>1198 $</Typography>
-              </Box>
-              <Box
-                sx={{
-                  mb: 2,
-                  gap: 2,
-                  display: 'flex',
-                  flexWrap: 'wrap',
-                  alignItems: 'center',
-                  justifyContent: 'space-between'
-                }}
-              ></Box>
-              <Box
-                sx={{
-                  mb: 2,
-                  gap: 2,
-                  display: 'flex',
-                  flexWrap: 'wrap',
-                  alignItems: 'center',
-                  justifyContent: 'space-between'
-                }}
-              >
-                <Typography variant='body2' sx={{ color: 'text.primary' }}>
-                  Total
-                </Typography>
-                <Typography variant='body2'>1198 $</Typography>
+                <Typography variant='body2'>9.990 $</Typography>
               </Box>
               <Box
                 sx={{
@@ -207,7 +181,7 @@ const StepCart = ({ handleNext }) => {
                   Delivery
                 </Typography>
                 <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                  <Typography variant='body2'>2000 $</Typography>
+                  <Typography variant='body2'>2.000 $</Typography>
                 </Box>
               </Box>
             </Box>

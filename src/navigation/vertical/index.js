@@ -13,17 +13,26 @@ const navigation = () => {
     {
       title: 'Inventario',
       path: '/mui',
-      icon: 'mdi:email-outline'
+      icon: 'mdi:application'
     },
     {
       title: 'Mantenedor',
       path: '/',
-      icon: 'mdi:email-outline'
+      icon: 'mdi:application'
+    },
+    {
+      title: 'Checkout',
+      path: '/checkout'
+    },
+    {
+      title: 'Ventas',
+      path: '/',
+      icon: 'mdi:application'
     },
     {
       title: 'Usuarios',
       path: '/',
-      icon: 'mdi:email-outline'
+      icon: 'mdi:application'
     },
     {
       path: '/acl',

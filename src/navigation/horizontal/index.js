@@ -2,19 +2,20 @@ const navigation = () => [
   {
     title: 'Home',
     path: '/home',
-    icon: 'mdi:home-outline',
+    icon: 'mdi:home-outline'
   },
+
   {
-    title: 'Second Page',
+    title: 'Seconde Page',
     path: '/second-page',
-    icon: 'mdi:email-outline',
+    icon: 'mdi:email-outline'
   },
   {
     path: '/acl',
-    action: 'read',
+    action: 'rea1d',
     subject: 'acl-page',
     title: 'Access Control',
-    icon: 'mdi:shield-outline',
+    icon: 'mdi:shield-outline'
   }
 ]
 

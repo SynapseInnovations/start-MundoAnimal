@@ -10,6 +10,13 @@ import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
 import TablePagination from '@mui/material/TablePagination'
+import Toolbar from '@mui/material/Toolbar'
+import IconButton from '@mui/material/IconButton'
+import DeleteIcon from '@mui/icons-material/Delete'
+import AddIcon from '@mui/icons-material/Add'
+import Button from '@mui/material/Button'
+import EditIcon from '@mui/icons-material/Edit'
+import { Icon } from '@material-ui/core'
 
 const columns = [
   { id: 'name', label: 'Name', minWidth: 170 },
@@ -34,6 +41,22 @@ const columns = [
     minWidth: 170,
     align: 'right',
     format: value => value.toFixed(2)
+  },
+  {
+    id: 'actions',
+    label: 'Actions',
+    minWidth: 100,
+    align: 'right',
+    renderCell: params => (
+      <div>
+        <Icon color='error' onClick={() => console.log('Eliminar fila', params.row.name)} fontSize='small'>
+          <DeleteIcon />
+        </Icon>
+        <Icon color='primary' onClick={() => console.log('Editar fila', params.row.name)} fontSize='small'>
+          <EditIcon />
+        </Icon>
+      </div>
+    )
   }
 ]
 function createData(name, code, population, size) {
@@ -76,6 +99,23 @@ const TableStickyHeader = () => {
 
   return (
     <>
+      <Toolbar sx={{ justifyContent: 'flex-end' }}>
+        <Button color='error' variant='contained' sx={{ mx: 1 }} onClick={() => console.log('Eliminar button clicked')}>
+          Eliminar
+        </Button>
+        <Button
+          color='primary'
+          variant='contained'
+          sx={{ mx: 1 }}
+          onClick={() => console.log('Agregar button clicked')}
+        >
+          Agregar
+        </Button>
+        <Button color='warning' variant='contained' sx={{ mx: 1 }} onClick={() => console.log('Editar button clicked')}>
+          Editar
+        </Button>
+      </Toolbar>
+
       <TableContainer component={Paper} sx={{ maxHeight: 900 }}>
         <Table stickyHeader aria-label='sticky table'>
           <TableHead>

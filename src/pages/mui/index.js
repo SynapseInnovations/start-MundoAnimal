@@ -11,12 +11,13 @@ import TableCell from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
 import TablePagination from '@mui/material/TablePagination'
 import Toolbar from '@mui/material/Toolbar'
-import IconButton from '@mui/material/IconButton'
-import DeleteIcon from '@mui/icons-material/Delete'
 import AddIcon from '@mui/icons-material/Add'
 import Button from '@mui/material/Button'
+import DataGrid from 'src/@core/theme/overrides/dataGrid'
+import { IconButton, Icon } from '@mui/material'
+import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
-import { Icon } from '@material-ui/core'
+import { RiDeleteBinLine, RiEdit2Line, RiAddLine } from 'react-icons/ri'
 
 const columns = [
   { id: 'name', label: 'Name', minWidth: 170 },
@@ -49,16 +50,20 @@ const columns = [
     align: 'right',
     renderCell: params => (
       <div>
-        <Icon color='error' onClick={() => console.log('Eliminar fila', params.row.name)} fontSize='small'>
-          <DeleteIcon />
-        </Icon>
-        <Icon color='primary' onClick={() => console.log('Editar fila', params.row.name)} fontSize='small'>
-          <EditIcon />
-        </Icon>
+        <button onClick={() => console.log('Eliminar fila', params.row.name)}>
+          <RiDeleteBinLine size='24' />
+        </button>
+        <button onClick={() => console.log('Editar fila', params.row.name)}>
+          <RiEdit2Line size='24' />
+        </button>
+        <button onClick={() => console.log('Agregar fila')}>
+          <RiAddLine size='24' />
+        </button>
       </div>
     )
   }
 ]
+
 function createData(name, code, population, size) {
   const density = population / size
 
@@ -66,21 +71,11 @@ function createData(name, code, population, size) {
 }
 
 const rows = [
-  createData('India', 'IN', 1324171354, 3287263),
-  createData('China', 'CN', 1403500365, 9596961),
-  createData('Italy', 'IT', 60483973, 301340),
-  createData('United States', 'US', 327167434, 9833520),
-  createData('Canada', 'CA', 37602103, 9984670),
-  createData('Australia', 'AU', 25475400, 7692024),
-  createData('Germany', 'DE', 83019200, 357578),
-  createData('Ireland', 'IE', 4857000, 70273),
-  createData('Mexico', 'MX', 126577691, 1972550),
-  createData('Japan', 'JP', 126317000, 377973),
-  createData('France', 'FR', 67022000, 640679),
-  createData('United Kingdom', 'GB', 67545757, 242495),
-  createData('Russia', 'RU', 146793744, 17098246),
-  createData('Nigeria', 'NG', 200962417, 923768),
-  createData('Brazil', 'BR', 210147125, 8515767)
+  { id: 1, name: 'India', code: 'IN', population: 1393409038, size: 3287263, density: 425 },
+  { id: 2, name: 'China', code: 'CN', population: 1403500365, size: 9596961, density: 146 },
+  { id: 3, name: 'Italy', code: 'IT', population: 60483973, size: 301340, density: 201 },
+  { id: 4, name: 'United States', code: 'US', population: 331449281, size: 9833520, density: 34 },
+  { id: 5, name: 'Canada', code: 'CA', population: 37602103, size: 9984670, density: 4 }
 ]
 
 const TableStickyHeader = () => {
@@ -95,6 +90,23 @@ const TableStickyHeader = () => {
   const handleChangeRowsPerPage = event => {
     setRowsPerPage(+event.target.value)
     setPage(0)
+  }
+  function Inventory() {
+    return (
+      <div style={{ height: 400, width: '100%' }}>
+        <DataGrid rows={rows} columns={columns} pageSize={5} checkboxSelection />
+        <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '10px' }}>
+          <Button
+            variant='contained'
+            color='primary'
+            startIcon={<AddIcon />}
+            onClick={() => console.log('Agregar fila')}
+          >
+            Add
+          </Button>
+        </div>
+      </div>
+    )
   }
 
   return (

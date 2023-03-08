@@ -12,8 +12,8 @@ const navigation = () => {
     },
     {
       title: 'Inventario',
-      path: '/mui',
-      icon: 'mdi:application'
+      icon: 'mdi:email-outline',
+      path: '/apps/permissions'
     },
     {
       title: 'Mantenedor',

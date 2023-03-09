@@ -29,7 +29,7 @@ import { useDispatch, useSelector } from 'react-redux'
 // ** Custom Components Imports
 import CustomChip from 'src/@core/components/mui/chip'
 import PageHeader from 'src/@core/components/page-header'
-import TableHeader from 'src/views/permissions/TableHeader'
+import TableHeader from 'src/views/apps/permissions/TableHeader'
 
 // ** Actions Imports
 import { fetchData } from 'src/store/apps/permissions'
@@ -47,14 +47,14 @@ const defaultColumns = [
     flex: 0.25,
     field: 'name',
     minWidth: 240,
-    headerName: 'Name',
+    headerName: 'Nombre del Producto',
     renderCell: ({ row }) => <Typography>{row.name}</Typography>
   },
   {
     flex: 0.35,
     minWidth: 280,
     field: 'assignedTo',
-    headerName: 'Assigned To',
+    headerName: 'Cantidad',
     renderCell: ({ row }) => {
       return row.assignedTo.map((assignee, index) => (
         <CustomChip
@@ -72,7 +72,7 @@ const defaultColumns = [
     flex: 0.25,
     minWidth: 215,
     field: 'createdDate',
-    headerName: 'Created Date',
+    headerName: 'Marca',
     renderCell: ({ row }) => <Typography variant='body2'>{row.createdDate}</Typography>
   }
 ]
@@ -118,7 +118,7 @@ const PermissionsTable = () => {
       minWidth: 115,
       sortable: false,
       field: 'actions',
-      headerName: 'Actions',
+      headerName: 'Acciones',
       renderCell: ({ row }) => (
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <IconButton onClick={() => handleEditPermission(row.name)}>
@@ -137,12 +137,8 @@ const PermissionsTable = () => {
       <Grid container spacing={6}>
         <Grid item xs={12}>
           <PageHeader
-            title={<Typography variant='h5'>Permissions List</Typography>}
-            subtitle={
-              <Typography variant='body2'>
-                Each category (Basic, Professional, and Business) includes the four predefined roles shown below.
-              </Typography>
-            }
+            title={<Typography variant='h5'>Productos Mundo Animal</Typography>}
+            subtitle={<Typography variant='body2'>Tienda de Accesorios y Alimentos de Mascotas</Typography>}
           />
         </Grid>
         <Grid item xs={12}>

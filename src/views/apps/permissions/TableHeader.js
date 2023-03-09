@@ -34,19 +34,26 @@ const TableHeader = props => {
           size='small'
           value={value}
           sx={{ mr: 4, mb: 2.5 }}
-          placeholder='Search Permission'
+          placeholder='Buscar Producto'
           onChange={e => handleFilter(e.target.value)}
         />
+
         <Button sx={{ mb: 2.5 }} variant='contained' onClick={handleDialogToggle}>
-          Add Permission
+          Agregar Producto
+        </Button>
+        <Button sx={{ mb: 2.5 }} variant='contained' onClick={handleDialogToggle}>
+          Editar Producto
+        </Button>
+        <Button sx={{ mb: 2.5 }} variant='contained' onClick={handleDialogToggle}>
+          Filtrar
         </Button>
       </Box>
       <Dialog fullWidth maxWidth='sm' onClose={handleDialogToggle} open={open}>
         <DialogTitle sx={{ pt: 12, mx: 'auto', textAlign: 'center' }}>
           <Typography variant='h5' component='span' sx={{ mb: 2 }}>
-            Add New Permission
+            Agregar Nuevo Producto
           </Typography>
-          <Typography variant='body2'>Permissions you may use and assign to your users.</Typography>
+          <Typography variant='body2'>+Agrega nuevos productos a Mundo Animal!</Typography>
         </DialogTitle>
         <DialogContent sx={{ pb: 12, mx: 'auto' }}>
           <Box
@@ -56,17 +63,17 @@ const TableHeader = props => {
           >
             <TextField
               fullWidth
-              label='Permission Name'
+              label='Nombre del Producto'
               sx={{ mb: 1, maxWidth: 360 }}
-              placeholder='Enter Permission Name'
+              placeholder='Ingresa el nombre del Producto'
             />
-            <FormControlLabel control={<Checkbox />} label='Set as core permission' />
+            <FormControlLabel control={<Checkbox />} label='Ingresar a Web' />
             <Box className='demo-space-x' sx={{ '& > :last-child': { mr: '0 !important' } }}>
               <Button size='large' type='submit' variant='contained'>
-                Create Permission
+                Crear Producto
               </Button>
               <Button type='reset' size='large' variant='outlined' color='secondary' onClick={handleDialogToggle}>
-                Discard
+                Cancelar
               </Button>
             </Box>
           </Box>

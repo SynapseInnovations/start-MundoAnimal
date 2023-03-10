@@ -1,19 +1,20 @@
 const navigation = () => {
   return [
     {
+      sectionTitle: 'Menú Principal'
+    },
+    {
       title: 'Home',
       path: '/home',
       icon: 'mdi:home-outline'
     },
     {
-      title: 'Second Page',
-      path: '/second-page',
-      icon: 'mdi:email-outline'
+      sectionTitle: 'Panel de Operador'
     },
     {
       title: 'Inventario',
-      icon: 'mdi:email-outline',
-      path: '/apps/permissions'
+      path: '/apps/permissions',
+      icon: 'mdi:application'
     },
     {
       title: 'Mantenedor',
@@ -21,25 +22,63 @@ const navigation = () => {
       icon: 'mdi:application'
     },
     {
-      title: 'Checkout',
-      path: '/checkout'
-    },
-    {
       title: 'Ventas',
       path: '/',
-      icon: 'mdi:application'
+      icon: 'mdi:cart',
+      children: [
+        {
+          title: 'Generar Venta',
+          path: '/checkout',
+          icon: 'mdi:cart'
+        },
+        {
+          title: 'Listar Ventas',
+          path: '/operator/sales/list',
+          icon: 'mdi:list-box'
+        }
+      ]
+    },
+    {
+      sectionTitle: 'Panel de Administrador'
     },
     {
       title: 'Usuarios',
       path: '/',
-      icon: 'mdi:application'
+      icon: 'mdi:account-multiple',
+      children: [
+        {
+          title: 'Crear Usuarios',
+          path: '/admin/users/create',
+          icon: 'mdi:account-multiple-plus'
+        },
+        {
+          title: 'Administrar Cuentas',
+          path: '/admin/users/manage',
+          icon: 'mdi:account-box-multiple'
+        }
+      ]
     },
     {
-      path: '/acl',
-      action: 'read',
-      subject: 'acl-page',
-      title: 'Access Control',
-      icon: 'mdi:shield-outline'
+      title: 'Finanzas',
+      path: '/',
+      icon: 'mdi:cash-multiple',
+      children: [
+        {
+          title: 'Ventas del día',
+          path: '/admin/finance/daily',
+          icon: 'mdi:cash-register'
+        },
+        {
+          title: 'Ventas por Periodo',
+          path: '/admin/finance/history',
+          icon: 'mdi:cash-clock'
+        },
+        {
+          title: 'Ganancias',
+          path: '/admin/finance/earnings',
+          icon: 'mdi:cash-plus'
+        }
+      ]
     }
   ]
 }

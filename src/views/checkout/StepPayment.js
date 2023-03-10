@@ -72,78 +72,22 @@ const StepPayment = ({ handleNext }) => {
             onChange={handleChange}
             aria-label='customized tabs example'
           >
-            <Tab value='cc' label='Card' />
-            <Tab value='cod' label='Cash On Delivery' />
-            <Tab value='gc' label='Gift Card' />
+            <Tab value='cc' label='Efectivo o Transferencia' />
+            <Tab value='cod' label='Tarjeta' />
           </TabList>
           <Grid container sx={{ mt: 5 }}>
             <Grid item md={8} xs={12}>
               <TabPanel value='cc' sx={{ p: 0 }}>
-                <Grid container spacing={4}>
-                  <Grid item xs={12}>
-                    <TextField fullWidth type='number' label='Card Number' placeholder='1356 3215 6548 7898' />
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <TextField fullWidth label='Name' placeholder='John Doe' />
-                  </Grid>
-                  <Grid item xs={6} sm={3}>
-                    <TextField fullWidth label='Expiry Date' placeholder='MM/YY' />
-                  </Grid>
-                  <Grid item xs={6} sm={3}>
-                    <TextField
-                      fullWidth
-                      label='CVV'
-                      placeholder='654'
-                      InputProps={{
-                        endAdornment: (
-                          <InputAdornment position='start'>
-                            <Tooltip title='Card Verification Value'>
-                              <Box component='span' sx={{ display: 'inline-flex', '& svg': { cursor: 'pointer' } }}>
-                                <Icon icon='mdi:help-circle-outline' fontSize={20} />
-                              </Box>
-                            </Tooltip>
-                          </InputAdornment>
-                        )
-                      }}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <FormControlLabel control={<Switch defaultChecked />} label='Save Card for future billing?' />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Button variant='contained' sx={{ mr: 3.5 }} onClick={handleNext}>
-                      Checkout
-                    </Button>
-                    <Button type='reset' variant='outlined' color='secondary'>
-                      Reset
-                    </Button>
-                  </Grid>
-                </Grid>
-              </TabPanel>
-              <TabPanel value='cod' sx={{ p: 0 }}>
-                <Typography sx={{ mb: 4 }}>
-                  Cash on Delivery is a type of payment method where the recipient make payment for the order at the
-                  time of delivery rather than in advance.
-                </Typography>
+                <Typography sx={{ mb: 4 }}>Recuerda contar bien el vuelto</Typography>
                 <Button variant='contained' onClick={handleNext}>
-                  Pay On Delivery
+                  Pagar
                 </Button>
               </TabPanel>
-              <TabPanel value='gc' sx={{ p: 0 }}>
-                <Typography sx={{ mb: 4, fontWeight: 500 }}>Enter Gift Card Details</Typography>
-                <Grid container spacing={4}>
-                  <Grid item xs={12}>
-                    <TextField fullWidth type='number' label='Gift Card Number' placeholder='Gift Card Number' />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <TextField fullWidth type='number' label='Gift Card Pin' placeholder='Gift Card Pin' />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Button variant='contained' onClick={handleNext}>
-                      Redeem Gift Card
-                    </Button>
-                  </Grid>
-                </Grid>
+              <TabPanel value='cod' sx={{ p: 0 }}>
+                <Typography sx={{ mb: 4 }}>Entregar Voucher</Typography>
+                <Button variant='contained' onClick={handleNext}>
+                  Pagar
+                </Button>
               </TabPanel>
             </Grid>
           </Grid>

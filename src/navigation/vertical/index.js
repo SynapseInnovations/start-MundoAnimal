@@ -18,7 +18,7 @@ const navigation = () => {
     },
     {
       title: 'Mantenedor',
-      path: '/',
+      path: 'property-listing',
       icon: 'mdi:application'
     },
     {
@@ -32,8 +32,8 @@ const navigation = () => {
           icon: 'mdi:cart'
         },
         {
-          title: 'Listar Ventas',
-          path: '/operator/sales/list',
+          title: 'Historial de Ventas',
+          path: '/mui',
           icon: 'mdi:list-box'
         }
       ]

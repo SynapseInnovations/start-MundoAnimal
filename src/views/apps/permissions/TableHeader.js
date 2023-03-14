@@ -11,6 +11,7 @@ import Typography from '@mui/material/Typography'
 import DialogTitle from '@mui/material/DialogTitle'
 import DialogContent from '@mui/material/DialogContent'
 import FormControlLabel from '@mui/material/FormControlLabel'
+import InputAdornment from '@mui/material/InputAdornment'
 
 const TableHeader = props => {
   // ** Props
@@ -21,6 +22,8 @@ const TableHeader = props => {
   const { value, handleFilter } = props
   const [selectedFile, setSelectedFile] = useState(null)
   const [thumbnail, setThumbnail] = useState(null)
+  const [precioKilo, setPrecioKilo] = useState(0)
+  const [precioUnitario, setPrecioUnitario] = useState(0)
 
   // ** State
   const [open, setOpen] = useState(false)
@@ -35,14 +38,36 @@ const TableHeader = props => {
     setCantidadProducto(parseInt(event.target.value))
   }
 
+  const handlePrecioKiloChange = event => {
+    setPrecioKilo(event.target.value)
+  }
+
+  const handlePrecioUnitarioChange = event => {
+    setPrecioUnitario(event.target.value)
+  }
+
   const handleCantidadIncrement = () => {
-    setCantidadProducto(cantidadProducto + 1)
+    setCantidadProducto(cantidadProducto - 0.5, 0)
   }
 
   const handleCantidadDecrement = () => {
-    if (cantidadProducto > 1) {
-      setCantidadProducto(cantidadProducto - 1)
-    }
+    setCantidadProducto(cantidadProducto - 0.5, 0)
+  }
+
+  const handlePrecioKiloDecrement = () => {
+    setPrecioKilo(Math.max(precioKilo - 0.5, 0))
+  }
+
+  const handlePrecioKiloIncrement = () => {
+    setPrecioKilo(precioKilo + 0.5)
+  }
+
+  const handlePrecioUnitarioDecrement = () => {
+    setPrecioUnitario(Math.max(precioUnitario - 0.5, 0))
+  }
+
+  const handlePrecioUnitarioIncrement = () => {
+    setPrecioKilo(precioUnitario + 0.5)
   }
 
   const handleSubmit = event => {
@@ -147,11 +172,56 @@ const TableHeader = props => {
                   Seleccione una imagen
                 </Button>
               </label>
-              {thumbnail && <img src={thumbnail} alt='thumbnail' style={{ marginLeft: '10px', maxHeight: '100px' }} />}
+              {thumbnail && (
+                <img src={thumbnail} alt='thumbnail' style={{ marginLeft: '10px', maxHeight: '100px', gap: '16px' }} />
+              )}
             </Box>
-            <Button variant='contained'>Agregar Producto</Button>
+          </Box>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+            <Typography variant='body1'>Precio por kilo:</Typography>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <Button variant='outlined' size='small' onClick={handlePrecioKiloDecrement}>
+                -
+              </Button>
+              <TextField
+                label='Precio por kilo'
+                type='number'
+                inputProps={{ min: 0.01, step: 0.01 }}
+                InputProps={{
+                  startAdornment: <InputAdornment position='start'>$</InputAdornment>
+                }}
+                sx={{ mx: '16px' }}
+                value={precioKilo}
+                onChange={handlePrecioKiloChange}
+              />
+              <Button variant='outlined' size='small' onClick={handlePrecioKiloIncrement}>
+                +
+              </Button>
+            </Box>
+          </Box>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+            <Typography variant='body1'>Precio unitario:</Typography>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <Button variant='outlined' size='small' onClick={handlePrecioUnitarioDecrement}>
+                -
+              </Button>
+              <TextField
+                label='Precio unitario'
+                type='number'
+                inputProps={{ min: 0.01, step: 0.01 }}
+                InputProps={{
+                  startAdornment: <InputAdornment position='start'>$</InputAdornment>
+                }}
+                sx={{ mx: '16px' }}
+                value={precioUnitario}
+                onChange={handlePrecioUnitarioChange}
+              />
+            </Box>
           </Box>
         </DialogContent>
+        <Button variant='contained' sx={{ borderRadius: '16px' }}>
+          Agregar Producto
+        </Button>
       </Dialog>
     </>
   )

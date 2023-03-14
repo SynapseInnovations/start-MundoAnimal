@@ -94,9 +94,11 @@ const StepConfirmation = () => {
             <Box href='/' component={MuiLink} onClick={e => e.preventDefault()}>
               john.doe@example.com
             </Box>{' '}
-            con la boleta de venta
+            con la boleta de venta 
           </Typography>
-          <Typography sx={{ mb: 4, color: 'text.secondary' }}>Lorem20</Typography>
+          <Typography sx={{ mb: 4, color: 'text.secondary' }}>
+            
+          </Typography>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <Icon icon='mdi:clock-time-five-outline' fontSize={20} />
             <Typography sx={{ ml: 1.5, color: 'text.secondary' }}>Time placed: 25/05/2020 13:35pm</Typography>

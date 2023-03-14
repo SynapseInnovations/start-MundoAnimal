@@ -112,7 +112,7 @@ const StepPayment = ({ handleNext }) => {
                   Order Total
                 </Typography>
                 <Typography variant='body2' sx={{ color: 'text.secondary' }}>
-                  $1198.00
+                  $1198.00 
                 </Typography>
               </Box>
               <Box

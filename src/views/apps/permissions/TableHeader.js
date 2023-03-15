@@ -12,6 +12,9 @@ import DialogTitle from '@mui/material/DialogTitle'
 import DialogContent from '@mui/material/DialogContent'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import InputAdornment from '@mui/material/InputAdornment'
+import { IconButton, Select, MenuItem, InputLabel } from '@mui/material'
+import AddIcon from '@material-ui/icons/Add'
+import RemoveIcon from '@material-ui/icons/Remove'
 
 const TableHeader = props => {
   // ** Props
@@ -24,6 +27,10 @@ const TableHeader = props => {
   const [thumbnail, setThumbnail] = useState(null)
   const [precioKilo, setPrecioKilo] = useState(0)
   const [precioUnitario, setPrecioUnitario] = useState(0)
+  const [categorias, setCategorias] = useState(['Categoría 1', 'Categoría 2', 'Categoría 3'])
+  const [categoriaSeleccionada, setCategoriaSeleccionada] = useState('')
+  const [categoriasDisponibles, setCategoriasDisponibles] = useState([])
+  const [categoriaInput, setCategoriaInput] = useState('')
 
   // ** State
   const [open, setOpen] = useState(false)
@@ -67,7 +74,7 @@ const TableHeader = props => {
   }
 
   const handlePrecioUnitarioIncrement = () => {
-    setPrecioKilo(precioUnitario + 0.5)
+    setPrecioUnitario(precioUnitario + 0.5)
   }
 
   const handleSubmit = event => {
@@ -85,6 +92,24 @@ const TableHeader = props => {
       setThumbnail(reader.result)
     }
     reader.readAsDataURL(file)
+  }
+
+  const handleAgregarCategoria = () => {
+    if (!categoriaInput) {
+      return;
+    }
+    setCategorias([...categorias, categoriaInput]);
+    setCategoriaSeleccionada(categoriaInput);
+    setCategoriaInput('');
+  };
+
+  const handleEliminarCategoria = () => {
+    const categoriaEliminada = categoriaSeleccionada.trim()
+
+    if (categoriaEliminada) {
+      setCategoriasDisponibles(categoriasDisponibles.filter(categoria => categoria !== categoriaEliminada))
+      setCategoriaSeleccionada('')
+    }
   }
 
   return (
@@ -165,7 +190,7 @@ const TableHeader = props => {
                 </Button>
               </Box>
             </Box>
-            <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', mb: '15px' }}>
               <input type='file' id='product-image' style={{ display: 'none' }} onChange={handleFileInputChange} />
               <label htmlFor='product-image'>
                 <Button variant='contained' component='span'>
@@ -177,7 +202,7 @@ const TableHeader = props => {
               )}
             </Box>
           </Box>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: '16px', mb: '15px' }}>
             <Typography variant='body1'>Precio por kilo:</Typography>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <Button variant='outlined' size='small' onClick={handlePrecioKiloDecrement}>
@@ -199,6 +224,7 @@ const TableHeader = props => {
               </Button>
             </Box>
           </Box>
+
           <Box sx={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
             <Typography variant='body1'>Precio unitario:</Typography>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -216,6 +242,33 @@ const TableHeader = props => {
                 value={precioUnitario}
                 onChange={handlePrecioUnitarioChange}
               />
+              <Button variant='outlined' size='small' onClick={handlePrecioUnitarioIncrement}>
+                +
+              </Button>
+            </Box>
+          </Box>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px' }}>
+            <Typography variant='body1'>Categoría:</Typography>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <TextField
+                label='Categoría'
+                value={categoriaInput}
+                onChange={event => setCategoriaInput(event.target.value)}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position='end'>
+                      <IconButton onClick={handleAgregarCategoria} color='primary'>
+                        <AddIcon />
+                      </IconButton>
+                    </InputAdornment>
+                  )
+                }}
+              />
+              {categoriasDisponibles.length > 0 && (
+                <IconButton onClick={handleEliminarCategoria} color='primary'>
+                  <RemoveIcon />
+                </IconButton>
+              )}
             </Box>
           </Box>
         </DialogContent>

@@ -32,20 +32,23 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const initAuth = async () => {
       const storedToken = window.localStorage.getItem(authConfig.storageTokenKeyName)
+      const rut = '66666666-6'
       if (storedToken) {
         setLoading(true)
+        console.log(user)
         await axios
-          .get(authConfig.meEndpoint, {
+          .get(authConfig.meEndpoint + '/?rut=' + rut, {
             headers: {
-              Authorization: storedToken
+              token: storedToken
             }
           })
           .then(async response => {
+            setUser({ ...response.data.data[0] })
             setLoading(false)
-            setUser({ ...response.data.userData })
           })
           .catch(() => {
             localStorage.removeItem('userData')
+            localStorage.removeItem('rut')
             localStorage.removeItem('refreshToken')
             localStorage.removeItem('accessToken')
             setUser(null)
@@ -67,11 +70,13 @@ const AuthProvider = ({ children }) => {
       .post(authConfig.loginEndpoint, params)
       .then(async response => {
         params.rememberMe
-          ? window.localStorage.setItem(authConfig.storageTokenKeyName, response.data.accessToken)
+          ? window.localStorage.setItem(authConfig.storageTokenKeyName, response.data.data[1].token)
           : null
         const returnUrl = router.query.returnUrl
-        setUser({ ...response.data.userData })
-        params.rememberMe ? window.localStorage.setItem('userData', JSON.stringify(response.data.userData)) : null
+        console.log('[login]' + { ...response.data.data[0], ...response.data.data[2] })
+        setUser({ ...response.data.data[0], ...response.data.data[2] })
+        console.log('[login]' + user)
+        params.rememberMe ? window.localStorage.setItem('userData', JSON.stringify(response.data.data[0])) : null
         const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : '/'
         router.replace(redirectURL)
       })
@@ -83,6 +88,7 @@ const AuthProvider = ({ children }) => {
   const handleLogout = () => {
     setUser(null)
     window.localStorage.removeItem('userData')
+    window.localStorage.removeItem('rut')
     window.localStorage.removeItem(authConfig.storageTokenKeyName)
     router.push('/login')
   }
@@ -94,7 +100,7 @@ const AuthProvider = ({ children }) => {
         if (res.data.error) {
           if (errorCallback) errorCallback(res.data.error)
         } else {
-          handleLogin({ email: params.email, password: params.password })
+          handleLogin({ rut: params.rut, password: params.password })
         }
       })
       .catch(err => (errorCallback ? errorCallback(err) : null))

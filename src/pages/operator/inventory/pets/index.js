@@ -23,5 +23,9 @@ const PetsIndex = () => {
     </Grid>
   )
 }
+PetsIndex.acl = {
+  action: 'read',
+  subject: 'inventory'
+}
 
 export default PetsIndex

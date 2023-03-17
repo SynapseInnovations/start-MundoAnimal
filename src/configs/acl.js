@@ -9,9 +9,15 @@ export const AppAbility = Ability
  */
 const defineRulesFor = (role, subject) => {
   const { can, rules } = new AbilityBuilder(AppAbility)
-  if (role === 'admin') {
+  if (role === 1) {
+    //admin
     can('manage', 'all')
-  } else if (role === 'client') {
+  } else if (role === 2) {
+    //operator
+    can(['read'], ['home', 'inventory', 'sales'])
+    can(['create'], ['sales'])
+    can(['update'], ['inventory'])
+  } else if (role === 3) {
     can(['read'], 'acl-page')
   } else {
     can(['read', 'create', 'update', 'delete'], subject)

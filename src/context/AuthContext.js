@@ -32,10 +32,9 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const initAuth = async () => {
       const storedToken = window.localStorage.getItem(authConfig.storageTokenKeyName)
-      const rut = '66666666-6'
+      const rut = window.localStorage.getItem('rut')
       if (storedToken) {
         setLoading(true)
-        console.log(user)
         await axios
           .get(authConfig.meEndpoint + '/?rut=' + rut, {
             headers: {
@@ -73,9 +72,8 @@ const AuthProvider = ({ children }) => {
           ? window.localStorage.setItem(authConfig.storageTokenKeyName, response.data.data[1].token)
           : null
         const returnUrl = router.query.returnUrl
-        console.log('[login]' + { ...response.data.data[0], ...response.data.data[2] })
+        console.log(response.data)
         setUser({ ...response.data.data[0], ...response.data.data[2] })
-        console.log('[login]' + user)
         params.rememberMe ? window.localStorage.setItem('userData', JSON.stringify(response.data.data[0])) : null
         const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : '/'
         router.replace(redirectURL)

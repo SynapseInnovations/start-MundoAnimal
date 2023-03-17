@@ -2,6 +2,8 @@ const navigation = () => [
   {
     title: 'Home',
     path: '/home',
+    subject: 'home',
+    action: 'read',
     icon: 'mdi:home-outline'
   },
 
@@ -12,7 +14,7 @@ const navigation = () => [
   },
   {
     path: '/acl',
-    action: 'rea1d',
+    action: 'read',
     subject: 'acl-page',
     title: 'Access Control',
     icon: 'mdi:shield-outline'

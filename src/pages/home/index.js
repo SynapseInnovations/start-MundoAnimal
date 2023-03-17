@@ -5,7 +5,12 @@ import Typography from '@mui/material/Typography'
 import CardHeader from '@mui/material/CardHeader'
 import CardContent from '@mui/material/CardContent'
 
+import { useContext } from 'react'
+import { AbilityContext } from 'src/layouts/components/acl/Can'
+
 const Home = () => {
+  const ability = useContext(AbilityContext)
+
   return (
     <Grid container spacing={6}>
       <Grid item xs={12}>
@@ -32,8 +37,34 @@ const Home = () => {
           </CardContent>
         </Card>
       </Grid>
+      {ability?.can('read', 'home') ? (
+        <Grid item md={6} xs={12}>
+          <Card>
+            <CardHeader title='Analytics' />
+            <CardContent>
+              <Typography sx={{ mb: 4 }}>User with 'LEER' subject's 'Read' ability can view this card</Typography>
+              <Typography sx={{ color: 'error.main' }}>This card is visible to 'admin' only</Typography>
+            </CardContent>
+          </Card>
+        </Grid>
+      ) : null}
+      {ability?.can('delete', 'home') ? (
+        <Grid item md={6} xs={12}>
+          <Card>
+            <CardHeader title='Analytics' />
+            <CardContent>
+              <Typography sx={{ mb: 4 }}>User with 'BORRAR' subject's 'Read' ability can view this card</Typography>
+              <Typography sx={{ color: 'error.main' }}>This card is visible to 'admin' only</Typography>
+            </CardContent>
+          </Card>
+        </Grid>
+      ) : null}
     </Grid>
   )
+}
+Home.acl = {
+  action: 'read',
+  subject: 'home'
 }
 
 export default Home

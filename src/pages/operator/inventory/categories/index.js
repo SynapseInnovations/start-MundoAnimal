@@ -23,5 +23,9 @@ const CategoriesIndex = () => {
     </Grid>
   )
 }
+CategoriesIndex.acl = {
+  subject: 'inventory',
+  action: 'read'
+}
 
 export default CategoriesIndex

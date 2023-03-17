@@ -23,5 +23,9 @@ const ProductsIndex = () => {
     </Grid>
   )
 }
+ProductsIndex.acl = {
+  action: 'read',
+  subject: 'inventory'
+}
 
 export default ProductsIndex

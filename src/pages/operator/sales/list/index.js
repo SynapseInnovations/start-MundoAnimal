@@ -23,5 +23,9 @@ const SalesIndex = () => {
     </Grid>
   )
 }
+SalesIndex.acl = {
+  action: 'read',
+  subject: 'sales'
+}
 
 export default SalesIndex

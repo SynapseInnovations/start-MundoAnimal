@@ -72,7 +72,6 @@ const AuthProvider = ({ children }) => {
           ? window.localStorage.setItem(authConfig.storageTokenKeyName, response.data.data[1].token)
           : null
         const returnUrl = router.query.returnUrl
-        console.log(response.data)
         setUser({ ...response.data.data[0], ...response.data.data[2] })
         params.rememberMe ? window.localStorage.setItem('userData', JSON.stringify(response.data.data[0])) : null
         const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : '/'

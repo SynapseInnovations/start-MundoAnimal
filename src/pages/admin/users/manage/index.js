@@ -42,8 +42,8 @@ const renderClient = params => {
 }
 
 const statusObj = {
-  1: { title: 'current', color: 'primary' },
-  2: { title: 'professional', color: 'success' },
+  1: { title: 'Administrador', color: 'primary' },
+  2: { title: 'Operador', color: 'success' },
   3: { title: 'rejected', color: 'error' },
   4: { title: 'resigned', color: 'warning' },
   5: { title: 'applied', color: 'info' }
@@ -156,7 +156,7 @@ const UsersManageIndex = () => {
       field: 'status',
       headerName: 'Status',
       renderCell: params => {
-        const status = statusObj[params.row.status]
+        const status = statusObj[params.row.Rol_id]
 
         return (
           <CustomChip

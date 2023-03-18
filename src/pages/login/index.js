@@ -96,11 +96,11 @@ const FormControlLabel = styled(MuiFormControlLabel)(({ theme }) => ({
 
 const schema = yup.object().shape({
   rut: yup.string().min(9, 'El formato es solo números, guión y luego dígito verificador.').required(),
-  password: yup.string().min(5, 'Debe contener al menos 5 caracteres.').required()
+  clave: yup.string().min(5, 'Debe contener al menos 5 caracteres.').required()
 })
 
 const defaultValues = {
-  password: '456456',
+  clave: '456456',
   rut: '66666666-6'
 }
 
@@ -130,8 +130,8 @@ const LoginPage = () => {
   })
 
   const onSubmit = data => {
-    const { rut, password } = data
-    auth.login({ rut, password, rememberMe }, () => {
+    const { rut, clave } = data
+    auth.login({ rut, clave, rememberMe }, () => {
       setError('rut', {
         type: 'manual',
         message: 'RUT o contraseña inválidos'
@@ -274,11 +274,11 @@ const LoginPage = () => {
                 {errors.rut && <FormHelperText sx={{ color: 'error.main' }}>{errors.rut.message}</FormHelperText>}
               </FormControl>
               <FormControl fullWidth>
-                <InputLabel htmlFor='auth-login-v2-password' error={Boolean(errors.password)}>
-                  Password
+                <InputLabel htmlFor='auth-login-v2-password' error={Boolean(errors.clave)}>
+                  Contraseña
                 </InputLabel>
                 <Controller
-                  name='password'
+                  name='clave'
                   control={control}
                   rules={{ required: true }}
                   render={({ field: { value, onChange, onBlur } }) => (
@@ -288,7 +288,7 @@ const LoginPage = () => {
                       label='Contraseña'
                       onChange={onChange}
                       id='auth-login-v2-password'
-                      error={Boolean(errors.password)}
+                      error={Boolean(errors.clave)}
                       type={showPassword ? 'text' : 'password'}
                       endAdornment={
                         <InputAdornment position='end'>
@@ -304,9 +304,9 @@ const LoginPage = () => {
                     />
                   )}
                 />
-                {errors.password && (
+                {errors.clave && (
                   <FormHelperText sx={{ color: 'error.main' }} id=''>
-                    {errors.password.message}
+                    {errors.clave.message}
                   </FormHelperText>
                 )}
               </FormControl>

@@ -153,14 +153,36 @@ const TableHeader = props => {
         </Box>
 
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <Button sx={{ mr: 2, mb: 2.5 }} variant='contained' onClick={handleDialogToggle}>
+          <Button
+            variant='contained'
+            sx={{
+              borderRadius: '6px',
+              marginRight: '10px',
+              width: '200px',
+              font: 'bold',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              boxShadow: '2px 2px 60px rgba(200, 0, 0, 0.60)',
+              transition: 'all 0.3s ease-in-out',
+
+              '&:hover': {
+                transform: 'scale(1.08)',
+                boxShadow: '0px 0px 30px rgba(200, 0, 0, 0.70)',
+                backgroundColor: '#ed133f',
+                transition: 'all 0.2s ease-in-out'
+              },
+              '&:active': {
+                transform: 'scale(0.95)',
+                boxShadow: '2px 2px 30px rgba(200, 0, 0, 0.60)',
+                backgroundColor: '#d61038',
+                transition: 'all 0.03s ease-in-out'
+              }
+            }}
+            onClick={handleDialogToggle}
+          >
+            <AddIcon sx={{ marginRight: '8px', fontSize: 'large' }} />
             Agregar Producto
-          </Button>
-          <Button sx={{ mr: 2, mb: 2.5 }} variant='contained' onClick={handleDialogToggle}>
-            Editar Producto
-          </Button>
-          <Button sx={{ mr: 2, mb: 2.5 }} variant='contained' onClick={handleDialogToggle}>
-            Filtrar
           </Button>
         </Box>
       </Box>

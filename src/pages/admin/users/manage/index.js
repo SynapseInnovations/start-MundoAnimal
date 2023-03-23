@@ -19,6 +19,7 @@ import InputAdornment from '@mui/material/InputAdornment'
 import AddIcon from '@material-ui/icons/Add'
 import RemoveIcon from '@material-ui/icons/Remove'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
+import { Grid } from '@material-ui/core'
 
 // ** Third Party Components
 import toast from 'react-hot-toast'
@@ -228,9 +229,26 @@ const UsersManageIndex = () => {
       renderCell: params => {
         return (
           <>
-            <Button size='small' variant='outlined' color='secondary' onClick={() => getFullName(params)}>
-              Configurar
-            </Button>
+            <IconButton
+              size='small'
+              color='secondary'
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                fontSize: '1.4rem',
+                transition: 'transform 0.5s ease',
+                '&:hover': {
+                  transform: 'rotate(50deg)'
+                },
+                '&:active': {
+                  transform: 'rotate(400deg)'
+                }
+              }}
+              onClick={() => getFullName(params)}
+            >
+              <SettingsIcon />
+            </IconButton>
           </>
         )
       }
@@ -246,39 +264,67 @@ const UsersManageIndex = () => {
             <Button
               variant='contained'
               sx={{
-                borderRadius: '16px',
+                borderRadius: '6px',
 
-                width: '190px',
+                width: '200px',
+                font: 'bold',
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
-                transition: 'all 0.05s ease-in-out',
+                boxShadow: '2px 2px 60px rgba(200, 0, 0, 0.60)',
+                transition: 'all 0.3s ease-in-out',
+
                 '&:hover': {
-                  transform: 'scale(1.04)',
-                  boxShadow: '0px 3px 5px rgba(0, 0, 0, 0.35)'
+                  transform: 'scale(1.08)',
+                  boxShadow: '0px 0px 30px rgba(200, 0, 0, 0.70)',
+                  backgroundColor: '#ed133f',
+                  transition: 'all 0.2s ease-in-out'
                 },
                 '&:active': {
-                  transform: 'scale(0.99)'
+                  transform: 'scale(0.95)',
+                  boxShadow: '2px 2px 30px rgba(200, 0, 0, 0.60)',
+                  backgroundColor: '#d61038',
+                  transition: 'all 0.03s ease-in-out'
                 }
               }}
               onClick={handleDialogToggle}
             >
-              <SettingsIcon sx={{ marginRight: '8px' }} />
-              Agregar Amongus
+              <AddIcon sx={{ marginRight: '8px', fontSize: 'large' }} />
+              Agregar Cuenta
             </Button>
             <span> </span>
           </div>
         }
       />
 
-      <Dialog fullWidth maxWidth='sm' onClose={handleDialogToggle} open={open}>
-        <DialogTitle sx={{ pt: 12, mx: 'auto', textAlign: 'center' }}>
-          <Typography variant='h5' component='span' sx={{ mb: 2 }}>
+      <Dialog
+        fullWidth
+        maxWidth='sm'
+        onClose={handleDialogToggle}
+        open={open}
+        sx={{
+          pb: 12,
+          backgroundColor: 'rgba(0, 0, 0, 0)',
+          backdropFilter: 'blur(2px)',
+          WebkitBackdropFilter: 'blur(2px)',
+          opacity: 0.99
+        }}
+      >
+        <DialogTitle sx={{ fontWeight: 'bold', pt: 10, mx: 'auto', textAlign: 'center' }}></DialogTitle>
+        <DialogContent sx={{ pb: 12, mx: 'auto' }}>
+          <Typography
+            variant='body2'
+            sx={{
+              fontWeight: 'bold',
+              padding: 'px',
+              marginLeft: '22px',
+              marginBottom: '10px',
+              fontSize: '2rem',
+              color: '#021511'
+            }}
+          >
             Agregar Nuevo Usuario
           </Typography>
-          <Typography variant='body2'>Mundo Animal</Typography>
-        </DialogTitle>
-        <DialogContent sx={{ pb: 12, mx: 'auto' }}>
           <Box
             component='form'
             onSubmit={handleSubmit}
@@ -399,82 +445,118 @@ const UsersManageIndex = () => {
               onChange={event => setClaveUsuario(event.target.value)}
             />
           </Box>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: '16px', marginTop: '16px', width: '100%' }}>
-            <Typography variant='body1'>Rol:</Typography>
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '16px',
-                marginBottom: '16px',
-                borderRadius: '16px',
-                marginTop: '4px',
-                width: '600px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                transition: 'all 0.05s ease-in-out',
-                '&:hover': {
-                  transform: 'scale(1.06)'
-                },
-                '&:active': {
-                  transform: 'scale(0.99)'
-                }
-              }}
-            >
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px', width: '100%' }}>
-                <Select value={rolesDisponibles[0] || ''} onChange={event => setRolesDisponibles([event.target.value])}>
-                  <MenuItem value=''>Seleccionar categoría</MenuItem>
-                  {RolesTotal.map(roles => (
-                    <MenuItem key={roles} value={roles}>
-                      {roles}
-                    </MenuItem>
-                  ))}
-                </Select>
+
+          <Grid container spacing={2} sx={{ display: 'flex', justifyContent: 'center' }}>
+            <Grid item xs={12} md={6} sx={{ display: 'flex', justifyContent: 'center' }}>
+              {/* Sección "Rol" */}
+              <Box sx={{ maxWidth: '600px' }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: '16px', marginTop: '16px', width: '100%' }}>
+                  <Typography variant='body1' textAlign='left'>
+                    Rol:
+                  </Typography>
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '16px',
+                      marginBottom: '16px',
+                      borderRadius: '16px',
+                      marginTop: '4px',
+                      width: '100%',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      transition: 'all 0.2s ease-in-out',
+                      '&:hover': {
+                        transform: 'scale(1.02)',
+                        transition: 'all 0.2s ease-in-out'
+                      },
+                      '&:active': {
+                        transform: 'scale(0.99)',
+                        transition: 'all 0.2s ease-in-out'
+                      }
+                    }}
+                  >
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px', width: '100%' }}>
+                      <Select
+                        value={rolesDisponibles[0] || ''}
+                        onChange={event => setRolesDisponibles([event.target.value])}
+                      >
+                        <MenuItem value=''>Seleccionar categoría</MenuItem>
+                        {RolesTotal.map(roles => (
+                          <MenuItem key={roles} value={roles}>
+                            {roles}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </Box>
+                  </Box>
+                </Box>
               </Box>
-            </Box>
-          </Box>{' '}
-          <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '10px' }}>
-            <input type='file' id='product-image' style={{ display: 'none' }} onChange={handleFileInputChange} />
-            <label htmlFor='product-image'>
-              <Button
-                variant='contained'
-                component='span'
-                sx={{
-                  borderRadius: '16px',
-                  marginTop: '4px',
-                  width: '300px',
-                  transition: 'all 0.05s ease-in-out',
-                  '&:hover': {
-                    transform: 'scale(1.06)',
-                    boxShadow: '0px 3px 5px rgba(0, 0, 0, 0.25)'
-                  },
-                  '&:active': {
-                    transform: 'scale(0.99)'
-                  }
-                }}
-              >
-                Seleccione una imagen
-              </Button>
-            </label>
-            {thumbnail && <img src={thumbnail} alt='thumbnail' style={{ marginTop: '10px', maxHeight: '80px' }} />}
-          </Box>
+            </Grid>
+            <Grid item xs={12} md={6} sx={{ display: 'flex', justifyContent: 'center' }}>
+              {/* Sección "Seleccione una imagen" */}
+              <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '27px' }}>
+                <input type='file' id='product-image' style={{ display: 'none' }} onChange={handleFileInputChange} />
+                <label htmlFor='product-image'>
+                  <Button
+                    variant='contained'
+                    component='span'
+                    sx={{
+                      borderRadius: '6px',
+                      marginRight: '10px',
+                      width: '200px',
+                      font: 'bold',
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      boxShadow: '2px 2px 40px rgba(200, 0, 0, 0.50)',
+                      transition: 'all 0.2s ease-in-out',
+
+                      '&:hover': {
+                        transform: 'scale(1.03)',
+                        boxShadow: '0px 0px 30px rgba(200, 0, 0, 0.70)',
+                        backgroundColor: '#ed133f',
+                        transition: 'all 0.1s ease-in-out'
+                      },
+                      '&:active': {
+                        transform: 'scale(0.95)',
+                        boxShadow: '2px 2px 30px rgba(200, 0, 0, 0.60)',
+                        backgroundColor: '#d61038',
+                        transition: 'all 0.03s ease-in-out'
+                      }
+                    }}
+                  >
+                    Subir Imagen
+                  </Button>
+                </label>
+                {thumbnail && <img src={thumbnail} alt='thumbnail' style={{ marginTop: '10px', maxHeight: '80px' }} />}
+              </Box>{' '}
+            </Grid>
+          </Grid>
           <Button
             variant='contained'
             sx={{
-              borderRadius: '16px',
+              borderRadius: '6px',
               marginTop: '60px',
               width: '150px',
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
-              transition: 'all 0.05s ease-in-out',
+              transition: 'all 0.5s ease-in-out',
+              boxShadow: '2px 2px 20px rgba(200, 0, 0, 0.50)',
+
               '&:hover': {
-                transform: 'scale(1.06)',
-                boxShadow: '0px 3px 5px rgba(0, 0, 0, 0.25)'
+                transform: 'scale(1.08)',
+                boxShadow: '0px 0px 30px rgba(200, 0, 0, 0.70)',
+                backgroundColor: '#ed133f',
+                transition: 'all 0.2s ease-in-out'
               },
               '&:active': {
-                transform: 'scale(0.99)'
+                transform: 'scale(0.95)',
+                boxShadow: '2px 2px 30px rgba(200, 0, 0, 0.60)',
+                backgroundColor: '#d61038',
+                transition: 'all 0.03s ease-in-out'
               },
               marginLeft: 'auto' // Establecer el margen izquierdo como "auto"
             }}

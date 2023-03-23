@@ -6,7 +6,7 @@ const navigation = () => {
       action: 'read'
     },
     {
-      title: 'Home',
+      title: 'Inicio',
       path: '/home',
       subject: 'home',
       action: 'read',

@@ -42,19 +42,37 @@ const Home = () => {
         <Card>
           <CardHeader title='Manual de Usuario' />
           <CardContent>
-            <Typography sx={{ mb: 2 }}>
-              GPT: Bienvenido al manual de usuario de nuestra aplicación. Aquí encontrarás toda la información necesaria
-              para poder utilizarla de manera óptima y aprovechar al máximo sus funcionalidades. Si tienes alguna duda o
-              problema, no dudes en contactar con nuestro equipo de soporte técnico.
+            <Typography sx={{ mb: 2 }}>🐾 Inventario 💻💻💻</Typography>
+            <Typography sx={{ mb: 2, ml: 4 }}>
+              "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+              dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
+              ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
+              fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
+              mollit anim id est laborum."
             </Typography>
-            <Typography sx={{ mb: 2 }}>
-              Cómo empezar: una vez hayas descargado la aplicación, regístrate con tus datos personales. Una vez dentro,
-              podrás acceder a todas las opciones y funcionalidades de la aplicación.
+            <Typography sx={{ mb: 2 }}>🐾 Ventas 💸💸💸</Typography>
+            <Typography sx={{ mb: 2, ml: 4 }}>
+              "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+              dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
+              ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
+              fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
+              mollit anim id est laborum."
             </Typography>
-            <Typography sx={{ mb: 2 }}>
-              Funcionalidades: nuestra aplicación cuenta con diversas funcionalidades, entre las que destacan: A, B, C.
-              Para acceder a cada una de ellas, simplemente dirígete al apartado correspondiente en el menú principal.
+            <Typography sx={{ mb: 2 }}>🐾 Usuarios 👩🏽‍💻👨🏼‍💻👨🏽‍💻</Typography>
+            <Typography sx={{ ml: 4 }}>
+              La opción de "Usuarios" permite administrar los usuarios que tienen acceso a la plataforma y la asignación
+              de roles.
             </Typography>
+            <Typography sx={{ mb: 2, ml: 4 }}>Para agregar un nuevo usuario, sigue los siguientes pasos:</Typography>
+            <Typography sx={{ mb: 2, ml: 8 }}> Haz clic en el botón "Agregar usuario".</Typography>
+            <Typography sx={{ mb: 2, ml: 8 }}>
+              Ingresa el nombre completo del usuario, su dirección de correo electrónico y una contraseña segura.
+            </Typography>
+            <Typography sx={{ mb: 2, ml: 8 }}>
+              Selecciona el tipo de usuario que deseas ingresar. Puedes elegir entre administrador y usuario normal.
+            </Typography>
+            <Typography sx={{ mb: 2, ml: 8 }}>Haz clic en "Guardar" para agregar el usuario.</Typography>
+            <Typography sx={{ mb: 2 }}>🐾 Finanzas 🤑🤑🤑</Typography>
             <Typography>
               Ayuda: si necesitas ayuda o tienes alguna duda, por favor, no dudes en ponerte en contacto con nuestro
               equipo de soporte técnico. Puedes hacerlo a través del apartado de contacto en la aplicación o enviándonos

@@ -84,20 +84,8 @@ const navigation = () => {
     },
     {
       title: 'Usuarios',
-      path: '/',
-      icon: 'mdi:account-multiple',
-      children: [
-        {
-          title: 'Crear Usuarios',
-          path: '/admin/users/create',
-          icon: 'mdi:account-multiple-plus'
-        },
-        {
-          title: 'Administrar Cuentas',
-          path: '/admin/users/manage',
-          icon: 'mdi:account-box-multiple'
-        }
-      ]
+      path: '/admin/users/manage',
+      icon: 'mdi:account-multiple'
     },
     {
       title: 'Finanzas',

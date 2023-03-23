@@ -21,7 +21,7 @@ const Home = () => {
           width='180'
           height='180'
           style={{
-            marginBottom: '50px',
+            marginBottom: '70px',
             display: 'block',
             margin: 'auto',
             borderRadius: '50%',

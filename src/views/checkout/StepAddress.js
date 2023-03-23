@@ -1,204 +1,223 @@
-// ** React Imports
-import { useState } from 'react'
-
-// ** Next Import
-import Link from 'next/link'
-
 // ** MUI Imports
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
-import Button from '@mui/material/Button'
+import MuiLink from '@mui/material/Link'
 import Divider from '@mui/material/Divider'
+import ListItem from '@mui/material/ListItem'
+import { styled } from '@mui/material/styles'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
-import { useTheme } from '@mui/material/styles'
-import useMediaQuery from '@mui/material/useMediaQuery'
+import List from '@mui/material/List'
+import ListItemText from '@mui/material/ListItemText'
+import ListItemAvatar from '@mui/material/ListItemAvatar'
 
 // ** Custom Components Imports
 import CustomChip from 'src/@core/components/mui/chip'
-import CustomRadioBasic from 'src/@core/components/custom-radio/basic'
-import CustomRadioIcons from 'src/@core/components/custom-radio/icons'
 
-const data = [
-  {
-    value: 'home',
-    isSelected: true,
-    title: 'Venta en local',
-    meta: <CustomChip size='small' skin='light' label='Mundo Animal' color='primary' />,
-    content: (
-      <Box sx={{ mt: 3, height: '100%', display: 'flex', flexDirection: 'column' }}>
-        <Typography variant='body2' sx={{ mb: 'auto' }}>
-          Agro linderos norte 141
-          <br />
-          Numero 392482190
-        </Typography>
-        <Divider sx={{ m: theme => `${theme.spacing(3, 0, 4)} !important` }} />
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <Box
-            href='/'
-            component={Link}
-            sx={{ mr: 3, color: 'primary.main', textDecoration: 'none' }}
-            onClick={e => {
-              e.preventDefault()
-              e.stopPropagation()
-            }}
-          >
-            Editar
-          </Box>
-          <Box
-            href='/'
-            component={Link}
-            sx={{ color: 'primary.main', textDecoration: 'none' }}
-            onClick={e => {
-              e.preventDefault()
-              e.stopPropagation()
-            }}
-          >
-            Remover
-          </Box>
-        </Box>
-      </Box>
-    )
+// ** Icon Imports
+import Icon from 'src/@core/components/icon'
+
+const StyledList = styled(List)(({ theme }) => ({
+  padding: 0,
+  '& .MuiListItem-root': {
+    padding: theme.spacing(5),
+    border: `1px solid ${theme.palette.divider}`,
+    '&:first-of-type': {
+      borderTopLeftRadius: 6,
+      borderTopRightRadius: 6
+    },
+    '&:last-of-type': {
+      borderBottomLeftRadius: 6,
+      borderBottomRightRadius: 6
+    },
+    '&:not(:last-of-type)': {
+      borderBottom: 0
+    },
+    '& .MuiListItemText-root': {
+      marginTop: 0,
+      marginBottom: theme.spacing(4),
+      '& .MuiTypography-root': {
+        fontWeight: 500
+      }
+    },
+    '& .remove-item': {
+      top: '0.5rem',
+      right: '0.625rem',
+      position: 'absolute',
+      color: theme.palette.text.disabled
+    },
+    [theme.breakpoints.down('sm')]: {
+      flexDirection: 'column'
+    }
+  }
+}))
+
+const HorizontalList = styled(List)(({ theme }) => ({
+  padding: 0,
+  display: 'flex',
+  borderRadius: 6,
+  border: `1px solid ${theme.palette.divider}`,
+  '& .MuiListItem-root': {
+    padding: theme.spacing(5),
+    '&:not(:last-of-type)': {
+      borderRight: `1px solid ${theme.palette.divider}`
+    }
   },
-  {
-    value: 'office',
-    title: 'Direccion Cliente',
-    meta: <CustomChip size='small' skin='light' label='Direcciones Guardadas' color='success' />,
-    content: (
-      <Box sx={{ mt: 3, height: '100%', display: 'flex', flexDirection: 'column' }}>
-        <Typography variant='body2' sx={{ mb: 'auto' }}>
-          87 Hoffman Avenue, New York, NY, 10016.
-          <br />
-          Mobile : 1234567890 Cash / Card on delivery available
-        </Typography>
-        <Divider sx={{ m: theme => `${theme.spacing(3, 0, 4)} !important` }} />
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <Box
-            href='/'
-            component={Link}
-            sx={{ mr: 3, color: 'primary.main', textDecoration: 'none' }}
-            onClick={e => {
-              e.preventDefault()
-              e.stopPropagation()
-            }}
-          >
-            Editar
-          </Box>
-          <Box
-            href='/'
-            component={Link}
-            sx={{ color: 'primary.main', textDecoration: 'none' }}
-            onClick={e => {
-              e.preventDefault()
-              e.stopPropagation()
-            }}
-          >
-            Remover
-          </Box>
-        </Box>
-      </Box>
-    )
-  }
-]
-
-const dataIcons = []
-
-const StepAddress = ({ handleNext }) => {
-  const initialBasicSelected = data.filter(item => item.isSelected)[data.filter(item => item.isSelected).length - 1]
-    .value
-
-  // ** States
-
-  // ** Hook
-  const theme = useTheme()
-  const breakpointMD = useMediaQuery(theme => theme.breakpoints.between('sm', 'lg'))
-
-  const icons = [
-    {
-      icon: 'mdi:account-outline',
-      iconProps: { fontSize: '2rem', style: { marginBottom: 4 }, color: theme.palette.text.secondary }
-    },
-    {
-      icon: 'mdi:crown-outline',
-      iconProps: { fontSize: '2rem', style: { marginBottom: 4 }, color: theme.palette.text.secondary }
-    },
-    {
-      icon: 'mdi:rocket-launch-outline',
-      iconProps: { fontSize: '2rem', style: { marginBottom: 4 }, color: theme.palette.text.secondary }
-    }
-  ]
-
-  const handleBasicRadioChange = prop => {
-    if (typeof prop === 'string') {
-      setSelectedBasicRadio(prop)
-    } else {
-      setSelectedBasicRadio(prop.target.value)
+  [theme.breakpoints.down('md')]: {
+    display: 'block',
+    '& .MuiListItem-root': {
+      '&:not(:last-of-type)': {
+        borderRight: 0,
+        borderBottom: `1px solid ${theme.palette.divider}`
+      }
     }
   }
+}))
 
-  const handleIconRadioChange = prop => {
-    if (typeof prop === 'string') {
-      setSelectedIconRadio(prop)
-    } else {
-      setSelectedIconRadio(prop.target.value)
-    }
-  }
-
+const StepConfirmation = () => {
   return (
     <Grid container spacing={6}>
-      <Grid item xs={12} lg={8}>
-        <Typography sx={{ mb: 4 }}>Selecciona la direccion</Typography>
-        <Grid container spacing={4}>
-          {data.map((item, index) => (
-            <CustomRadioBasic
-              key={index}
-              data={data[index]}
-              name='custom-radios-address'
-              gridProps={{ sm: 6, xs: 12 }}
-              handleChange={handleBasicRadioChange}
-            />
-          ))}
-        </Grid>
-        <Button variant='outlined' sx={{ mt: 4 }}>
-          Agregar nueva dirección
-        </Button>
-        {/* <Typography sx={{ mt: 9, mb: 4 }}>Choose Delivery Speed</Typography> */}
-        <Grid container spacing={4}>
-          {dataIcons.map((item, index) => (
-            <CustomRadioIcons
-              key={index}
-              data={dataIcons[index]}
-              icon={icons[index].icon}
-              name='custom-radios-delivery'
-              gridProps={{ sm: 4, xs: 12 }}
-              iconProps={icons[index].iconProps}
-              handleChange={handleIconRadioChange}
-            />
-          ))}
-        </Grid>
+      <Grid item xs={12}>
+        <Box sx={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
+          <Typography variant='h5' sx={{ mb: 4 }}>
+            Gracias por comprar en Mundo Animal 😇
+          </Typography>
+          <Typography sx={{ mb: 4, color: 'text.secondary' }}>
+            Tu Oeden{' '}
+            <Box href='/' component={MuiLink} onClick={e => e.preventDefault()}>
+              #1536548131
+            </Box>{' '}
+            ha sido completada
+          </Typography>
+          <Typography sx={{ color: 'text.secondary' }}>
+            Enviaremos un correo a{' '}
+            <Box href='/' component={MuiLink} onClick={e => e.preventDefault()}>
+              john.doe@example.com
+            </Box>{' '}
+            con la boleta de venta
+          </Typography>
+          <Typography sx={{ mb: 4, color: 'text.secondary' }}></Typography>
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <Icon icon='mdi:clock-time-five-outline' fontSize={20} />
+            <Typography sx={{ ml: 1.5, color: 'text.secondary' }}>Time placed: 25/05/2020 13:35pm</Typography>
+          </Box>
+        </Box>
       </Grid>
-      <Grid item xs={12} lg={4}>
+      <Grid item xs={12}>
+        <HorizontalList>
+          <ListItem sx={{ flexDirection: 'column', alignItems: 'flex-start' }}>
+            <Box sx={{ mb: 4, display: 'flex', alignItems: 'center' }}>
+              <Box sx={{ mr: 1.5, display: 'flex' }}>
+                <Icon icon='mdi:map-marker-outline' fontSize={20} />
+              </Box>
+              <Typography sx={{ fontWeight: 600 }}>Shipping</Typography>
+            </Box>
+            <Typography sx={{ color: 'text.secondary' }}>John Doe</Typography>
+            <Typography sx={{ color: 'text.secondary' }}>4135 Parkway Street,</Typography>
+            <Typography sx={{ color: 'text.secondary' }}>Los Angeles, CA 90017,</Typography>
+            <Typography sx={{ mb: 4, color: 'text.secondary' }}>USA</Typography>
+            <Typography sx={{ fontWeight: 600, color: 'text.secondary' }}>+123456789</Typography>
+          </ListItem>
+          <ListItem sx={{ flexDirection: 'column', alignItems: 'flex-start' }}>
+            <Box sx={{ mb: 4, display: 'flex', alignItems: 'center' }}>
+              <Box sx={{ mr: 1.5, display: 'flex' }}>
+                <Icon icon='mdi:credit-card-outline' fontSize={20} />
+              </Box>
+              <Typography sx={{ fontWeight: 600 }}>Billing Address</Typography>
+            </Box>
+            <Typography sx={{ color: 'text.secondary' }}>John Doe</Typography>
+            <Typography sx={{ color: 'text.secondary' }}>4135 Parkway Street,</Typography>
+            <Typography sx={{ color: 'text.secondary' }}>Los Angeles, CA 90017,</Typography>
+            <Typography sx={{ mb: 4, color: 'text.secondary' }}>USA</Typography>
+            <Typography sx={{ fontWeight: 600, color: 'text.secondary' }}>+123456789</Typography>
+          </ListItem>
+          <ListItem sx={{ flexDirection: 'column', alignItems: 'flex-start' }}>
+            <Box sx={{ mb: 4, display: 'flex', alignItems: 'center' }}>
+              <Box sx={{ mr: 1.5, display: 'flex' }}>
+                <Icon icon='mdi:archive-outline' fontSize={20} />
+              </Box>
+              <Typography sx={{ fontWeight: 600 }}>Shipping Method</Typography>
+            </Box>
+            <Typography sx={{ mb: 4, fontWeight: 600, color: 'text.secondary' }}>Preferred Method:</Typography>
+            <Typography sx={{ color: 'text.secondary' }}>Standard Delivery</Typography>
+            <Typography sx={{ color: 'text.secondary' }}>(Normally 3-4 business days)</Typography>
+          </ListItem>
+        </HorizontalList>
+      </Grid>
+      <Grid item xs={12} md={8} xl={9}>
+        <StyledList>
+          <ListItem>
+            <ListItemAvatar>
+              <img width={80} src='/images/products/google-home.png' alt='Google Home' />
+            </ListItemAvatar>
+            <Grid container spacing={5}>
+              <Grid item xs={12} sm={8}>
+                <ListItemText primary='Google - Google Home - White' />
+                <Box sx={{ display: 'flex' }}>
+                  <Typography sx={{ mr: 2, color: 'text.disabled' }}>Sold By:</Typography>
+                  <Typography
+                    href='/'
+                    component={MuiLink}
+                    onClick={e => e.preventDefault()}
+                    sx={{ mr: 4, color: 'primary.main' }}
+                  >
+                    Google
+                  </Typography>
+                  <CustomChip size='small' skin='light' color='success' label='In Stock' />
+                </Box>
+              </Grid>
+              <Grid
+                item
+                sm={4}
+                xs={12}
+                sx={{ display: 'flex', alignItems: 'center', justifyContent: { xs: 'flex-start', sm: 'flex-end' } }}
+              >
+                <Typography sx={{ color: 'primary.main' }}>$299</Typography>
+                <Typography sx={{ color: 'text.disabled', textDecoration: 'line-through' }}>/$359</Typography>
+              </Grid>
+            </Grid>
+          </ListItem>
+          <ListItem>
+            <ListItemAvatar>
+              <img width={80} src='/images/products/iphone-11.png' alt='iphone 11' />
+            </ListItemAvatar>
+            <Grid container spacing={5}>
+              <Grid item xs={12} sm={8}>
+                <ListItemText primary='Apple iPhone 11 (64GB, Black)' />
+                <Box sx={{ display: 'flex' }}>
+                  <Typography sx={{ mr: 2, color: 'text.disabled' }}>Sold By:</Typography>
+                  <Typography
+                    href='/'
+                    component={MuiLink}
+                    onClick={e => e.preventDefault()}
+                    sx={{ mr: 4, color: 'primary.main' }}
+                  >
+                    Apple
+                  </Typography>
+                  <CustomChip size='small' skin='light' color='success' label='In Stock' />
+                </Box>
+              </Grid>
+              <Grid
+                item
+                sm={4}
+                xs={12}
+                sx={{ display: 'flex', alignItems: 'center', justifyContent: { xs: 'flex-start', sm: 'flex-end' } }}
+              >
+                <Typography sx={{ color: 'primary.main' }}>$899</Typography>
+                <Typography sx={{ color: 'text.disabled', textDecoration: 'line-through' }}>/$999</Typography>
+              </Grid>
+            </Grid>
+          </ListItem>
+        </StyledList>
+      </Grid>
+      <Grid item xs={12} md={4} xl={3}>
         <Box sx={{ mb: 4, borderRadius: 1, border: theme => `1px solid ${theme.palette.divider}` }}>
           <CardContent>
-            <Box sx={{ display: 'flex' }}>
-              <Box sx={{ mr: 4 }}>
-                <img width={50} src='/images/products/google-home.png' alt='Purina Dog Chow' />
-              </Box>
-              <div>
-                <Typography variant='body2'>Purina Dog Chow</Typography>
-                <Typography variant='body2' sx={{ fontWeight: 600 }}>
-                  Martes 07 de marzo de 2023
-                </Typography>
-              </div>
-            </Box>
-          </CardContent>
-          <Divider sx={{ m: '0 !important' }} />
-          <CardContent>
-            <Typography sx={{ mb: 4, fontWeight: 600 }}>Detalle de Envio</Typography>
+            <Typography sx={{ mb: 4, fontWeight: 600 }}>Price Details</Typography>
             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
               <Box
                 sx={{
-                  mb: 2,
+                  mb: 4,
                   gap: 2,
                   display: 'flex',
                   flexWrap: 'wrap',
@@ -207,9 +226,9 @@ const StepAddress = ({ handleNext }) => {
                 }}
               >
                 <Typography variant='body2' sx={{ color: 'text.primary' }}>
-                  Total
+                  Order Total
                 </Typography>
-                <Typography variant='body2'>9.990 $</Typography>
+                <Typography variant='body2'>$1198.00</Typography>
               </Box>
               <Box
                 sx={{
@@ -225,7 +244,7 @@ const StepAddress = ({ handleNext }) => {
                 </Typography>
                 <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                   <Typography variant='body2' sx={{ mr: 2, textDecoration: 'line-through', color: 'text.disabled' }}>
-                    2.000 $
+                    $5.00
                   </Typography>
                   <CustomChip size='small' skin='light' color='success' label='Free' />
                 </Box>
@@ -238,18 +257,13 @@ const StepAddress = ({ handleNext }) => {
               sx={{ gap: 2, display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between' }}
             >
               <Typography sx={{ fontWeight: 600 }}>Total</Typography>
-              <Typography sx={{ fontWeight: 600 }}>9.990$</Typography>
+              <Typography sx={{ fontWeight: 600 }}>$1198.00</Typography>
             </Box>
           </CardContent>
-        </Box>
-        <Box sx={{ display: 'flex', ...(breakpointMD ? { justifyContent: 'flex-end' } : {}) }}>
-          <Button fullWidth={!breakpointMD} variant='contained' onClick={handleNext}>
-            Pagar
-          </Button>
         </Box>
       </Grid>
     </Grid>
   )
 }
 
-export default StepAddress
+export default StepConfirmation

@@ -31,6 +31,11 @@ const navigation = () => {
           icon: 'mdi:archive'
         },
         {
+          title: 'Historial de Ventas',
+          path: '/mui',
+          icon: 'mdi:list-box'
+        },
+        {
           title: 'Marcas',
           path: '/operator/inventory/brands',
           subject: 'inventory',

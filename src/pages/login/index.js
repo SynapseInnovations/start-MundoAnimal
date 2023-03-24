@@ -100,7 +100,7 @@ const schema = yup.object().shape({
 })
 
 const defaultValues = {
-  clave: '456456',
+  clave: 'clave2',
   rut: '66666666-6'
 }
 
@@ -143,20 +143,30 @@ const LoginPage = () => {
   return (
     <Box className='content-right'>
       {!hidden ? (
-        <Box sx={{ flex: 1, display: 'flex', position: 'relative', alignItems: 'center', justifyContent: 'center' }}>
+        <Box
+          sx={{
+            flex: 2,
+            borderRadius: '4px',
+            borderColor: 'red',
+            boxShadow: '0px 20px 1000px rgba(200, 0, 10, 0.1)',
+            display: 'flex',
+            position: 'relative',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}
+        >
           <LoginIllustrationWrapper>
             <LoginIllustration
               alt='login-illustration'
               src={`/images/pages/${imageSource}-${theme.palette.mode}.png`}
             />
           </LoginIllustrationWrapper>
-          <FooterIllustrationsV2 />
         </Box>
       ) : null}
       <RightWrapper sx={skin === 'bordered' && !hidden ? { borderLeft: `1px solid ${theme.palette.divider}` } : {}}>
         <Box
           sx={{
-            p: 7,
+            p: 8,
             height: '100%',
             display: 'flex',
             alignItems: 'center',
@@ -249,9 +259,24 @@ const LoginPage = () => {
                 {themeConfig.templateName}
               </Typography>
             </Box>
+            <Box>
+              <img
+                src='/images/madeby.png'
+                alt='Descripción de la imagen'
+                width='380'
+                height='90'
+                style={{
+                  marginBottom: '60px',
+                  marginRight: '20px',
+                  display: 'block',
+                  margin: 'auto',
+
+                  borderColor: 'red'
+                }}
+              />
+            </Box>
             <Box sx={{ mb: 6 }}>
-              <TypographyStyled variant='h5'>{`${themeConfig.templateName} - Sistema de Inventario`}</TypographyStyled>
-              <Typography variant='body2'>Por favor, inicie sesión para continuar.</Typography>
+              <TypographyStyled variant='h5'>{`Iniciar Sesión `}</TypographyStyled>
             </Box>
             <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
               <FormControl fullWidth sx={{ mb: 4 }}>
@@ -319,7 +344,7 @@ const LoginPage = () => {
                 />
               </Box>
               <Button fullWidth size='large' type='submit' variant='contained' sx={{ mb: 7 }}>
-                Iniciar sesión
+                Ingresar
               </Button>
               <Divider
                 sx={{
@@ -328,7 +353,7 @@ const LoginPage = () => {
                   mb: theme => `${theme.spacing(7.5)} !important`
                 }}
               >
-                Mundo Animal
+                Inventario Mundo Animal
               </Divider>
             </form>
           </BoxWrapper>

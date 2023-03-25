@@ -35,6 +35,7 @@ const AuthProvider = ({ children }) => {
       const rut = window.localStorage.getItem('rut')
       if (storedToken) {
         setLoading(true)
+        console.log(storedToken)
         await axios
           .get(authConfig.meEndpoint + '/?rut=' + rut, {
             headers: {
@@ -73,6 +74,7 @@ const AuthProvider = ({ children }) => {
           : null
         const returnUrl = router.query.returnUrl
         setUser({ ...response.data.data[0], ...response.data.data[2] })
+        window.localStorage.setItem('rut', response.data.data[0].rut)
         params.rememberMe ? window.localStorage.setItem('userData', JSON.stringify(response.data.data[0])) : null
         const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : '/'
         router.replace(redirectURL)

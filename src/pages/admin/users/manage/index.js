@@ -56,11 +56,9 @@ const renderClient = params => {
 }
 
 const statusObj = {
-  1: { title: 'Administrador', color: 'primary' },
-  2: { title: 'Operador', color: 'success' },
-  3: { title: 'rejected', color: 'error' },
-  4: { title: 'resigned', color: 'warning' },
-  5: { title: 'applied', color: 'info' }
+  1: { title: 'Administrador', color: 'success' },
+  2: { title: 'Operador', color: 'info' },
+  3: { title: 'Usuario', color: 'warning' }
 }
 
 // ** Full Name Getter
@@ -126,13 +124,12 @@ const UsersManageIndex = () => {
     axios
       .get('http://localhost:10905/usuario/')
       .then(response => {
-        const newData = response.data.data.map(a => Object.assign(a, { id: a.rut, status: 2, avatar: '' }))
-        setData(newData)
-        console.log(newData)
+        setData(response.data.data)
         setLoading(false)
       })
       .catch(error => {
         console.log(error)
+        setLoading(false)
       })
   }, [])
 

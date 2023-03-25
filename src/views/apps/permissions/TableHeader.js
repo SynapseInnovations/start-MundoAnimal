@@ -1,5 +1,12 @@
 // ** React Imports
 import { useState } from 'react'
+import FormData from 'form-data'
+
+// ** Axios
+import axios from 'axios'
+
+// ** Config
+import authConfig from 'src/configs/auth'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
@@ -87,12 +94,6 @@ const TableHeader = props => {
     setPrecioUnitario(precioUnitario + 0.5)
   }
 
-  const handleSubmit = event => {
-    event.preventDefault()
-
-    // Aquí puedes enviar los datos del formulario a un servidor o realizar alguna otra acción
-  }
-
   const handleFileInputChange = e => {
     const file = e.target.files[0]
     setSelectedFile(file)
@@ -135,6 +136,37 @@ const TableHeader = props => {
 
   const handleEliminarMarca = () => {
     setMarcasDisponibles(marcasDisponibles.slice(0, -1))
+  }
+
+  const handleSubmit = event => {
+    event.preventDefault()
+    axios
+      .post(
+        'http://localhost:10905/producto/agregar',
+        {
+          codigo_barra: 32324,
+          nombre: nombreProducto,
+          unidades: cantidadProducto,
+          descripcion: descripcionProducto,
+          precio_kilo: precioKilo,
+          precio_unitario: precioUnitario,
+          imagen: thumbnail,
+          marca_id: 1,
+          categoria_id: 1,
+          animal_id: 1
+        },
+        {
+          headers: {
+            token: window.localStorage.getItem(authConfig.storageTokenKeyName)
+          }
+        }
+      )
+      .then(async response => {
+        props.updateMethod()
+        setOpen(false)
+      })
+
+    //Aquí puedes enviar los datos del formulario a un servidor o realizar alguna otra acción
   }
 
   return (
@@ -414,6 +446,7 @@ const TableHeader = props => {
                 transform: 'scale(0.95)'
               }
             }}
+            onClick={handleSubmit}
           >
             Agregar Producto
           </Button>

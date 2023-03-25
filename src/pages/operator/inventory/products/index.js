@@ -2,6 +2,10 @@
 import { useState, useEffect, useCallback } from 'react'
 import { Provider } from 'react-redux'
 
+import { useAuth } from 'src/hooks/useAuth'
+import authConfig from 'src/configs/auth'
+import axios from 'axios'
+
 // ** MUI Imports
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
@@ -44,57 +48,46 @@ const colors = {
 
 const defaultColumns = [
   {
-    flex: 0.2,
-    field: 'name',
-    minWidth: 240,
+    flex: 0.4,
+    field: 'nombre',
+    minWidth: 540,
     headerName: 'Nombre del Producto',
-    renderCell: ({ row }) => <Typography>{row.name}</Typography>
+    renderCell: ({ row }) => <Typography>{row.nombre}</Typography>
   },
   {
-    flex: 0.35,
-    minWidth: 90,
-    field: 'assignedTo',
-    headerName: 'Cantidad',
-    renderCell: ({ row }) => {
-      return row.assignedTo.map((assignee, index) => (
-        <CustomChip
-          size='small'
-          key={index}
-          skin='light'
-          color={colors[assignee]}
-          label={assignee.replace('-', ' ')}
-          sx={{ '& .MuiChip-label': { textTransform: 'capitalize' }, '&:not(:last-of-type)': { mr: 3 } }}
-        />
-      ))
-    }
-  },
-  {
-    flex: 0.25,
-    field: 'P. Kilo',
+    flex: 0.1,
     minWidth: 100,
-    headerName: 'P. Kilo',
-    renderCell: ({ row }) => <Typography>{row.name}</Typography>
+    field: 'unidades',
+    headerName: 'Disponible',
+    renderCell: ({ row }) => <Typography>{row.unidades}</Typography>
   },
   {
-    flex: 0.25,
-    field: 'P. Unitario',
+    flex: 0.1,
+    field: 'precio_kilo',
     minWidth: 100,
-    headerName: 'P. Unitario',
-    renderCell: ({ row }) => <Typography>{row.name}</Typography>
+    headerName: '$ Kilo',
+    renderCell: ({ row }) => <Typography>{row.precio_kilo}</Typography>
   },
   {
-    flex: 0.25,
-    field: 'Categoría',
-    minWidth: 150,
+    flex: 0.1,
+    field: 'precio_unitario',
+    minWidth: 100,
+    headerName: '$ Unitario',
+    renderCell: ({ row }) => <Typography>{row.precio_unitario}</Typography>
+  },
+  {
+    flex: 0.1,
+    field: 'categoria_id',
+    minWidth: 100,
     headerName: 'Categoría',
-    renderCell: ({ row }) => <Typography>{row.name}</Typography>
+    renderCell: ({ row }) => <Typography>{row.Categoria_id}</Typography>
   },
   {
-    flex: 0.25,
-    minWidth: 215,
-    field: 'createdDate',
+    flex: 0.1,
+    minWidth: 100,
+    field: 'marca_id',
     headerName: 'Marca',
-    renderCell: ({ row }) => <Typography variant='body2'>{row.createdDate}</Typography>
+    renderCell: ({ row }) => <Typography>{row.Marca_id}</Typography>
   }
 ]
 
@@ -105,21 +98,34 @@ const PermissionsTable = () => {
   const [editValue, setEditValue] = useState('')
   const [editDialogOpen, setEditDialogOpen] = useState(false)
 
-  // ** Hooks
+  const [data, setData] = useState([])
+  const auth = useAuth()
 
-  const dispatch = useDispatch()
-  const store = useSelector(state => state.permissions)
+  // ** Hooks
   useEffect(() => {
-    dispatch(
-      fetchData({
-        q: value
-      })
-    )
-  }, [dispatch, value])
+    updateData()
+  }, [])
 
   const handleFilter = useCallback(val => {
     setValue(val)
   }, [])
+
+  const updateData = () => {
+    axios
+      .get('http://localhost:10905/producto/', {
+        headers: {
+          token: window.localStorage.getItem(authConfig.storageTokenKeyName)
+        }
+      })
+      .then(response => {
+        setData(response.data.data)
+        console.log(response.data.data)
+        setLoading(false)
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }
 
   const handleEditPermission = name => {
     setEditValue(name)
@@ -164,10 +170,11 @@ const PermissionsTable = () => {
         </Grid>
         <Grid item xs={12}>
           <Card>
-            <TableHeader value={value} handleFilter={handleFilter} />
+            <TableHeader value={value} updateMethod={updateData} handleFilter={handleFilter} />
             <DataGrid
               autoHeight
-              rows={store.data}
+              rows={data}
+              getRowId={row => row.codigo_barra}
               columns={columns}
               pageSize={pageSize}
               disableSelectionOnClick
@@ -178,40 +185,6 @@ const PermissionsTable = () => {
           </Card>
         </Grid>
       </Grid>
-      <Dialog maxWidth='sm' fullWidth onClose={handleDialogToggle} open={editDialogOpen}>
-        <DialogTitle sx={{ mx: 'auto', textAlign: 'center' }}>
-          <Typography variant='h5' component='span' sx={{ mb: 2 }}>
-            Edit Permission
-          </Typography>
-          <Typography variant='body2'>Edit permission as per your requirements.</Typography>
-        </DialogTitle>
-        <DialogContent sx={{ mx: 'auto' }}>
-          <Alert severity='warning' sx={{ maxWidth: '500px' }}>
-            <AlertTitle>Warning!</AlertTitle>
-            By editing the permission name, you might break the system permissions functionality. Please ensure you're
-            absolutely certain before proceeding.
-          </Alert>
-
-          <Box component='form' sx={{ mt: 8 }} onSubmit={onSubmit}>
-            <FormGroup sx={{ mb: 2, alignItems: 'center', flexDirection: 'row', flexWrap: ['wrap', 'nowrap'] }}>
-              <TextField
-                fullWidth
-                size='small'
-                value={editValue}
-                label='Permission Name'
-                sx={{ mr: [0, 4], mb: [3, 0] }}
-                placeholder='Enter Permission Name'
-                onChange={e => setEditValue(e.target.value)}
-              />
-
-              <Button type='submit' variant='contained'>
-                Update
-              </Button>
-            </FormGroup>
-            <FormControlLabel control={<Checkbox />} label='Set as core permission' />
-          </Box>
-        </DialogContent>
-      </Dialog>
     </>
   )
 }

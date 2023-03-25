@@ -303,7 +303,9 @@ const UsersManageIndex = () => {
           pb: 12,
           backgroundColor: 'rgba(0, 0, 0, 0)',
           backdropFilter: 'blur(2px)',
+
           WebkitBackdropFilter: 'blur(2px)',
+
           opacity: 0.99
         }}
       >
@@ -388,7 +390,7 @@ const UsersManageIndex = () => {
             }}
           >
             <TextField
-              label='Direccion'
+              label='Dirección'
               fullWidth
               value={dirUsuario}
               onChange={event => setDirUsuario(event.target.value)}

@@ -66,21 +66,21 @@ const navigation = () => {
       action: 'read',
       children: [
         {
-          title: 'Agregar Marcas',
+          title: 'Marcas',
           path: '/operator/inventory/brands',
           subject: 'inventory',
           action: 'read',
           icon: 'mdi:briefcase'
         },
         {
-          title: 'Agregar Categorías',
+          title: 'Categorías',
           path: '/operator/inventory/categories',
           subject: 'inventory',
           action: 'read',
           icon: 'mdi:shape'
         },
         {
-          title: 'Agregar Animales',
+          title: 'Animales',
           path: '/operator/inventory/pets',
           subject: 'inventory',
           action: 'read',

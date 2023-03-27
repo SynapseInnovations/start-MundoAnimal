@@ -140,27 +140,29 @@ const TableHeader = props => {
 
   const handleSubmit = event => {
     event.preventDefault()
+    const formData = new FormData()
+    const codigoBarraProducto = 332233234
+    const marcaIdProducto = 1
+    const categoriaIdProducto = 1
+    const animalIdProducto = 1
+    formData.append('codigo_Barra', codigoBarraProducto)
+    formData.append('nombre', nombreProducto)
+    formData.append('unidades', cantidadProducto)
+    formData.append('descripcion', descripcionProducto)
+    formData.append('precio_kilo', precioKilo)
+    formData.append('precio_unitario', precioUnitario)
+    formData.append('imagen', selectedFile)
+    formData.append('marca_id', marcaIdProducto)
+    formData.append('categoria_id', categoriaIdProducto)
+    formData.append('animal_id', animalIdProducto)
+
     axios
-      .post(
-        'http://localhost:10905/producto/agregar',
-        {
-          codigo_barra: 5,
-          nombre: nombreProducto,
-          unidades: cantidadProducto,
-          descripcion: descripcionProducto,
-          precio_kilo: precioKilo,
-          precio_unitario: precioUnitario,
-          imagen: thumbnail,
-          marca_id: 1,
-          categoria_id: 1,
-          animal_id: 1
-        },
-        {
-          headers: {
-            token: window.localStorage.getItem(authConfig.storageTokenKeyName)
-          }
+      .post('http://localhost:10905/producto/agregar', formData, {
+        headers: {
+          'content-type': 'multipart/form-data; boundary=${formData._boundary}',
+          token: window.localStorage.getItem(authConfig.storageTokenKeyName)
         }
-      )
+      })
       .then(async response => {
         props.updateMethod()
         setOpen(false)

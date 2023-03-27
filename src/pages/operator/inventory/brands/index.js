@@ -15,9 +15,7 @@ import DialogTitle from '@mui/material/DialogTitle'
 import SettingsIcon from '@mui/icons-material/Settings'
 import TextField from '@mui/material/TextField'
 import { IconButton, Select, MenuItem, InputLabel } from '@mui/material'
-import InputAdornment from '@mui/material/InputAdornment'
 import AddIcon from '@material-ui/icons/Add'
-import RemoveIcon from '@material-ui/icons/Remove'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import { Grid } from '@material-ui/core'
 
@@ -30,77 +28,12 @@ import CustomAvatar from 'src/@core/components/mui/avatar'
 
 // ** Utils Import
 import { getInitials } from 'src/@core/utils/get-initials'
-import { Icon } from '@mui/material'
-import { Delete, Pencil } from '@mui/icons-material'
-
-// ** Data Import
-
-// ** renders client column
-
-const renderClient = params => {
-  const { row } = params
-  const stateNum = Math.floor(Math.random() * 6)
-
-  const states = ['success', 'error', 'warning', 'info', 'primary', 'secondary']
-  const color = states[stateNum]
-
-  if (row.imagen) {
-    return <CustomAvatar src={row.imagen} sx={{ mr: 3, width: '1.875rem', height: '1.875rem' }} />
-  } else {
-    return (
-      <CustomAvatar skin='light' color={color} sx={{ mr: 3, fontSize: '.8rem', width: '1.875rem', height: '1.875rem' }}>
-        {getInitials(row.nombre ? row.nombre : 'John Doe')}
-      </CustomAvatar>
-    )
-  }
-}
-
-const statusObj = {
-  1: { title: 'Administrador', color: 'primary' },
-  2: { title: 'Operador', color: 'success' },
-  3: { title: 'rejected', color: 'error' },
-  4: { title: 'resigned', color: 'warning' },
-  5: { title: 'applied', color: 'info' }
-}
-
-// ** Full Name Getter
-const getFullName = params =>
-  toast(
-    <Box sx={{ display: 'flex', alignItems: 'center' }}>
-      {renderClient(params)}
-      <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-        <Typography noWrap variant='body2' sx={{ color: 'text.primary', fontWeight: 600 }}>
-          {params.row.name}
-        </Typography>
-      </Box>
-    </Box>
-  )
-
-const createData = (id, name, mail, pass, address) => {
-  return {
-    id,
-    name,
-    mail,
-    pass,
-    address,
-    avatar: '',
-    status: '2'
-  }
-}
 
 const handleSubmit = event => {
   event.preventDefault()
 
   console.log('El botón Amongus ha sido clickeado')
 }
-
-const rows = [
-  createData('14148620-9', 'thecarrot911', 'carrot@gmail.com', 'sus', 'mi casa 123'),
-  createData('24148620-9', 'thecarrot911', 'carrot@gmail.com', 'sus', 'mi casa 123'),
-  createData('34148620-9', 'thecarrot911', 'carrot@gmail.com', 'sus', 'mi casa 123'),
-  createData('44148620-9', 'thecarrot911', 'carrot@gmail.com', 'sus', 'mi casa 123'),
-  createData('54148620-9', 'thecarrot911', 'carrot@gmail.com', 'sus', 'mi casa 123')
-]
 
 const UsersManageIndex = () => {
   // ** States
@@ -135,24 +68,6 @@ const UsersManageIndex = () => {
         console.log(error)
       })
   }, [])
-
-  const handleFileInputChange = e => {
-    const file = e.target.files[0]
-    setSelectedFile(file)
-
-    const reader = new FileReader()
-    reader.onload = () => {
-      setThumbnail(reader.result)
-    }
-    reader.readAsDataURL(file)
-  }
-
-  const handleAgregarRol = () => {
-    if (rolesInput && !rolesDisponibles.includes(rolesInput)) {
-      setRolesDisponibles([...rolesDisponibles, rolesInput])
-      setRolesInput('')
-    }
-  }
 
   const columns = [
     {

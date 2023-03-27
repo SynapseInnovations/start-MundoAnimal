@@ -144,7 +144,7 @@ const TableHeader = props => {
       .post(
         'http://localhost:10905/producto/agregar',
         {
-          codigo_barra: 32324,
+          codigo_barra: 5,
           nombre: nombreProducto,
           unidades: cantidadProducto,
           descripcion: descripcionProducto,

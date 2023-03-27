@@ -10,7 +10,7 @@ const navigation = () => {
       path: '/home',
       subject: 'home',
       action: 'read',
-      icon: 'mdi:home-outline'
+      icon: 'mdi:paw'
     },
     {
       sectionTitle: 'Panel de Operador',
@@ -19,7 +19,7 @@ const navigation = () => {
     },
     {
       title: 'Inventario',
-      icon: 'mdi:database',
+      icon: 'mdi:garage-variant',
       subject: 'inventory',
       action: 'read',
       children: [
@@ -31,33 +31,13 @@ const navigation = () => {
           icon: 'mdi:archive'
         },
         {
-          title: 'Historial de Ventas',
+          title: 'Historial',
           path: '/mui',
           icon: 'mdi:list-box'
-        },
-        {
-          title: 'Marcas',
-          path: '/operator/inventory/brands',
-          subject: 'inventory',
-          action: 'read',
-          icon: 'mdi:briefcase'
-        },
-        {
-          title: 'Categorías',
-          path: '/operator/inventory/categories',
-          subject: 'inventory',
-          action: 'read',
-          icon: 'mdi:shape'
-        },
-        {
-          title: 'Animales',
-          path: '/operator/inventory/pets',
-          subject: 'inventory',
-          action: 'read',
-          icon: 'mdi:paw'
         }
       ]
     },
+
     {
       title: 'Ventas',
       path: '/',
@@ -76,6 +56,35 @@ const navigation = () => {
           path: '/operator/sales/list',
           action: 'read',
           icon: 'mdi:list-box'
+        }
+      ]
+    },
+    {
+      title: 'Mantenedor',
+      icon: 'mdi:tune-variant',
+      subject: 'inventory',
+      action: 'read',
+      children: [
+        {
+          title: 'Agregar Marcas',
+          path: '/operator/inventory/brands',
+          subject: 'inventory',
+          action: 'read',
+          icon: 'mdi:briefcase'
+        },
+        {
+          title: 'Agregar Categorías',
+          path: '/operator/inventory/categories',
+          subject: 'inventory',
+          action: 'read',
+          icon: 'mdi:shape'
+        },
+        {
+          title: 'Agregar Animales',
+          path: '/operator/inventory/pets',
+          subject: 'inventory',
+          action: 'read',
+          icon: 'mdi:paw'
         }
       ]
     },

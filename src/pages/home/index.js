@@ -15,21 +15,23 @@ const Home = () => {
   return (
     <Grid container spacing={6}>
       <Grid item xs={12}>
-        <img
-          src='/images/MAlogo2.png'
-          alt='Descripción de la imagen'
-          width='180'
-          height='180'
-          style={{
-            marginBottom: '70px',
-            display: 'block',
-            margin: 'auto',
-            borderRadius: '50%',
-            borderColor: 'red',
-            boxShadow: '0px 20px 70px rgba(200, 0, 10, 0.35)',
-            backgroundColor: 'transparent'
-          }}
-        />
+        <div style={{ position: 'sticky', top: 0 }}>
+          <img
+            src='/images/MAlogo2.png'
+            alt='Descripción de la imagen'
+            width='180'
+            height='180'
+            style={{
+              marginBottom: '60px',
+              display: 'block',
+              margin: 'auto',
+              borderRadius: '50%',
+              borderColor: 'red',
+              boxShadow: '0px 20px 70px rgba(200, 0, 10, 0.35)',
+              backgroundColor: 'transparent'
+            }}
+          />
+        </div>
         <Card style={{ marginTop: '20px', marginBottom: '20px' }}>
           <CardHeader title='Inventario Mundo Animal🚀'></CardHeader>
           <CardContent>

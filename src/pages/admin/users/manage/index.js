@@ -333,10 +333,7 @@ const UsersManageIndex = () => {
               maxWidth: '600px',
               mx: 'auto',
               marginTop: '10px',
-              transition: 'all 0.05s ease-in-out',
-              '&:hover': {
-                transform: 'scale(1.06)'
-              }
+
             }}
           >
             <TextField
@@ -357,10 +354,6 @@ const UsersManageIndex = () => {
               maxWidth: '600px',
               mx: 'auto',
               marginTop: '10px',
-              transition: 'all 0.05s ease-in-out',
-              '&:hover': {
-                transform: 'scale(1.06)'
-              }
             }}
           >
             <TextField
@@ -381,10 +374,7 @@ const UsersManageIndex = () => {
               maxWidth: '600px',
               mx: 'auto',
               marginTop: '10px',
-              transition: 'all 0.05s ease-in-out',
-              '&:hover': {
-                transform: 'scale(1.06)'
-              }
+
             }}
           >
             <TextField
@@ -405,10 +395,7 @@ const UsersManageIndex = () => {
               maxWidth: '600px',
               mx: 'auto',
               marginTop: '10px',
-              transition: 'all 0.05s ease-in-out',
-              '&:hover': {
-                transform: 'scale(1.06)'
-              }
+
             }}
           >
             <TextField
@@ -429,10 +416,7 @@ const UsersManageIndex = () => {
               maxWidth: '600px',
               mx: 'auto',
               marginTop: '10px',
-              transition: 'all 0.05s ease-in-out',
-              '&:hover': {
-                transform: 'scale(1.06)'
-              }
+
             }}
           >
             <TextField

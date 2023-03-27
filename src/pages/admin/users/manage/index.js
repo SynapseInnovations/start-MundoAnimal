@@ -302,9 +302,7 @@ const UsersManageIndex = () => {
         sx={{
           pb: 12,
           backgroundColor: 'rgba(0, 0, 0, 0)',
-          backdropFilter: 'blur(2px)',
 
-          WebkitBackdropFilter: 'blur(2px)',
 
           opacity: 0.99
         }}
@@ -509,18 +507,18 @@ const UsersManageIndex = () => {
                       display: 'flex',
                       justifyContent: 'center',
                       alignItems: 'center',
-                      boxShadow: '2px 2px 40px rgba(200, 0, 0, 0.50)',
+                      boxShadow: '2px 2px 5px rgba(200, 0, 0, 0.50)',
                       transition: 'all 0.2s ease-in-out',
 
                       '&:hover': {
-                        transform: 'scale(1.03)',
-                        boxShadow: '0px 0px 30px rgba(200, 0, 0, 0.70)',
+                        transform: 'scale(0.95)',
+                        boxShadow: '0px 0px 5px rgba(200, 0, 0, 0.70)',
                         backgroundColor: '#ed133f',
                         transition: 'all 0.1s ease-in-out'
                       },
                       '&:active': {
-                        transform: 'scale(0.95)',
-                        boxShadow: '2px 2px 30px rgba(200, 0, 0, 0.60)',
+                        transform: 'scale(0.85)',
+                        boxShadow: '2px 2px 5px rgba(200, 0, 0, 0.60)',
                         backgroundColor: '#d61038',
                         transition: 'all 0.03s ease-in-out'
                       }
@@ -543,17 +541,17 @@ const UsersManageIndex = () => {
               justifyContent: 'center',
               alignItems: 'center',
               transition: 'all 0.5s ease-in-out',
-              boxShadow: '2px 2px 20px rgba(200, 0, 0, 0.50)',
+              boxShadow: '2px 2px 5px rgba(200, 0, 0, 0.50)',
 
               '&:hover': {
-                transform: 'scale(1.08)',
-                boxShadow: '0px 0px 30px rgba(200, 0, 0, 0.70)',
+                transform: 'scale(0.95)',
+                boxShadow: '0px 0px 5px rgba(200, 0, 0, 0.70)',
                 backgroundColor: '#ed133f',
                 transition: 'all 0.2s ease-in-out'
               },
               '&:active': {
-                transform: 'scale(0.95)',
-                boxShadow: '2px 2px 30px rgba(200, 0, 0, 0.60)',
+                transform: 'scale(0.85)',
+                boxShadow: '2px 2px 55px rgba(200, 0, 0, 0.60)',
                 backgroundColor: '#d61038',
                 transition: 'all 0.03s ease-in-out'
               },

@@ -50,7 +50,7 @@ const Accordion = theme => {
             borderBottomRightRadius: 0
           },
           '& + .MuiCollapse-root': {
-            '& .MuiAccordionDetails-root:first-of-type': {
+            '& .MuiAccordionDetails-root:first-child': {
               paddingTop: 0
             }
           }

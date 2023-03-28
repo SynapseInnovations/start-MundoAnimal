@@ -35,6 +35,7 @@ const AuthProvider = ({ children }) => {
       const rut = window.localStorage.getItem('rut')
       if (storedToken) {
         setLoading(true)
+        console.log(storedToken)
         await axios
           .get(authConfig.meEndpoint + '/?rut=' + rut, {
             headers: {

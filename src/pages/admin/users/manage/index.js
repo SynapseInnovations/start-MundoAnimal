@@ -1,17 +1,18 @@
 // ** React Imports
 import { useState, useEffect } from 'react'
 import axios from 'axios'
-import { useAuth } from 'src/hooks/useAuth'
-import authConfig from 'src/configs/auth'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
+import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 import CardHeader from '@mui/material/CardHeader'
 import { DataGrid } from '@mui/x-data-grid'
+import DialogContent from '@mui/material/DialogContent'
+import Dialog from '@mui/material/Dialog'
+import DialogTitle from '@mui/material/DialogTitle'
 import SettingsIcon from '@mui/icons-material/Settings'
-import { IconButton } from '@mui/material'
 import TextField from '@mui/material/TextField'
 import { IconButton, Select, MenuItem, InputLabel, Modal } from '@mui/material'
 import InputAdornment from '@mui/material/InputAdornment'
@@ -20,10 +21,8 @@ import RemoveIcon from '@material-ui/icons/Remove'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import { Grid } from '@material-ui/core'
 
-
 // ** Third Party Components
 import toast from 'react-hot-toast'
-import CreateUserModal from 'src/views/admin/create'
 
 // ** Custom Components
 import CustomChip from 'src/@core/components/mui/chip'
@@ -31,7 +30,6 @@ import CustomAvatar from 'src/@core/components/mui/avatar'
 
 // ** Utils Import
 import { getInitials } from 'src/@core/utils/get-initials'
-
 import { Icon } from '@mui/material'
 import { Delete, Pencil } from '@mui/icons-material'
 import PageHeader from 'src/@core/components/page-header'
@@ -44,10 +42,10 @@ import ModalUser from 'src/views/modal/ModalUser'
 
 const renderClient = params => {
   const { row } = params
-  const stateNum = Math.floor(Math.random() * 3)
+  const stateNum = Math.floor(Math.random() * 6)
 
   const states = ['success', 'error', 'warning', 'info', 'primary', 'secondary']
-  const color = roleList[stateNum]
+  const color = states[stateNum]
 
   if (row.imagen) {
     return <CustomAvatar src={row.imagen} sx={{ mr: 3, width: '1.875rem', height: '1.875rem' }} />
@@ -60,7 +58,7 @@ const renderClient = params => {
   }
 }
 
-const roleList = {
+const statusObj = {
   1: { title: 'Administrador', color: 'success' },
   2: { title: 'Operador', color: 'info' },
   3: { title: 'Usuario', color: 'warning' }
@@ -73,29 +71,59 @@ const getFullName = params =>
       {renderClient(params)}
       <Box sx={{ display: 'flex', flexDirection: 'column' }}>
         <Typography noWrap variant='body2' sx={{ color: 'text.primary', fontWeight: 600 }}>
-          {params.row.nombre}
+          {params.row.name}
         </Typography>
       </Box>
     </Box>
   )
 
+const createData = (id, name, mail, pass, address) => {
+  return {
+    id,
+    name,
+    mail,
+    pass,
+    address,
+    avatar: '',
+    status: '2'
+  }
+}
+
+const handleSubmit = event => {
+  event.preventDefault()
+
+  console.log('El botón Amongus ha sido clickeado')
+}
+
+const rows = [
+  createData('14148620-9', 'thecarrot911', 'carrot@gmail.com', 'sus', 'mi casa 123'),
+  createData('24148620-9', 'thecarrot911', 'carrot@gmail.com', 'sus', 'mi casa 123'),
+  createData('34148620-9', 'thecarrot911', 'carrot@gmail.com', 'sus', 'mi casa 123'),
+  createData('44148620-9', 'thecarrot911', 'carrot@gmail.com', 'sus', 'mi casa 123'),
+  createData('54148620-9', 'thecarrot911', 'carrot@gmail.com', 'sus', 'mi casa 123')
+]
+
 const UsersManageIndex = () => {
   // ** States
-
+  const [nombreUsuario, setNombreUsuario] = useState('')
+  const [dirUsuario, setDirUsuario] = useState('')
+  const [rutUsuario, setRutUsuario] = useState('')
+  const [correoUsuario, setCorreoUsuario] = useState('')
+  const [claveUsuario, setClaveUsuario] = useState('')
   const [pageSize, setPageSize] = useState(7)
   const [hideNameColumn, setHideNameColumn] = useState(false)
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(true)
-
   const [open, setOpen] = useState(false)
   const handleDialogToggle = () => setOpen(!open)
-  const [editData, setEditData] = useState(null)
+  const [thumbnail, setThumbnail] = useState(null)
+  const [selectedFile, setSelectedFile] = useState(null)
+  const [roles, setRoles] = useState(['Rol 1', 'Rol 2', 'Rol 3'])
+  const [rolesDisponibles, setRolesDisponibles] = useState([])
+  const [rolesInput, setRolesInput] = useState('')
+  const RolesTotal = ['Rol1', 'Rol2', 'Rol3']
 
   useEffect(() => {
-    updateData()
-  }, [])
-
-  const updateData = () => {
     axios
       .get('http://localhost:10905/usuario/')
       .then(response => {
@@ -106,9 +134,6 @@ const UsersManageIndex = () => {
         console.log(error)
         setLoading(false)
       })
-
-  }
-
   }, [])
 
   const handleFileInputChange = e => {
@@ -124,10 +149,9 @@ const UsersManageIndex = () => {
 
 
 
-
   const columns = [
     {
-      flex: 0.4,
+      flex: 0.25,
       minWidth: 290,
       field: 'nombre',
       headerName: 'Nombre',
@@ -151,7 +175,7 @@ const UsersManageIndex = () => {
       }
     },
     {
-      flex: 0.125,
+      flex: 0.175,
       minWidth: 120,
       headerName: 'RUT',
       field: 'rut',
@@ -162,7 +186,7 @@ const UsersManageIndex = () => {
       )
     },
     {
-      flex: 0.275,
+      flex: 0.175,
       minWidth: 120,
       headerName: 'Dirección',
       field: 'direccion',
@@ -174,19 +198,19 @@ const UsersManageIndex = () => {
     },
 
     {
-      flex: 0.1,
+      flex: 0.2,
       minWidth: 140,
-      field: 'rol',
-      headerName: 'Rol',
+      field: 'status',
+      headerName: 'Status',
       renderCell: params => {
-        const rol = roleList[params.row.Rol_id]
+        const status = statusObj[params.row.Rol_id]
 
         return (
           <CustomChip
             size='small'
             skin='light'
-            color={rol.color}
-            label={rol.title}
+            color={status.color}
+            label={status.title}
             sx={{ '& .MuiChip-label': { textTransform: 'capitalize' } }}
           />
         )
@@ -216,36 +240,7 @@ const UsersManageIndex = () => {
                   transform: 'rotate(400deg)'
                 }
               }}
-              onClick={async () => {
-                const storedToken = window.localStorage.getItem(authConfig.storageTokenKeyName)
-                const rut = params.row.rut
-                toast(
-                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                      <Typography noWrap variant='body2' sx={{ color: 'text.primary', fontWeight: 600 }}>
-                        Obteniendo datos del perfil...
-                      </Typography>
-                    </Box>
-                  </Box>
-                )
-
-                await axios
-                  .get('http://localhost:10905/usuario/perfil?rut=' + rut, {
-                    headers: {
-                      token: storedToken
-                    }
-                  })
-                  .then(async response => {
-                    setEditData({ ...response.data.data[0] })
-                    handleDialogToggle()
-                  })
-
-                const data = {
-                  rut: '1234567-8'
-                }
-
-                //setEditData(data)
-              }}
+              onClick={() => getFullName(params)}
             >
               <SettingsIcon />
             </IconButton>
@@ -256,22 +251,6 @@ const UsersManageIndex = () => {
   ]
 
   return (
-
-    <Card>
-      <CardHeader
-        title='Lista de Cuentas'
-        action={
-          <CreateUserModal
-            editData={{ variable: editData, method: setEditData }}
-            open={open}
-            handleDialogToggle={handleDialogToggle}
-            updateMethod={updateData}
-          />
-        }
-      />
-
-      <DataGrid
-
     <>
     <Grid container spacing={6}>
       <Grid item xs={12}>

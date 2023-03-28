@@ -12,14 +12,6 @@ import CardHeader from '@mui/material/CardHeader'
 import { DataGrid } from '@mui/x-data-grid'
 import SettingsIcon from '@mui/icons-material/Settings'
 import { IconButton } from '@mui/material'
-import TextField from '@mui/material/TextField'
-import { IconButton, Select, MenuItem, InputLabel, Modal } from '@mui/material'
-import InputAdornment from '@mui/material/InputAdornment'
-import AddIcon from '@material-ui/icons/Add'
-import RemoveIcon from '@material-ui/icons/Remove'
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
-import { Grid } from '@material-ui/core'
-
 
 // ** Third Party Components
 import toast from 'react-hot-toast'
@@ -31,12 +23,6 @@ import CustomAvatar from 'src/@core/components/mui/avatar'
 
 // ** Utils Import
 import { getInitials } from 'src/@core/utils/get-initials'
-
-import { Icon } from '@mui/material'
-import { Delete, Pencil } from '@mui/icons-material'
-import PageHeader from 'src/@core/components/page-header'
-import TableHeader from 'src/views/apps/permissions/TableHeader'
-import ModalUser from 'src/views/modal/ModalUser'
 
 // ** Data Import
 
@@ -106,25 +92,28 @@ const UsersManageIndex = () => {
         console.log(error)
         setLoading(false)
       })
-
   }
 
-  }, [])
-
-  const handleFileInputChange = e => {
-    const file = e.target.files[0]
-    setSelectedFile(file)
-
-    const reader = new FileReader()
-    reader.onload = () => {
-      setThumbnail(reader.result)
+  /*
+    {
+      "rut": "12345678-5",
+      "nombre": "Marcelo",
+      "correo": "marcelo@marcelo.com",
+      "direccion": "Mi casa 123",
+      "imagen": "https://i.imgur.com/oY3uCks.png",
+      "clave": "$2a$10$KCFxkabtp3A13fqTSi2mP.oM/K.DIbxvrVOzdyHFv3wDvWJ6s2NR2",
+      "rol": "Usuario"
+    },
+    {
+      "rut": "12345678-5",
+      "nombre": "Marcelo",
+      "correo": "marcelo@marcelo.com",
+      "direccion": "Mi casa 123",
+      "imagen": "https://i.imgur.com/oY3uCks.png",
+      "clave": "$2a$10$KCFxkabtp3A13fqTSi2mP.oM/K.DIbxvrVOzdyHFv3wDvWJ6s2NR2",
+      "rol": "Usuario"
     }
-    reader.readAsDataURL(file)
-  }
-
-
-
-
+  */
   const columns = [
     {
       flex: 0.4,
@@ -256,7 +245,6 @@ const UsersManageIndex = () => {
   ]
 
   return (
-
     <Card>
       <CardHeader
         title='Lista de Cuentas'
@@ -271,19 +259,6 @@ const UsersManageIndex = () => {
       />
 
       <DataGrid
-
-    <>
-    <Grid container spacing={6}>
-      <Grid item xs={12}>
-        <PageHeader
-          title={<Typography variant='h5'>Usuarios</Typography>}
-          subtitle={<Typography variant='body2'>Lista de Usuarios</Typography>}
-        />
-      </Grid>
-      <Grid item xs={12}>
-        <Card>
-        <ModalUser  />
-          <DataGrid
         autoHeight
         getRowId={row => row.rut}
         rows={data}
@@ -293,10 +268,7 @@ const UsersManageIndex = () => {
         rowsPerPageOptions={[7, 10, 25, 50]}
         onPageSizeChange={newPageSize => setPageSize(newPageSize)}
       />
-        </Card>
-      </Grid>
-    </Grid>
-  </>
+    </Card>
   )
 }
 

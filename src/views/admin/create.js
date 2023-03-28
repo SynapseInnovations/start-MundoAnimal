@@ -82,9 +82,10 @@ const CreateAccountModal = props => {
     formData.append('direccion', direccionUsuario)
     formData.append('imagen', imagenUsuario)
     formData.append('Rol_id', rolUsuario)
+    const url = edit ? 'http://localhost:10905/usuario/modificar' : 'http://localhost:10905/usuario/crear_cuenta'
 
     axios
-      .post('http://localhost:10905/usuario/modificar', formData, {
+      .post(url, formData, {
         headers: {
           'Content-Type': `multipart/form-data; boundary=${formData._boundary}`,
           token: window.localStorage.getItem(authConfig.storageTokenKeyName)

@@ -25,6 +25,7 @@ import RemoveIcon from '@material-ui/icons/Remove'
 
 const TableHeader = props => {
   // ** Props
+  const [codigoBarraProducto, setCodigoBarraProducto] = useState('')
   const [nombreProducto, setNombreProducto] = useState('')
   const [descripcionProducto, setDescripcionProducto] = useState('')
   const [cantidadProducto, setCantidadProducto] = useState(1)
@@ -141,17 +142,16 @@ const TableHeader = props => {
   const handleSubmit = event => {
     event.preventDefault()
     const formData = new FormData()
-    const codigoBarraProducto = 332233234
     const marcaIdProducto = 1
     const categoriaIdProducto = 1
     const animalIdProducto = 1
     formData.append('codigo_Barra', codigoBarraProducto)
     formData.append('nombre', nombreProducto)
     formData.append('unidades', cantidadProducto)
+    formData.append('imagen', selectedFile)
     formData.append('descripcion', descripcionProducto)
     formData.append('precio_kilo', precioKilo)
     formData.append('precio_unitario', precioUnitario)
-    formData.append('imagen', selectedFile)
     formData.append('marca_id', marcaIdProducto)
     formData.append('categoria_id', categoriaIdProducto)
     formData.append('animal_id', animalIdProducto)
@@ -159,7 +159,7 @@ const TableHeader = props => {
     axios
       .post('http://localhost:10905/producto/agregar', formData, {
         headers: {
-          'content-type': 'multipart/form-data; boundary=${formData._boundary}',
+          'Content-Type': `multipart/form-data; boundary=${formData._boundary}`,
           token: window.localStorage.getItem(authConfig.storageTokenKeyName)
         }
       })
@@ -240,6 +240,17 @@ const TableHeader = props => {
               mx: 'auto'
             }}
           >
+            <TextField
+              label='Codigo de Barra producto'
+              fullWidth
+              type='number'
+              inputProps={{ min: 0, step: 1 }}
+              InputProps={{
+                startAdornment: <InputAdornment position='start'>ID: </InputAdornment>
+              }}
+              value={codigoBarraProducto}
+              onChange={event => setCodigoBarraProducto(event.target.value)}
+            />
             <TextField
               label='Nombre del producto'
               fullWidth

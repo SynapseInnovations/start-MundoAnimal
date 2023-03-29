@@ -82,9 +82,10 @@ const CreateAccountModal = props => {
     formData.append('direccion', direccionUsuario)
     formData.append('imagen', imagenUsuario)
     formData.append('Rol_id', rolUsuario)
+    const url = edit ? 'http://localhost:10905/usuario/modificar' : 'http://localhost:10905/usuario/crear_cuenta'
 
     axios
-      .post('http://localhost:10905/usuario/modificar', formData, {
+      .post(url, formData, {
         headers: {
           'Content-Type': `multipart/form-data; boundary=${formData._boundary}`,
           token: window.localStorage.getItem(authConfig.storageTokenKeyName)
@@ -106,38 +107,38 @@ const CreateAccountModal = props => {
           <TextField
             size='small'
             value={value}
-            sx={{ mr: 4, mb: 2.5 }}
-            placeholder='Buscar Producto'
+            sx={{ mr: 4 }}
+            placeholder='Buscar Usuario'
             onChange={e => handleFilter(e.target.value)}
           />
         </Box>
 
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <Button
-            variant='contained'
-            sx={{
-              borderRadius: '6px',
-              marginRight: '10px',
-              width: '200px',
-              font: 'bold',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              boxShadow: '2px 2px 60px rgba(200, 0, 0, 0.60)',
-              transition: 'all 0.3s ease-in-out',
-
-              '&:hover': {
-                transform: 'scale(1.08)',
-                boxShadow: '0px 0px 30px rgba(200, 0, 0, 0.70)',
-                backgroundColor: '#ed133f',
-                transition: 'all 0.2s ease-in-out'
-              },
-              '&:active': {
-                transform: 'scale(0.95)',
-                boxShadow: '2px 2px 30px rgba(200, 0, 0, 0.60)',
-                backgroundColor: '#d61038',
-                transition: 'all 0.03s ease-in-out'
-              }
+           sx={{
+            borderRadius: '10px',
+            marginTop: '20px',
+            marginBottom: '20px',
+            marginLeft: '10px',
+            scrollSnapMarginRight: '10px',
+            width: '200px',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            transition: 'all 0.15s ease-in-out',
+            backgroundColor: '#FF6095',
+            color: '#FAFAFA',
+            boxShadow: '2px 2px 6px rgba(0, 0, 0, 0.40)',
+            '&:hover': {
+              transition: 'all 0.1s ease-in-out',
+              transform: 'scale(0.98)',
+              boxShadow: '0px -1px 2px rgba(0, 0, 0, 0.50)',
+              backgroundColor: '#F9F4F0',
+              color: "#442859",
+            },
+            '&:active': {
+              transform: 'scale(0.97)'
+            }
             }}
             onClick={() => {
               editData.method(null)
@@ -145,7 +146,7 @@ const CreateAccountModal = props => {
             }}
           >
             <AddIcon sx={{ marginRight: '8px', fontSize: 'large' }} />
-            Nueva Cuenta
+            Agregar Usuario
           </Button>
         </Box>
       </Box>

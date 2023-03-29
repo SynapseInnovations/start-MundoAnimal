@@ -94,6 +94,26 @@ const UsersManageIndex = () => {
       })
   }
 
+  /*
+    {
+      "rut": "12345678-5",
+      "nombre": "Marcelo",
+      "correo": "marcelo@marcelo.com",
+      "direccion": "Mi casa 123",
+      "imagen": "https://i.imgur.com/oY3uCks.png",
+      "clave": "$2a$10$KCFxkabtp3A13fqTSi2mP.oM/K.DIbxvrVOzdyHFv3wDvWJ6s2NR2",
+      "rol": "Usuario"
+    },
+    {
+      "rut": "12345678-5",
+      "nombre": "Marcelo",
+      "correo": "marcelo@marcelo.com",
+      "direccion": "Mi casa 123",
+      "imagen": "https://i.imgur.com/oY3uCks.png",
+      "clave": "$2a$10$KCFxkabtp3A13fqTSi2mP.oM/K.DIbxvrVOzdyHFv3wDvWJ6s2NR2",
+      "rol": "Usuario"
+    }
+  */
   const columns = [
     {
       flex: 0.4,
@@ -227,7 +247,11 @@ const UsersManageIndex = () => {
   return (
     <Card>
       <CardHeader
-        title='Lista de Cuentas'
+       title={
+        <Typography variant="h4">
+          Lista de Cuentas
+        </Typography>
+      }
         action={
           <CreateUserModal
             editData={{ variable: editData, method: setEditData }}
@@ -235,8 +259,11 @@ const UsersManageIndex = () => {
             handleDialogToggle={handleDialogToggle}
             updateMethod={updateData}
           />
+
         }
+
       />
+
 
       <DataGrid
         autoHeight

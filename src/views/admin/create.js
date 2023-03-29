@@ -1,5 +1,6 @@
 // ** React Imports
-import { useEffect, useState } from 'react'
+import { useEffect, useState, forwardRef } from 'react'
+import React from 'react'
 import FormData from 'form-data'
 
 // ** Axios
@@ -18,10 +19,12 @@ import DialogTitle from '@mui/material/DialogTitle'
 import DialogContent from '@mui/material/DialogContent'
 import { Select, MenuItem } from '@mui/material'
 import AddIcon from '@material-ui/icons/Add'
+import { IconButton, InputAdornment } from '@material-ui/core'
+import { Visibility, VisibilityOff } from '@material-ui/icons'
 
 const CreateAccountModal = props => {
   // ** Form States
-  const [rutUsuario, setRutUsuario] = useState('')
+  const [rutUsuario, setRutUsuario] = React.useState('')
   const [nombreUsuario, setNombreUsuario] = useState('')
   const [correoUsuario, setCorreoUsuario] = useState('')
   const [claveUsuario, setClaveUsuario] = useState('')
@@ -98,6 +101,12 @@ const CreateAccountModal = props => {
       })
   }
 
+  const [showPassword, setShowPassword] = useState(false)
+
+  const handleShowPassword = () => {
+    setShowPassword(!showPassword)
+  }
+
   return (
     <>
       <Box
@@ -115,30 +124,30 @@ const CreateAccountModal = props => {
 
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <Button
-           sx={{
-            borderRadius: '10px',
-            marginTop: '20px',
-            marginBottom: '20px',
-            marginLeft: '10px',
-            scrollSnapMarginRight: '10px',
-            width: '200px',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            transition: 'all 0.15s ease-in-out',
-            backgroundColor: '#FF6095',
-            color: '#FAFAFA',
-            boxShadow: '2px 2px 6px rgba(0, 0, 0, 0.40)',
-            '&:hover': {
-              transition: 'all 0.1s ease-in-out',
-              transform: 'scale(0.98)',
-              boxShadow: '0px -1px 2px rgba(0, 0, 0, 0.50)',
-              backgroundColor: '#F9F4F0',
-              color: "#442859",
-            },
-            '&:active': {
-              transform: 'scale(0.97)'
-            }
+            sx={{
+              borderRadius: '10px',
+              marginTop: '20px',
+              marginBottom: '20px',
+              marginLeft: '10px',
+              scrollSnapMarginRight: '10px',
+              width: '200px',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              transition: 'all 0.15s ease-in-out',
+              backgroundColor: '#FF6095',
+              color: '#FAFAFA',
+              boxShadow: '2px 2px 6px rgba(0, 0, 0, 0.40)',
+              '&:hover': {
+                transition: 'all 0.1s ease-in-out',
+                transform: 'scale(0.98)',
+                boxShadow: '0px -1px 2px rgba(0, 0, 0, 0.50)',
+                backgroundColor: '#F9F4F0',
+                color: '#442859'
+              },
+              '&:active': {
+                transform: 'scale(0.97)'
+              }
             }}
             onClick={() => {
               editData.method(null)
@@ -172,11 +181,19 @@ const CreateAccountModal = props => {
             }}
           >
             <TextField
-              label='RUT'
+              label='Rut'
               fullWidth
-              disabled={edit}
               value={rutUsuario}
-              onChange={e => setRutUsuario(e.target.value)}
+              onChange={e => {
+                const rawValue = e.target.value.replace(/[^0-9kK]/g, '') // eliminar cualquier carácter que no sea número o k/K
+                const formattedValue = `${rawValue.slice(0, -1)}-${rawValue.slice(-1)}` // agregar guión antes del último dígito
+                const limitedValue = formattedValue.slice(0, 10) // limitar la longitud del RUT a 10 caracteres incluyendo el guión
+                if (limitedValue.length <= 10) {
+                  setRutUsuario(limitedValue)
+                } else {
+                  setRutUsuario(limitedValue.slice(0, 10))
+                }
+              }}
             />
             <TextField
               label='Nombre'
@@ -193,8 +210,18 @@ const CreateAccountModal = props => {
             <TextField
               label='Contraseña'
               fullWidth
+              type={showPassword ? 'text' : 'password'} // cambiar dinámicamente el tipo de entrada de texto
               value={claveUsuario}
               onChange={e => setClaveUsuario(e.target.value)}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position='end'>
+                    <IconButton onClick={handleShowPassword}>
+                      {showPassword ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
+                  </InputAdornment>
+                )
+              }}
             />
             <TextField
               label='Dirección'

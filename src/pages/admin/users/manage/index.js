@@ -247,7 +247,11 @@ const UsersManageIndex = () => {
   return (
     <Card>
       <CardHeader
-        title='Lista de Cuentas'
+       title={
+        <Typography variant="h4">
+          Lista de Cuentas
+        </Typography>
+      }
         action={
           <CreateUserModal
             editData={{ variable: editData, method: setEditData }}
@@ -255,8 +259,11 @@ const UsersManageIndex = () => {
             handleDialogToggle={handleDialogToggle}
             updateMethod={updateData}
           />
+
         }
+
       />
+
 
       <DataGrid
         autoHeight

@@ -23,6 +23,7 @@ import AlertTitle from '@mui/material/AlertTitle'
 import DialogTitle from '@mui/material/DialogTitle'
 import DialogContent from '@mui/material/DialogContent'
 import FormControlLabel from '@mui/material/FormControlLabel'
+import { motion } from "framer-motion";
 
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
@@ -46,7 +47,7 @@ const colors = {
   'restricted-user': 'error'
 }
 
-const defaultColumns = [
+const defaultColumns  = [
   {
     flex: 0.4,
     field: 'nombre',
@@ -73,21 +74,21 @@ const defaultColumns = [
     field: 'precio_unitario',
     minWidth: 100,
     headerName: '$ Unitario',
-    renderCell: ({ row }) => <Typography>{row.precio_unitario}</Typography>
+    renderCell: ({ row }) => <Typography >{row.precio_unitario}</Typography>
   },
   {
     flex: 0.1,
-    field: 'categoria_id',
+    field: 'Categoria',
     minWidth: 100,
     headerName: 'Categoría',
-    renderCell: ({ row }) => <Typography>{row.Categoria_id}</Typography>
+    renderCell: ({ row }) => <Typography>{row.Categoria}</Typography>
   },
   {
     flex: 0.1,
     minWidth: 100,
-    field: 'marca_id',
+    field: 'Marca',
     headerName: 'Marca',
-    renderCell: ({ row }) => <Typography>{row.Marca_id}</Typography>
+    renderCell: ({ row }) => <Typography>{row.Marca}</Typography>
   }
 ]
 
@@ -138,6 +139,8 @@ const PermissionsTable = () => {
     e.preventDefault()
   }
 
+
+
   const columns = [
     ...defaultColumns,
     {
@@ -147,12 +150,27 @@ const PermissionsTable = () => {
       field: 'actions',
       headerName: 'Acciones',
       renderCell: ({ row }) => (
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+
+        <Box sx={{ display: 'flex', alignItems: 'center' }} >
+
           <IconButton onClick={() => handleEditPermission(row.name)}>
-            <Icon icon='mdi:pencil-outline' />
+        <motion.div
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    transition={{ delay: 0.2, duration: 2 }}
+  >
+            <Icon icon='mdi:pencil-outline' color='#fc8a3d' />
+            </motion.div>
           </IconButton>
           <IconButton>
-            <Icon icon='mdi:delete-outline' />
+          <motion.div
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    transition={{ delay: 0.2, duration: 2 }}
+  >
+            <Icon icon='mdi:delete-outline' color='#Cc4b5f' />
+
+            </motion.div>
           </IconButton>
         </Box>
       )
@@ -161,30 +179,49 @@ const PermissionsTable = () => {
 
   return (
     <>
-      <Grid container spacing={6}>
+
+      <Grid container spacing={6}  >
+
         <Grid item xs={12}>
-          <PageHeader
-            title={<Typography variant='h5'>Productos Mundo Animal</Typography>}
-            subtitle={<Typography variant='body2'>Tienda de Accesorios y Alimentos de Mascotas</Typography>}
-          />
+        <motion.div
+          initial={{ opacity: 0, y: 0}}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3, duration: 0.6 }}
+        >
+
+           </motion.div>
         </Grid>
-        <Grid item xs={12}>
+
+        <Grid item xs={12}  >
+        <motion.div
+          initial={{ opacity: 0, y: 150 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ type: "spring", stiffness: 100, delay: 0.1, duration: 0.5 }}
+        >
           <Card>
+
             <TableHeader value={value} updateMethod={updateData} handleFilter={handleFilter} />
+
             <DataGrid
               autoHeight
               rows={data}
               getRowId={row => row.codigo_barra}
+
               columns={columns}
               pageSize={pageSize}
               disableSelectionOnClick
               rowsPerPageOptions={[10, 25, 50]}
               onPageSizeChange={newPageSize => setPageSize(newPageSize)}
-              sx={{ '& .MuiDataGrid-columnHeaders': { borderRadius: 0 } }}
+              sx={{ '& .MuiDataGrid-columnHeaders': { borderRadius: 0, backgroundColor: '#333333', color:"#FFF" } }}
             />
+
+
           </Card>
+          </motion.div>
         </Grid>
+
       </Grid>
+
     </>
   )
 }

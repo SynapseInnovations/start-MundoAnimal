@@ -96,7 +96,7 @@ const BrandsIndex = () => {
   return (
     <Card>
       <CardHeader
-        title='Lista de Maracas'
+        title='Lista de Marcas'
         action={
           <div>
             <Button

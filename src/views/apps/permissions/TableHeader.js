@@ -7,6 +7,10 @@ import axios from 'axios'
 
 // ** Config
 import authConfig from 'src/configs/auth'
+import Grid from '@mui/material/Grid'
+import FormControl from '@mui/material/FormControl'
+import InputLabel from '@mui/material/InputLabel'
+import MenuItem from '@mui/material/MenuItem'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
@@ -19,12 +23,11 @@ import DialogTitle from '@mui/material/DialogTitle'
 import DialogContent from '@mui/material/DialogContent'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import InputAdornment from '@mui/material/InputAdornment'
-import { IconButton, Select, MenuItem, InputLabel } from '@mui/material'
+import { IconButton, Select } from '@mui/material'
 import AddIcon from '@material-ui/icons/Add'
 import RemoveIcon from '@material-ui/icons/Remove'
 import { motion } from 'framer-motion'
 import SettingsIcon from '@mui/icons-material/Settings'
-
 import PageHeader from 'src/@core/components/page-header'
 
 const TableHeader = props => {
@@ -107,55 +110,9 @@ const TableHeader = props => {
     reader.readAsDataURL(file)
   }
 
-  const handleAgregarCategoria = () => {
-    if (categoriaInput && !categoriasDisponibles.includes(categoriaInput)) {
-      setCategoriasDisponibles([...categoriasDisponibles, categoriaInput])
-      setCategoriaInput('')
-    }
-  }
-
-  const handleEliminarCategoria = () => {
-    setCategoriasDisponibles(categoriasDisponibles.slice(0, -1))
-  }
-
-  const handleEliminarAnimal = () => {
-    setAnimalesDisponibles(animalesDisponibles.slice(0, -1))
-  }
-
-  const handleAgregarAnimal = () => {
-    if (animalInput && !animalesDisponibles.includes(animalInput)) {
-      setAnimalesDisponibles([...animalesDisponibles, animalInput])
-      setAnimalInput('')
-    }
-  }
-
-  const handleAgregarMarca = () => {
-    if (marcaInput && !marcasDisponibles.includes(marcaInput)) {
-      setMarcasDisponibles([...marcasDisponibles, marcaInput])
-      setMarcaInput('')
-    }
-  }
-
-  const handleEliminarMarca = () => {
-    setMarcasDisponibles(marcasDisponibles.slice(0, -1))
-  }
-
   const handleSubmit = event => {
     event.preventDefault()
     const formData = new FormData()
-    const marcaIdProducto = 1
-    const categoriaIdProducto = 1
-    const animalIdProducto = 1
-    formData.append('codigo_Barra', codigoBarraProducto)
-    formData.append('nombre', nombreProducto)
-    formData.append('unidades', cantidadProducto)
-    formData.append('imagen', selectedFile)
-    formData.append('descripcion', descripcionProducto)
-    formData.append('precio_kilo', precioKilo)
-    formData.append('precio_unitario', precioUnitario)
-    formData.append('marca_id', marcaIdProducto)
-    formData.append('categoria_id', categoriaIdProducto)
-    formData.append('animal_id', animalIdProducto)
 
     axios
       .post('http://localhost:10905/producto/agregar', formData, {
@@ -187,22 +144,16 @@ const TableHeader = props => {
             flexWrap: 'wrap',
             alignItems: 'center',
             justifyContent: 'space-between',
-            backgroundColor: '#FF6095',
-
+            backgroundColor: '#FF6095'
           }}
         >
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <PageHeader
               title={
-                <Typography
-                  variant='h4'
-                  fontWeight={520}
-                  color='#F9F4F0'
-                >
+                <Typography variant='h4' fontWeight={520} color='#F9F4F0'>
                   Productos Mundo Animal
                 </Typography>
               }
-
             />
           </Box>
 
@@ -216,7 +167,7 @@ const TableHeader = props => {
                 color: '#3E363F',
                 borderRadius: '10px',
                 transition: 'all 0.1s ease-in-out',
-                  boxShadow: '1px 1px 4px rgba(0, 0, 0, 0.40)',
+                boxShadow: '1px 1px 4px rgba(0, 0, 0, 0.40)',
                 '&:hover': {
                   transform: 'scale(1.03)',
                   transition: 'all 0.1s ease-in-out',
@@ -252,18 +203,16 @@ const TableHeader = props => {
                   transform: 'scale(0.98)',
                   boxShadow: '0px -1px 2px rgba(0, 0, 0, 0.50)',
                   backgroundColor: '#F9F4F0',
-                  color: "#442859",
+                  color: '#442859'
                 },
                 '&:active': {
                   transform: 'scale(0.97)'
                 }
-
-
               }}
               onClick={handleDialogToggle}
             >
               <AddIcon sx={{ marginRight: '8px', fontSize: 'large' }} />
-              Agregar Producto
+              Agregar
             </Button>
           </Box>
         </Box>
@@ -367,131 +316,63 @@ const TableHeader = props => {
                 />
               </Box>
 
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px', mt: '2px' }}>
-                <Typography variant='body1' sx={{ width: '100px' }}>
-                  Categoría:
-                </Typography>
-                <Box sx={{ flexGrow: 1 }}>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    {categoriasDisponibles.length > 0 && (
-                      <IconButton onClick={handleEliminarCategoria} color='primary'>
-                        <RemoveIcon />
-                      </IconButton>
-                    )}
-                    <Select
-                      value={categoriasDisponibles[0] || ''}
-                      onChange={event => setCategoriasDisponibles([event.target.value])}
-                      sx={{ width: '100%' }}
-                    >
-                      <MenuItem value=''>Seleccionar categoría</MenuItem>
-                      {categoriasTest.map(categoria => (
-                        <MenuItem key={categoria} value={categoria}>
-                          {categoria}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </Box>
-                </Box>
-                <TextField
-                  label='Agregar Categoría'
-                  value={categoriaInput}
-                  onChange={event => setCategoriaInput(event.target.value)}
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position='end'>
-                        <IconButton onClick={handleAgregarCategoria} color='primary'>
-                          <AddIcon />
-                        </IconButton>
-                      </InputAdornment>
-                    )
-                  }}
-                  sx={{ width: '310px' }}
-                />
-              </Box>
-
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '2px' }}>
-                <Typography variant='body1' sx={{ width: '100px' }}>
-                  Animal:
-                </Typography>
-                <Box sx={{ flexGrow: 1 }}>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    {animalesDisponibles.length > 0 && (
-                      <IconButton onClick={handleEliminarAnimal} color='primary'>
-                        <RemoveIcon />
-                      </IconButton>
-                    )}
-                    <Select
-                      value={animalesDisponibles[0] || ''}
-                      onChange={event => setAnimalesDisponibles([event.target.value])}
-                      sx={{ width: '100%' }}
-                    >
-                      <MenuItem value=''>Seleccionar categoría</MenuItem>
-                      {AnimalTest.map(animal => (
-                        <MenuItem key={animal} value={animal}>
-                          {animal}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </Box>
-                </Box>
-                <TextField
-                  label='Agregar Animal'
-                  value={animalInput}
-                  onChange={event => setAnimalInput(event.target.value)}
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position='end'>
-                        <IconButton onClick={handleAgregarAnimal} color='primary'>
-                          <AddIcon />
-                        </IconButton>
-                      </InputAdornment>
-                    )
-                  }}
-                  sx={{ width: '310px' }}
-                />
-              </Box>
-
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '2px' }}>
-                <Typography variant='body1' sx={{ width: '100px' }}>
-                  Marca:
-                </Typography>
-                <Box sx={{ flexGrow: 1 }}>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    {marcasDisponibles.length > 0 && (
-                      <IconButton onClick={handleEliminarMarca} color='primary'>
-                        <RemoveIcon />
-                      </IconButton>
-                    )}
+              <Grid container spacing={2} alignItems='center'>
+                <Grid item xs={4}>
+                  <FormControl fullWidth>
+                    <InputLabel>Marca</InputLabel>
                     <Select
                       value={marcasDisponibles[0] || ''}
                       onChange={event => setMarcasDisponibles([event.target.value])}
-                      sx={{ width: '100%' }}
                     >
-                      <MenuItem value=''>Seleccionar Marca</MenuItem>
+                      <MenuItem value='' disabled>
+                        Seleccionar Marca
+                      </MenuItem>
                       {MarcasTest.map(marca => (
                         <MenuItem key={marca} value={marca}>
                           {marca}
                         </MenuItem>
                       ))}
                     </Select>
-                  </Box>
-                </Box>
-                <TextField
-                  label='Agregar Marca'
-                  value={marcaInput}
-                  onChange={event => setMarcaInput(event.target.value)}
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position='end'>
-                        <IconButton onClick={handleAgregarMarca} colagreor='primary'>
-                          <AddIcon />
-                        </IconButton>
-                      </InputAdornment>
-                    )
-                  }}
-                  sx={{ width: '310px' }}
-                />
-              </Box>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={4}>
+                  <FormControl fullWidth>
+                    <InputLabel>Categoría</InputLabel>
+                    <Select
+                      value={categoriasDisponibles[0] || ''}
+                      onChange={event => setCategoriasDisponibles([event.target.value])}
+                    >
+                      <MenuItem value='' disabled>
+                        Seleccionar Categoría
+                      </MenuItem>
+                      {categoriasTest.map(categoria => (
+                        <MenuItem key={categoria} value={categoria}>
+                          {categoria}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={4}>
+                  <FormControl fullWidth>
+                    <InputLabel>Animal</InputLabel>
+                    <Select
+                      value={animalesDisponibles[0] || ''}
+                      onChange={event => setAnimalesDisponibles([event.target.value])}
+                    >
+                      <MenuItem value='' disabled>
+                        Seleccionar Animal
+                      </MenuItem>
+                      {AnimalTest.map(animal => (
+                        <MenuItem key={animal} value={animal}>
+                          {animal}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </Grid>
+              </Grid>
+
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -509,15 +390,15 @@ const TableHeader = props => {
                     boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.25)',
                     transition: 'all 0.1s ease-in-out',
                     backgroundColor: '#FAFAFA',
-                    color: "#FF0077",
+                    color: '#FF0077',
                     marginLeft: 'auto',
                     '&:hover': {
                       transition: 'all 0.1s ease-in-out',
                       transform: 'scale(0.99)',
                       boxShadow: '0px -1px 10px rgba(0, 0, 0, 0.20)',
                       backgroundColor: '#F9F4F0',
-                      color: "#442859",
-                      marginRight: '0',
+                      color: '#442859',
+                      marginRight: '0'
                     },
                     '&:active': {
                       transform: 'scale(0.97)'
@@ -529,12 +410,9 @@ const TableHeader = props => {
                 </Button>
               </motion.div>
             </Box>
-
           </DialogContent>
         </motion.div>
-
       </Dialog>
-
     </>
   )
 }

@@ -21,6 +21,7 @@ import { Select, MenuItem } from '@mui/material'
 import AddIcon from '@material-ui/icons/Add'
 import { IconButton, InputAdornment } from '@material-ui/core'
 import { Visibility, VisibilityOff } from '@material-ui/icons'
+import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 
 const CreateAccountModal = props => {
   // ** Form States
@@ -110,39 +111,34 @@ const CreateAccountModal = props => {
   return (
     <>
       <Box
-        sx={{ p: 5, pb: 3, display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between' }}
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-around', // Cambiado de 'space-between' a 'space-around'
+          p: 5,
+          pb: 3
+        }}
       >
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <TextField
-            size='small'
-            value={value}
-            sx={{ mr: 4 }}
-            placeholder='Buscar Usuario'
-            onChange={e => handleFilter(e.target.value)}
-          />
+          <AccountCircleIcon />
+          <Typography variant='h5' component='span' sx={{ ml: 2 }}>
+            Usuarios
+          </Typography>
         </Box>
-
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+        <Box>
           <Button
             sx={{
-              borderRadius: '10px',
-              marginTop: '20px',
-              marginBottom: '20px',
-              marginLeft: '10px',
-              scrollSnapMarginRight: '10px',
-              width: '200px',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
+              borderRadius: '4px',
               transition: 'all 0.15s ease-in-out',
+              width: '80px',
               backgroundColor: '#FF6095',
               color: '#FAFAFA',
-              boxShadow: '2px 2px 6px rgba(0, 0, 0, 0.40)',
+              boxShadow: '2px 2px 6px rgba(0, 0, 0, 0.15)',
               '&:hover': {
                 transition: 'all 0.1s ease-in-out',
                 transform: 'scale(0.98)',
-                boxShadow: '0px -1px 2px rgba(0, 0, 0, 0.50)',
-                backgroundColor: '#F9F4F0',
+                boxShadow: '0px -1px 8px rgba(0, 0, 0, 0.30)',
+                backgroundColor: 'FF6095',
                 color: '#442859'
               },
               '&:active': {
@@ -154,8 +150,7 @@ const CreateAccountModal = props => {
               handleDialogToggle()
             }}
           >
-            <AddIcon sx={{ marginRight: '8px', fontSize: 'large' }} />
-            Agregar Usuario
+            <AddIcon sx={{ fontSize: 'small' }} />
           </Button>
         </Box>
       </Box>

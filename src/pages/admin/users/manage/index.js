@@ -12,6 +12,8 @@ import CardHeader from '@mui/material/CardHeader'
 import { DataGrid } from '@mui/x-data-grid'
 import SettingsIcon from '@mui/icons-material/Settings'
 import { IconButton } from '@mui/material'
+import EditIcon from '@mui/icons-material/Edit'
+import DeleteIcon from '@mui/icons-material/Delete'
 
 // ** Third Party Components
 import toast from 'react-hot-toast'
@@ -181,63 +183,91 @@ const UsersManageIndex = () => {
         )
       }
     },
+
     {
       flex: 0.125,
       minWidth: 140,
       field: 'actions',
-      headerName: 'Actions',
+      headerName: 'Utilidades',
       renderCell: params => {
         return (
           <>
-            <IconButton
-              size='small'
-              color='secondary'
-              sx={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                fontSize: '1.4rem',
-                transition: 'transform 0.5s ease',
-                '&:hover': {
-                  transform: 'rotate(50deg)'
-                },
-                '&:active': {
-                  transform: 'rotate(400deg)'
-                }
-              }}
-              onClick={async () => {
-                const storedToken = window.localStorage.getItem(authConfig.storageTokenKeyName)
-                const rut = params.row.rut
-                toast(
-                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                      <Typography noWrap variant='body2' sx={{ color: 'text.primary', fontWeight: 600 }}>
-                        Obteniendo datos del perfil...
-                      </Typography>
+            <Box sx={{ display: 'flex', gap: '8px' }}>
+              <IconButton
+                size='small'
+                color='primary'
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  fontSize: '1.4rem',
+                  transition: 'transform 0.1s ease',
+                  '&:hover': {
+                    transform: 'rotate(-10deg)'
+                  },
+                  '&:active': {
+                    transform: 'rotate(-40deg)'
+                  }
+                }}
+                onClick={async () => {
+                  const storedToken = window.localStorage.getItem(authConfig.storageTokenKeyName)
+                  const rut = params.row.rut
+                  toast(
+                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                      <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                        <Typography noWrap variant='body2' sx={{ color: 'text.primary', fontWeight: 600 }}>
+                          Obteniendo datos del perfil...
+                        </Typography>
+                      </Box>
                     </Box>
-                  </Box>
-                )
+                  )
 
-                await axios
-                  .get('http://localhost:10905/usuario/perfil?rut=' + rut, {
-                    headers: {
-                      token: storedToken
-                    }
-                  })
-                  .then(async response => {
-                    setEditData({ ...response.data.data[0] })
-                    handleDialogToggle()
-                  })
+                  await axios
+                    .get('http://localhost:10905/usuario/perfil?rut=' + rut, {
+                      headers: {
+                        token: storedToken
+                      }
+                    })
+                    .then(async response => {
+                      setEditData({ ...response.data.data[0] })
+                      handleDialogToggle()
+                    })
 
-                const data = {
-                  rut: '1234567-8'
-                }
+                  const data = {
+                    rut: '1234567-8'
+                  }
 
-                //setEditData(data)
-              }}
-            >
-              <SettingsIcon />
-            </IconButton>
+                  //setEditData(data)
+                }}
+              >
+                <EditIcon />
+              </IconButton>
+              <IconButton
+                size='small'
+                color='primary'
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  fontSize: '1.4rem',
+                  transition: 'transform 0.5s ease',
+                  '&:hover': {
+                    transform: 'rotate(8deg)'
+                  },
+                  '&:active': {
+                    transform: 'rotate(50deg)'
+                  }
+                }}
+                onClick={() => {
+                  const shouldDelete = window.confirm('¿Desea eliminar realmente?')
+                  if (shouldDelete) {
+                    handleDeletePermission(params.row.name)
+                  }
+                }}
+              >
+                <DeleteIcon />
+              </IconButton>
+            </Box>
           </>
         )
       }
@@ -247,11 +277,6 @@ const UsersManageIndex = () => {
   return (
     <Card>
       <CardHeader
-       title={
-        <Typography variant="h4">
-          Lista de Cuentas
-        </Typography>
-      }
         action={
           <CreateUserModal
             editData={{ variable: editData, method: setEditData }}
@@ -259,11 +284,8 @@ const UsersManageIndex = () => {
             handleDialogToggle={handleDialogToggle}
             updateMethod={updateData}
           />
-
         }
-
       />
-
 
       <DataGrid
         autoHeight

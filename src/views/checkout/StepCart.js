@@ -75,7 +75,8 @@ const data = [
     Categoria: 'Comida',
     categoria_id: 1,
     Marca: 'Royal Canin',
-    marca_id: 4
+    marca_id: 4,
+    checked: true
   },
   {
     codigo_barra: 7896181214717,
@@ -88,7 +89,8 @@ const data = [
     Categoria: 'Comida',
     categoria_id: 1,
     Marca: 'Royal Canin',
-    marca_id: 4
+    marca_id: 4,
+    checked: true
   },
   {
     codigo_barra: 7800006006715,
@@ -101,7 +103,8 @@ const data = [
     Categoria: 'Comida',
     categoria_id: 1,
     Marca: 'Fit Formula',
-    marca_id: 3
+    marca_id: 3,
+    checked: false
   }
 ]
 
@@ -111,6 +114,24 @@ const StepCart = ({ handleNext }) => {
   const [search, setSearch] = useState('')
   const [searchResult, setSearchResult] = useState([])
   const [searchSelected, setSearchSelected] = useState('')
+
+  const updateCart = (codigo_barra, variable, value) => {
+    let newCart = cart
+    newCart.forEach(i => {
+      if (i.codigo_barra === codigo_barra) {
+        switch (variable) {
+          case 'precio_kilo':
+          case 'precio_unitario':
+            i.checked = !i.checked
+            break
+          default:
+            console.log('not found')
+        }
+      }
+    })
+    setCart(newCart)
+    console.log(newCart)
+  }
 
   return (
     <Grid container spacing={6}>
@@ -138,6 +159,16 @@ const StepCart = ({ handleNext }) => {
                 sx={{ mr: 4 }}
                 size='small'
                 value={search}
+                onKeyDown={e => {
+                  if (e.key == 'Enter') {
+                    /*CODIGO BARRA
+                    const item = data.find(i => i.codigo_barra === searchResult[0].codigo_barra)
+                    setCart([...cart, item])
+                    setSearch('')
+                    setSearchSelected('')
+                     */
+                  }
+                }}
                 onChange={e => {
                   setSearch(e.target.value)
                   const found = data.filter(i => i.nombre.toLowerCase().includes(e.target.value.toLowerCase()))
@@ -172,16 +203,12 @@ const StepCart = ({ handleNext }) => {
               </Button>
             </Box>
           </CardContent>
-          <Typography href='' component={MuiLink} onClick={e => e.preventDefault()} sx={{ color: 'primary.main' }}>
-            Añadir más productos
-          </Typography>
-          <Icon icon='mdi:chevron-right' />
         </Box>
         <StyledList sx={{ mb: 4 }}>
           {cart.length > 0 ? (
             <>
-              {cart.map(item => (
-                <ListItem key={item.codigo_barra}>
+              {cart.map((item, index) => (
+                <ListItem key={index}>
                   <ListItemAvatar>
                     <img width={100} src={item.imagen} alt={item.nombre} />
                   </ListItemAvatar>
@@ -222,7 +249,7 @@ const StepCart = ({ handleNext }) => {
                           <Box sx={{ display: 'flex', flexDirection: 'row' }}>
                             <Checkbox
                               checked={item.checked}
-                              onChange={() => (item.checked = !item.checked)}
+                              onChange={e => updateCart(item.codigo_barra, 'precio_kilo', e.target.value)}
                               inputProps={{ 'aria-label': 'controlled' }}
                             />
                             <Typography sx={{ color: 'primary.main' }}>Precio Kilo: </Typography>
@@ -231,7 +258,7 @@ const StepCart = ({ handleNext }) => {
                           <Box sx={{ display: 'flex', flexDirection: 'row' }}>
                             <Checkbox
                               checked={!item.checked}
-                              onChange={() => (item.checked = !item.checked)}
+                              onChange={e => updateCart(item.codigo_barra, 'precio_unitario', e.target.value)}
                               inputProps={{ 'aria-label': 'controlled' }}
                             />
                             <Typography sx={{ color: 'primary.main' }}>Precio Unitario: </Typography>

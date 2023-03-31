@@ -15,6 +15,7 @@ import { IconButton } from '@mui/material'
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
+import { createTheme } from '@mui/material/styles'
 
 // ** Third Party Components
 import toast from 'react-hot-toast'
@@ -67,6 +68,18 @@ const getFullName = params =>
       </Box>
     </Box>
   )
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#eec1ad'
+    }
+
+    // ... otras entradas de la paleta
+  }
+
+  // ... otras propiedades del tema
+})
 
 const UsersManageIndex = () => {
   // ** States

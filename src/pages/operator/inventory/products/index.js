@@ -25,6 +25,7 @@ import DialogContent from '@mui/material/DialogContent'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import { motion } from 'framer-motion'
 import InventoryModal from 'src/views/operator/inventory/InventoryModal'
+import { createTheme } from '@mui/material/styles'
 
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
@@ -73,6 +74,8 @@ const defaultColumns = [
     minWidth: 100,
     field: 'unidades',
     headerName: 'Disponible',
+    headerAlign: 'center',
+    align: 'center',
     renderCell: ({ row }) => <Typography>{row.unidades}</Typography>
   },
   {
@@ -80,6 +83,8 @@ const defaultColumns = [
     field: 'precio_kilo',
     minWidth: 100,
     headerName: '$ Kilo',
+    headerAlign: 'center',
+    align: 'center',
     renderCell: ({ row }) => <Typography>$ {row.precio_kilo}</Typography>
   },
   {
@@ -87,6 +92,8 @@ const defaultColumns = [
     field: 'precio_unitario',
     minWidth: 100,
     headerName: '$ Unitario',
+    headerAlign: 'center',
+    align: 'center',
     renderCell: ({ row }) => <Typography>$ {row.precio_unitario}</Typography>
   },
   {
@@ -94,6 +101,8 @@ const defaultColumns = [
     field: 'Categoria',
     minWidth: 100,
     headerName: 'Categoría',
+    headerAlign: 'center',
+    align: 'center',
     renderCell: ({ row }) => <Typography>{row.Categoria}</Typography>
   },
   {
@@ -101,6 +110,8 @@ const defaultColumns = [
     minWidth: 100,
     field: 'Marca',
     headerName: 'Marca',
+    headerAlign: 'center',
+    align: 'center',
     renderCell: ({ row }) => <Typography>{row.Marca}</Typography>
   }
 ]
@@ -155,11 +166,13 @@ const PermissionsTable = () => {
   const columns = [
     ...defaultColumns,
     {
-      flex: 0.15,
-      minWidth: 115,
+      flex: 0.1,
+      minWidth: 50,
       sortable: false,
       field: 'actions',
       headerName: 'Acciones',
+      headerAlign: 'center',
+      align: 'center',
       renderCell: ({ row }) => (
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <IconButton onClick={() => handleEditPermission(row.name)}>
@@ -244,7 +257,6 @@ const PermissionsTable = () => {
                 columns={columns}
                 pageSize={pageSize}
                 disableSelectionOnClick
-                rowsPerPageOptions={[10, 25, 50]}
                 onPageSizeChange={newPageSize => setPageSize(newPageSize)}
                 sx={{
                   '& .MuiDataGrid-columnHeaders': {

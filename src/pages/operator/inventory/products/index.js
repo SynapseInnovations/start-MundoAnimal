@@ -24,6 +24,7 @@ import DialogTitle from '@mui/material/DialogTitle'
 import DialogContent from '@mui/material/DialogContent'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import { motion } from 'framer-motion'
+import InventoryModal from 'src/views/operator/inventory/InventoryModal'
 
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
@@ -34,7 +35,6 @@ import { useDispatch, useSelector } from 'react-redux'
 // ** Custom Components Imports
 import CustomChip from 'src/@core/components/mui/chip'
 import PageHeader from 'src/@core/components/page-header'
-import TableHeader from 'src/views/apps/permissions/TableHeader'
 
 // ** Actions Imports
 import { fetchData } from 'src/store/apps/permissions'
@@ -163,10 +163,14 @@ const PermissionsTable = () => {
       renderCell: ({ row }) => (
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <IconButton onClick={() => handleEditPermission(row.name)}>
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2, duration: 2 }}>
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.2, duration: 0.9 }}
+            >
               <Icon
                 icon='mdi:pencil-outline'
-                color='#fc8a3d'
+                color='#eec1ad'
                 sx={{
                   display: 'flex',
                   justifyContent: 'center',
@@ -180,20 +184,18 @@ const PermissionsTable = () => {
                     transform: 'rotate(-40deg)'
                   }
                 }}
-                onClick={() => {
-                  const shouldDelete = window.confirm('¿Desea eliminar realmente?')
-                  if (shouldDelete) {
-                    handleDeletePermission(params.row.name)
-                  }
-                }}
               />
             </motion.div>
           </IconButton>
           <IconButton>
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2, duration: 2 }}>
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.2, duration: 0.9 }}
+            >
               <Icon
                 icon='mdi:delete-outline'
-                color='#Cc4b5f'
+                color=' 	#e35d6a'
                 sx={{
                   display: 'flex',
                   justifyContent: 'center',
@@ -207,6 +209,12 @@ const PermissionsTable = () => {
                     transform: 'rotate(50deg)'
                   }
                 }}
+                onClick={() => {
+                  const shouldDelete = window.confirm('¿Desea eliminar realmente?')
+                  if (shouldDelete) {
+                    handleDeletePermission(params.row.name)
+                  }
+                }}
               />
             </motion.div>
           </IconButton>
@@ -218,22 +226,16 @@ const PermissionsTable = () => {
   return (
     <>
       <Grid container spacing={6}>
-        <Grid item xs={12}>
-          <motion.div
-            initial={{ opacity: 0, y: 0 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.6 }}
-          ></motion.div>
-        </Grid>
+        <Grid item xs={12}></Grid>
 
         <Grid item xs={12}>
           <motion.div
-            initial={{ opacity: 0, y: 150 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ type: 'spring', stiffness: 100, delay: 0.1, duration: 0.5 }}
+            initial={{ opacity: 0, x: 25 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ type: 'spring', stiffness: 60, delay: 0.55, duration: 0.1 }}
           >
             <Card>
-              <TableHeader value={value} updateMethod={updateData} handleFilter={handleFilter} />
+              <InventoryModal value={value} updateMethod={updateData} handleFilter={handleFilter} />
 
               <DataGrid
                 autoHeight
@@ -244,7 +246,15 @@ const PermissionsTable = () => {
                 disableSelectionOnClick
                 rowsPerPageOptions={[10, 25, 50]}
                 onPageSizeChange={newPageSize => setPageSize(newPageSize)}
-                sx={{ '& .MuiDataGrid-columnHeaders': { borderRadius: 0, backgroundColor: '#333333', color: '#FFF' } }}
+                sx={{
+                  '& .MuiDataGrid-columnHeaders': {
+                    borderRadius: 0,
+                    backgroundColor: '#f4bbce                    ',
+                    color: '#5b2235                    ',
+                    border: '4px solid #F9F4F0',
+                    borderRadius: '12px'
+                  }
+                }}
               />
             </Card>
           </motion.div>

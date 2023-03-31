@@ -31,7 +31,7 @@ import SettingsIcon from '@mui/icons-material/Settings'
 import PageHeader from 'src/@core/components/page-header'
 import PetsIcon from '@mui/icons-material/Pets'
 
-const TableHeader = props => {
+const InventoryModal = props => {
   // ** Props
   const [codigoBarraProducto, setCodigoBarraProducto] = useState('')
   const [nombreProducto, setNombreProducto] = useState('')
@@ -133,26 +133,35 @@ const TableHeader = props => {
   return (
     <>
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 100 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ type: 'spring', stiffness: 100, delay: 0.2, duration: 0.6 }}
+        transition={{ type: 'spring', stiffness: 40, delay: 0.4, duration: 0.7 }}
       >
         <Box
           sx={{
-            p: 5,
-            pb: 3,
+            p: 3,
+            pb: 0,
             display: 'flex',
             flexWrap: 'wrap',
             alignItems: 'center',
             justifyContent: 'space-between',
-            backgroundColor: '#e55686'
+            backgroundColor: '#b7446b',
+            border: '4px solid #F9F4F0',
+            borderRadius: '12px'
           }}
         >
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <PetsIcon sx={{ fontSize: '2.5rem', color: '#F9F4F0' }} />
+          <Box sx={{ display: 'flex', marginBottom: '10px', alignItems: 'center', gap: '0.5rem' }}>
+            <PetsIcon sx={{ fontSize: '2.5rem', color: '#F9F4F0', textShadow: '0px 0px 15px rgba(0,0,0,0.5)' }} />
             <Typography
               variant='h5'
-              sx={{ color: '#F9F4F0', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.2rem' }}
+              sx={{
+                color: '#F9F4F0',
+
+                fontWeight: 600,
+                textTransform: 'uppercase',
+                letterSpacing: '0.2rem',
+                textShadow: '0px 0px 15px rgba(0,0,0,0.5)'
+              }}
             >
               Productos
             </Typography>
@@ -163,9 +172,9 @@ const TableHeader = props => {
               size='small'
               value={value}
               sx={{
-                mr: 2,
                 backgroundColor: '#F9F4F0',
                 color: '#3E363F',
+                marginBottom: '10px',
                 borderRadius: '10px',
                 transition: 'all 0.1s ease-in-out',
                 boxShadow: '1px 1px 8px rgba(0, 0, 0, 0.50)',
@@ -178,7 +187,8 @@ const TableHeader = props => {
                 },
                 '& input::placeholder': {
                   color: 'black'
-                }
+                },
+                width: '13rem'
               }}
               placeholder='Buscar Producto'
               onChange={e => handleFilter(e.target.value)}
@@ -187,25 +197,26 @@ const TableHeader = props => {
               variant='contained'
               sx={{
                 borderRadius: '10px',
-                marginTop: '20px',
+                marginTop: '10px',
                 marginBottom: '20px',
-                marginLeft: '10px',
+                marginLeft: '8px',
+                marginRight: '8px  ',
                 scrollSnapMarginRight: '10px',
-                width: '200px',
+                width: '220px',
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
                 transition: 'all 0.1s ease-in-out',
-                backgroundColor: ' #e6e6fa',
-                color: '#b24368',
-                boxShadow: '4px 4px 8px rgba(0, 0, 0, 0.30)',
-                fontWeight: '500',
+                backgroundColor: '#f9dde6                ',
+                color: '#893350',
+                boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.40)',
+                fontWeight: '600',
                 '&:hover': {
                   transition: 'all 0.1s ease-in-out',
                   transform: 'scale(0.99)',
-                  boxShadow: '0px -1px 2px rgba(0, 0, 0, 0.50)',
-                  backgroundColor: '#e55686',
-                  color: '#ffcfdf'
+                  boxShadow: '-2px -2px 10px rgba(0, 0, 0, 0.30)',
+                  backgroundColor: '#f7ccda                  ',
+                  color: '#8e3553'
                 },
                 '&:active': {
                   transform: 'scale(0.98)'
@@ -213,7 +224,7 @@ const TableHeader = props => {
               }}
               onClick={handleDialogToggle}
             >
-              <AddIcon sx={{ marginRight: '8px', fontSize: 'large' }} />
+              <AddIcon sx={{ marginRight: '3px', fontSize: 'large' }} />
               Agregar Producto
             </Button>
           </Box>
@@ -235,11 +246,11 @@ const TableHeader = props => {
         }}
       >
         <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: -10 }}
-          transition={{ delay: 0.1, duration: 0.25 }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1, duration: 0.3 }}
         >
-          <DialogTitle sx={{ pt: 12, mx: 'auto', textAlign: 'center' }}>
+          <DialogTitle sx={{ mx: 'auto', textAlign: 'center', marginTop: '30px', marginBottom: '20px' }}>
             <Typography variant='h5' component='span' sx={{ mb: 2 }}>
               Agregar Nuevo Producto
             </Typography>
@@ -256,13 +267,16 @@ const TableHeader = props => {
                 alignItems: 'center',
                 maxWidth: '600px',
                 mx: 'auto',
-                mt: '20px'
+                mt: '1px'
               }}
             >
               <TextField
                 label='Codigo de Barra producto'
                 fullWidth
                 type='number'
+                sx={{
+                  marginTop: '5px'
+                }}
                 inputProps={{ min: 0, step: 1 }}
                 InputProps={{
                   startAdornment: <InputAdornment position='start'>ID: </InputAdornment>
@@ -387,7 +401,7 @@ const TableHeader = props => {
                 <Button
                   variant='contained'
                   sx={{
-                    borderRadius: '16px',
+                    borderRadius: '10px',
                     marginTop: '22px',
                     width: '150px',
                     display: 'flex',
@@ -395,14 +409,14 @@ const TableHeader = props => {
                     alignItems: 'center',
                     boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.25)',
                     transition: 'all 0.1s ease-in-out',
-                    backgroundColor: '#ffeff4',
-                    color: '#b24368',
+                    backgroundColor: '#b24368',
+                    color: ' 	#faf0e6',
                     marginLeft: 'auto',
                     '&:hover': {
                       transition: 'all 0.1s ease-in-out',
                       transform: 'scale(0.99)',
                       boxShadow: '0px -1px 10px rgba(0, 0, 0, 0.20)',
-                      backgroundColor: '#F9F4F0',
+                      backgroundColor: '#b24368',
                       color: '#ffcfdf',
                       marginRight: '0'
                     },
@@ -423,4 +437,4 @@ const TableHeader = props => {
   )
 }
 
-export default TableHeader
+export default InventoryModal

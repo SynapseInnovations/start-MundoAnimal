@@ -80,7 +80,7 @@ const navigation = () => {
           icon: 'mdi:shape'
         },
         {
-          title: 'Animales',
+          title: 'Mascotas',
           path: '/operator/inventory/pets',
           subject: 'inventory',
           action: 'read',

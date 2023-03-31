@@ -117,6 +117,55 @@ const CreateAccountModal = props => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ type: 'spring', stiffness: 40, delay: 0.4, duration: 0.7 }}
       >
+<<<<<<< HEAD:src/views/admin/create.js
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <TextField
+            size='small'
+            value={value}
+            sx={{ mr: 4 }}
+            placeholder='Buscar Usuario'
+            onChange={e => handleFilter(e.target.value)}
+          />
+        </Box>
+
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <Button
+            sx={{
+              borderRadius: '10px',
+              marginTop: '20px',
+              marginBottom: '20px',
+              marginLeft: '10px',
+              scrollSnapMarginRight: '10px',
+              width: '200px',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              transition: 'all 0.15s ease-in-out',
+              backgroundColor: '#FF6095',
+              color: '#FAFAFA',
+              boxShadow: '2px 2px 6px rgba(0, 0, 0, 0.40)',
+              '&:hover': {
+                transition: 'all 0.1s ease-in-out',
+                transform: 'scale(0.98)',
+                boxShadow: '0px -1px 2px rgba(0, 0, 0, 0.50)',
+                backgroundColor: '#F9F4F0',
+                color: '#442859'
+              },
+              '&:active': {
+                transform: 'scale(0.97)'
+              }
+            }}
+            onClick={() => {
+              editData.method(null)
+              handleDialogToggle()
+            }}
+          >
+            <AddIcon sx={{ marginRight: '8px', fontSize: 'large' }} />
+            Agregar Usuario
+          </Button>
+        </Box>
+      </Box>
+=======
         <Box
           sx={{
             p: 3,
@@ -136,6 +185,7 @@ const CreateAccountModal = props => {
               variant='h5'
               sx={{
                 color: '#F9F4F0',
+>>>>>>> 2b68c40b482fe8db453ea99c0ea74a4c22ebb250:src/views/admin/createAccount.js
 
                 fontWeight: 600,
                 textTransform: 'uppercase',

@@ -108,7 +108,7 @@ const rows = [
   createData('Purina Dog Chow', 356, 16.0, 49, 3.9, 1.5)
 ]
 
-const TableCollapsible = () => {
+const SalesTable = () => {
   return (
     <TableContainer component={Paper}>
       <Table aria-label='collapsible table'>
@@ -132,4 +132,4 @@ const TableCollapsible = () => {
   )
 }
 
-export default TableCollapsible
+export default SalesTable

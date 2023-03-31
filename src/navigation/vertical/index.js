@@ -32,7 +32,7 @@ const navigation = () => {
         },
         {
           title: 'Historial',
-          path: '/mui',
+          path: '/operator/inventory/history',
           icon: 'mdi:list-box'
         }
       ]

@@ -112,10 +112,6 @@ const CheckoutWizard = () => {
       case 0:
         return <StepCart handleNext={handleNext} />
       case 1:
-        return <StepAddress handleNext={handleNext} />
-      case 2:
-        return <StepPayment handleNext={handleNext} />
-      case 3:
         return <StepConfirmation />
       default:
         return null

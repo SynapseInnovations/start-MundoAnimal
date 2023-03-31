@@ -32,9 +32,6 @@ const renderClient = params => {
   const { row } = params
   const stateNum = Math.floor(Math.random() * 3)
 
-  const states = ['success', 'error', 'warning', 'info', 'primary', 'secondary']
-  const color = roleList[stateNum]
-
   if (row.imagen) {
     return <CustomAvatar src={row.imagen} sx={{ mr: 3, width: '1.875rem', height: '1.875rem' }} />
   } else {
@@ -45,25 +42,6 @@ const renderClient = params => {
     )
   }
 }
-
-const roleList = {
-  1: { title: 'Administrador', color: 'success' },
-  2: { title: 'Operador', color: 'info' },
-  3: { title: 'Usuario', color: 'warning' }
-}
-
-// ** Full Name Getter
-const getFullName = params =>
-  toast(
-    <Box sx={{ display: 'flex', alignItems: 'center' }}>
-      {renderClient(params)}
-      <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-        <Typography noWrap variant='body2' sx={{ color: 'text.primary', fontWeight: 600 }}>
-          {params.row.nombre}
-        </Typography>
-      </Box>
-    </Box>
-  )
 
 const UsersManageIndex = () => {
   // ** States
@@ -111,53 +89,8 @@ const UsersManageIndex = () => {
               <Typography noWrap variant='body2' sx={{ color: 'text.primary', fontWeight: 600 }}>
                 {row.nombre}
               </Typography>
-              <Typography noWrap variant='caption'>
-                {row.correo}
-              </Typography>
             </Box>
           </Box>
-        )
-      }
-    },
-    {
-      flex: 0.125,
-      minWidth: 120,
-      headerName: 'RUT',
-      field: 'rut',
-      renderCell: params => (
-        <Typography variant='body2' sx={{ color: 'text.primary' }}>
-          {params.row.rut}
-        </Typography>
-      )
-    },
-    {
-      flex: 0.275,
-      minWidth: 120,
-      headerName: 'Dirección',
-      field: 'direccion',
-      renderCell: params => (
-        <Typography variant='body2' sx={{ color: 'text.primary' }}>
-          {params.row.direccion}
-        </Typography>
-      )
-    },
-
-    {
-      flex: 0.1,
-      minWidth: 140,
-      field: 'rol',
-      headerName: 'Rol',
-      renderCell: params => {
-        const rol = roleList[params.row.Rol_id]
-
-        return (
-          <CustomChip
-            size='small'
-            skin='light'
-            color={rol.color}
-            label={rol.title}
-            sx={{ '& .MuiChip-label': { textTransform: 'capitalize' } }}
-          />
         )
       }
     },
@@ -187,12 +120,13 @@ const UsersManageIndex = () => {
               }}
               onClick={async () => {
                 const storedToken = window.localStorage.getItem(authConfig.storageTokenKeyName)
-                const rut = params.row.rut
+                const categoria = params.row.categoria
+
                 toast(
                   <Box sx={{ display: 'flex', alignItems: 'center' }}>
                     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                       <Typography noWrap variant='body2' sx={{ color: 'text.primary', fontWeight: 600 }}>
-                        Obteniendo datos del perfil...
+                        Obteniendo datos de la categoría...
                       </Typography>
                     </Box>
                   </Box>
@@ -227,7 +161,7 @@ const UsersManageIndex = () => {
   return (
     <Card>
       <CardHeader
-        title='Lista de Cuentas'
+        title='Lista de Categorías'
         action={
           <CreateUserModal
             editData={{ variable: editData, method: setEditData }}

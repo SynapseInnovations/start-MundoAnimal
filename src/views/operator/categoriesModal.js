@@ -36,38 +36,18 @@ const CreateAccountModal = props => {
   useEffect(() => {
     console.log(editData.variable)
     if (editData.variable != null) {
-      setRutUsuario(editData.variable.rut)
-      setNombreUsuario(editData.variable.nombre)
-      setCorreoUsuario(editData.variable.correo)
-      setDireccionUsuario(editData.variable.direccion)
-      setThumbnail(editData.variable.imagen)
-      setRolUsuario(editData.variable.Rol_id)
+      setNombreCategoria(editData.variable.categoria)
       setEdit(true)
     } else {
-      setRutUsuario('')
-      setNombreUsuario('')
-      setCorreoUsuario('')
-      setDireccionUsuario('')
-      setThumbnail('https://i.imgur.com/EBH7aDM.png')
-      setRolUsuario(0)
+      setNombreCategoria('')
       setEdit(false)
     }
   }, [editData.variable])
 
-  /* // ** Helper Functions
-  const handleFileInputChange = e => {
-    setImagenUsuario(e.target.files[0])
-    const reader = new FileReader()
-    reader.onload = () => {
-      setThumbnail(reader.result)
-    }
-    reader.readAsDataURL(e.target.files[0])
-  }
-*/
   const handleSubmit = e => {
     e.preventDefault()
     const formData = new FormData()
-    formData.append('nombre', nombreUsuario)
+    formData.append('nombre', nombreCategoria)
 
     axios
       .post('http://localhost:10905/usuario/modificar', formData, {
@@ -131,7 +111,7 @@ const CreateAccountModal = props => {
             }}
           >
             <AddIcon sx={{ marginRight: '8px', fontSize: 'large' }} />
-            Nueva Cuenta
+            Nueva Categoría
           </Button>
         </Box>
       </Box>
@@ -139,9 +119,9 @@ const CreateAccountModal = props => {
       <Dialog fullWidth maxWidth='sm' onClose={handleDialogToggle} open={open}>
         <DialogTitle sx={{ pt: 12, mx: 'auto', textAlign: 'center' }}>
           <Typography variant='h5' component='span' sx={{ mb: 2 }}>
-            REGISTRAR NUEVA CUENTA
+            Registrar Nueva Categoría
           </Typography>
-          <Typography variant='body2'>Agrega nuevas cuentas al inventario de Mundo Animal!</Typography>
+          <Typography variant='body2'>Agrega nuevas categorías al inventario de Mundo Animal!</Typography>
         </DialogTitle>
         <DialogContent sx={{ pb: 12, mx: 'auto' }}>
           <Box
@@ -153,72 +133,23 @@ const CreateAccountModal = props => {
               gap: '16px',
               alignItems: 'center',
               maxWidth: '600px',
-              mx: 'auto'
+              mx: 'auto',
+              marginTop: '20px'
             }}
           >
             <TextField
-              label='RUT'
-              fullWidth
-              disabled={edit}
-              value={rutUsuario}
-              onChange={e => setRutUsuario(e.target.value)}
-            />
-            <TextField
               label='Nombre'
               fullWidth
-              value={nombreUsuario}
-              onChange={e => setNombreUsuario(e.target.value)}
+              disabled={edit}
+              value={nombreCategoria}
+              onChange={e => setNombreCategoria(e.target.value)}
             />
-            <TextField
-              label='Correo Electrónico'
-              fullWidth
-              value={correoUsuario}
-              onChange={e => setCorreoUsuario(e.target.value)}
-            />
-            <TextField
-              label='Contraseña'
-              fullWidth
-              value={claveUsuario}
-              onChange={e => setClaveUsuario(e.target.value)}
-            />
-            <TextField
-              label='Dirección'
-              fullWidth
-              value={direccionUsuario}
-              onChange={e => setDireccionUsuario(e.target.value)}
-            />
-            <Box sx={{ display: 'flex', alignItems: 'center', mb: '15px' }}>
-              <input type='file' id='product-image' style={{ display: 'none' }} onChange={handleFileInputChange} />
-              <label htmlFor='product-image'>
-                <Button variant='contained' component='span'>
-                  Seleccione una imagen
-                </Button>
-              </label>
-              {thumbnail && (
-                <img src={thumbnail} alt='thumbnail' style={{ marginLeft: '10px', maxHeight: '100px', gap: '16px' }} />
-              )}
-            </Box>
           </Box>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: '16px', marginTop: '16px' }}>
-            <Typography variant='body1'>Rol:</Typography>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px' }}>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <Select label='Rol' value={rolUsuario || 0} onChange={event => setRolUsuario([event.target.value])}>
-                  <MenuItem value={0}>Seleccionar ROL</MenuItem>
-                  {roles.map(rol => (
-                    <MenuItem key={rol.id} value={rol.id}>
-                      {rol.id} - {rol.nombre}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </Box>
-            </Box>
-          </Box>{' '}
           <Button
             variant='contained'
             sx={{
               borderRadius: '16px',
-              marginTop: '50px',
+              marginTop: '40px',
               width: '600px',
               display: 'flex',
               justifyContent: 'center',
@@ -234,7 +165,7 @@ const CreateAccountModal = props => {
             }}
             onClick={handleSubmit}
           >
-            Registrar CUENTA
+            Agregar Categoría
           </Button>
         </DialogContent>
       </Dialog>

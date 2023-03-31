@@ -91,7 +91,7 @@ const CategoriesIndex = () => {
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <IconButton
             onClick={() => {
-              setEditTarget(row.codigo_barra)
+              setEditTarget(row.id)
               dialogToggle()
             }}
           >

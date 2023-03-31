@@ -24,7 +24,7 @@ const defaultColumns = [
     flex: 0.4,
     field: 'nombre',
     minWidth: 500,
-    headerName: 'Nombre de la Marca',
+    headerName: 'Nombre',
     renderCell: ({ row }) => {
       return (
         <Box sx={{ display: 'flex', alignItems: 'center' }}>

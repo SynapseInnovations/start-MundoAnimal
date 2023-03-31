@@ -49,20 +49,34 @@ const CategoriesModal = props => {
   const handleSubmit = event => {
     event.preventDefault()
     const inventoryForm = new FormData()
+    if (edit) {
+      inventoryForm.append('id', editTarget.variable)
+    }
     inventoryForm.append('nombre', nombreCategoria)
 
-    const url = edit ? 'http://localhost:10905/categoria/modificar' : 'http://localhost:10905/categoria/agregar'
-    axios
-      .post(url, inventoryForm, {
-        headers: {
-          'Content-Type': `multipart/form-data`,
-          token: window.localStorage.getItem(authConfig.storageTokenKeyName)
-        }
-      })
-      .then(async response => {
-        updateMethod()
-        dialogToggle()
-      })
+    edit
+      ? axios
+          .put('http://localhost:10905/categoria/modificar', inventoryForm, {
+            headers: {
+              'Content-Type': `multipart/form-data`,
+              token: window.localStorage.getItem(authConfig.storageTokenKeyName)
+            }
+          })
+          .then(async response => {
+            updateMethod()
+            dialogToggle()
+          })
+      : axios
+          .post('http://localhost:10905/categoria/agregar', inventoryForm, {
+            headers: {
+              'Content-Type': `multipart/form-data`,
+              token: window.localStorage.getItem(authConfig.storageTokenKeyName)
+            }
+          })
+          .then(async response => {
+            updateMethod()
+            dialogToggle()
+          })
   }
 
   return (

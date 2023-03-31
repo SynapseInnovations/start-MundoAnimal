@@ -7,10 +7,6 @@ import axios from 'axios'
 
 // ** Config
 import authConfig from 'src/configs/auth'
-import Grid from '@mui/material/Grid'
-import FormControl from '@mui/material/FormControl'
-import InputLabel from '@mui/material/InputLabel'
-import MenuItem from '@mui/material/MenuItem'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
@@ -20,8 +16,6 @@ import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import DialogTitle from '@mui/material/DialogTitle'
 import DialogContent from '@mui/material/DialogContent'
-import InputAdornment from '@mui/material/InputAdornment'
-import { Select } from '@mui/material'
 import AddIcon from '@material-ui/icons/Add'
 import { motion } from 'framer-motion'
 import PetsIcon from '@mui/icons-material/Pets'
@@ -49,20 +43,34 @@ const BrandsModal = props => {
   const handleSubmit = event => {
     event.preventDefault()
     const inventoryForm = new FormData()
+    if (edit) {
+      inventoryForm.append('id', editTarget.variable)
+    }
     inventoryForm.append('nombre', nombreMarca)
 
-    const url = edit ? 'http://localhost:10905/marca/modificar' : 'http://localhost:10905/marca/agregar'
-    axios
-      .post(url, inventoryForm, {
-        headers: {
-          'Content-Type': `multipart/form-data`,
-          token: window.localStorage.getItem(authConfig.storageTokenKeyName)
-        }
-      })
-      .then(async response => {
-        updateMethod()
-        dialogToggle()
-      })
+    edit
+      ? axios
+          .put('http://localhost:10905/marca/modificar', inventoryForm, {
+            headers: {
+              'Content-Type': `multipart/form-data`,
+              token: window.localStorage.getItem(authConfig.storageTokenKeyName)
+            }
+          })
+          .then(async response => {
+            updateMethod()
+            dialogToggle()
+          })
+      : axios
+          .post('http://localhost:10905/marca/agregar', inventoryForm, {
+            headers: {
+              'Content-Type': `multipart/form-data`,
+              token: window.localStorage.getItem(authConfig.storageTokenKeyName)
+            }
+          })
+          .then(async response => {
+            updateMethod()
+            dialogToggle()
+          })
   }
 
   return (

@@ -37,6 +37,7 @@ const PetsModal = props => {
 
   useEffect(() => {
     if (editTarget.variable != null) {
+      const found = data.find(i => i.id === editTarget.variable)
       setNombreMascota(found.nombre)
       setEdit(true)
     } else {
@@ -48,21 +49,34 @@ const PetsModal = props => {
   const handleSubmit = event => {
     event.preventDefault()
     const inventoryForm = new FormData()
-    inventoryForm.append('nombre', nombreMarca)
-    inventoryForm.append('imagen', null)
+    if (edit) {
+      inventoryForm.append('id', editTarget.variable)
+    }
+    inventoryForm.append('nombre', nombreMascota)
 
-    const url = edit ? 'http://localhost:10905/producto/modificar' : 'http://localhost:10905/producto/agregar'
-    axios
-      .post(url, inventoryForm, {
-        headers: {
-          'Content-Type': `multipart/form-data`,
-          token: window.localStorage.getItem(authConfig.storageTokenKeyName)
-        }
-      })
-      .then(async response => {
-        updateMethod()
-        dialogToggle()
-      })
+    edit
+      ? axios
+          .put('http://localhost:10905/animal/modificar', inventoryForm, {
+            headers: {
+              'Content-Type': `multipart/form-data`,
+              token: window.localStorage.getItem(authConfig.storageTokenKeyName)
+            }
+          })
+          .then(async response => {
+            updateMethod()
+            dialogToggle()
+          })
+      : axios
+          .post('http://localhost:10905/animal/agregar', inventoryForm, {
+            headers: {
+              'Content-Type': `multipart/form-data`,
+              token: window.localStorage.getItem(authConfig.storageTokenKeyName)
+            }
+          })
+          .then(async response => {
+            updateMethod()
+            dialogToggle()
+          })
   }
 
   return (

@@ -14,6 +14,7 @@ import SettingsIcon from '@mui/icons-material/Settings'
 import { IconButton } from '@mui/material'
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
+import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 
 // ** Third Party Components
 import toast from 'react-hot-toast'
@@ -277,6 +278,14 @@ const UsersManageIndex = () => {
   return (
     <Card>
       <CardHeader
+        title={
+          <Box sx={{ display: 'flex', alignItems: 'left' }}>
+            <AccountCircleIcon />
+            <Typography variant='h5' component='span' sx={{ ml: 2 }}>
+              Usuarios
+            </Typography>
+          </Box>
+        }
         action={
           <CreateUserModal
             editData={{ variable: editData, method: setEditData }}
@@ -285,7 +294,7 @@ const UsersManageIndex = () => {
             updateMethod={updateData}
           />
         }
-      />
+      ></CardHeader>
 
       <DataGrid
         autoHeight

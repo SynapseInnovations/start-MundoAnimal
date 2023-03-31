@@ -53,7 +53,20 @@ const defaultColumns = [
     field: 'nombre',
     minWidth: 540,
     headerName: 'Nombre del Producto',
-    renderCell: ({ row }) => <Typography>{row.nombre}</Typography>
+    renderCell: ({ row }) => {
+      return (
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+            <Typography noWrap variant='body2' sx={{ color: 'text.primary', fontWeight: 600 }}>
+              {row.nombre}
+            </Typography>
+            <Typography noWrap variant='caption'>
+              {row.codigo_barra}
+            </Typography>
+          </Box>
+        </Box>
+      )
+    }
   },
   {
     flex: 0.1,
@@ -67,14 +80,14 @@ const defaultColumns = [
     field: 'precio_kilo',
     minWidth: 100,
     headerName: '$ Kilo',
-    renderCell: ({ row }) => <Typography>{row.precio_kilo}</Typography>
+    renderCell: ({ row }) => <Typography>$ {row.precio_kilo}</Typography>
   },
   {
     flex: 0.1,
     field: 'precio_unitario',
     minWidth: 100,
     headerName: '$ Unitario',
-    renderCell: ({ row }) => <Typography>{row.precio_unitario}</Typography>
+    renderCell: ({ row }) => <Typography>$ {row.precio_unitario}</Typography>
   },
   {
     flex: 0.1,

@@ -119,12 +119,6 @@ const CreateAccountModal = props => {
           pb: 3
         }}
       >
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <AccountCircleIcon />
-          <Typography variant='h5' component='span' sx={{ ml: 2 }}>
-            Usuarios
-          </Typography>
-        </Box>
         <Box>
           <Button
             sx={{

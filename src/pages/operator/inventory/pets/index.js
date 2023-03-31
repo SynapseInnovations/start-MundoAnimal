@@ -10,62 +10,46 @@ import axios from 'axios'
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
 import Grid from '@mui/material/Grid'
-import Alert from '@mui/material/Alert'
-import Button from '@mui/material/Button'
-import Dialog from '@mui/material/Dialog'
 import { DataGrid } from '@mui/x-data-grid'
-import Checkbox from '@mui/material/Checkbox'
-import FormGroup from '@mui/material/FormGroup'
-import TextField from '@mui/material/TextField'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
-import AlertTitle from '@mui/material/AlertTitle'
-import DialogTitle from '@mui/material/DialogTitle'
-import DialogContent from '@mui/material/DialogContent'
-import FormControlLabel from '@mui/material/FormControlLabel'
 import { motion } from 'framer-motion'
+import PetsModal from 'src/views/operator/inventory/pets/petsModal'
 
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
-
-// ** Store Imports
-import { useDispatch, useSelector } from 'react-redux'
-
-// ** Custom Components Imports
-import CustomChip from 'src/@core/components/mui/chip'
-import PageHeader from 'src/@core/components/page-header'
-import TableHeader from 'src/views/operator/petsModal'
-
-// ** Actions Imports
-import { fetchData } from 'src/store/apps/permissions'
-
-const colors = {
-  support: 'info',
-  users: 'success',
-  manager: 'warning',
-  administrator: 'primary',
-  'restricted-user': 'error'
-}
 
 const defaultColumns = [
   {
     flex: 0.4,
     field: 'nombre',
-    minWidth: 540,
+    minWidth: 500,
     headerName: 'Nombre de Mascota',
-    renderCell: ({ row }) => <Typography>{row.nombre}</Typography>
+    renderCell: ({ row }) => {
+      return (
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+            <Typography noWrap variant='body2' sx={{ color: 'text.primary', fontWeight: 600 }}>
+              {row.nombre}
+            </Typography>
+          </Box>
+        </Box>
+      )
+    }
   }
 ]
 
-const PetsTable = () => {
-  // ** State
+const PetsIndex = () => {
+  // ** Table Data
+  const [data, setData] = useState([])
   const [value, setValue] = useState('')
   const [pageSize, setPageSize] = useState(10)
-  const [editValue, setEditValue] = useState('')
-  const [editDialogOpen, setEditDialogOpen] = useState(false)
+  const [loading, setLoading] = useState(true)
 
-  const [data, setData] = useState([])
-  const auth = useAuth()
+  // ** Modal Things
+  const [editTarget, setEditTarget] = useState(null)
+  const [dialogOpen, setDialogOpen] = useState(false)
+  const dialogToggle = () => setDialogOpen(!dialogOpen)
 
   // ** Hooks
   useEffect(() => {
@@ -78,50 +62,92 @@ const PetsTable = () => {
 
   const updateData = () => {
     axios
-      .get('http://localhost:10905/producto/', {
+      .get('http://localhost:10905/animal/', {
         headers: {
           token: window.localStorage.getItem(authConfig.storageTokenKeyName)
         }
       })
       .then(response => {
         setData(response.data.data)
-        console.log(response.data.data)
         setLoading(false)
       })
       .catch(error => {
         console.log(error)
+        setLoading(false)
       })
-  }
-
-  const handleEditPermission = name => {
-    setEditValue(name)
-    setEditDialogOpen(true)
-  }
-  const handleDialogToggle = () => setEditDialogOpen(!editDialogOpen)
-
-  const onSubmit = e => {
-    setEditDialogOpen(false)
-    e.preventDefault()
   }
 
   const columns = [
     ...defaultColumns,
     {
-      flex: 0.15,
-      minWidth: 115,
+      flex: 0.1,
+      minWidth: 100,
       sortable: false,
       field: 'actions',
       headerName: 'Acciones',
+      headerAlign: 'center',
+      align: 'center',
       renderCell: ({ row }) => (
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <IconButton onClick={() => handleEditPermission(row.name)}>
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2, duration: 2 }}>
-              <Icon icon='mdi:pencil-outline' color='#fc8a3d' />
+          <IconButton
+            onClick={() => {
+              setEditTarget(row.id)
+              dialogToggle()
+            }}
+          >
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.2, duration: 0.9 }}
+            >
+              <Icon
+                icon='mdi:pencil-outline'
+                color='#eec1ad'
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  fontSize: '1.4rem',
+                  transition: 'transform 0.1s ease',
+                  '&:hover': {
+                    transform: 'rotate(-10deg)'
+                  },
+                  '&:active': {
+                    transform: 'rotate(-40deg)'
+                  }
+                }}
+              />
             </motion.div>
           </IconButton>
           <IconButton>
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2, duration: 2 }}>
-              <Icon icon='mdi:delete-outline' color='#Cc4b5f' />
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.2, duration: 0.9 }}
+            >
+              <Icon
+                icon='mdi:delete-outline'
+                color=' 	#e35d6a'
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  fontSize: '1.4rem',
+                  transition: 'transform 0.5s ease',
+                  '&:hover': {
+                    transform: 'rotate(8deg)'
+                  },
+                  '&:active': {
+                    transform: 'rotate(50deg)'
+                  }
+                }}
+                onClick={() => {
+                  const shouldDelete = window.confirm('¿Desea eliminar realmente?')
+                  if (shouldDelete) {
+                    handleDeletePermission(params.row.name)
+                  }
+                }}
+              />
             </motion.div>
           </IconButton>
         </Box>
@@ -132,33 +158,42 @@ const PetsTable = () => {
   return (
     <>
       <Grid container spacing={6}>
-        <Grid item xs={12}>
-          <motion.div
-            initial={{ opacity: 0, y: 0 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.6 }}
-          ></motion.div>
-        </Grid>
+        <Grid item xs={12}></Grid>
 
         <Grid item xs={12}>
           <motion.div
-            initial={{ opacity: 0, y: 150 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ type: 'spring', stiffness: 100, delay: 0.1, duration: 0.5 }}
+            initial={{ opacity: 0, x: 25 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ type: 'spring', stiffness: 60, delay: 0.55, duration: 0.1 }}
           >
             <Card>
-              <TableHeader value={value} updateMethod={updateData} handleFilter={handleFilter} />
-
+              <PetsModal
+                updateMethod={updateData}
+                data={data}
+                editTarget={{ variable: editTarget, method: setEditTarget }}
+                open={dialogOpen}
+                dialogToggle={dialogToggle}
+                value={value}
+                handleFilter={handleFilter}
+              />
               <DataGrid
                 autoHeight
                 rows={data}
-                getRowId={row => row.codigo_barra}
+                getRowId={row => row.id}
                 columns={columns}
                 pageSize={pageSize}
                 disableSelectionOnClick
-                rowsPerPageOptions={[10, 25, 50]}
+                rowsPerPageOptions={[10, 25, 50, 100]}
                 onPageSizeChange={newPageSize => setPageSize(newPageSize)}
-                sx={{ '& .MuiDataGrid-columnHeaders': { borderRadius: 0, backgroundColor: '#333333', color: '#FFF' } }}
+                sx={{
+                  '& .MuiDataGrid-columnHeaders': {
+                    borderRadius: 0,
+                    backgroundColor: '#f4bbce                    ',
+                    color: '#5b2235                    ',
+                    border: '4px solid #F9F4F0',
+                    borderRadius: '12px'
+                  }
+                }}
               />
             </Card>
           </motion.div>
@@ -168,4 +203,4 @@ const PetsTable = () => {
   )
 }
 
-export default PetsTable
+export default PetsIndex

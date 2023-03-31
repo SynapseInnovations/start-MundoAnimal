@@ -1,67 +1,72 @@
 // ** React Imports
-import { useState, useEffect } from 'react'
-import axios from 'axios'
+import { useState, useEffect, useCallback } from 'react'
+import { Provider } from 'react-redux'
+
 import { useAuth } from 'src/hooks/useAuth'
 import authConfig from 'src/configs/auth'
+import axios from 'axios'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
-import Typography from '@mui/material/Typography'
-import CardHeader from '@mui/material/CardHeader'
+import Grid from '@mui/material/Grid'
 import { DataGrid } from '@mui/x-data-grid'
-import SettingsIcon from '@mui/icons-material/Settings'
-import { IconButton } from '@mui/material'
+import IconButton from '@mui/material/IconButton'
+import Typography from '@mui/material/Typography'
+import { motion } from 'framer-motion'
+import CategoriesModal from 'src/views/operator/inventory/categories/categoriesModal'
 
-// ** Third Party Components
-import toast from 'react-hot-toast'
-import CreateUserModal from 'src/views/operator/inventory/categoriesModal'
+// ** Icon Imports
+import Icon from 'src/@core/components/icon'
 
-// ** Custom Components
-import CustomChip from 'src/@core/components/mui/chip'
-import CustomAvatar from 'src/@core/components/mui/avatar'
-
-// ** Utils Import
-import { getInitials } from 'src/@core/utils/get-initials'
-
-// ** Data Import
-
-// ** renders client column
-
-const renderClient = params => {
-  const { row } = params
-  const stateNum = Math.floor(Math.random() * 3)
-
-  if (row.imagen) {
-    return <CustomAvatar src={row.imagen} sx={{ mr: 3, width: '1.875rem', height: '1.875rem' }} />
-  } else {
-    return (
-      <CustomAvatar skin='light' color={color} sx={{ mr: 3, fontSize: '.8rem', width: '1.875rem', height: '1.875rem' }}>
-        {getInitials(row.nombre ? row.nombre : 'John Doe')}
-      </CustomAvatar>
-    )
+const defaultColumns = [
+  {
+    flex: 0.4,
+    field: 'nombre',
+    minWidth: 500,
+    headerName: 'Nombre de la Categoria',
+    renderCell: ({ row }) => {
+      return (
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+            <Typography noWrap variant='body2' sx={{ color: 'text.primary', fontWeight: 600 }}>
+              {row.nombre}
+            </Typography>
+          </Box>
+        </Box>
+      )
+    }
   }
-}
+]
 
-const UsersManageIndex = () => {
-  // ** States
-
-  const [pageSize, setPageSize] = useState(7)
-  const [hideNameColumn, setHideNameColumn] = useState(false)
+const CategoriesIndex = () => {
+  // ** Table Data
   const [data, setData] = useState([])
+  const [value, setValue] = useState('')
+  const [pageSize, setPageSize] = useState(10)
   const [loading, setLoading] = useState(true)
 
-  const [open, setOpen] = useState(false)
-  const handleDialogToggle = () => setOpen(!open)
-  const [editData, setEditData] = useState(null)
+  // ** Modal Things
+  const [editTarget, setEditTarget] = useState(null)
+  const [dialogOpen, setDialogOpen] = useState(false)
+  const dialogToggle = () => setDialogOpen(!dialogOpen)
 
+  // ** Hooks
   useEffect(() => {
     updateData()
   }, [])
 
+  const handleFilter = useCallback(val => {
+    setValue(val)
+  }, [])
+
   const updateData = () => {
     axios
-      .get('http://localhost:10905/usuario/')
+      .get('http://localhost:10905/categoria/', {
+        headers: {
+          token: window.localStorage.getItem(authConfig.storageTokenKeyName)
+        }
+      })
       .then(response => {
         setData(response.data.data)
         setLoading(false)
@@ -73,117 +78,129 @@ const UsersManageIndex = () => {
   }
 
   const columns = [
+    ...defaultColumns,
     {
-      flex: 0.4,
-      minWidth: 290,
-      field: 'nombre',
-      headerName: 'Nombre',
-      hide: hideNameColumn,
-      renderCell: params => {
-        const { row } = params
-
-        return (
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            {renderClient(params)}
-            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-              <Typography noWrap variant='body2' sx={{ color: 'text.primary', fontWeight: 600 }}>
-                {row.nombre}
-              </Typography>
-            </Box>
-          </Box>
-        )
-      }
-    },
-    {
-      flex: 0.125,
-      minWidth: 140,
+      flex: 0.1,
+      minWidth: 100,
+      sortable: false,
       field: 'actions',
-      headerName: 'Actions',
-      renderCell: params => {
-        return (
-          <>
-            <IconButton
-              size='small'
-              color='secondary'
-              sx={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                fontSize: '1.4rem',
-                transition: 'transform 0.5s ease',
-                '&:hover': {
-                  transform: 'rotate(50deg)'
-                },
-                '&:active': {
-                  transform: 'rotate(400deg)'
-                }
-              }}
-              onClick={async () => {
-                const storedToken = window.localStorage.getItem(authConfig.storageTokenKeyName)
-                const categoria = params.row.categoria
-
-                toast(
-                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                      <Typography noWrap variant='body2' sx={{ color: 'text.primary', fontWeight: 600 }}>
-                        Obteniendo datos de la categoría...
-                      </Typography>
-                    </Box>
-                  </Box>
-                )
-
-                await axios
-                  .get('http://localhost:10905/usuario/perfil?rut=' + rut, {
-                    headers: {
-                      token: storedToken
-                    }
-                  })
-                  .then(async response => {
-                    setEditData({ ...response.data.data[0] })
-                    handleDialogToggle()
-                  })
-
-                const data = {
-                  rut: '1234567-8'
-                }
-
-                //setEditData(data)
-              }}
+      headerName: 'Acciones',
+      headerAlign: 'center',
+      align: 'center',
+      renderCell: ({ row }) => (
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <IconButton
+            onClick={() => {
+              setEditTarget(row.codigo_barra)
+              dialogToggle()
+            }}
+          >
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.2, duration: 0.9 }}
             >
-              <SettingsIcon />
-            </IconButton>
-          </>
-        )
-      }
+              <Icon
+                icon='mdi:pencil-outline'
+                color='#eec1ad'
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  fontSize: '1.4rem',
+                  transition: 'transform 0.1s ease',
+                  '&:hover': {
+                    transform: 'rotate(-10deg)'
+                  },
+                  '&:active': {
+                    transform: 'rotate(-40deg)'
+                  }
+                }}
+              />
+            </motion.div>
+          </IconButton>
+          <IconButton>
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.2, duration: 0.9 }}
+            >
+              <Icon
+                icon='mdi:delete-outline'
+                color=' 	#e35d6a'
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  fontSize: '1.4rem',
+                  transition: 'transform 0.5s ease',
+                  '&:hover': {
+                    transform: 'rotate(8deg)'
+                  },
+                  '&:active': {
+                    transform: 'rotate(50deg)'
+                  }
+                }}
+                onClick={() => {
+                  const shouldDelete = window.confirm('¿Desea eliminar realmente?')
+                  if (shouldDelete) {
+                    handleDeletePermission(params.row.name)
+                  }
+                }}
+              />
+            </motion.div>
+          </IconButton>
+        </Box>
+      )
     }
   ]
 
   return (
-    <Card>
-      <CardHeader
-        title='Lista de Categorías'
-        action={
-          <CreateUserModal
-            editData={{ variable: editData, method: setEditData }}
-            open={open}
-            handleDialogToggle={handleDialogToggle}
-            updateMethod={updateData}
-          />
-        }
-      />
+    <>
+      <Grid container spacing={6}>
+        <Grid item xs={12}></Grid>
 
-      <DataGrid
-        autoHeight
-        getRowId={row => row.rut}
-        rows={data}
-        columns={columns}
-        pageSize={pageSize}
-        disableSelectionOnClick
-        rowsPerPageOptions={[7, 10, 25, 50]}
-        onPageSizeChange={newPageSize => setPageSize(newPageSize)}
-      />
-    </Card>
+        <Grid item xs={12}>
+          <motion.div
+            initial={{ opacity: 0, x: 25 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ type: 'spring', stiffness: 60, delay: 0.55, duration: 0.1 }}
+          >
+            <Card>
+              <CategoriesModal
+                updateMethod={updateData}
+                data={data}
+                editTarget={{ variable: editTarget, method: setEditTarget }}
+                open={dialogOpen}
+                dialogToggle={dialogToggle}
+                value={value}
+                handleFilter={handleFilter}
+              />
+              <DataGrid
+                autoHeight
+                rows={data}
+                getRowId={row => row.id}
+                columns={columns}
+                pageSize={pageSize}
+                disableSelectionOnClick
+                rowsPerPageOptions={[10, 25, 50, 100]}
+                onPageSizeChange={newPageSize => setPageSize(newPageSize)}
+                sx={{
+                  '& .MuiDataGrid-columnHeaders': {
+                    borderRadius: 0,
+                    backgroundColor: '#f4bbce                    ',
+                    color: '#5b2235                    ',
+                    border: '4px solid #F9F4F0',
+                    borderRadius: '12px'
+                  }
+                }}
+              />
+            </Card>
+          </motion.div>
+        </Grid>
+      </Grid>
+    </>
   )
 }
 
-export default UsersManageIndex
+export default CategoriesIndex

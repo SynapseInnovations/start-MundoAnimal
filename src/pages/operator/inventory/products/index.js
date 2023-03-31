@@ -10,49 +10,20 @@ import axios from 'axios'
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
 import Grid from '@mui/material/Grid'
-import Alert from '@mui/material/Alert'
-import Button from '@mui/material/Button'
-import Dialog from '@mui/material/Dialog'
 import { DataGrid } from '@mui/x-data-grid'
-import Checkbox from '@mui/material/Checkbox'
-import FormGroup from '@mui/material/FormGroup'
-import TextField from '@mui/material/TextField'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
-import AlertTitle from '@mui/material/AlertTitle'
-import DialogTitle from '@mui/material/DialogTitle'
-import DialogContent from '@mui/material/DialogContent'
-import FormControlLabel from '@mui/material/FormControlLabel'
 import { motion } from 'framer-motion'
 import InventoryModal from 'src/views/operator/inventory/InventoryModal'
-import { createTheme } from '@mui/material/styles'
 
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
-
-// ** Store Imports
-import { useDispatch, useSelector } from 'react-redux'
-
-// ** Custom Components Imports
-import CustomChip from 'src/@core/components/mui/chip'
-import PageHeader from 'src/@core/components/page-header'
-
-// ** Actions Imports
-import { fetchData } from 'src/store/apps/permissions'
-
-const colors = {
-  support: 'info',
-  users: 'success',
-  manager: 'warning',
-  administrator: 'primary',
-  'restricted-user': 'error'
-}
 
 const defaultColumns = [
   {
     flex: 0.4,
     field: 'nombre',
-    minWidth: 540,
+    minWidth: 500,
     headerName: 'Nombre del Producto',
     renderCell: ({ row }) => {
       return (
@@ -116,15 +87,17 @@ const defaultColumns = [
   }
 ]
 
-const PermissionsTable = () => {
-  // ** State
+const ProductsIndex = () => {
+  // ** Table Data
+  const [data, setData] = useState([])
   const [value, setValue] = useState('')
   const [pageSize, setPageSize] = useState(10)
-  const [editValue, setEditValue] = useState('')
-  const [editDialogOpen, setEditDialogOpen] = useState(false)
+  const [loading, setLoading] = useState(true)
 
-  const [data, setData] = useState([])
-  const auth = useAuth()
+  // ** Modal Things
+  const [editTarget, setEditTarget] = useState(null)
+  const [dialogOpen, setDialogOpen] = useState(false)
+  const dialogToggle = () => setDialogOpen(!dialogOpen)
 
   // ** Hooks
   useEffect(() => {
@@ -144,30 +117,19 @@ const PermissionsTable = () => {
       })
       .then(response => {
         setData(response.data.data)
-        console.log(response.data.data)
         setLoading(false)
       })
       .catch(error => {
         console.log(error)
+        setLoading(false)
       })
-  }
-
-  const handleEditPermission = name => {
-    setEditValue(name)
-    setEditDialogOpen(true)
-  }
-  const handleDialogToggle = () => setEditDialogOpen(!editDialogOpen)
-
-  const onSubmit = e => {
-    setEditDialogOpen(false)
-    e.preventDefault()
   }
 
   const columns = [
     ...defaultColumns,
     {
       flex: 0.1,
-      minWidth: 50,
+      minWidth: 100,
       sortable: false,
       field: 'actions',
       headerName: 'Acciones',
@@ -175,7 +137,12 @@ const PermissionsTable = () => {
       align: 'center',
       renderCell: ({ row }) => (
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <IconButton onClick={() => handleEditPermission(row.name)}>
+          <IconButton
+            onClick={() => {
+              setEditTarget(row.codigo_barra)
+              dialogToggle()
+            }}
+          >
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
@@ -248,8 +215,15 @@ const PermissionsTable = () => {
             transition={{ type: 'spring', stiffness: 60, delay: 0.55, duration: 0.1 }}
           >
             <Card>
-              <InventoryModal value={value} updateMethod={updateData} handleFilter={handleFilter} />
-
+              <InventoryModal
+                updateMethod={updateData}
+                data={data}
+                editTarget={{ variable: editTarget, method: setEditTarget }}
+                open={dialogOpen}
+                dialogToggle={dialogToggle}
+                value={value}
+                handleFilter={handleFilter}
+              />
               <DataGrid
                 autoHeight
                 rows={data}
@@ -257,6 +231,7 @@ const PermissionsTable = () => {
                 columns={columns}
                 pageSize={pageSize}
                 disableSelectionOnClick
+                rowsPerPageOptions={[10, 25, 50, 100]}
                 onPageSizeChange={newPageSize => setPageSize(newPageSize)}
                 sx={{
                   '& .MuiDataGrid-columnHeaders': {
@@ -276,4 +251,4 @@ const PermissionsTable = () => {
   )
 }
 
-export default PermissionsTable
+export default ProductsIndex

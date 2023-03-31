@@ -1,25 +1,20 @@
 // ** React Imports
 import { useState, useEffect } from 'react'
 import axios from 'axios'
-import { useAuth } from 'src/hooks/useAuth'
-import authConfig from 'src/configs/auth'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
 import Typography from '@mui/material/Typography'
-import CardHeader from '@mui/material/CardHeader'
 import { DataGrid } from '@mui/x-data-grid'
-import SettingsIcon from '@mui/icons-material/Settings'
 import { IconButton } from '@mui/material'
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
-import AccountCircleIcon from '@mui/icons-material/AccountCircle'
-import { createTheme } from '@mui/material/styles'
 
 // ** Third Party Components
 import toast from 'react-hot-toast'
 import CreateUserModal from 'src/views/admin/create'
+import { motion } from 'framer-motion'
 
 // ** Custom Components
 import CustomChip from 'src/@core/components/mui/chip'
@@ -56,42 +51,17 @@ const roleList = {
   3: { title: 'Usuario', color: 'warning' }
 }
 
-// ** Full Name Getter
-const getFullName = params =>
-  toast(
-    <Box sx={{ display: 'flex', alignItems: 'center' }}>
-      {renderClient(params)}
-      <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-        <Typography noWrap variant='body2' sx={{ color: 'text.primary', fontWeight: 600 }}>
-          {params.row.nombre}
-        </Typography>
-      </Box>
-    </Box>
-  )
-
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#eec1ad'
-    }
-
-    // ... otras entradas de la paleta
-  }
-
-  // ... otras propiedades del tema
-})
-
 const UsersManageIndex = () => {
-  // ** States
-
+  // ** Table Data
   const [pageSize, setPageSize] = useState(7)
   const [hideNameColumn, setHideNameColumn] = useState(false)
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(true)
 
-  const [open, setOpen] = useState(false)
-  const handleDialogToggle = () => setOpen(!open)
-  const [editData, setEditData] = useState(null)
+  // ** Modal Things
+  const [editTarget, setEditTarget] = useState(null)
+  const [dialogOpen, setDialogOpen] = useState(false)
+  const dialogToggle = () => setDialogOpen(!dialogOpen)
 
   useEffect(() => {
     updateData()
@@ -110,27 +80,7 @@ const UsersManageIndex = () => {
       })
   }
 
-  /*
-    {
-      "rut": "12345678-5",
-      "nombre": "Marcelo",
-      "correo": "marcelo@marcelo.com",
-      "direccion": "Mi casa 123",
-      "imagen": "https://i.imgur.com/oY3uCks.png",
-      "clave": "$2a$10$KCFxkabtp3A13fqTSi2mP.oM/K.DIbxvrVOzdyHFv3wDvWJ6s2NR2",
-      "rol": "Usuario"
-    },
-    {
-      "rut": "12345678-5",
-      "nombre": "Marcelo",
-      "correo": "marcelo@marcelo.com",
-      "direccion": "Mi casa 123",
-      "imagen": "https://i.imgur.com/oY3uCks.png",
-      "clave": "$2a$10$KCFxkabtp3A13fqTSi2mP.oM/K.DIbxvrVOzdyHFv3wDvWJ6s2NR2",
-      "rol": "Usuario"
-    }
-  */
-  const columns = [
+  const defaultColumns = [
     {
       flex: 0.4,
       minWidth: 290,
@@ -196,13 +146,16 @@ const UsersManageIndex = () => {
           />
         )
       }
-    },
+    }
+  ]
 
+  const columns = [
+    ...defaultColumns,
     {
       flex: 0.125,
       minWidth: 140,
       field: 'actions',
-      headerName: 'Utilidades',
+      headerName: 'acciones',
       renderCell: params => {
         return (
           <>
@@ -224,8 +177,6 @@ const UsersManageIndex = () => {
                   }
                 }}
                 onClick={async () => {
-                  const storedToken = window.localStorage.getItem(authConfig.storageTokenKeyName)
-                  const rut = params.row.rut
                   toast(
                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
                       <Box sx={{ display: 'flex', flexDirection: 'column' }}>
@@ -235,23 +186,8 @@ const UsersManageIndex = () => {
                       </Box>
                     </Box>
                   )
-
-                  await axios
-                    .get('http://localhost:10905/usuario/perfil?rut=' + rut, {
-                      headers: {
-                        token: storedToken
-                      }
-                    })
-                    .then(async response => {
-                      setEditData({ ...response.data.data[0] })
-                      handleDialogToggle()
-                    })
-
-                  const data = {
-                    rut: '1234567-8'
-                  }
-
-                  //setEditData(data)
+                  setEditTarget(params.row.rut)
+                  dialogToggle()
                 }}
               >
                 <EditIcon />
@@ -289,37 +225,31 @@ const UsersManageIndex = () => {
   ]
 
   return (
-    <Card>
-      <CardHeader
-        title={
-          <Box sx={{ display: 'flex', alignItems: 'left' }}>
-            <AccountCircleIcon />
-            <Typography variant='h5' component='span' sx={{ ml: 2 }}>
-              Usuarios
-            </Typography>
-          </Box>
-        }
-        action={
-          <CreateUserModal
-            editData={{ variable: editData, method: setEditData }}
-            open={open}
-            handleDialogToggle={handleDialogToggle}
-            updateMethod={updateData}
-          />
-        }
-      ></CardHeader>
-
-      <DataGrid
-        autoHeight
-        getRowId={row => row.rut}
-        rows={data}
-        columns={columns}
-        pageSize={pageSize}
-        disableSelectionOnClick
-        rowsPerPageOptions={[7, 10, 25, 50]}
-        onPageSizeChange={newPageSize => setPageSize(newPageSize)}
-      />
-    </Card>
+    <motion.div
+      initial={{ opacity: 0, x: 25 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ type: 'spring', stiffness: 60, delay: 0.55, duration: 0.1 }}
+    >
+      <Card>
+        <CreateUserModal
+          updateMethod={updateData}
+          data={data}
+          editTarget={{ variable: editTarget, method: setEditTarget }}
+          open={dialogOpen}
+          dialogToggle={dialogToggle}
+        />
+        <DataGrid
+          autoHeight
+          getRowId={row => row.rut}
+          rows={data}
+          columns={columns}
+          pageSize={pageSize}
+          disableSelectionOnClick
+          rowsPerPageOptions={[7, 10, 25, 50]}
+          onPageSizeChange={newPageSize => setPageSize(newPageSize)}
+        />
+      </Card>
+    </motion.div>
   )
 }
 

@@ -16,118 +16,105 @@ import MenuItem from '@mui/material/MenuItem'
 import Box from '@mui/material/Box'
 import Dialog from '@mui/material/Dialog'
 import Button from '@mui/material/Button'
-import Checkbox from '@mui/material/Checkbox'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import DialogTitle from '@mui/material/DialogTitle'
 import DialogContent from '@mui/material/DialogContent'
-import FormControlLabel from '@mui/material/FormControlLabel'
 import InputAdornment from '@mui/material/InputAdornment'
-import { IconButton, Select } from '@mui/material'
+import { Select } from '@mui/material'
 import AddIcon from '@material-ui/icons/Add'
-import RemoveIcon from '@material-ui/icons/Remove'
 import { motion } from 'framer-motion'
-import SettingsIcon from '@mui/icons-material/Settings'
-import PageHeader from 'src/@core/components/page-header'
 import PetsIcon from '@mui/icons-material/Pets'
 
 const InventoryModal = props => {
-  // ** Props
+  // ** Variables
   const [codigoBarraProducto, setCodigoBarraProducto] = useState('')
   const [nombreProducto, setNombreProducto] = useState('')
   const [descripcionProducto, setDescripcionProducto] = useState('')
-  const [cantidadProducto, setCantidadProducto] = useState(1)
-  const [imagenProducto, setImagenProducto] = useState(null)
-  const { value, handleFilter } = props
-  const [selectedFile, setSelectedFile] = useState(null)
-  const [thumbnail, setThumbnail] = useState(null)
-  const [precioKilo, setPrecioKilo] = useState(0)
-  const [precioUnitario, setPrecioUnitario] = useState(0)
-  const [categorias, setCategorias] = useState(['Categoría 1', 'Categoría 2', 'Categoría 3'])
-  const [categoriaInput, setCategoriaInput] = useState('')
-  const [categoriasDisponibles, setCategoriasDisponibles] = useState([])
-  const [animalInput, setAnimalInput] = useState('')
-  const [animalesDisponibles, setAnimalesDisponibles] = useState([])
-  const [marcaInput, setMarcaInput] = useState('')
-  const [marcasDisponibles, setMarcasDisponibles] = useState([])
+  const [cantidadProducto, setCantidadProducto] = useState(0)
+  const [precioKiloProducto, setPrecioKiloProducto] = useState(0)
+  const [precioUnitarioProducto, setPrecioUnitarioProducto] = useState(0)
+  const [marcaProducto, setMarcaProducto] = useState('')
+  const [categoriaProducto, setCategoriaProducto] = useState('')
+  const [animalProducto, setAnimalProducto] = useState('')
 
-  // ** State
-  const [open, setOpen] = useState(false)
-  const handleDialogToggle = () => setOpen(!open)
+  const [edit, setEdit] = useState(false)
 
-  const categoriasTest = ['Alimentos', 'Bienestar', 'Arenas']
-  const AnimalTest = ['Perro', 'Gato', 'Conejo']
-  const MarcasTest = ['Dog Show', 'Purina', 'Whiskas']
+  // ** Props
+  const { value, handleFilter, editTarget, data, open, dialogToggle, updateMethod } = props
 
-  const onSubmit = e => {
-    setOpen(false)
-    e.preventDefault()
-  }
+  // ** Selects
+  const [categoriaDropdown, setCategoriaDropdown] = useState([
+    { id: 1, nombre: 'Comida' },
+    { id: 2, nombre: 'Accesorios' }
+  ])
 
-  const handleCantidadChange = event => {
-    setCantidadProducto(parseInt(event.target.value))
-  }
+  const [animalDropdown, setAnimalDropdown] = useState([
+    { id: 1, nombre: 'Perro' },
+    { id: 2, nombre: 'Gato' },
+    { id: 3, nombre: 'Conejo' }
+  ])
 
-  const handlePrecioKiloChange = event => {
-    setPrecioKilo(event.target.value)
-  }
+  const [marcaDropdown, setMarcaDropdown] = useState([
+    { id: 1, nombre: 'Purina', logo: 'https://i.imgur.com/93J2tC9.jpg' },
+    { id: 2, nombre: 'Champion', logo: 'https://i.imgur.com/93J2tC9.jpg' },
+    { id: 3, nombre: 'Fit Formula', logo: 'https://i.imgur.com/93J2tC9.jpg' },
+    { id: 4, nombre: 'Royal Canin', logo: 'https://i.imgur.com/93J2tC9.jpg' }
+  ])
 
-  const handlePrecioUnitarioChange = event => {
-    setPrecioUnitario(event.target.value)
-  }
-
-  const handleCantidadIncrement = () => {
-    setCantidadProducto(cantidadProducto - 0.5, 0)
-  }
-
-  const handleCantidadDecrement = () => {
-    setCantidadProducto(cantidadProducto - 0.5, 0)
-  }
-
-  const handlePrecioKiloDecrement = () => {
-    setPrecioKilo(Math.max(precioKilo - 0.5, 0))
-  }
-
-  const handlePrecioKiloIncrement = () => {
-    setPrecioKilo(precioKilo + 0.5)
-  }
-
-  const handlePrecioUnitarioDecrement = () => {
-    setPrecioUnitario(Math.max(precioUnitario - 0.5, 0))
-  }
-
-  const handlePrecioUnitarioIncrement = () => {
-    setPrecioUnitario(precioUnitario + 0.5)
-  }
-
-  const handleFileInputChange = e => {
-    const file = e.target.files[0]
-    setSelectedFile(file)
-
-    const reader = new FileReader()
-    reader.onload = () => {
-      setThumbnail(reader.result)
+  useEffect(() => {
+    if (editTarget.variable != null) {
+      const found = data.find(i => i.codigo_barra === editTarget.variable)
+      setCodigoBarraProducto(found.codigo_barra)
+      setNombreProducto(found.nombre)
+      setDescripcionProducto(found.descripcion)
+      setCantidadProducto(found.unidades)
+      setPrecioKiloProducto(found.precio_kilo)
+      setPrecioUnitarioProducto(found.precio_unitario)
+      setMarcaProducto(found.marca_id)
+      setCategoriaProducto(found.categoria_id)
+      setAnimalProducto('') //por ver
+      setEdit(true)
+    } else {
+      setCodigoBarraProducto('')
+      setNombreProducto('')
+      setDescripcionProducto('')
+      setCantidadProducto(0)
+      setPrecioKiloProducto(0)
+      setPrecioUnitarioProducto(0)
+      setMarcaProducto('')
+      setCategoriaProducto('')
+      setAnimalProducto('')
+      setEdit(false)
     }
-    reader.readAsDataURL(file)
-  }
+  }, [editTarget.variable, data])
 
   const handleSubmit = event => {
     event.preventDefault()
-    const formData = new FormData()
+    const inventoryForm = new FormData()
+    inventoryForm.append('codigo_barra', codigoBarraProducto)
+    inventoryForm.append('nombre', nombreProducto)
+    inventoryForm.append('descripcion', descripcionProducto)
+    inventoryForm.append('unidades', cantidadProducto)
+    inventoryForm.append('precio_kilo', precioKiloProducto)
+    inventoryForm.append('precio_unitario', precioUnitarioProducto)
+    inventoryForm.append('categoria_id', categoriaProducto)
+    inventoryForm.append('marca_id', marcaProducto)
+    inventoryForm.append('animal_id', animalProducto)
+    inventoryForm.append('imagen', null)
 
+    const url = edit ? 'http://localhost:10905/producto/modificar' : 'http://localhost:10905/producto/agregar'
     axios
-      .post('http://localhost:10905/producto/agregar', formData, {
+      .post(url, inventoryForm, {
         headers: {
-          'Content-Type': `multipart/form-data; boundary=${formData._boundary}`,
+          'Content-Type': `multipart/form-data`,
           token: window.localStorage.getItem(authConfig.storageTokenKeyName)
         }
       })
       .then(async response => {
-        props.updateMethod()
-        setOpen(false)
+        updateMethod()
+        dialogToggle()
       })
-
-    //Aquí puedes enviar los datos del formulario a un servidor o realizar alguna otra acción
   }
 
   return (
@@ -222,7 +209,10 @@ const InventoryModal = props => {
                   transform: 'scale(0.98)'
                 }
               }}
-              onClick={handleDialogToggle}
+              onClick={() => {
+                editTarget.method(null)
+                dialogToggle()
+              }}
             >
               <AddIcon sx={{ marginRight: '3px', fontSize: 'large' }} />
               Agregar Producto
@@ -234,7 +224,7 @@ const InventoryModal = props => {
       <Dialog
         fullWidth
         maxWidth='sm'
-        onClose={handleDialogToggle}
+        onClose={dialogToggle}
         open={open}
         sx={{
           pb: 12,
@@ -252,9 +242,11 @@ const InventoryModal = props => {
         >
           <DialogTitle sx={{ mx: 'auto', textAlign: 'center', marginTop: '30px', marginBottom: '20px' }}>
             <Typography variant='h5' component='span' sx={{ mb: 2 }}>
-              Agregar Nuevo Producto
+              {edit ? 'Modificar Producto Existente' : 'Agregar Nuevo Producto'}
             </Typography>
-            <Typography variant='body2'>Agrega nuevos productos al inventario de Mundo Animal!</Typography>
+            <Typography variant='body2'>
+              {edit ? 'Modifica datos de productos en el' : 'Agrega nuevos productos al'} inventario de Mundo Animal!
+            </Typography>
           </DialogTitle>
           <DialogContent sx={{ pb: 12, mx: 'auto' }}>
             <Box
@@ -277,11 +269,8 @@ const InventoryModal = props => {
                 sx={{
                   marginTop: '5px'
                 }}
-                inputProps={{ min: 0, step: 1 }}
-                InputProps={{
-                  startAdornment: <InputAdornment position='start'>ID: </InputAdornment>
-                }}
                 value={codigoBarraProducto}
+                disabled={edit}
                 onChange={event => setCodigoBarraProducto(event.target.value)}
               />
               <TextField
@@ -302,9 +291,9 @@ const InventoryModal = props => {
                   <TextField
                     label='Cantidad del producto'
                     type='number'
-                    inputProps={{ min: 1 }}
+                    inputProps={{ min: 0 }}
                     value={cantidadProducto}
-                    onChange={handleCantidadChange}
+                    onChange={event => setCantidadProducto(event.target.value)}
                     fullWidth
                   />
                 </Grid>
@@ -312,12 +301,12 @@ const InventoryModal = props => {
                   <TextField
                     label='Precio por kilo'
                     type='number'
-                    inputProps={{ min: 0.01, step: 0.01 }}
+                    inputProps={{ min: 0, step: 10 }}
                     InputProps={{
                       startAdornment: <InputAdornment position='start'>$</InputAdornment>
                     }}
-                    value={precioKilo}
-                    onChange={handlePrecioKiloChange}
+                    value={precioKiloProducto}
+                    onChange={event => setPrecioKiloProducto(event.target.value)}
                     fullWidth
                   />
                 </Grid>
@@ -325,12 +314,12 @@ const InventoryModal = props => {
                   <TextField
                     label='Precio unitario'
                     type='number'
-                    inputProps={{ min: 0.01, step: 0.01 }}
+                    inputProps={{ min: 0, step: 10 }}
                     InputProps={{
                       startAdornment: <InputAdornment position='start'>$</InputAdornment>
                     }}
-                    value={precioUnitario}
-                    onChange={handlePrecioUnitarioChange}
+                    value={precioUnitarioProducto}
+                    onChange={event => setPrecioUnitarioProducto(event.target.value)}
                     fullWidth
                   />
                 </Grid>
@@ -341,15 +330,16 @@ const InventoryModal = props => {
                   <FormControl fullWidth>
                     <InputLabel>Marca</InputLabel>
                     <Select
-                      value={marcasDisponibles[0] || ''}
-                      onChange={event => setMarcasDisponibles([event.target.value])}
+                      label='Marca'
+                      value={marcaProducto}
+                      onChange={event => setMarcaProducto([event.target.value])}
                     >
                       <MenuItem value='' disabled>
                         Seleccionar Marca
                       </MenuItem>
-                      {MarcasTest.map(marca => (
-                        <MenuItem key={marca} value={marca}>
-                          {marca}
+                      {marcaDropdown.map(marca => (
+                        <MenuItem key={marca.id} value={marca.id}>
+                          {marca.id} - {marca.nombre}
                         </MenuItem>
                       ))}
                     </Select>
@@ -359,15 +349,16 @@ const InventoryModal = props => {
                   <FormControl fullWidth>
                     <InputLabel>Categoría</InputLabel>
                     <Select
-                      value={categoriasDisponibles[0] || ''}
-                      onChange={event => setCategoriasDisponibles([event.target.value])}
+                      label='Categoría'
+                      value={categoriaProducto}
+                      onChange={event => setCategoriaProducto([event.target.value])}
                     >
                       <MenuItem value='' disabled>
                         Seleccionar Categoría
                       </MenuItem>
-                      {categoriasTest.map(categoria => (
-                        <MenuItem key={categoria} value={categoria}>
-                          {categoria}
+                      {categoriaDropdown.map(categoria => (
+                        <MenuItem key={categoria.id} value={categoria.id}>
+                          {categoria.id} - {categoria.nombre}
                         </MenuItem>
                       ))}
                     </Select>
@@ -377,15 +368,16 @@ const InventoryModal = props => {
                   <FormControl fullWidth>
                     <InputLabel>Animal</InputLabel>
                     <Select
-                      value={animalesDisponibles[0] || ''}
-                      onChange={event => setAnimalesDisponibles([event.target.value])}
+                      label='Animal'
+                      value={animalProducto}
+                      onChange={event => setAnimalProducto([event.target.value])}
                     >
                       <MenuItem value='' disabled>
                         Seleccionar Animal
                       </MenuItem>
-                      {AnimalTest.map(animal => (
-                        <MenuItem key={animal} value={animal}>
-                          {animal}
+                      {animalDropdown.map(animal => (
+                        <MenuItem key={animal.id} value={animal.id}>
+                          {animal.id} - {animal.nombre}
                         </MenuItem>
                       ))}
                     </Select>
@@ -426,7 +418,7 @@ const InventoryModal = props => {
                   }}
                   onClick={handleSubmit}
                 >
-                  Agregar
+                  {edit ? 'Modificar' : 'Agregar'}
                 </Button>
               </motion.div>
             </Box>

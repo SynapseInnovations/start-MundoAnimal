@@ -15,7 +15,7 @@ import { IconButton } from '@mui/material'
 
 // ** Third Party Components
 import toast from 'react-hot-toast'
-import CreateUserModal from 'src/views/operator/categoriesModal'
+import CreateUserModal from 'src/views/operator/inventory/categoriesModal'
 
 // ** Custom Components
 import CustomChip from 'src/@core/components/mui/chip'

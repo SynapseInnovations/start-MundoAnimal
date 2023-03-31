@@ -13,7 +13,7 @@ import DeleteIcon from '@mui/icons-material/Delete'
 
 // ** Third Party Components
 import toast from 'react-hot-toast'
-import CreateUserModal from 'src/views/admin/create'
+import CreateUserModal from 'src/views/admin/createAccount'
 import { motion } from 'framer-motion'
 
 // ** Custom Components
@@ -23,15 +23,10 @@ import CustomAvatar from 'src/@core/components/mui/avatar'
 // ** Utils Import
 import { getInitials } from 'src/@core/utils/get-initials'
 
-// ** Data Import
-
-// ** renders client column
-
 const renderClient = params => {
   const { row } = params
   const stateNum = Math.floor(Math.random() * 3)
 
-  const states = ['success', 'error', 'warning', 'info', 'primary', 'secondary']
   const color = roleList[stateNum]
 
   if (row.imagen) {

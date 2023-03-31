@@ -93,7 +93,7 @@ const navigation = () => {
     },
     {
       title: 'Usuarios',
-      path: '/admin/users/manage',
+      path: '/admin/users',
       icon: 'mdi:account-multiple'
     },
     {

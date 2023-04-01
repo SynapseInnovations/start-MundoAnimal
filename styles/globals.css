@@ -6,7 +6,11 @@ body {
 #__next {
   height: 100%;
 }
-
+.sticky-image {
+  position: sticky;
+  top: 0;
+  z-index: 999;
+}
 code {
   font-family: 'Inter', sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',
     'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue';
@@ -15,10 +19,26 @@ code {
   color: #d400ff;
   border-radius: 0.1335rem;
 }
+
+button {
+  background-color: #ff0000; /* color principal */
+  transition: background-color 0.5s ease-in-out; /* transición de color */
+}
 code:not([class*='language-']):before,
 code:not([class*='language-']):after {
   content: '`';
 }
 code[class*='language-'] {
   padding: 0;
+}
+
+.fade-in {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: opacity 0.3s ease-out, transform 0.5s ease-out;
+}
+
+.custom-card-header {
+  font-size: 44px;
+  padding-left: 16px;
 }

@@ -16,8 +16,6 @@ import Icon from 'src/@core/components/icon'
 
 // ** Step Components
 import StepCart from 'src/views/checkout/StepCart'
-import StepAddress from 'src/views/checkout/StepAddress'
-import StepPayment from 'src/views/checkout/StepPayment'
 import StepConfirmation from 'src/views/checkout/StepConfirmation'
 
 // ** Styled Components

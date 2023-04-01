@@ -20,13 +20,14 @@ import ListItemAvatar from '@mui/material/ListItemAvatar'
 import Checkbox from '@mui/material/Checkbox'
 import { FormControl, InputLabel, Select, MenuItem } from '@mui/material'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
-// ** Custom Components Imports
-import CustomChip from 'src/@core/components/mui/chip'
+import authConfig from 'src/configs/auth'
+import axios from 'axios'
 
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
+import CartItem from './CartItem'
 
 const StyledList = styled(List)(({ theme }) => ({
   padding: 0,
@@ -76,7 +77,10 @@ const data = [
     categoria_id: 1,
     Marca: 'Royal Canin',
     marca_id: 4,
-    checked: true
+
+    checked: true,
+    kgInput: 0.0,
+    cantInput: 1
   },
   {
     codigo_barra: 7896181214717,
@@ -90,7 +94,10 @@ const data = [
     categoria_id: 1,
     Marca: 'Royal Canin',
     marca_id: 4,
-    checked: true
+
+    checked: false,
+    kgInput: 0.0,
+    cantInput: 1
   },
   {
     codigo_barra: 7800006006715,
@@ -104,34 +111,68 @@ const data = [
     categoria_id: 1,
     Marca: 'Fit Formula',
     marca_id: 3,
-    checked: false
+
+    checked: false,
+    kgInput: 0.0,
+    cantInput: 1
   }
 ]
 
 const StepCart = ({ handleNext }) => {
   const breakpointMD = useMediaQuery(theme => theme.breakpoints.between('sm', 'lg'))
+  const [data2, setData2] = useState([])
   const [cart, setCart] = useState([])
+  const [total, setTotal] = useState(0)
   const [search, setSearch] = useState('')
+  const [barcode, setBarcode] = useState('')
   const [searchResult, setSearchResult] = useState([])
   const [searchSelected, setSearchSelected] = useState('')
 
-  const updateCart = (codigo_barra, variable, value) => {
-    let newCart = cart
-    newCart.forEach(i => {
-      if (i.codigo_barra === codigo_barra) {
-        switch (variable) {
-          case 'precio_kilo':
-          case 'precio_unitario':
-            i.checked = !i.checked
-            break
-          default:
-            console.log('not found')
-        }
-      }
-    })
-    setCart(newCart)
-    console.log(newCart)
+  const handleInputChange = (value, index, input) => {
+    const updatedItems = [...cart]
+    switch (input) {
+      case 'cantidad':
+        updatedItems[index].cantInput = Number(value)
+        break
+      case 'kilos':
+        updatedItems[index].kgInput = Number(value)
+        break
+      case 'tipo_precio':
+        updatedItems[index].checked = value
+        break
+      default:
+        break
+    }
+    setCart(updatedItems)
   }
+
+  useEffect(() => {
+    updateData()
+  }, [])
+
+  const updateData = () => {
+    axios
+      .get('http://localhost:10905/producto/', {
+        headers: {
+          token: window.localStorage.getItem(authConfig.storageTokenKeyName)
+        }
+      })
+      .then(response => {
+        const newData = response.data.data.map(i => ({ ...i, checked: false, kgInput: 0.0, cantInput: 1 }))
+        setData2(newData)
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }
+
+  useEffect(() => {
+    let sub = 0
+    cart.forEach(i => {
+      sub += i.checked ? i.precio_kilo * i.kgInput : i.precio_unitario * i.cantInput
+    })
+    setTotal(sub)
+  }, [cart])
 
   return (
     <Grid container spacing={6}>
@@ -159,22 +200,29 @@ const StepCart = ({ handleNext }) => {
                 sx={{ mr: 4 }}
                 size='small'
                 value={search}
-                onKeyDown={e => {
-                  if (e.key == 'Enter') {
-                    /*CODIGO BARRA
-                    const item = data.find(i => i.codigo_barra === searchResult[0].codigo_barra)
-                    setCart([...cart, item])
-                    setSearch('')
-                    setSearchSelected('')
-                     */
-                  }
-                }}
                 onChange={e => {
                   setSearch(e.target.value)
-                  const found = data.filter(i => i.nombre.toLowerCase().includes(e.target.value.toLowerCase()))
+                  const found = data2.filter(i => i.nombre.toLowerCase().includes(e.target.value.toLowerCase()))
                   setSearchResult(found)
                 }}
                 placeholder='Escanea o escribe el producto'
+              />
+              <TextField
+                fullWidth
+                sx={{ mr: 4 }}
+                size='small'
+                value={barcode}
+                type='number'
+                placeholder='Codigo de Barra'
+                onKeyDown={e => {
+                  if (e.key == 'Enter') {
+                    const item = data2.find(i => BigInt(i.codigo_barra) === BigInt(barcode))
+                    setCart([...cart, item])
+                    setSearch('')
+                    setBarcode('')
+                  }
+                }}
+                onChange={e => setBarcode(e.target.value)}
               />
               <FormControl fullWidth>
                 <InputLabel>Productos Encontrados</InputLabel>
@@ -193,7 +241,7 @@ const StepCart = ({ handleNext }) => {
               <Button
                 variant='outlined'
                 onClick={() => {
-                  const item = data.find(i => i.codigo_barra === searchResult[0].codigo_barra)
+                  const item = data2.find(i => i.codigo_barra === searchResult[0].codigo_barra)
                   setCart([...cart, item])
                   setSearch('')
                   setSearchSelected('')
@@ -208,67 +256,7 @@ const StepCart = ({ handleNext }) => {
           {cart.length > 0 ? (
             <>
               {cart.map((item, index) => (
-                <ListItem key={index}>
-                  <ListItemAvatar>
-                    <img width={100} src={item.imagen} alt={item.nombre} />
-                  </ListItemAvatar>
-                  <IconButton size='small' className='remove-item' sx={{ color: 'text.primary' }}>
-                    <Icon icon='mdi:close' fontSize={20} />
-                  </IconButton>
-                  <Grid container>
-                    <Grid item xs={12} md={8}>
-                      <ListItemText primary={item.nombre} />
-                      <Box sx={{ display: 'flex' }}>
-                        <Typography sx={{ mr: 2, mb: 4, color: 'text.disabled' }}>Marca:</Typography>
-
-                        <Typography
-                          href='/'
-                          component={MuiLink}
-                          onClick={e => e.preventDefault()}
-                          sx={{ mr: 4, color: 'primary.main' }}
-                        >
-                          {item.marca_id}
-                        </Typography>
-                        <CustomChip size='small' skin='light' color='success' label='En Stock:'></CustomChip>
-                      </Box>
-
-                      <TextField size='small' type='number' defaultValue='1' sx={{ maxWidth: 100, display: 'block' }} />
-                    </Grid>
-                    <Grid item xs={12} md={4} sx={{ mt: [6, 6, 8] }}>
-                      <Box
-                        sx={{
-                          gap: 3,
-                          height: '100%',
-                          display: 'flex',
-                          flexDirection: 'column',
-                          justifyContent: 'space-between',
-                          alignItems: { xs: 'flex-start', md: 'flex-end' }
-                        }}
-                      >
-                        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                          <Box sx={{ display: 'flex', flexDirection: 'row' }}>
-                            <Checkbox
-                              checked={item.checked}
-                              onChange={e => updateCart(item.codigo_barra, 'precio_kilo', e.target.value)}
-                              inputProps={{ 'aria-label': 'controlled' }}
-                            />
-                            <Typography sx={{ color: 'primary.main' }}>Precio Kilo: </Typography>
-                            <Typography sx={{ color: 'primary.main' }}>${item.precio_kilo}</Typography>
-                          </Box>
-                          <Box sx={{ display: 'flex', flexDirection: 'row' }}>
-                            <Checkbox
-                              checked={!item.checked}
-                              onChange={e => updateCart(item.codigo_barra, 'precio_unitario', e.target.value)}
-                              inputProps={{ 'aria-label': 'controlled' }}
-                            />
-                            <Typography sx={{ color: 'primary.main' }}>Precio Unitario: </Typography>
-                            <Typography sx={{ color: 'primary.main' }}>${item.precio_kilo}</Typography>
-                          </Box>
-                        </Box>
-                      </Box>
-                    </Grid>
-                  </Grid>
-                </ListItem>
+                <CartItem key={index} item={item} index={index} handleInputChange={handleInputChange} />
               ))}
             </>
           ) : (
@@ -280,46 +268,47 @@ const StepCart = ({ handleNext }) => {
         <Alert severity='success' icon={<Icon icon='mdi:tag-outline' />} sx={{ mb: 4 }}>
           <AlertTitle>Mundo Animal: Pasos para vender</AlertTitle>
           <div>
-            <Typography sx={{ color: 'success.main' }}>- Seleccionar producto</Typography>
-            <Typography sx={{ color: 'success.main' }}>- Aumentar stock</Typography>
-            <Typography sx={{ color: 'success.main' }}>- Seleccionar continuar</Typography>
+            <Typography sx={{ color: 'success.main' }}>
+              - Buscar producto por Nombre o Ingresar código de barra
+            </Typography>
+            <Typography sx={{ color: 'success.main' }}>
+              - Seleccionar si desea vender unidades o el peso en kilos
+            </Typography>
+            <Typography sx={{ color: 'success.main' }}>- Ingresar la cantidad correspondiente</Typography>
+            <Typography sx={{ color: 'success.main' }}>- Comprobar todos los datos y pulsar continuar</Typography>
           </div>
         </Alert>
         <Box sx={{ mb: 4, borderRadius: 1, border: theme => `1px solid ${theme.palette.divider}` }}>
           <CardContent>
             <Typography sx={{ mb: 10, fontWeight: 800 }}>Detalle</Typography>
             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-              <Box
-                sx={{
-                  mb: 2,
-                  gap: 2,
-                  display: 'flex',
-                  flexWrap: 'wrap',
-                  alignItems: 'center',
-                  justifyContent: 'space-between'
-                }}
-              >
-                <Typography variant='body2' sx={{ color: 'text.primary' }}>
-                  Purina Dog Chow
-                </Typography>
-                <Typography variant='body2'>9.990 $</Typography>
-              </Box>
-              <Box
-                sx={{
-                  gap: 2,
-                  display: 'flex',
-                  flexWrap: 'wrap',
-                  alignItems: 'center',
-                  justifyContent: 'space-between'
-                }}
-              >
-                <Typography variant='body2' sx={{ color: 'text.primary' }}>
-                  Delivery
-                </Typography>
-                <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                  <Typography variant='body2'>2.000 $</Typography>
-                </Box>
-              </Box>
+              {cart.length > 0 ? (
+                <>
+                  {cart.map((item, index) => (
+                    <Box
+                      key={index}
+                      sx={{
+                        mb: 2,
+                        gap: 2,
+                        display: 'flex',
+                        flexWrap: 'wrap',
+                        alignItems: 'center',
+                        justifyContent: 'space-between'
+                      }}
+                    >
+                      <Typography variant='body2' sx={{ color: 'text.primary' }}>
+                        {item.nombre}
+                      </Typography>
+                      <Typography variant='body2'>
+                        $ {item.checked ? item.precio_kilo : item.precio_unitario} x{' '}
+                        {item.checked ? item.kgInput : item.cantInput} {item.checked ? 'KG' : 'Unidades'}
+                      </Typography>
+                    </Box>
+                  ))}
+                </>
+              ) : (
+                <>NO HAY NADA</>
+              )}
             </Box>
           </CardContent>
           <Divider sx={{ my: '0 !important' }} />
@@ -328,7 +317,7 @@ const StepCart = ({ handleNext }) => {
               sx={{ gap: 2, display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between' }}
             >
               <Typography sx={{ fontWeight: 600 }}>Total</Typography>
-              <Typography sx={{ fontWeight: 600 }}>3198 $</Typography>
+              <Typography sx={{ fontWeight: 600 }}>$ {cart.length > 0 ? total : '0'}</Typography>
             </Box>
           </CardContent>
         </Box>

@@ -18,5 +18,5 @@ Código del Sistema de Inventario, Mundo Animal
  - [ChatGPT](https://chat.openai.com)
 
 
-![Logo](https://trello.com/1/cards/63fcaeb1a56c25b208ee1f99/attachments/63fcaee4f3d8c74ca3bb7b64/previews/63fcaee5f3d8c74ca3bb7ba1/download/animalworldweb.png)
+![Logo](https://i.imgur.com/wLmUUOv.png)
 

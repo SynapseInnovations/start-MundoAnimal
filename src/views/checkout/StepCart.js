@@ -20,6 +20,7 @@ import ListItemAvatar from '@mui/material/ListItemAvatar'
 import Checkbox from '@mui/material/Checkbox'
 import { FormControl, InputLabel, Select, MenuItem } from '@mui/material'
 
+import toast from 'react-hot-toast'
 import { useEffect, useState } from 'react'
 
 import authConfig from 'src/configs/auth'
@@ -160,10 +161,27 @@ const StepCart = ({ handleNext }) => {
       .then(response => {
         const newData = response.data.data.map(i => ({ ...i, checked: false, kgInput: 0.0, cantInput: 1 }))
         setData2(newData)
+        setSearchResult(newData)
       })
       .catch(error => {
         console.log(error)
       })
+  }
+
+  const handleEnterBarcode = () => {
+    if (barcode == '') {
+      toast.error('Ingresa un código de barra')
+
+      return
+    }
+    const item = data2.find(i => BigInt(i.codigo_barra) === BigInt(barcode))
+    if (item === undefined) {
+      setBarcode('')
+      toast.error('Ese código de barra no existe')
+    } else {
+      setCart([...cart, item])
+      setBarcode('')
+    }
   }
 
   useEffect(() => {
@@ -178,13 +196,11 @@ const StepCart = ({ handleNext }) => {
     <Grid container spacing={6}>
       <Grid item xs={12} lg={8}>
         <Typography variant='h6' sx={{ mb: 4 }}>
-          Productos
+          Registrar Venta
         </Typography>
         <Box
           sx={{
-            px: 5,
             gap: 2,
-            py: 2.5,
             display: 'flex',
             borderRadius: 1,
             alignItems: 'center',
@@ -198,37 +214,37 @@ const StepCart = ({ handleNext }) => {
               <TextField
                 fullWidth
                 sx={{ mr: 4 }}
-                size='small'
                 value={search}
                 onChange={e => {
                   setSearch(e.target.value)
                   const found = data2.filter(i => i.nombre.toLowerCase().includes(e.target.value.toLowerCase()))
                   setSearchResult(found)
                 }}
-                placeholder='Escanea o escribe el producto'
+                placeholder='Nombre del Producto'
               />
               <TextField
                 fullWidth
                 sx={{ mr: 4 }}
-                size='small'
                 value={barcode}
                 type='number'
                 placeholder='Codigo de Barra'
                 onKeyDown={e => {
                   if (e.key == 'Enter') {
-                    const item = data2.find(i => BigInt(i.codigo_barra) === BigInt(barcode))
-                    setCart([...cart, item])
-                    setSearch('')
-                    setBarcode('')
+                    handleEnterBarcode()
                   }
                 }}
                 onChange={e => setBarcode(e.target.value)}
               />
               <FormControl fullWidth>
-                <InputLabel>Productos Encontrados</InputLabel>
-                <Select label='Productos' value={searchSelected} onChange={e => setSearchSelected(e.target.value)}>
+                <InputLabel>Resultados: {searchResult.length}</InputLabel>
+                <Select
+                  sx={{ mr: 4 }}
+                  label={`Resultados: ${searchResult.length}`}
+                  value={searchSelected}
+                  onChange={e => setSearchSelected(e.target.value)}
+                >
                   <MenuItem value='' disabled>
-                    {search.length > 0 ? 'No encontrado' : 'Ingresar Código'}
+                    {searchResult.length > 0 ? 'Seleccionar Producto' : 'No existen productos en su búsqueda'}
                   </MenuItem>
                   {searchResult.map(item => (
                     <MenuItem key={item.codigo_barra} value={item.codigo_barra}>
@@ -240,11 +256,24 @@ const StepCart = ({ handleNext }) => {
 
               <Button
                 variant='outlined'
+                sx={{ mr: 4 }}
                 onClick={() => {
-                  const item = data2.find(i => i.codigo_barra === searchResult[0].codigo_barra)
-                  setCart([...cart, item])
-                  setSearch('')
-                  setSearchSelected('')
+                  const item = data2.find(i => i.codigo_barra === searchSelected)
+                  if (item === undefined) {
+                    toast(
+                      <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                          <Typography noWrap variant='body2' sx={{ color: 'text.primary', fontWeight: 600 }}>
+                            Ese código de barra no existe en el inventario.
+                          </Typography>
+                        </Box>
+                      </Box>
+                    )
+                  } else {
+                    setCart([...cart, item])
+                    setSearch('')
+                    setSearchSelected('')
+                  }
                 }}
               >
                 Agregar
@@ -260,23 +289,39 @@ const StepCart = ({ handleNext }) => {
               ))}
             </>
           ) : (
-            <>NO HAY NADA</>
+            <>
+              <Box
+                sx={{
+                  mb: 2,
+                  borderRadius: 1,
+                  border: theme => `1px solid ${theme.palette.divider}`,
+                  gap: 2,
+                  display: 'flex',
+                  flexWrap: 'wrap',
+                  flexDirection: 'column',
+                  alignItems: 'Center',
+                  justifyContent: 'space-between'
+                }}
+              >
+                <Typography variant='body2' sx={{ color: 'text.primary' }}>
+                  No existen productos en el carrito.
+                </Typography>
+              </Box>
+            </>
           )}
         </StyledList>
       </Grid>
       <Grid item xs={12} lg={4}>
         <Alert severity='success' icon={<Icon icon='mdi:tag-outline' />} sx={{ mb: 4 }}>
           <AlertTitle>Mundo Animal: Pasos para vender</AlertTitle>
-          <div>
-            <Typography sx={{ color: 'success.main' }}>
-              - Buscar producto por Nombre o Ingresar código de barra
-            </Typography>
-            <Typography sx={{ color: 'success.main' }}>
-              - Seleccionar si desea vender unidades o el peso en kilos
-            </Typography>
-            <Typography sx={{ color: 'success.main' }}>- Ingresar la cantidad correspondiente</Typography>
-            <Typography sx={{ color: 'success.main' }}>- Comprobar todos los datos y pulsar continuar</Typography>
-          </div>
+          <Typography sx={{ color: 'success.main' }}>
+            - Buscar producto por Nombre o Ingresar código de barra
+          </Typography>
+          <Typography sx={{ color: 'success.main' }}>
+            - Seleccionar si desea vender unidades o el peso en kilos
+          </Typography>
+          <Typography sx={{ color: 'success.main' }}>- Ingresar la cantidad correspondiente</Typography>
+          <Typography sx={{ color: 'success.main' }}>- Comprobar todos los datos y pulsar continuar</Typography>
         </Alert>
         <Box sx={{ mb: 4, borderRadius: 1, border: theme => `1px solid ${theme.palette.divider}` }}>
           <CardContent>
@@ -307,7 +352,11 @@ const StepCart = ({ handleNext }) => {
                   ))}
                 </>
               ) : (
-                <>NO HAY NADA</>
+                <>
+                  <Typography variant='body2' sx={{ color: 'text.primary' }}>
+                    Agrega productos al carrito para actualizar el detalle.
+                  </Typography>
+                </>
               )}
             </Box>
           </CardContent>

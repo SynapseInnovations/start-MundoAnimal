@@ -51,6 +51,7 @@ const CartItem = ({ item, index, handleInputChange }) => {
       <Grid container>
         <Grid item xs={12} md={8}>
           <ListItemText primary={item.nombre} />
+          <ListItemText primary={item.codigo_barra} />
           <Box sx={{ display: 'flex' }}>
             <Typography sx={{ mr: 2, mb: 4, color: 'text.disabled' }}>Marca:</Typography>
 

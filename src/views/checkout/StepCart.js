@@ -2,23 +2,16 @@
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import Alert from '@mui/material/Alert'
-import MuiLink from '@mui/material/Link'
 import Button from '@mui/material/Button'
-import Rating from '@mui/material/Rating'
 import Divider from '@mui/material/Divider'
-import ListItem from '@mui/material/ListItem'
 import TextField from '@mui/material/TextField'
-import IconButton from '@mui/material/IconButton'
 import AlertTitle from '@mui/material/AlertTitle'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
 import { styled } from '@mui/material/styles'
 import List from '@mui/material/List'
-import ListItemText from '@mui/material/ListItemText'
 import useMediaQuery from '@mui/material/useMediaQuery'
-import ListItemAvatar from '@mui/material/ListItemAvatar'
-import Checkbox from '@mui/material/Checkbox'
-import { FormControl, InputLabel, Select, MenuItem } from '@mui/material'
+import { FormControl, InputLabel, Select, MenuItem, Card } from '@mui/material'
 
 import toast from 'react-hot-toast'
 import { useEffect, useState } from 'react'
@@ -65,60 +58,6 @@ const StyledList = styled(List)(({ theme }) => ({
   }
 }))
 
-const data = [
-  {
-    codigo_barra: 7896181215394,
-    nombre: 'Royal Canin Renal Gato Adulto 1,5KG',
-    unidades: 2,
-    descripcion: 'Comida de gato enfermo',
-    precio_kilo: 18000,
-    precio_unitario: 18000,
-    imagen: 'https://i.imgur.com/KNbvglc.png',
-    Categoria: 'Comida',
-    categoria_id: 1,
-    Marca: 'Royal Canin',
-    marca_id: 4,
-
-    checked: true,
-    kgInput: 0.0,
-    cantInput: 1
-  },
-  {
-    codigo_barra: 7896181214717,
-    nombre: 'Royal Canin Yorkshire Terrier Perro Adulto 1KG',
-    unidades: 2,
-    descripcion: 'Comida de cuico',
-    precio_kilo: 15000,
-    precio_unitario: 15000,
-    imagen: 'https://i.imgur.com/KNbvglc.png',
-    Categoria: 'Comida',
-    categoria_id: 1,
-    Marca: 'Royal Canin',
-    marca_id: 4,
-
-    checked: false,
-    kgInput: 0.0,
-    cantInput: 1
-  },
-  {
-    codigo_barra: 7800006006715,
-    nombre: 'Fit Formula Gato Adulto 10KG',
-    unidades: 1,
-    descripcion: 'Comida rica',
-    precio_kilo: 1500,
-    precio_unitario: 20000,
-    imagen: 'https://i.imgur.com/KNbvglc.png',
-    Categoria: 'Comida',
-    categoria_id: 1,
-    Marca: 'Fit Formula',
-    marca_id: 3,
-
-    checked: false,
-    kgInput: 0.0,
-    cantInput: 1
-  }
-]
-
 const StepCart = ({ handleNext }) => {
   const breakpointMD = useMediaQuery(theme => theme.breakpoints.between('sm', 'lg'))
   const [data2, setData2] = useState([])
@@ -129,27 +68,66 @@ const StepCart = ({ handleNext }) => {
   const [searchResult, setSearchResult] = useState([])
   const [searchSelected, setSearchSelected] = useState('')
 
+  let commonData = {
+    fecha: '2023-03-18 12:30:45',
+    vendedor_rut: '19870095-9',
+    tipoventa_id: 1,
+    productos: []
+  }
+
+  const handleSubmit = e => {
+    toast('submitting')
+    e.preventDefault()
+    const newSaleForm = new FormData()
+    newSaleForm.append('fecha', commonData.fecha)
+    newSaleForm.append('vendedor_rut', commonData.vendedor_rut)
+    newSaleForm.append('tipoventa_id', commonData.tipoventa_id)
+    newSaleForm.append('total', total)
+    newSaleForm.append('productos', JSON.stringify(cart))
+
+    axios
+      .post('http://localhost:10905/venta/registrar_venta', newSaleForm, {
+        headers: {
+          'Content-Type': `multipart/form-data`,
+          token: window.localStorage.getItem(authConfig.storageTokenKeyName)
+        }
+      })
+      .then(async response => {
+        toast.success('Venta registrada en el sistema')
+        setCart([])
+        setTotal(0)
+        setSearch('')
+        setBarcode('')
+        setSearchResult([])
+        setSearchSelected('')
+        updateData()
+      })
+  }
+
   const handleInputChange = (value, index, input) => {
-    const updatedItems = [...cart]
-    switch (input) {
-      case 'cantidad':
-        updatedItems[index].cantInput = Number(value)
-        break
-      case 'kilos':
-        updatedItems[index].kgInput = Number(value)
-        break
-      case 'tipo_precio':
-        updatedItems[index].checked = value
-        break
-      default:
-        break
-    }
+    const updatedItems = cart.map((item, ix) => {
+      if (ix === index) {
+        switch (input) {
+          case 'cantidad':
+            return { ...item, cantInput: Number(value) }
+          case 'kilos':
+            return { ...item, kgInput: Number(value) }
+          case 'tipo_precio':
+            return { ...item, isPrecioUnitario: value == '1' ? true : false }
+          default:
+            return item
+        }
+      } else {
+        return item
+      }
+    })
     setCart(updatedItems)
   }
 
-  useEffect(() => {
-    updateData()
-  }, [])
+  const handleDeleteItemCart = index => {
+    const newItems = cart.filter((i, ind) => ind != index)
+    setCart(newItems)
+  }
 
   const updateData = () => {
     axios
@@ -159,7 +137,7 @@ const StepCart = ({ handleNext }) => {
         }
       })
       .then(response => {
-        const newData = response.data.data.map(i => ({ ...i, checked: false, kgInput: 0.0, cantInput: 1 }))
+        const newData = response.data.data.map(i => ({ ...i, isPrecioUnitario: true, kgInput: 0.0, cantInput: 0 }))
         setData2(newData)
         setSearchResult(newData)
       })
@@ -185,9 +163,13 @@ const StepCart = ({ handleNext }) => {
   }
 
   useEffect(() => {
+    updateData()
+  }, [])
+
+  useEffect(() => {
     let sub = 0
     cart.forEach(i => {
-      sub += i.checked ? i.precio_kilo * i.kgInput : i.precio_unitario * i.cantInput
+      sub += i.isPrecioUnitario ? i.precio_unitario * i.cantInput : i.precio_kilo * i.kgInput
     })
     setTotal(sub)
   }, [cart])
@@ -196,7 +178,7 @@ const StepCart = ({ handleNext }) => {
     <Grid container spacing={6}>
       <Grid item xs={12} lg={8}>
         <Typography variant='h6' sx={{ mb: 4 }}>
-          Registrar Venta
+          REGISTRAR VENTA EN EL INVENTARIO
         </Typography>
         <Box
           sx={{
@@ -208,43 +190,71 @@ const StepCart = ({ handleNext }) => {
             border: theme => `1px solid ${theme.palette.divider}`
           }}
         >
-          <CardContent>
-            <Typography sx={{ mb: 4, fontWeight: 600 }}>Buscar Productos</Typography>
-            <Box sx={{ mb: 4, display: 'flex', alignItems: 'center' }}>
-              <TextField
-                fullWidth
-                sx={{ mr: 4 }}
-                value={search}
-                onChange={e => {
-                  setSearch(e.target.value)
-                  const found = data2.filter(i => i.nombre.toLowerCase().includes(e.target.value.toLowerCase()))
-                  setSearchResult(found)
-                }}
-                placeholder='Nombre del Producto'
-              />
-              <TextField
-                fullWidth
-                sx={{ mr: 4 }}
-                value={barcode}
-                type='number'
-                placeholder='Codigo de Barra'
-                onKeyDown={e => {
-                  if (e.key == 'Enter') {
-                    handleEnterBarcode()
-                  }
-                }}
-                onChange={e => setBarcode(e.target.value)}
-              />
+          <Card style={{ width: '100%' }}>
+            <CardContent>
+              <Typography sx={{ mb: 4, fontWeight: 600 }}>Buscar Productos</Typography>
+              <Box sx={{ mb: 4, display: 'flex', alignItems: 'center' }}>
+                <FormControl>
+                  <TextField
+                    sx={{ mr: 4 }}
+                    value={barcode}
+                    type='number'
+                    label='Codigo de Barra'
+                    onKeyDown={e => {
+                      if (e.key == 'Enter') {
+                        handleEnterBarcode()
+                      }
+                    }}
+                    onChange={e => setBarcode(e.target.value)}
+                  />
+                </FormControl>
+                <FormControl>
+                  <TextField
+                    label={'Nombre del Producto'}
+                    sx={{ mr: 4 }}
+                    value={search}
+                    onChange={e => {
+                      setSearch(e.target.value)
+                      const found = data2.filter(i => i.nombre.toLowerCase().includes(e.target.value.toLowerCase()))
+                      setSearchResult(found)
+                    }}
+                  />
+                </FormControl>
+                <Button
+                  variant='outlined'
+                  sx={{ mr: 4 }}
+                  onClick={() => {
+                    const item = data2.find(i => i.codigo_barra === searchSelected)
+                    if (searchResult.length <= 0) {
+                      toast.error('No se han encontrado productos, pruebe escribiendo un nombre diferente.')
+
+                      return
+                    }
+                    if (item === undefined) {
+                      toast.error('No se ha seleccionado un producto de la búsqueda.')
+
+                      return
+                    }
+                    setCart([...cart, item])
+                    setSearch('')
+                    setSearchSelected('')
+                  }}
+                >
+                  Agregar
+                </Button>
+              </Box>
               <FormControl fullWidth>
-                <InputLabel>Resultados: {searchResult.length}</InputLabel>
+                <InputLabel>Resultados: {searchResult.length} </InputLabel>
                 <Select
                   sx={{ mr: 4 }}
-                  label={`Resultados: ${searchResult.length}`}
+                  label={`Resultados: ${searchResult.length} `}
                   value={searchSelected}
                   onChange={e => setSearchSelected(e.target.value)}
                 >
                   <MenuItem value='' disabled>
-                    {searchResult.length > 0 ? 'Seleccionar Producto' : 'No existen productos en su búsqueda'}
+                    {searchResult.length > 0
+                      ? 'Código de barra - Nombre del Producto'
+                      : 'No existen productos en su búsqueda'}
                   </MenuItem>
                   {searchResult.map(item => (
                     <MenuItem key={item.codigo_barra} value={item.codigo_barra}>
@@ -253,63 +263,66 @@ const StepCart = ({ handleNext }) => {
                   ))}
                 </Select>
               </FormControl>
-
-              <Button
-                variant='outlined'
-                sx={{ mr: 4 }}
-                onClick={() => {
-                  const item = data2.find(i => i.codigo_barra === searchSelected)
-                  if (item === undefined) {
-                    toast(
-                      <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                          <Typography noWrap variant='body2' sx={{ color: 'text.primary', fontWeight: 600 }}>
-                            Ese código de barra no existe en el inventario.
-                          </Typography>
-                        </Box>
-                      </Box>
-                    )
-                  } else {
-                    setCart([...cart, item])
-                    setSearch('')
-                    setSearchSelected('')
-                  }
-                }}
-              >
-                Agregar
-              </Button>
-            </Box>
-          </CardContent>
+            </CardContent>
+          </Card>
         </Box>
-        <StyledList sx={{ mb: 4 }}>
-          {cart.length > 0 ? (
-            <>
-              {cart.map((item, index) => (
-                <CartItem key={index} item={item} index={index} handleInputChange={handleInputChange} />
-              ))}
-            </>
-          ) : (
-            <>
-              <Box
-                sx={{
-                  mb: 2,
-                  borderRadius: 1,
-                  border: theme => `1px solid ${theme.palette.divider}`,
-                  gap: 2,
-                  display: 'flex',
-                  flexWrap: 'wrap',
-                  flexDirection: 'column',
-                  alignItems: 'Center',
-                  justifyContent: 'space-between'
+        <Box
+          sx={{
+            gap: 2,
+            display: 'flex',
+            borderRadius: 1,
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            border: theme => `1px solid ${theme.palette.divider}`
+          }}
+        >
+          <Card style={{ width: '100%' }}>
+            <CardContent>
+              <Typography sx={{ mb: 4, fontWeight: 600 }}>Carrito</Typography>
+              <StyledList
+                style={{
+                  maxHeight: 500,
+                  overflow: 'auto'
                 }}
+                sx={{ mb: 4 }}
               >
-                <Typography variant='body2' sx={{ color: 'text.primary' }}>
-                  No existen productos en el carrito.
-                </Typography>
-              </Box>
-            </>
-          )}
-        </StyledList>
+                {cart.length > 0 ? (
+                  <>
+                    {cart.map((item, index) => (
+                      <CartItem
+                        key={index}
+                        item={item}
+                        deleteThis={handleDeleteItemCart}
+                        index={index}
+                        handleInputChange={handleInputChange}
+                      />
+                    ))}
+                  </>
+                ) : (
+                  <>
+                    <Box
+                      sx={{
+                        mb: 2,
+                        borderRadius: 1,
+                        border: theme => `1px solid ${theme.palette.divider}`,
+                        gap: 2,
+                        display: 'flex',
+                        flexWrap: 'wrap',
+                        flexDirection: 'column',
+                        alignItems: 'Center',
+                        justifyContent: 'space-between'
+                      }}
+                    >
+                      <Typography variant='body2' sx={{ color: 'text.primary' }}>
+                        No existen productos en el carrito.
+                      </Typography>
+                    </Box>
+                  </>
+                )}
+              </StyledList>
+            </CardContent>
+          </Card>
+        </Box>
       </Grid>
       <Grid item xs={12} lg={4}>
         <Alert severity='success' icon={<Icon icon='mdi:tag-outline' />} sx={{ mb: 4 }}>
@@ -345,8 +358,9 @@ const StepCart = ({ handleNext }) => {
                         {item.nombre}
                       </Typography>
                       <Typography variant='body2'>
-                        $ {item.checked ? item.precio_kilo : item.precio_unitario} x{' '}
-                        {item.checked ? item.kgInput : item.cantInput} {item.checked ? 'KG' : 'Unidades'}
+                        $ {item.isPrecioUnitario ? item.precio_unitario : item.precio_kilo} x{' '}
+                        {item.isPrecioUnitario ? item.cantInput : item.kgInput}{' '}
+                        {item.isPrecioUnitario ? 'Unidades' : 'KG'}
                       </Typography>
                     </Box>
                   ))}
@@ -371,7 +385,7 @@ const StepCart = ({ handleNext }) => {
           </CardContent>
         </Box>
         <Box sx={{ display: 'flex', ...(breakpointMD ? { justifyContent: 'flex-end' } : {}) }}>
-          <Button fullWidth={!breakpointMD} variant='contained' onClick={handleNext}>
+          <Button fullWidth={!breakpointMD} variant='contained' onClick={handleSubmit}>
             CONTINUAR
           </Button>
         </Box>

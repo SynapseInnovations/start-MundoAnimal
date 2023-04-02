@@ -8,7 +8,6 @@ import Divider from '@mui/material/Divider'
 import ListItem from '@mui/material/ListItem'
 import TextField from '@mui/material/TextField'
 import IconButton from '@mui/material/IconButton'
-import AlertTitle from '@mui/material/AlertTitle'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
 import { styled } from '@mui/material/styles'
@@ -17,12 +16,23 @@ import ListItemText from '@mui/material/ListItemText'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import ListItemAvatar from '@mui/material/ListItemAvatar'
 import Checkbox from '@mui/material/Checkbox'
-import { FormControl, InputLabel, Select, MenuItem, Avatar } from '@mui/material'
+import {
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Avatar,
+  FormControlLabel,
+  RadioGroup,
+  Radio,
+  FormLabel,
+  Chip
+} from '@mui/material'
 
 import Icon from 'src/@core/components/icon'
 import CustomChip from 'src/@core/components/mui/chip'
 
-const CartItem = ({ item, index, handleInputChange }) => {
+const CartItem = ({ item, index, handleInputChange, deleteThis }) => {
   const {
     codigo_barra,
     nombre,
@@ -35,7 +45,7 @@ const CartItem = ({ item, index, handleInputChange }) => {
     Categoria_id,
     marca,
     Marca_id,
-    checked,
+    isPrecioUnitario,
     kgInput,
     cantInput
   } = item
@@ -45,7 +55,7 @@ const CartItem = ({ item, index, handleInputChange }) => {
       <ListItemAvatar>
         <img width={100} src={item.imagen} alt={item.nombre} />
       </ListItemAvatar>
-      <IconButton size='small' className='remove-item' sx={{ color: 'text.primary' }}>
+      <IconButton onClick={() => deleteThis(index)} size='small' className='remove-item' sx={{ color: 'text.primary' }}>
         <Icon icon='mdi:close' fontSize={20} />
       </IconButton>
       <Grid container>
@@ -63,35 +73,20 @@ const CartItem = ({ item, index, handleInputChange }) => {
             >
               {item.Marca}
             </Typography>
-            <CustomChip
-              avatar={<Avatar sx={{ bgcolor: '#eefbe5' }}>{item.unidades}</Avatar>}
-              size='small'
-              skin='light'
-              color='success'
-              label='En Stock'
-            ></CustomChip>
+            {item.unidades > 0 ? (
+              <>
+                <Chip
+                  label={`${item.unidades} en Stock`}
+                  color={item.unidades < 5 ? 'warning' : 'success'}
+                  size='small'
+                />
+              </>
+            ) : (
+              <>
+                <Chip label='Sin stock disponible' color='error' size='small' />
+              </>
+            )}
           </Box>
-
-          <TextField
-            size='small'
-            type='number'
-            label='Cantidad'
-            disabled={item.checked}
-            defaultValue={item.cantInput}
-            onChange={e => handleInputChange(e.target.value, index, 'cantidad')}
-            inputProps={{ min: 1, max: item.unidades }}
-            sx={{ maxWidth: 100, display: 'block' }}
-          />
-          <TextField
-            size='small'
-            type='number'
-            label='Kilos'
-            disabled={!item.checked}
-            defaultValue={item.kgInput}
-            onChange={e => handleInputChange(e.target.value, index, 'kilos')}
-            inputProps={{ min: 0.0, step: 0.1 }}
-            sx={{ maxWidth: 100, display: 'block' }}
-          />
         </Grid>
         <Grid item xs={12} md={4} sx={{ mt: [6, 6, 8] }}>
           <Box
@@ -105,24 +100,45 @@ const CartItem = ({ item, index, handleInputChange }) => {
             }}
           >
             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-              <Box sx={{ display: 'flex', flexDirection: 'row' }}>
-                <Checkbox
-                  checked={item.checked}
-                  onChange={e => handleInputChange(e.target.checked, index, 'tipo_precio')}
-                  inputProps={{ 'aria-label': 'controlled' }}
-                />
-                <Typography sx={{ color: 'primary.main' }}>Precio Kilo: </Typography>
-                <Typography sx={{ color: 'primary.main' }}>${item.precio_kilo}</Typography>
-              </Box>
-              <Box sx={{ display: 'flex', flexDirection: 'row' }}>
-                <Checkbox
-                  checked={!item.checked}
-                  onChange={e => handleInputChange(!e.target.checked, index, 'tipo_precio')}
-                  inputProps={{ 'aria-label': 'controlled' }}
-                />
-                <Typography sx={{ color: 'primary.main' }}>Precio Unitario: </Typography>
-                <Typography sx={{ color: 'primary.main' }}>${item.precio_unitario}</Typography>
-              </Box>
+              <FormControl>
+                <FormLabel>Tipo de Venta</FormLabel>
+                <RadioGroup
+                  onChange={e => {
+                    handleInputChange(e.target.value, index, 'tipo_precio')
+                  }}
+                  defaultValue='1'
+                >
+                  <FormControlLabel value='1' control={<Radio />} label={`Por Unidad ($ ${item.precio_unitario})`} />
+                  <FormControlLabel value='0' control={<Radio />} label={`Por Kilo ($ ${item.precio_kilo})`} />
+                </RadioGroup>
+                {item.isPrecioUnitario ? (
+                  <>
+                    <TextField
+                      size='small'
+                      type='number'
+                      label='Cantidad'
+                      disabled={!item.isPrecioUnitario}
+                      value={item.cantInput}
+                      onChange={e => handleInputChange(e.target.value, index, 'cantidad')}
+                      inputProps={{ min: 0, max: item.unidades }}
+                      sx={{ maxWidth: 100, display: 'block' }}
+                    />
+                  </>
+                ) : (
+                  <>
+                    <TextField
+                      size='small'
+                      type='number'
+                      label='Kilos'
+                      disabled={item.isPrecioUnitario}
+                      value={item.kgInput}
+                      onChange={e => handleInputChange(e.target.value, index, 'kilos')}
+                      inputProps={{ min: 0.0, step: 0.1 }}
+                      sx={{ maxWidth: 100, display: 'block' }}
+                    />
+                  </>
+                )}
+              </FormControl>
             </Box>
           </Box>
         </Grid>

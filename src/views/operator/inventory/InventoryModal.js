@@ -1,5 +1,5 @@
 // ** React Imports
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import FormData from 'form-data'
 
 // ** Axios
@@ -41,13 +41,18 @@ const InventoryModal = props => {
   const [edit, setEdit] = useState(false)
 
   // ** Props
-  const { value, handleFilter, editTarget, data, open, dialogToggle, updateMethod } = props
+  const { editTarget, data, open, dialogToggle, updateMethod } = props
+  const [value, setValue] = useState('')
 
   // ** Selects
   const [categoriaDropdown, setCategoriaDropdown] = useState([
     { id: 1, nombre: 'Comida' },
     { id: 2, nombre: 'Accesorios' }
   ])
+
+  const handleFilter = useCallback(val => {
+    setValue(val)
+  }, [])
 
   const [animalDropdown, setAnimalDropdown] = useState([
     { id: 1, nombre: 'Perro' },
@@ -231,7 +236,6 @@ const InventoryModal = props => {
           backgroundColor: 'rgba(300, 0, 0, 0)',
           backdropFilter: 'blur(4px)',
           WebkitBackdropFilter: 'blur(2px)',
-
           opacity: 0.99
         }}
       >

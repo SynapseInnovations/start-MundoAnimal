@@ -19,6 +19,9 @@ import InventoryModal from 'src/views/operator/inventory/InventoryModal'
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
 
+// ** API Routes
+import APIRoutes from 'src/configs/apiRoutes'
+
 const defaultColumns = [
   {
     flex: 0.4,
@@ -110,7 +113,7 @@ const ProductsIndex = () => {
 
   const updateData = () => {
     axios
-      .get('http://localhost:10905/producto/', {
+      .get(APIRoutes.productos.leer, {
         headers: {
           token: window.localStorage.getItem(authConfig.storageTokenKeyName)
         }

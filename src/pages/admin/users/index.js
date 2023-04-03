@@ -23,6 +23,9 @@ import CustomAvatar from 'src/@core/components/mui/avatar'
 // ** Utils Import
 import { getInitials } from 'src/@core/utils/get-initials'
 
+// ** API Routes
+import APIRoutes from 'src/configs/apiRoutes'
+
 const renderClient = params => {
   const { row } = params
   const stateNum = Math.floor(Math.random() * 3)
@@ -64,7 +67,7 @@ const UsersManageIndex = () => {
 
   const updateData = () => {
     axios
-      .get('http://localhost:10905/usuario/')
+      .get(APIRoutes.usuarios.leer)
       .then(response => {
         setData(response.data.data)
         setLoading(false)

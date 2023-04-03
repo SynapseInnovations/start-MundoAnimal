@@ -25,6 +25,9 @@ import { Visibility, VisibilityOff } from '@material-ui/icons'
 import { motion } from 'framer-motion'
 import GroupIcon from '@mui/icons-material/Group'
 
+// ** API Routes
+import APIRoutes from 'src/configs/apiRoutes'
+
 const CreateAccountModal = props => {
   // ** Form States
   const [rutUsuario, setRutUsuario] = React.useState('')
@@ -88,7 +91,7 @@ const CreateAccountModal = props => {
     formData.append('direccion', direccionUsuario)
     formData.append('imagen', imagenUsuario)
     formData.append('Rol_id', rolUsuario)
-    const url = edit ? 'http://localhost:10905/usuario/modificar' : 'http://localhost:10905/usuario/crear_cuenta'
+    const url = edit ? APIRoutes.usuarios.modificar : APIRoutes.usuarios.registrar
 
     axios
       .post(url, formData, {

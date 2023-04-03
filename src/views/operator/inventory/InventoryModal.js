@@ -26,6 +26,9 @@ import AddIcon from '@material-ui/icons/Add'
 import { motion } from 'framer-motion'
 import PetsIcon from '@mui/icons-material/Pets'
 
+// ** API Routes
+import APIRoutes from 'src/configs/apiRoutes'
+
 const InventoryModal = props => {
   // ** Variables
   const [codigoBarraProducto, setCodigoBarraProducto] = useState('')
@@ -108,7 +111,7 @@ const InventoryModal = props => {
     inventoryForm.append('animal_id', animalProducto)
     inventoryForm.append('imagen', null)
 
-    const url = edit ? 'http://localhost:10905/producto/modificar' : 'http://localhost:10905/producto/agregar'
+    const url = edit ? APIRoutes.productos.modificar : APIRoutes.productos.registrar
     axios
       .post(url, inventoryForm, {
         headers: {

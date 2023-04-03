@@ -1,160 +1,208 @@
 // ** React Imports
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
+import { Provider } from 'react-redux'
+
+import { useAuth } from 'src/hooks/useAuth'
+import authConfig from 'src/configs/auth'
 import axios from 'axios'
 
 // ** MUI Imports
+import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
-import Button from '@mui/material/Button'
-import Typography from '@mui/material/Typography'
-import CardHeader from '@mui/material/CardHeader'
+import Grid from '@mui/material/Grid'
 import { DataGrid } from '@mui/x-data-grid'
-import SettingsIcon from '@mui/icons-material/Settings'
-import { IconButton } from '@mui/material'
-import AddIcon from '@material-ui/icons/Add'
+import IconButton from '@mui/material/IconButton'
+import Typography from '@mui/material/Typography'
+import { motion } from 'framer-motion'
+import BrandsModal from 'src/views/operator/inventory/brands/brandsModal'
+
+// ** Icon Imports
+import Icon from 'src/@core/components/icon'
+
+// ** API Routes
+import APIRoutes from 'src/configs/apiRoutes'
+
+const defaultColumns = [
+  {
+    flex: 0.4,
+    field: 'nombre',
+    minWidth: 500,
+    headerName: 'Nombre',
+    renderCell: ({ row }) => {
+      return (
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+            <Typography noWrap variant='body2' sx={{ color: 'text.primary', fontWeight: 600 }}>
+              {row.nombre}
+            </Typography>
+          </Box>
+        </Box>
+      )
+    }
+  }
+]
 
 const BrandsIndex = () => {
-  // ** States
-  const [pageSize, setPageSize] = useState(7)
-  const [hideNameColumn, setHideNameColumn] = useState(false)
+  // ** Table Data
   const [data, setData] = useState([])
+  const [value, setValue] = useState('')
+  const [pageSize, setPageSize] = useState(10)
   const [loading, setLoading] = useState(true)
-  const [open, setOpen] = useState(false)
-  const handleDialogToggle = () => setOpen(!open)
 
+  // ** Modal Things
+  const [editTarget, setEditTarget] = useState(null)
+  const [dialogOpen, setDialogOpen] = useState(false)
+  const dialogToggle = () => setDialogOpen(!dialogOpen)
+
+  // ** Hooks
   useEffect(() => {
+    updateData()
+  }, [])
+
+  const handleFilter = useCallback(val => {
+    setValue(val)
+  }, [])
+
+  const updateData = () => {
     axios
-      .get('http://localhost:10905/marca')
+      .get(APIRoutes.mantenedor.marca.leer, {
+        headers: {
+          token: window.localStorage.getItem(authConfig.storageTokenKeyName)
+        }
+      })
       .then(response => {
         setData(response.data.data)
-        console.log(response.data.data)
         setLoading(false)
       })
       .catch(error => {
         console.log(error)
         setLoading(false)
       })
-  }, [])
+  }
 
   const columns = [
+    ...defaultColumns,
     {
-      flex: 0.25,
-      minWidth: 290,
-      field: 'nombre',
-      headerName: 'Nombre',
-      hide: hideNameColumn,
-      renderCell: params => (
-        <Typography variant='body2' sx={{ color: 'text.primary' }}>
-          {params.row.nombre}
-        </Typography>
-      )
-    },
-    {
-      flex: 0.175,
-      minWidth: 120,
-      headerName: 'Logo',
-      field: 'logo',
-      renderCell: params => (
-        <Typography variant='body2' sx={{ color: 'text.primary' }}>
-          {params.row.logo}
-        </Typography>
-      )
-    },
-    {
-      flex: 0.125,
-      minWidth: 140,
+      flex: 0.1,
+      minWidth: 100,
+      sortable: false,
       field: 'actions',
-      headerName: 'Actions',
-      renderCell: params => {
-        return (
-          <>
-            <IconButton
-              size='small'
-              color='secondary'
-              sx={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                fontSize: '1.4rem',
-                transition: 'transform 0.5s ease',
-                '&:hover': {
-                  transform: 'rotate(50deg)'
-                },
-                '&:active': {
-                  transform: 'rotate(400deg)'
-                }
-              }}
-              onClick={() => getFullName(params)}
+      headerName: 'Acciones',
+      headerAlign: 'center',
+      align: 'center',
+      renderCell: ({ row }) => (
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <IconButton
+            onClick={() => {
+              setEditTarget(row.id)
+              dialogToggle()
+            }}
+          >
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.2, duration: 0.9 }}
             >
-              <SettingsIcon />
-            </IconButton>
-          </>
-        )
-      }
+              <Icon
+                icon='mdi:pencil-outline'
+                color='#eec1ad'
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  fontSize: '1.4rem',
+                  transition: 'transform 0.1s ease',
+                  '&:hover': {
+                    transform: 'rotate(-10deg)'
+                  },
+                  '&:active': {
+                    transform: 'rotate(-40deg)'
+                  }
+                }}
+              />
+            </motion.div>
+          </IconButton>
+          <IconButton>
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.2, duration: 0.9 }}
+            >
+              <Icon
+                icon='mdi:delete-outline'
+                color=' 	#e35d6a'
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  fontSize: '1.4rem',
+                  transition: 'transform 0.5s ease',
+                  '&:hover': {
+                    transform: 'rotate(8deg)'
+                  },
+                  '&:active': {
+                    transform: 'rotate(50deg)'
+                  }
+                }}
+                onClick={() => {
+                  const shouldDelete = window.confirm('¿Desea eliminar realmente?')
+                  if (shouldDelete) {
+                    handleDeletePermission(params.row.id)
+                  }
+                }}
+              />
+            </motion.div>
+          </IconButton>
+        </Box>
+      )
     }
   ]
 
   return (
-    <Card>
-      <CardHeader
-        title='Lista de Marcas'
-        action={
-          <div>
-            <Button
-              variant='contained'
-              sx={{
-                borderRadius: '6px',
+    <>
+      <Grid container spacing={6}>
+        <Grid item xs={12}></Grid>
 
-                width: '200px',
-                font: 'bold',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                boxShadow: '2px 2px 60px rgba(200, 0, 0, 0.60)',
-                transition: 'all 0.3s ease-in-out',
-
-                '&:hover': {
-                  transform: 'scale(1.08)',
-                  boxShadow: '0px 0px 30px rgba(200, 0, 0, 0.70)',
-                  backgroundColor: '#ed133f',
-                  transition: 'all 0.2s ease-in-out'
-                },
-                '&:active': {
-                  transform: 'scale(0.95)',
-                  boxShadow: '2px 2px 30px rgba(200, 0, 0, 0.60)',
-                  backgroundColor: '#d61038',
-                  transition: 'all 0.03s ease-in-out'
-                }
-              }}
-              onClick={handleDialogToggle}
-            >
-              <AddIcon sx={{ marginRight: '8px', fontSize: 'large' }} />
-              Agregar Marca
-            </Button>
-            <span> </span>
-          </div>
-        }
-      />
-
-      {loading ? (
-        <>
-          <Typography variant='body2' sx={{ color: 'text.primary' }}>
-            TOY CARGANDO OE
-          </Typography>
-        </>
-      ) : (
-        <>
-          <DataGrid
-            autoHeight
-            rows={data}
-            columns={columns}
-            pageSize={pageSize}
-            disableSelectionOnClick
-            rowsPerPageOptions={[7, 10, 25, 50]}
-            onPageSizeChange={newPageSize => setPageSize(newPageSize)}
-          />
-        </>
-      )}
-    </Card>
+        <Grid item xs={12}>
+          <motion.div
+            initial={{ opacity: 0, x: 25 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ type: 'spring', stiffness: 60, delay: 0.55, duration: 0.1 }}
+          >
+            <Card>
+              <BrandsModal
+                updateMethod={updateData}
+                data={data}
+                editTarget={{ variable: editTarget, method: setEditTarget }}
+                open={dialogOpen}
+                dialogToggle={dialogToggle}
+                value={value}
+                handleFilter={handleFilter}
+              />
+              <DataGrid
+                autoHeight
+                rows={data}
+                getRowId={row => row.id}
+                columns={columns}
+                pageSize={pageSize}
+                disableSelectionOnClick
+                rowsPerPageOptions={[10, 25, 50, 100]}
+                onPageSizeChange={newPageSize => setPageSize(newPageSize)}
+                sx={{
+                  '& .MuiDataGrid-columnHeaders': {
+                    borderRadius: 0,
+                    backgroundColor: '#f4bbce                    ',
+                    color: '#5b2235                    ',
+                    border: '4px solid #F9F4F0',
+                    borderRadius: '12px'
+                  }
+                }}
+              />
+            </Card>
+          </motion.div>
+        </Grid>
+      </Grid>
+    </>
   )
 }
 

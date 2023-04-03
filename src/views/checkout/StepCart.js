@@ -23,6 +23,9 @@ import axios from 'axios'
 import Icon from 'src/@core/components/icon'
 import CartItem from './CartItem'
 
+// ** API Routes
+import APIRoutes from 'src/configs/apiRoutes'
+
 const StyledList = styled(List)(({ theme }) => ({
   padding: 0,
   '& .MuiListItem-root': {
@@ -86,7 +89,7 @@ const StepCart = ({ handleNext }) => {
     newSaleForm.append('productos', JSON.stringify(cart))
 
     axios
-      .post('http://localhost:10905/venta/registrar_venta', newSaleForm, {
+      .post(APIRoutes.ventas.registrar, newSaleForm, {
         headers: {
           'Content-Type': `multipart/form-data`,
           token: window.localStorage.getItem(authConfig.storageTokenKeyName)
@@ -131,7 +134,7 @@ const StepCart = ({ handleNext }) => {
 
   const updateData = () => {
     axios
-      .get('http://localhost:10905/producto/', {
+      .get(APIRoutes.productos.leer, {
         headers: {
           token: window.localStorage.getItem(authConfig.storageTokenKeyName)
         }

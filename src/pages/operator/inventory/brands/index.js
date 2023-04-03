@@ -19,6 +19,9 @@ import BrandsModal from 'src/views/operator/inventory/brands/brandsModal'
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
 
+// ** API Routes
+import APIRoutes from 'src/configs/apiRoutes'
+
 const defaultColumns = [
   {
     flex: 0.4,
@@ -62,7 +65,7 @@ const BrandsIndex = () => {
 
   const updateData = () => {
     axios
-      .get('http://localhost:10905/marca/', {
+      .get(APIRoutes.mantenedor.marca.leer, {
         headers: {
           token: window.localStorage.getItem(authConfig.storageTokenKeyName)
         }

@@ -19,6 +19,9 @@ import CategoriesModal from 'src/views/operator/inventory/categories/categoriesM
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
 
+// ** API Routes
+import APIRoutes from 'src/configs/apiRoutes'
+
 const defaultColumns = [
   {
     flex: 0.4,
@@ -62,7 +65,7 @@ const CategoriesIndex = () => {
 
   const updateData = () => {
     axios
-      .get('http://localhost:10905/categoria/', {
+      .get(APIRoutes.mantenedor.categoria.leer, {
         headers: {
           token: window.localStorage.getItem(authConfig.storageTokenKeyName)
         }

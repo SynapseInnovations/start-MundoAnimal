@@ -20,6 +20,9 @@ import AddIcon from '@material-ui/icons/Add'
 import { motion } from 'framer-motion'
 import PetsIcon from '@mui/icons-material/Pets'
 
+// ** API Routes
+import APIRoutes from 'src/configs/apiRoutes'
+
 const BrandsModal = props => {
   // ** Variables
   const [nombreMarca, setNombreMarca] = useState('')
@@ -50,7 +53,7 @@ const BrandsModal = props => {
 
     edit
       ? axios
-          .put('http://localhost:10905/marca/modificar', inventoryForm, {
+          .put(APIRoutes.mantenedor.marca.modificar, inventoryForm, {
             headers: {
               'Content-Type': `multipart/form-data`,
               token: window.localStorage.getItem(authConfig.storageTokenKeyName)
@@ -61,7 +64,7 @@ const BrandsModal = props => {
             dialogToggle()
           })
       : axios
-          .post('http://localhost:10905/marca/agregar', inventoryForm, {
+          .post(APIRoutes.mantenedor.marca.registrar, inventoryForm, {
             headers: {
               'Content-Type': `multipart/form-data`,
               token: window.localStorage.getItem(authConfig.storageTokenKeyName)

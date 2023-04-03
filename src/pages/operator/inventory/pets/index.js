@@ -19,6 +19,9 @@ import PetsModal from 'src/views/operator/inventory/pets/petsModal'
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
 
+// ** API Routes
+import APIRoutes from 'src/configs/apiRoutes'
+
 const defaultColumns = [
   {
     flex: 0.4,
@@ -62,7 +65,7 @@ const PetsIndex = () => {
 
   const updateData = () => {
     axios
-      .get('http://localhost:10905/animal/', {
+      .get(APIRoutes.mantenedor.animal.leer, {
         headers: {
           token: window.localStorage.getItem(authConfig.storageTokenKeyName)
         }

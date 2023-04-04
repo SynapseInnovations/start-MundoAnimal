@@ -97,26 +97,27 @@ const navigation = () => {
       icon: 'mdi:account-multiple'
     },
     {
-      title: 'Finanzas',
+      title: 'Finanzas (En Desarrollo)',
       path: '/',
-      icon: 'mdi:cash-multiple',
-      children: [
-        {
-          title: 'Ventas del día',
-          path: '/admin/finance/daily',
-          icon: 'mdi:cash-register'
-        },
-        {
-          title: 'Ventas por Periodo',
-          path: '/admin/finance/history',
-          icon: 'mdi:cash-clock'
-        },
-        {
-          title: 'Ganancias',
-          path: '/admin/finance/earnings',
-          icon: 'mdi:cash-plus'
-        }
-      ]
+      icon: 'mdi:cash-multiple'
+
+      // children: [
+      //   {
+      //     title: 'Ventas del día',
+      //     path: '/admin/finance/daily',
+      //     icon: 'mdi:cash-register'
+      //   },
+      //   {
+      //     title: 'Ventas por Periodo',
+      //     path: '/admin/finance/history',
+      //     icon: 'mdi:cash-clock'
+      //   },
+      //   {
+      //     title: 'Ganancias',
+      //     path: '/admin/finance/earnings',
+      //     icon: 'mdi:cash-plus'
+      //   }
+      // ]
     }
   ]
 }

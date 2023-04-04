@@ -205,5 +205,9 @@ const CategoriesIndex = () => {
     </>
   )
 }
+CategoriesIndex.acl = {
+  action: 'read',
+  subject: 'inventory'
+}
 
 export default CategoriesIndex

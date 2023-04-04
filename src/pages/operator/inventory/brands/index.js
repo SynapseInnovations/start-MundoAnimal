@@ -205,5 +205,9 @@ const BrandsIndex = () => {
     </>
   )
 }
+BrandsIndex.acl = {
+  action: 'read',
+  subject: 'inventory'
+}
 
 export default BrandsIndex

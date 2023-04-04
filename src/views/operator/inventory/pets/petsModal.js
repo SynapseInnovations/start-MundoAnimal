@@ -59,7 +59,7 @@ const PetsModal = props => {
 
     edit
       ? axios
-          .put(APIRoutes.mantenedor.animal.modificar, inventoryForm, {
+          .put(APIRoutes.mantenedor.mascota.modificar, inventoryForm, {
             headers: {
               'Content-Type': `multipart/form-data`,
               token: window.localStorage.getItem(authConfig.storageTokenKeyName)
@@ -70,7 +70,7 @@ const PetsModal = props => {
             dialogToggle()
           })
       : axios
-          .post(APIRoutes.mantenedor.animal.registrar, inventoryForm, {
+          .post(APIRoutes.mantenedor.mascota.registrar, inventoryForm, {
             headers: {
               'Content-Type': `multipart/form-data`,
               token: window.localStorage.getItem(authConfig.storageTokenKeyName)

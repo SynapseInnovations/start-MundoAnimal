@@ -65,7 +65,7 @@ const PetsIndex = () => {
 
   const updateData = () => {
     axios
-      .get(APIRoutes.mantenedor.animal.leer, {
+      .get(APIRoutes.mantenedor.mascota.leer, {
         headers: {
           token: window.localStorage.getItem(authConfig.storageTokenKeyName)
         }
@@ -204,6 +204,10 @@ const PetsIndex = () => {
       </Grid>
     </>
   )
+}
+PetsIndex.acl = {
+  action: 'read',
+  subject: 'inventory'
 }
 
 export default PetsIndex

@@ -46,11 +46,11 @@ const defaultColumns = [
   {
     flex: 0.1,
     minWidth: 100,
-    field: 'unidades',
+    field: 'cantidad',
     headerName: 'Disponible',
     headerAlign: 'center',
     align: 'center',
-    renderCell: ({ row }) => <Typography>{row.unidades}</Typography>
+    renderCell: ({ row }) => <Typography>{row.cantidad}</Typography>
   },
   {
     flex: 0.1,
@@ -87,6 +87,15 @@ const defaultColumns = [
     headerAlign: 'center',
     align: 'center',
     renderCell: ({ row }) => <Typography>{row.Marca}</Typography>
+  },
+  {
+    flex: 0.1,
+    minWidth: 100,
+    field: 'Mascota',
+    headerName: 'Mascota',
+    headerAlign: 'center',
+    align: 'center',
+    renderCell: ({ row }) => <Typography>{row.Mascota}</Typography>
   }
 ]
 
@@ -252,6 +261,11 @@ const ProductsIndex = () => {
       </Grid>
     </>
   )
+}
+
+ProductsIndex.acl = {
+  action: 'read',
+  subject: 'inventory'
 }
 
 export default ProductsIndex

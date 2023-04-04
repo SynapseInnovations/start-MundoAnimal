@@ -39,7 +39,7 @@ const InventoryModal = props => {
   const [precioUnitarioProducto, setPrecioUnitarioProducto] = useState(0)
   const [marcaProducto, setMarcaProducto] = useState('')
   const [categoriaProducto, setCategoriaProducto] = useState('')
-  const [animalProducto, setAnimalProducto] = useState('')
+  const [mascotaProducto, setMascotaProducto] = useState('')
 
   const [edit, setEdit] = useState(false)
 
@@ -52,7 +52,7 @@ const InventoryModal = props => {
     { id: 2, nombre: 'Accesorios' }
   ])
 
-  const [animalDropdown, setAnimalDropdown] = useState([
+  const [mascotaDropdown, setMascotaDropdown] = useState([
     { id: 1, nombre: 'Perro' },
     { id: 2, nombre: 'Gato' },
     { id: 3, nombre: 'Conejo' }
@@ -71,12 +71,12 @@ const InventoryModal = props => {
       setCodigoBarraProducto(found.codigo_barra)
       setNombreProducto(found.nombre)
       setDescripcionProducto(found.descripcion)
-      setCantidadProducto(found.unidades)
+      setCantidadProducto(found.cantidad)
       setPrecioKiloProducto(found.precio_kilo)
       setPrecioUnitarioProducto(found.precio_unitario)
       setMarcaProducto(found.marca_id)
       setCategoriaProducto(found.categoria_id)
-      setAnimalProducto('') //por ver
+      setMascotaProducto(found.mascota_id)
       setEdit(true)
     } else {
       setCodigoBarraProducto('')
@@ -85,12 +85,30 @@ const InventoryModal = props => {
       setCantidadProducto(0)
       setPrecioKiloProducto(0)
       setPrecioUnitarioProducto(0)
-      setMarcaProducto('')
-      setCategoriaProducto('')
-      setAnimalProducto('')
+      setMarcaProducto(1)
+      setCategoriaProducto(1)
+      setMascotaProducto(1)
       setEdit(false)
     }
   }, [editTarget.variable, data])
+
+  useEffect(() => {
+    //Modificar para hacer una sola petición lol
+    axios
+      .get(APIRoutes.mantenedor.leerTodo, {
+        headers: {
+          token: window.localStorage.getItem(authConfig.storageTokenKeyName)
+        }
+      })
+      .then(response => {
+        setCategoriaDropdown(response.data.data[0].result.categoria)
+        setCategoriaProducto(1)
+        setMarcaDropdown(response.data.data[0].result.marca)
+        setMarcaProducto(1)
+        setMascotaDropdown(response.data.data[0].result.mascota)
+        setMascotaProducto(1)
+      })
+  }, [])
 
   const handleSubmit = event => {
     event.preventDefault()
@@ -98,12 +116,12 @@ const InventoryModal = props => {
     inventoryForm.append('codigo_barra', codigoBarraProducto)
     inventoryForm.append('nombre', nombreProducto)
     inventoryForm.append('descripcion', descripcionProducto)
-    inventoryForm.append('unidades', cantidadProducto)
+    inventoryForm.append('cantidad', cantidadProducto)
     inventoryForm.append('precio_kilo', precioKiloProducto)
     inventoryForm.append('precio_unitario', precioUnitarioProducto)
     inventoryForm.append('categoria_id', categoriaProducto)
     inventoryForm.append('marca_id', marcaProducto)
-    inventoryForm.append('animal_id', animalProducto)
+    inventoryForm.append('mascota_id', mascotaProducto)
     inventoryForm.append('imagen', null)
 
     const url = edit ? APIRoutes.productos.modificar : APIRoutes.productos.registrar
@@ -369,18 +387,18 @@ const InventoryModal = props => {
                 </Grid>
                 <Grid item xs={4}>
                   <FormControl fullWidth>
-                    <InputLabel>Animal</InputLabel>
+                    <InputLabel>Mascota</InputLabel>
                     <Select
-                      label='Animal'
-                      value={animalProducto}
-                      onChange={event => setAnimalProducto([event.target.value])}
+                      label='Mascota'
+                      value={mascotaProducto}
+                      onChange={event => setMascotaProducto([event.target.value])}
                     >
                       <MenuItem value='' disabled>
-                        Seleccionar Animal
+                        Seleccionar Mascota
                       </MenuItem>
-                      {animalDropdown.map(animal => (
-                        <MenuItem key={animal.id} value={animal.id}>
-                          {animal.id} - {animal.nombre}
+                      {mascotaDropdown.map(mascota => (
+                        <MenuItem key={mascota.id} value={mascota.id}>
+                          {mascota.id} - {mascota.nombre}
                         </MenuItem>
                       ))}
                     </Select>

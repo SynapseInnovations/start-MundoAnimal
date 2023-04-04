@@ -87,7 +87,6 @@ const StepCart = ({ handleNext }) => {
     newSaleForm.append('tipoventa_id', commonData.tipoventa_id)
     newSaleForm.append('total', total)
     newSaleForm.append('productos', JSON.stringify(cart))
-
     axios
       .post(APIRoutes.ventas.registrar, newSaleForm, {
         headers: {

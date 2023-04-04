@@ -18,12 +18,13 @@ const mantenedorRoutes = {
     registrar: process.env.NEXT_PUBLIC_API_URL + '/marca/agregar',
     eliminar: process.env.NEXT_PUBLIC_API_URL + '/marca/eliminar' //not working yet
   },
-  animal: {
-    leer: process.env.NEXT_PUBLIC_API_URL + '/animal',
-    modificar: process.env.NEXT_PUBLIC_API_URL + '/animal/modificar',
-    registrar: process.env.NEXT_PUBLIC_API_URL + '/animal/agregar',
-    eliminar: process.env.NEXT_PUBLIC_API_URL + '/animal/eliminar' //not working yet
-  }
+  mascota: {
+    leer: process.env.NEXT_PUBLIC_API_URL + '/mascota',
+    modificar: process.env.NEXT_PUBLIC_API_URL + '/mascota/modificar',
+    registrar: process.env.NEXT_PUBLIC_API_URL + '/mascota/agregar',
+    eliminar: process.env.NEXT_PUBLIC_API_URL + '/mascota/eliminar' //not working yet
+  },
+  leerTodo: process.env.NEXT_PUBLIC_API_URL + '/producto/mantenedor'
 }
 
 const ventasRoutes = {

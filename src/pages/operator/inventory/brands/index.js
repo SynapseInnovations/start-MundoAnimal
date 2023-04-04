@@ -26,7 +26,7 @@ const defaultColumns = [
   {
     flex: 0.4,
     field: 'nombre',
-    minWidth: 500,
+    minWidth: 200,
     headerName: 'Nombre',
     renderCell: ({ row }) => {
       return (
@@ -84,7 +84,7 @@ const BrandsIndex = () => {
     ...defaultColumns,
     {
       flex: 0.1,
-      minWidth: 100,
+      minWidth: 150,
       sortable: false,
       field: 'actions',
       headerName: 'Acciones',
@@ -204,6 +204,10 @@ const BrandsIndex = () => {
       </Grid>
     </>
   )
+}
+BrandsIndex.acl = {
+  action: 'read',
+  subject: 'inventory'
 }
 
 export default BrandsIndex

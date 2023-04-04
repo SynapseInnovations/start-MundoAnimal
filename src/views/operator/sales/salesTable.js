@@ -1,5 +1,9 @@
 // ** React Imports
-import { useState, Fragment } from 'react'
+import { useState, Fragment, useEffect } from 'react'
+
+import axios from 'axios'
+
+import authConfig from 'src/configs/auth'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
@@ -17,28 +21,8 @@ import TableContainer from '@mui/material/TableContainer'
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
 
-const createData = (name, calories, fat, carbs, protein, price) => {
-  return {
-    name,
-    calories,
-    fat,
-    carbs,
-    protein,
-    price,
-    history: [
-      {
-        date: '2020-01-05',
-        customerId: 'Tilin',
-        amount: 3
-      },
-      {
-        date: '2020-01-02',
-        customerId: 'El Pepe',
-        amount: 1
-      }
-    ]
-  }
-}
+// ** API Routes
+import APIRoutes from 'src/configs/apiRoutes'
 
 const Row = props => {
   // ** Props
@@ -56,38 +40,40 @@ const Row = props => {
           </IconButton>
         </TableCell>
         <TableCell component='th' scope='row'>
-          {row.name}
+          {row.fecha}
         </TableCell>
-        <TableCell align='right'>{row.calories}</TableCell>
-        <TableCell align='right'>{row.fat}</TableCell>
-        <TableCell align='right'>{row.carbs}</TableCell>
-        <TableCell align='right'>{row.protein}</TableCell>
+        <TableCell align='center'>{row.numero_boleta}</TableCell>
+        <TableCell align='center'>{row.TipoVenta_id == 1 ? 'Presencial' : 'En línea'}</TableCell>
+        <TableCell align='center'>$ {row.total}</TableCell>
+        <TableCell align='center'>{row.Vendedor_rut}</TableCell>
       </TableRow>
       <TableRow>
         <TableCell colSpan={6} sx={{ py: '0 !important' }}>
           <Collapse in={open} timeout='auto' unmountOnExit>
             <Box sx={{ m: 2 }}>
               <Typography variant='h6' gutterBottom component='div'>
-                Historial de Cambios
+                Detalle de Productos
               </Typography>
               <Table size='small' aria-label='purchases'>
                 <TableHead>
                   <TableRow>
-                    <TableCell>Fecha</TableCell>
-                    <TableCell>Responsable</TableCell>
-                    <TableCell align='right'>Cambios</TableCell>
-                    <TableCell align='right'>Valor ($)</TableCell>
+                    <TableCell>Nombre</TableCell>
+                    <TableCell align='center'>Tipo Venta</TableCell>
+                    <TableCell align='center'>Precio Venta</TableCell>
+                    <TableCell align='center'>Cantidad</TableCell>
+                    <TableCell align='center'>Total</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {row.history.map(historyRow => (
-                    <TableRow key={historyRow.date}>
-                      <TableCell component='th' scope='row'>
-                        {historyRow.date}
+                  {row.productos.map(p => (
+                    <TableRow key={p.id}>
+                      <TableCell component='th' scope='row' align='left'>
+                        {p.codigo_barra} - {p.nombre}
                       </TableCell>
-                      <TableCell>{historyRow.customerId}</TableCell>
-                      <TableCell align='right'>{historyRow.amount}</TableCell>
-                      <TableCell align='right'>{Math.round(historyRow.amount * row.price * 100) / 100}</TableCell>
+                      <TableCell align='center'>{p.venta_unitaria == 1 ? 'Unitaria' : 'Por Kilo'}</TableCell>
+                      <TableCell align='center'>$ {p.precio_venta}</TableCell>
+                      <TableCell align='center'>{p.cantidad}</TableCell>
+                      <TableCell align='center'>$ {p.cantidad * p.precio_venta}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -100,31 +86,45 @@ const Row = props => {
   )
 }
 
-const rows = [
-  createData('Purina Dog Chow', 159, 6.0, 24, 4.0, 3.99),
-  createData('Purina Dog Chow', 237, 9.0, 37, 4.3, 4.99),
-  createData('Purina Dog Chow', 262, 16.0, 24, 6.0, 3.79),
-  createData('Purina Dog Chow', 305, 3.7, 67, 4.3, 2.5),
-  createData('Purina Dog Chow', 356, 16.0, 49, 3.9, 1.5)
-]
-
 const SalesTable = () => {
+  const [data2, setData2] = useState([])
+
+  useEffect(() => {
+    updateData()
+  }, [])
+
+  const updateData = () => {
+    axios
+      .get(APIRoutes.ventas.leer, {
+        headers: {
+          token: window.localStorage.getItem(authConfig.storageTokenKeyName)
+        }
+      })
+      .then(response => {
+        setData2(response.data.data)
+        console.log(response.data.data)
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }
+
   return (
     <TableContainer component={Paper}>
       <Table aria-label='collapsible table'>
         <TableHead>
           <TableRow>
             <TableCell />
-            <TableCell>Nombre</TableCell>
-            <TableCell align='right'>Cantidad</TableCell>
-            <TableCell align='right'>WEB</TableCell>
-            <TableCell align='right'>Vendidos</TableCell>
-            <TableCell align='right'>Por Vencer</TableCell>
+            <TableCell>Fecha</TableCell>
+            <TableCell align='center'>N° Boleta</TableCell>
+            <TableCell align='center'>Tipo Venta</TableCell>
+            <TableCell align='center'>Total</TableCell>
+            <TableCell align='center'>RUT Vendedor</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map(row => (
-            <Row key={row.name} row={row} />
+          {data2.map(row => (
+            <Row key={row.numero_boleta} row={row} />
           ))}
         </TableBody>
       </Table>

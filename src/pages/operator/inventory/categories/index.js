@@ -26,8 +26,8 @@ const defaultColumns = [
   {
     flex: 0.4,
     field: 'nombre',
-    minWidth: 500,
-    headerName: 'Nombre de la Categoria',
+    minWidth: 200,
+    headerName: 'Nombre',
     renderCell: ({ row }) => {
       return (
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -84,7 +84,7 @@ const CategoriesIndex = () => {
     ...defaultColumns,
     {
       flex: 0.1,
-      minWidth: 100,
+      minWidth: 150,
       sortable: false,
       field: 'actions',
       headerName: 'Acciones',
@@ -204,6 +204,10 @@ const CategoriesIndex = () => {
       </Grid>
     </>
   )
+}
+CategoriesIndex.acl = {
+  action: 'read',
+  subject: 'inventory'
 }
 
 export default CategoriesIndex

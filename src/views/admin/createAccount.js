@@ -219,9 +219,11 @@ const CreateAccountModal = props => {
       <Dialog fullWidth maxWidth='sm' onClose={dialogToggle} open={open}>
         <DialogTitle sx={{ pt: 12, mx: 'auto', textAlign: 'center' }}>
           <Typography variant='h5' component='span' sx={{ mb: 2 }}>
-            REGISTRAR NUEVA CUENTA
+            {edit ? 'Modificar' : 'Agregar'} Usuario
           </Typography>
-          <Typography variant='body2'>Agrega nuevas cuentas al inventario de Mundo Animal!</Typography>
+          <Typography variant='body2'>
+            {edit ? 'Modifica una cuenta en el' : 'Registra una nueva cuenta en el'} inventario de Mundo Animal!
+          </Typography>
         </DialogTitle>
         <DialogContent sx={{ pb: 12, mx: 'auto' }}>
           <Box
@@ -302,7 +304,7 @@ const CreateAccountModal = props => {
             <Box sx={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px' }}>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <Select label='Rol' value={rolUsuario || 0} onChange={event => setRolUsuario([event.target.value])}>
-                  <MenuItem value={0}>Seleccionar ROL</MenuItem>
+                  <MenuItem value={0}>Seleccionar Rol</MenuItem>
                   {roles.map(rol => (
                     <MenuItem key={rol.id} value={rol.id}>
                       {rol.id} - {rol.nombre}
@@ -332,7 +334,7 @@ const CreateAccountModal = props => {
             }}
             onClick={handleSubmit}
           >
-            Registrar CUENTA
+            {edit ? 'Modificar' : 'Registrar'}
           </Button>
         </DialogContent>
       </Dialog>

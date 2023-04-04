@@ -34,5 +34,9 @@ const ProductsHistory = () => {
     </Grid>
   )
 }
+ProductsHistory.acl = {
+  action: 'read',
+  subject: 'inventory'
+}
 
 export default ProductsHistory

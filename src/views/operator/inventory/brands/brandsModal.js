@@ -79,7 +79,7 @@ const BrandsModal = props => {
   return (
     <>
       <motion.div
-        initial={{ opacity: 0, y: 100 }}
+        initial={{ opacity: 0, y: 300 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ type: 'spring', stiffness: 40, delay: 0.4, duration: 0.7 }}
       >
@@ -148,12 +148,12 @@ const BrandsModal = props => {
                 marginLeft: '8px',
                 marginRight: '8px  ',
                 scrollSnapMarginRight: '10px',
-                width: '220px',
+                width: '190px',
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
                 transition: 'all 0.1s ease-in-out',
-                backgroundColor: '#f9dde6                ',
+                backgroundColor: '#f9dde6',
                 color: '#893350',
                 boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.40)',
                 fontWeight: '600',
@@ -161,7 +161,7 @@ const BrandsModal = props => {
                   transition: 'all 0.1s ease-in-out',
                   transform: 'scale(0.99)',
                   boxShadow: '-2px -2px 10px rgba(0, 0, 0, 0.30)',
-                  backgroundColor: '#f7ccda                  ',
+                  backgroundColor: '#f7ccda',
                   color: '#8e3553'
                 },
                 '&:active': {
@@ -218,7 +218,7 @@ const BrandsModal = props => {
                 alignItems: 'center',
                 maxWidth: '600px',
                 mx: 'auto',
-                mt: '1px'
+                mt: '6px'
               }}
             >
               <TextField

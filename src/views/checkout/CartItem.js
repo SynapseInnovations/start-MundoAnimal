@@ -30,7 +30,6 @@ import {
 } from '@mui/material'
 
 import Icon from 'src/@core/components/icon'
-import CustomChip from 'src/@core/components/mui/chip'
 
 const CartItem = ({ item, index, handleInputChange, deleteThis }) => {
   const {
@@ -73,11 +72,11 @@ const CartItem = ({ item, index, handleInputChange, deleteThis }) => {
             >
               {item.Marca}
             </Typography>
-            {item.unidades > 0 ? (
+            {item.cantidad > 0 ? (
               <>
                 <Chip
-                  label={`${item.unidades} en Stock`}
-                  color={item.unidades < 5 ? 'warning' : 'success'}
+                  label={`${item.cantidad} en Stock`}
+                  color={item.cantidad < 5 ? 'warning' : 'success'}
                   size='small'
                 />
               </>
@@ -120,7 +119,7 @@ const CartItem = ({ item, index, handleInputChange, deleteThis }) => {
                       disabled={!item.isPrecioUnitario}
                       value={item.cantInput}
                       onChange={e => handleInputChange(e.target.value, index, 'cantidad')}
-                      inputProps={{ min: 0, max: item.unidades }}
+                      inputProps={{ min: 0, max: item.cantidad }}
                       sx={{ maxWidth: 100, display: 'block' }}
                     />
                   </>

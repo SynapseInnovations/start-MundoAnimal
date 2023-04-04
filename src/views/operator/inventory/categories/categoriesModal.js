@@ -85,7 +85,7 @@ const CategoriesModal = props => {
   return (
     <>
       <motion.div
-        initial={{ opacity: 0, y: 100 }}
+        initial={{ opacity: 0, y: 200 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ type: 'spring', stiffness: 40, delay: 0.4, duration: 0.7 }}
       >
@@ -154,7 +154,7 @@ const CategoriesModal = props => {
                 marginLeft: '8px',
                 marginRight: '8px  ',
                 scrollSnapMarginRight: '10px',
-                width: '220px',
+                width: '192px',
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
@@ -180,7 +180,7 @@ const CategoriesModal = props => {
               }}
             >
               <AddIcon sx={{ marginRight: '3px', fontSize: 'large' }} />
-              Agregar Categoria
+              Agregar Marca
             </Button>
           </Box>
         </Box>
@@ -224,7 +224,7 @@ const CategoriesModal = props => {
                 alignItems: 'center',
                 maxWidth: '600px',
                 mx: 'auto',
-                mt: '1px'
+                mt: '6px'
               }}
             >
               <TextField

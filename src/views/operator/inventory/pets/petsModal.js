@@ -59,7 +59,7 @@ const PetsModal = props => {
 
     edit
       ? axios
-          .put(APIRoutes.mantenedor.animal.modificar, inventoryForm, {
+          .put(APIRoutes.mantenedor.mascota.modificar, inventoryForm, {
             headers: {
               'Content-Type': `multipart/form-data`,
               token: window.localStorage.getItem(authConfig.storageTokenKeyName)
@@ -70,7 +70,7 @@ const PetsModal = props => {
             dialogToggle()
           })
       : axios
-          .post(APIRoutes.mantenedor.animal.registrar, inventoryForm, {
+          .post(APIRoutes.mantenedor.mascota.registrar, inventoryForm, {
             headers: {
               'Content-Type': `multipart/form-data`,
               token: window.localStorage.getItem(authConfig.storageTokenKeyName)
@@ -154,7 +154,7 @@ const PetsModal = props => {
                 marginLeft: '8px',
                 marginRight: '8px  ',
                 scrollSnapMarginRight: '10px',
-                width: '220px',
+                width: '192px',
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
@@ -180,7 +180,7 @@ const PetsModal = props => {
               }}
             >
               <AddIcon sx={{ marginRight: '3px', fontSize: 'large' }} />
-              Agregar Mascota
+              Agregar Marca
             </Button>
           </Box>
         </Box>
@@ -224,7 +224,7 @@ const PetsModal = props => {
                 alignItems: 'center',
                 maxWidth: '600px',
                 mx: 'auto',
-                mt: '1px'
+                mt: '6px'
               }}
             >
               <TextField

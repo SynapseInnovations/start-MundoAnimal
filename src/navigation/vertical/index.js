@@ -32,29 +32,9 @@ const navigation = () => {
         },
         {
           title: 'Historial',
+          subject: 'inventory',
+          action: 'read',
           path: '/operator/inventory/history',
-          icon: 'mdi:list-box'
-        }
-      ]
-    },
-
-    {
-      title: 'Ventas',
-      path: '/',
-      icon: 'mdi:cart',
-      subject: 'sales',
-      action: 'read',
-      children: [
-        {
-          title: 'Generar Venta',
-          path: '/operator/sales/generate',
-          action: 'read',
-          icon: 'mdi:cart'
-        },
-        {
-          title: 'Listar Ventas',
-          path: '/operator/sales/list',
-          action: 'read',
           icon: 'mdi:list-box'
         }
       ]
@@ -88,6 +68,30 @@ const navigation = () => {
         }
       ]
     },
+    {
+      title: 'Ventas',
+      path: '/',
+      icon: 'mdi:cart',
+      subject: 'sales',
+      action: 'read',
+      children: [
+        {
+          title: 'Generar Venta',
+          path: '/operator/sales/generate',
+          subject: 'sales',
+          action: 'read',
+          icon: 'mdi:cart'
+        },
+        {
+          title: 'Listar Ventas',
+          path: '/operator/sales/list',
+          subject: 'sales',
+          action: 'read',
+          icon: 'mdi:list-box'
+        }
+      ]
+    },
+
     {
       sectionTitle: 'Panel de Administrador'
     },

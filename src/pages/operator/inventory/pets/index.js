@@ -26,7 +26,7 @@ const defaultColumns = [
   {
     flex: 0.4,
     field: 'nombre',
-    minWidth: 500,
+    minWidth: 200,
     headerName: 'Nombre de Mascota',
     renderCell: ({ row }) => {
       return (
@@ -65,7 +65,7 @@ const PetsIndex = () => {
 
   const updateData = () => {
     axios
-      .get(APIRoutes.mantenedor.animal.leer, {
+      .get(APIRoutes.mantenedor.mascota.leer, {
         headers: {
           token: window.localStorage.getItem(authConfig.storageTokenKeyName)
         }
@@ -84,7 +84,7 @@ const PetsIndex = () => {
     ...defaultColumns,
     {
       flex: 0.1,
-      minWidth: 100,
+      minWidth: 150,
       sortable: false,
       field: 'actions',
       headerName: 'Acciones',
@@ -204,6 +204,10 @@ const PetsIndex = () => {
       </Grid>
     </>
   )
+}
+PetsIndex.acl = {
+  action: 'read',
+  subject: 'inventory'
 }
 
 export default PetsIndex

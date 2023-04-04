@@ -9,7 +9,7 @@ const MantainerIndex = () => {
   // ** SUPER COMPONENTE XD
 
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={8}>
       <Grid item xs={4}>
         <PetsIndex />
       </Grid>

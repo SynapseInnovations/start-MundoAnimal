@@ -63,6 +63,21 @@ const BrandsIndex = () => {
     setValue(val)
   }, [])
 
+  const deleteThis = id => {
+    axios
+      .delete(APIRoutes.mantenedor.marca.eliminar + '/?id=' + id, {
+        headers: {
+          token: window.localStorage.getItem(authConfig.storageTokenKeyName)
+        }
+      })
+      .then(response => {
+        updateData()
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }
+
   const updateData = () => {
     axios
       .get(APIRoutes.mantenedor.marca.leer, {
@@ -147,7 +162,7 @@ const BrandsIndex = () => {
                 onClick={() => {
                   const shouldDelete = window.confirm('¿Desea eliminar realmente?')
                   if (shouldDelete) {
-                    handleDeletePermission(params.row.id)
+                    deleteThis(row.id)
                   }
                 }}
               />

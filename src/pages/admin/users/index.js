@@ -46,7 +46,7 @@ const renderClient = params => {
 const roleList = {
   1: { title: 'Administrador', color: 'success' },
   2: { title: 'Operador', color: 'info' },
-  3: { title: 'Usuario', color: 'warning' }
+  3: { title: 'Deshabilitado', color: 'error' }
 }
 
 const UsersManageIndex = () => {

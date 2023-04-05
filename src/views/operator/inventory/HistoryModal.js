@@ -1,7 +1,6 @@
 // ** React Imports
 import { useState, useEffect, useCallback } from 'react'
 import FormData from 'form-data'
-import { Link } from 'next/link'
 
 // ** Axios
 import axios from 'axios'

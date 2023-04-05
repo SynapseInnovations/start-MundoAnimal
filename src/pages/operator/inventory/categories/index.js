@@ -63,6 +63,21 @@ const CategoriesIndex = () => {
     setValue(val)
   }, [])
 
+  const deleteThis = id => {
+    axios
+      .delete(APIRoutes.mantenedor.categoria.eliminar + '/?id=' + id, {
+        headers: {
+          token: window.localStorage.getItem(authConfig.storageTokenKeyName)
+        }
+      })
+      .then(response => {
+        updateData()
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }
+
   const updateData = () => {
     axios
       .get(APIRoutes.mantenedor.categoria.leer, {
@@ -147,7 +162,7 @@ const CategoriesIndex = () => {
                 onClick={() => {
                   const shouldDelete = window.confirm('¿Desea eliminar realmente?')
                   if (shouldDelete) {
-                    handleDeletePermission(params.row.name)
+                    deleteThis(row.id)
                   }
                 }}
               />

@@ -18,10 +18,12 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import authConfig from 'src/configs/auth'
 import axios from 'axios'
-
+import { motion } from 'framer-motion'
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
 import CartItem from './CartItem'
+import RemoveShoppingCartIcon from '@material-ui/icons/RemoveShoppingCart';
+import LocalGroceryStoreIcon from '@mui/icons-material/LocalGroceryStore';
 
 // ** API Routes
 import APIRoutes from 'src/configs/apiRoutes'
@@ -177,9 +179,14 @@ const StepCart = ({ handleNext }) => {
   }, [cart])
 
   return (
-    <Grid container spacing={6}>
-      <Grid item xs={12} lg={8}>
-        <Typography variant='h6' sx={{ mb: 4 }}>
+    <motion.div
+        initial={{ opacity: 0, x: 100 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ type: 'spring', stiffness: 40, delay: 0.1, duration: 0.3 }}
+      >
+    <Grid container spacing={6} >
+      <Grid item xs={12} lg={8} >
+        <Typography variant='h4' sx={{ mb: 4, fontWeight: 600  }}>
           Venta de Productos
         </Typography>
 
@@ -188,13 +195,14 @@ const StepCart = ({ handleNext }) => {
             gap: 2,
             display: 'flex',
             borderRadius: 1,
+
             alignItems: 'center',
             justifyContent: 'space-between',
             border: theme => `1px solid ${theme.palette.divider}`
           }}
         >
           <CardContent>
-            <Typography sx={{ mb: 4, fontWeight: 600 }}>Escanea el Código de Barras</Typography>
+            <Typography variant="h6" sx={{ mb: 4, fontWeight: 500 }}>Escanea el Código de Barras</Typography>
             <Box sx={{ mb: 4, display: 'flex', alignItems: 'center' }}>
               <FormControl>
                 <TextField
@@ -284,64 +292,78 @@ const StepCart = ({ handleNext }) => {
         </Box>
         <Box
           sx={{
-            gap: 2,
+            gap: 1,
             marginTop: '20px',
             display: 'flex',
+
             borderRadius: 1,
             alignItems: 'center',
             justifyContent: 'space-between',
             border: theme => `1px solid ${theme.palette.divider}`
           }}
         >
-          <Card style={{ width: '100%' }}>
-            <CardContent>
-              <Typography sx={{ mb: 4, fontWeight: 600 }}>Carrito</Typography>
-              <StyledList
-                style={{
-                  maxHeight: 500,
-                  overflow: 'auto'
+           <Card style={{ width: '100%' }}>
+      <CardContent>
+        <Box display="flex" alignItems="center">
+          <LocalGroceryStoreIcon sx={{ fontSize: '1rem', marginRight: '10px' }} />
+          <Typography variant="h6" sx={{ fontWeight: 500 }}>
+            Carrito
+          </Typography>
+        </Box>
+        <StyledList
+          style={{
+            maxHeight: 400,
+            overflow: 'auto',
+          }}
+          sx={{ mb: 4 }}
+        >
+          {cart.length > 0 ? (
+            <>
+              {cart.map((item, index) => (
+                <CartItem
+                  key={index}
+                  item={item}
+                  deleteThis={handleDeleteItemCart}
+                  index={index}
+                  handleInputChange={handleInputChange}
+                />
+              ))}
+            </>
+          ) : (
+            <>
+              <Box
+                sx={{
+                  mb: 2,
+                  gap: 3,
+                  padding: 16,
+                  display: 'flex',
+                  flexWrap: 'wrap',
+                  flexDirection: 'column',
+                  alignItems: 'Center',
+                  justifyContent: 'space-between',
                 }}
-                sx={{ mb: 4 }}
               >
-                {cart.length > 0 ? (
-                  <>
-                    {cart.map((item, index) => (
-                      <CartItem
-                        key={index}
-                        item={item}
-                        deleteThis={handleDeleteItemCart}
-                        index={index}
-                        handleInputChange={handleInputChange}
-                      />
-                    ))}
-                  </>
-                ) : (
-                  <>
-                    <Box
-                      sx={{
-                        mb: 2,
-
-                        gap: 2,
-                        padding: 24,
-                        display: 'flex',
-                        flexWrap: 'wrap',
-                        flexDirection: 'column',
-                        alignItems: 'Center',
-                        justifyContent: 'space-between'
-                      }}
-                    >
-                      <Typography variant='body2' sx={{ color: 'text.primary', fontSize: '1.5rem' }}>
-                        No existen productos en el carrito.
-                      </Typography>
-                    </Box>
-                  </>
-                )}
-              </StyledList>
-            </CardContent>
-          </Card>
+                <Box display="flex" alignItems="center">
+  <RemoveShoppingCartIcon sx={{ fontSize: '2rem' }} />
+  <Typography variant="body2" sx={{ color: 'text.primary', fontSize: '1.5rem', marginLeft: '0.5rem' }}>
+ No exiten productos, prueba agregándolos al carrito.
+  </Typography>
+</Box>
+              </Box>
+            </>
+          )}
+        </StyledList>
+      </CardContent>
+    </Card>
         </Box>
       </Grid>
+
       <Grid item xs={12} lg={4}>
+      <motion.div
+        initial={{ opacity: 0, x: -150 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ type: 'spring', stiffness: 40, delay: 0.2, duration: 0.9 }}
+      >
         <Alert severity='success' icon={<Icon icon='mdi:tag-outline' />} sx={{ mb: 4 }}>
           <AlertTitle>Mundo Animal: Pasos para vender</AlertTitle>
           <Typography sx={{ color: 'success.main' }}>
@@ -353,6 +375,12 @@ const StepCart = ({ handleNext }) => {
           <Typography sx={{ color: 'success.main' }}>- Ingresar la cantidad correspondiente</Typography>
           <Typography sx={{ color: 'success.main' }}>- Comprobar todos los datos y pulsar continuar</Typography>
         </Alert>
+        </motion.div>
+        <motion.div
+        initial={{ opacity: 0, x: -120 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ type: 'spring', stiffness: 40, delay: 0.2, duration: 0.7 }}
+      >
         <Box sx={{ mb: 4, borderRadius: 1, border: theme => `1px solid ${theme.palette.divider}` }}>
           <CardContent>
             <Typography sx={{ mb: 10, fontWeight: 800 }}>Detalle</Typography>
@@ -402,6 +430,12 @@ const StepCart = ({ handleNext }) => {
             </Box>
           </CardContent>
         </Box>
+        </motion.div>
+        <motion.div
+        initial={{ opacity: 0, y: 100 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ type: 'spring', stiffness: 40, delay: 0.4, duration: 0.7 }}
+      >
         <Box sx={{ display: 'flex', ...(breakpointMD ? { justifyContent: 'flex-end' } : {}) }}>
           <Button
             sx={{
@@ -440,8 +474,10 @@ const StepCart = ({ handleNext }) => {
             Vender
           </Button>
         </Box>
+       </motion.div>
       </Grid>
     </Grid>
+    </motion.div>
   )
 }
 

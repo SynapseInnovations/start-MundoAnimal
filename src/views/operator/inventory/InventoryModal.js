@@ -162,7 +162,7 @@ const InventoryModal = props => {
             flexWrap: 'wrap',
             alignItems: 'center',
             justifyContent: 'space-between',
-            backgroundColor: '#b7446b',
+            backgroundColor: 'primary.light',
             border: '4px solid #F9F4F0',
             borderRadius: '12px'
           }}
@@ -184,14 +184,16 @@ const InventoryModal = props => {
           </Box>
 
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
+
             <TextField
-              size='small'
+              size='large'
               value={value}
               sx={{
                 backgroundColor: '#F9F4F0',
                 color: '#3E363F',
-                marginBottom: '10px',
-                padding: 1.2,
+                marginBottom: '8px',
+                marginRight: '4px',
+                padding: 1.3,
                 borderRadius: '10px',
                 transition: 'all 0.1s ease-in-out',
                 boxShadow: '1px 1px 8px rgba(0, 0, 0, 0.50)',
@@ -210,63 +212,28 @@ const InventoryModal = props => {
               placeholder='Buscar Producto'
               onChange={e => handleFilter(e.target.value)}
             />
-            <Link href='/operator/inventory/history'>
-              <Button
-                variant='contained'
-                sx={{
-                  borderRadius: '10px',
-                  padding: '11px',
 
-                  mb: 2,
-                  mr: 1,
-                  ml: 2,
-                  fontSize: '1.1rem',
-                  scrollSnapMarginRight: '10px',
-                  width: '125px',
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  transition: 'all 0.1s ease-in-out',
-                  backgroundColor: 'primary.light',
-                  color: '',
-                  boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.10)',
-                  fontWeight: '500',
-                  '&:hover': {
-                    transition: 'all 0.1s ease-in-out',
-                    transform: 'scale(0.99)',
-                    boxShadow: '-2px -2px 10px rgba(0, 0, 0, 0.20)',
-                    backgroundColor: 'primary.light',
-                    color: '#FFF'
-                  },
-                  '&:active': {
-                    transform: 'scale(0.98)'
-                  }
-                }}
-              >
-                <AssignmentSharp sx={{ marginRight: '3px', fontSize: 'large' }} />
-                Historial
-              </Button>
-            </Link>
             <Button
               variant='contained'
               sx={{
                 borderRadius: '10px',
 
-                padding: '11px',
-                mb: 2,
-                mr: 1,
-                ml: 2,
-                fontSize: '1.1rem',
+                padding: '14px',
+                mb: 4,
+                mr: 3,
+                ml: 3,
+                mt: 2,
+                fontSize: '1.3rem',
                 scrollSnapMarginRight: '10px',
-                width: '220px',
+                width: '140px',
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
                 transition: 'all 0.1s ease-in-out',
-                backgroundColor: 'primary.light',
-                color: '',
+                backgroundColor: '',
+                color: '#fff',
                 boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.10)',
-                fontWeight: '500',
+                fontWeight: '700',
                 '&:hover': {
                   transition: 'all 0.1s ease-in-out',
                   transform: 'scale(0.99)',
@@ -283,8 +250,8 @@ const InventoryModal = props => {
                 dialogToggle()
               }}
             >
-              <AddIcon sx={{ marginRight: '3px', fontSize: 'large' }} />
-              Agregar Producto
+              <AddIcon sx={{ marginRight: '3px', fontSize: 'large',  fontSize: '1.3rem',  fontWeight: '700' }} />
+              Agregar
             </Button>
           </Box>
         </Box>

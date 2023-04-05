@@ -50,7 +50,11 @@ const defaultColumns = [
     headerName: 'Disponible',
     headerAlign: 'center',
     align: 'center',
-    renderCell: ({ row }) => <Typography>{row.cantidad}</Typography>
+    renderCell: ({ row }) => (
+      <Typography>
+        {row.cantidad.toLocaleString()}
+      </Typography>
+    )
   },
   {
     flex: 0.1,
@@ -59,7 +63,11 @@ const defaultColumns = [
     headerName: '$ Kilo',
     headerAlign: 'center',
     align: 'center',
-    renderCell: ({ row }) => <Typography>$ {row.precio_kilo}</Typography>
+    renderCell: ({ row }) => (
+      <Typography>
+        $ {parseFloat(row.precio_kilo).toLocaleString()}
+      </Typography>
+    )
   },
   {
     flex: 0.1,
@@ -68,7 +76,11 @@ const defaultColumns = [
     headerName: '$ Unitario',
     headerAlign: 'center',
     align: 'center',
-    renderCell: ({ row }) => <Typography>$ {row.precio_unitario}</Typography>
+    renderCell: ({ row }) => (
+      <Typography>
+        $ {parseFloat(row.precio_unitario).toLocaleString()}
+      </Typography>
+    )
   },
   {
     flex: 0.1,

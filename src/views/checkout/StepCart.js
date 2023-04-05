@@ -375,10 +375,11 @@ const StepCart = ({ handleNext }) => {
                         {item.nombre}
                       </Typography>
                       <Typography variant='body2'>
-                        $ {item.isPrecioUnitario ? item.precio_unitario : item.precio_kilo} x{' '}
-                        {item.isPrecioUnitario ? item.cantInput : item.kgInput}{' '}
-                        {item.isPrecioUnitario ? 'Unidades' : 'KG'}
-                      </Typography>
+              $ {parseFloat(item.isPrecioUnitario ? item.precio_unitario : item.precio_kilo).toLocaleString()} x{' '}
+              {parseFloat(item.isPrecioUnitario ? item.cantInput : item.kgInput).toLocaleString()}
+              {' '}
+              {item.isPrecioUnitario ? 'Unidades' : 'KG'}
+</Typography>
                     </Box>
                   ))}
                 </>

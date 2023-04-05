@@ -171,7 +171,7 @@ const CartItem = ({ item, index, handleInputChange, deleteThis }) => {
                         value={item.cantInput}
                         onChange={e => handleInputChange(e.target.value, index, 'cantidad')}
                         inputProps={{ min: 0, max: item.cantidad }}
-                        sx={{ maxWidth: 160, display: 'block', marginTop: 2 }}
+                        sx={{ width: 100, display: 'block', margin: 'auto', marginTop: 2  }}
                       />
                     </motion.div>
                   </>
@@ -182,16 +182,16 @@ const CartItem = ({ item, index, handleInputChange, deleteThis }) => {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0, duration: 0.2 }}
                     >
-                      <TextField
-                        size='small'
-                        type='number'
-                        label='Kilos'
-                        disabled={item.isPrecioUnitario}
-                        value={item.kgInput}
-                        onChange={e => handleInputChange(e.target.value, index, 'kilos')}
-                        inputProps={{ min: 0.0, step: 0.1 }}
-                        sx={{ maxWidth: 160, display: 'block', marginTop: 2 }}
-                      />
+                     <TextField
+  size='small'
+  type='number'
+  label='Kilos'
+  disabled={item.isPrecioUnitario}
+  value={item.kgInput}
+  onChange={e => handleInputChange(e.target.value, index, 'kilos')}
+  inputProps={{ min: 0.0, step: 0.1 }}
+  sx={{ maxWidth: 100, display: 'block', margin: 'auto', marginTop: 2 }}
+/>
                     </motion.div>
                   </>
                 )}

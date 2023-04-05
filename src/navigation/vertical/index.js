@@ -35,34 +35,24 @@ const navigation = () => {
     },
     {
       title: 'Inventario',
-      icon: 'mdi:garage-variant',
+      icon: 'mdi:clipboard-list-outline',
       subject: 'inventory',
       path: '/operator/inventory/products',
       action: 'read'
     },
-
+  {
+      title: 'Venta',
+      icon: 'mdi:shopping-outline',
+      subject: 'venta',
+      path: '/operator/sales/generate',
+      action: 'read'
+    },
     {
-      title: 'Vender',
-      path: '/',
-      icon: 'mdi:cart',
-      subject: 'sales',
-      action: 'read',
-      children: [
-        {
-          title: 'Vender Producto',
-          path: '/operator/sales/generate',
-          subject: 'sales',
-          action: 'read',
-          icon: 'mdi:cart'
-        },
-        {
-          title: 'Historial de Ventas',
-          path: '/operator/sales/list',
-          subject: 'sales',
-          action: 'read',
-          icon: 'mdi:list-box'
-        }
-      ]
+      title: 'Historial',
+      icon: 'mdi:history',
+      subject: 'inventory',
+      path: '/operator/sales/list',
+      action: 'read'
     },
     {
       title: 'Categorias ',

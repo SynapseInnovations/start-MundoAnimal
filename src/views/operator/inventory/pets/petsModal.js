@@ -93,7 +93,6 @@ const PetsModal = props => {
           sx={{
             p: 3,
             pb: 0,
-            display: 'flex',
             flexWrap: 'wrap',
             alignItems: 'center',
             justifyContent: 'space-between',
@@ -121,6 +120,7 @@ const PetsModal = props => {
 
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <TextField
+              style={{ width: '60%' }}
               size='small'
               value={value}
               sx={{
@@ -146,6 +146,7 @@ const PetsModal = props => {
               onChange={e => handleFilter(e.target.value)}
             />
             <Button
+              style={{ width: '40%' }}
               variant='contained'
               sx={{
                 borderRadius: '10px',
@@ -154,7 +155,6 @@ const PetsModal = props => {
                 marginLeft: '8px',
                 marginRight: '8px  ',
                 scrollSnapMarginRight: '10px',
-                width: '190px',
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
@@ -179,7 +179,7 @@ const PetsModal = props => {
                 dialogToggle()
               }}
             >
-              <AddIcon sx={{ marginRight: '2px', fontSize: 'medium' }} />
+              <AddIcon sx={{ marginRight: '3px', fontSize: 'large' }} />
               Agregar
             </Button>
           </Box>

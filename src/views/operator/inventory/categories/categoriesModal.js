@@ -93,7 +93,6 @@ const CategoriesModal = props => {
           sx={{
             p: 3,
             pb: 0,
-            display: 'flex',
             flexWrap: 'wrap',
             alignItems: 'center',
             justifyContent: 'space-between',
@@ -121,6 +120,7 @@ const CategoriesModal = props => {
 
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <TextField
+              style={{ width: '60%' }}
               size='small'
               value={value}
               sx={{
@@ -146,6 +146,7 @@ const CategoriesModal = props => {
               onChange={e => handleFilter(e.target.value)}
             />
             <Button
+              style={{ width: '40%' }}
               variant='contained'
               sx={{
                 borderRadius: '10px',

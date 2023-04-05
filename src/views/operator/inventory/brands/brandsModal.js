@@ -87,7 +87,6 @@ const BrandsModal = props => {
           sx={{
             p: 3,
             pb: 0,
-            display: 'flex',
             flexWrap: 'wrap',
             alignItems: 'center',
             justifyContent: 'space-between',
@@ -117,6 +116,7 @@ const BrandsModal = props => {
             <TextField
               size='small'
               value={value}
+              style={{ width: '60%' }}
               sx={{
                 backgroundColor: '#F9F4F0',
                 color: '#3E363F',
@@ -133,14 +133,14 @@ const BrandsModal = props => {
                 },
                 '& input::placeholder': {
                   color: 'black'
-                },
-                width: '13rem'
+                }
               }}
               placeholder='Buscar Marca'
               onChange={e => handleFilter(e.target.value)}
             />
             <Button
               variant='contained'
+              style={{ width: '40%' }}
               sx={{
                 borderRadius: '10px',
                 marginTop: '10px',
@@ -148,7 +148,6 @@ const BrandsModal = props => {
                 marginLeft: '8px',
                 marginRight: '8px  ',
                 scrollSnapMarginRight: '10px',
-                width: '190px',
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',

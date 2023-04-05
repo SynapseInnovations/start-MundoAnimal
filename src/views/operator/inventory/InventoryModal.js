@@ -30,6 +30,7 @@ import AssignmentSharp from '@mui/icons-material/AssignmentSharp'
 
 // ** API Routes
 import APIRoutes from 'src/configs/apiRoutes'
+import { toast } from 'react-hot-toast'
 
 const InventoryModal = props => {
   // ** Variables
@@ -140,6 +141,7 @@ const InventoryModal = props => {
         }
       })
       .then(async response => {
+        console.log(response)
         updateMethod()
         dialogToggle()
       })

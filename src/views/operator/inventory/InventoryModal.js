@@ -1,6 +1,7 @@
 // ** React Imports
 import { useState, useEffect, useCallback } from 'react'
 import FormData from 'form-data'
+import Link from 'next/link'
 
 // ** Axios
 import axios from 'axios'
@@ -25,6 +26,7 @@ import { Select } from '@mui/material'
 import AddIcon from '@material-ui/icons/Add'
 import { motion } from 'framer-motion'
 import PetsIcon from '@mui/icons-material/Pets'
+import AssignmentSharp from '@mui/icons-material/AssignmentSharp'
 
 // ** API Routes
 import APIRoutes from 'src/configs/apiRoutes'
@@ -169,7 +171,6 @@ const InventoryModal = props => {
               variant='h5'
               sx={{
                 color: '#F9F4F0',
-
                 fontWeight: 600,
                 textTransform: 'uppercase',
                 letterSpacing: '0.2rem',
@@ -188,6 +189,7 @@ const InventoryModal = props => {
                 backgroundColor: '#F9F4F0',
                 color: '#3E363F',
                 marginBottom: '10px',
+                padding: 1.2,
                 borderRadius: '10px',
                 transition: 'all 0.1s ease-in-out',
                 boxShadow: '1px 1px 8px rgba(0, 0, 0, 0.50)',
@@ -206,30 +208,69 @@ const InventoryModal = props => {
               placeholder='Buscar Producto'
               onChange={e => handleFilter(e.target.value)}
             />
+            <Link href='/operator/inventory/history'>
+              <Button
+                variant='contained'
+                sx={{
+                  borderRadius: '10px',
+                  padding: '11px',
+
+                  mb: 2,
+                  mr: 1,
+                  ml: 2,
+                  fontSize: '1.1rem',
+                  scrollSnapMarginRight: '10px',
+                  width: '125px',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  transition: 'all 0.1s ease-in-out',
+                  backgroundColor: 'primary.light',
+                  color: '',
+                  boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.10)',
+                  fontWeight: '500',
+                  '&:hover': {
+                    transition: 'all 0.1s ease-in-out',
+                    transform: 'scale(0.99)',
+                    boxShadow: '-2px -2px 10px rgba(0, 0, 0, 0.20)',
+                    backgroundColor: 'primary.light',
+                    color: '#FFF'
+                  },
+                  '&:active': {
+                    transform: 'scale(0.98)'
+                  }
+                }}
+              >
+                <AssignmentSharp sx={{ marginRight: '3px', fontSize: 'large' }} />
+                Historial
+              </Button>
+            </Link>
             <Button
               variant='contained'
               sx={{
                 borderRadius: '10px',
-                marginTop: '10px',
-                marginBottom: '20px',
-                marginLeft: '8px',
-                marginRight: '8px  ',
+
+                padding: '11px',
+                mb: 2,
+                mr: 1,
+                ml: 2,
+                fontSize: '1.1rem',
                 scrollSnapMarginRight: '10px',
                 width: '220px',
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
                 transition: 'all 0.1s ease-in-out',
-                backgroundColor: '#f9dde6                ',
-                color: '#893350',
-                boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.40)',
-                fontWeight: '600',
+                backgroundColor: 'primary.light',
+                color: '',
+                boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.10)',
+                fontWeight: '500',
                 '&:hover': {
                   transition: 'all 0.1s ease-in-out',
                   transform: 'scale(0.99)',
-                  boxShadow: '-2px -2px 10px rgba(0, 0, 0, 0.30)',
-                  backgroundColor: '#f7ccda                  ',
-                  color: '#8e3553'
+                  boxShadow: '-2px -2px 10px rgba(0, 0, 0, 0.20)',
+                  backgroundColor: 'primary.light',
+                  color: '#FFF'
                 },
                 '&:active': {
                   transform: 'scale(0.98)'

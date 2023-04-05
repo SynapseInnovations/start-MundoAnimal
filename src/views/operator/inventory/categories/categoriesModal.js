@@ -115,7 +115,7 @@ const CategoriesModal = props => {
                 textShadow: '0px 0px 15px rgba(0,0,0,0.5)'
               }}
             >
-              Categorias
+              Tipo
             </Typography>
           </Box>
 
@@ -142,7 +142,7 @@ const CategoriesModal = props => {
                 },
                 width: '13rem'
               }}
-              placeholder='Buscar Categoria'
+              placeholder='Buscar Tipo'
               onChange={e => handleFilter(e.target.value)}
             />
             <Button
@@ -180,7 +180,7 @@ const CategoriesModal = props => {
               }}
             >
               <AddIcon sx={{ marginRight: '3px', fontSize: 'large' }} />
-              Agregar Marca
+              Agregar
             </Button>
           </Box>
         </Box>
@@ -207,10 +207,10 @@ const CategoriesModal = props => {
         >
           <DialogTitle sx={{ mx: 'auto', textAlign: 'center', marginTop: '30px', marginBottom: '20px' }}>
             <Typography variant='h5' component='span' sx={{ mb: 2 }}>
-              {edit ? 'Modificar Categoria Existente' : 'Agregar Nueva Categoria'}
+              {edit ? 'Modificar Tipo Existente' : 'Agregar Nuevo Tipo'}
             </Typography>
             <Typography variant='body2'>
-              {edit ? 'Modifica datos de categorias en el' : 'Agrega nuevas categorias al'} inventario de Mundo Animal!
+              {edit ? 'Modifica datos de tipo en el' : 'Agrega nuevos tipos al'} inventario de Mundo Animal!
             </Typography>
           </DialogTitle>
           <DialogContent sx={{ pb: 12, mx: 'auto' }}>
@@ -228,7 +228,7 @@ const CategoriesModal = props => {
               }}
             >
               <TextField
-                label='Nombre de la Categoria'
+                label='Nombre del Tipo'
                 fullWidth
                 value={nombreCategoria}
                 onChange={event => setNombreCategoria(event.target.value)}

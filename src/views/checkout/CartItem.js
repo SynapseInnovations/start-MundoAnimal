@@ -16,6 +16,7 @@ import ListItemText from '@mui/material/ListItemText'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import ListItemAvatar from '@mui/material/ListItemAvatar'
 import Checkbox from '@mui/material/Checkbox'
+import { motion } from 'framer-motion'
 import {
   FormControl,
   InputLabel,
@@ -51,43 +52,53 @@ const CartItem = ({ item, index, handleInputChange, deleteThis }) => {
 
   return (
     <ListItem key={index}>
-      <ListItemAvatar>
-        <img width={100} src={item.imagen} alt={item.nombre} />
-      </ListItemAvatar>
       <IconButton onClick={() => deleteThis(index)} size='small' className='remove-item' sx={{ color: 'text.primary' }}>
         <Icon icon='mdi:close' fontSize={20} />
       </IconButton>
       <Grid container>
-        <Grid item xs={12} md={8}>
-          <ListItemText primary={item.nombre} />
-          <ListItemText primary={item.codigo_barra} />
-          <Box sx={{ display: 'flex' }}>
-            <Typography sx={{ mr: 2, mb: 4, color: 'text.disabled' }}>Marca:</Typography>
+        <Grid
+          item
+          xs={12}
+          md={8}
+          sx={{
+            paddingTop: '2px',
+            paddingLeft: '16px',
+            paddingRight: '16px',
+            marginBottom: '0px'
+          }}
+        >
+          <ListItemText
+            primary={
+              <Typography component='span' variant='body1' style={{ fontWeight: 'bold', fontSize: '1.8rem' }}>
+                {item.nombre}
+              </Typography>
+            }
+            secondary={
+              <Typography component='span' variant='body1' style={{}}>
+                {' '}
+                {/* Ajusta el tamaño del texto aquí */}
+              </Typography>
+            }
+          />
 
-            <Typography
-              href='/'
-              component={MuiLink}
-              onClick={e => e.preventDefault()}
-              sx={{ mr: 4, color: 'primary.main' }}
-            >
-              {item.Marca}
-            </Typography>
-            {item.cantidad > 0 ? (
-              <>
-                <Chip
-                  label={`${item.cantidad} en Stock`}
-                  color={item.cantidad < 5 ? 'warning' : 'success'}
-                  size='small'
-                />
-              </>
-            ) : (
-              <>
-                <Chip label='Sin stock disponible' color='error' size='small' />
-              </>
-            )}
-          </Box>
+          <ListItemText
+            primary={
+              <Typography component='span' variant='body1' style={{ fontWeight: 'bold' }}>
+                Código de barras:
+              </Typography>
+            }
+            secondary={item.codigo_barra}
+          />
+          <ListItemText
+            primary={
+              <Typography component='span' variant='body1' style={{ fontWeight: 'bold' }}>
+                Marca:
+              </Typography>
+            }
+            secondary={item.Marca}
+          />
         </Grid>
-        <Grid item xs={12} md={4} sx={{ mt: [6, 6, 8] }}>
+        <Grid item xs={12} md={4} sx={{}}>
           <Box
             sx={{
               gap: 3,
@@ -98,43 +109,90 @@ const CartItem = ({ item, index, handleInputChange, deleteThis }) => {
               alignItems: { xs: 'flex-start', md: 'flex-end' }
             }}
           >
-            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+            <Box
+              variant='body2'
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                marginRight: '50px',
+
+                borderRadius: '16px',
+                paddingBottom: '8px',
+                paddingTop: '8px',
+                paddingLeft: '16px',
+                paddingRight: '16px'
+              }}
+            >
               <FormControl>
-                <FormLabel>Tipo de Venta</FormLabel>
+                {item.cantidad > 0 ? (
+                  <>
+                    <Chip
+                      label={`${item.cantidad} en Stock`}
+                      color={item.cantidad < 5 ? 'warning' : 'primary'}
+                      size='small'
+                      sx={{ mb: 4, mt: 1 }}
+                    />
+                  </>
+                ) : (
+                  <>
+                    <Chip label='Sin stock disponible' color='error' size='small' />
+                  </>
+                )}
                 <RadioGroup
                   onChange={e => {
                     handleInputChange(e.target.value, index, 'tipo_precio')
                   }}
                   defaultValue='1'
                 >
-                  <FormControlLabel value='1' control={<Radio />} label={`Por Unidad ($ ${item.precio_unitario})`} />
-                  <FormControlLabel value='0' control={<Radio />} label={`Por Kilo ($ ${item.precio_kilo})`} />
+                  <FormControlLabel
+                    value='1'
+                    control={<Radio />}
+                    label={`Por Unidad: \n $${item.precio_unitario.toLocaleString()} `}
+                  />
+                  <FormControlLabel
+                    value='0'
+                    control={<Radio />}
+                    label={`Por Kilo:\n $${item.precio_kilo.toLocaleString()}`}
+                  />
                 </RadioGroup>
                 {item.isPrecioUnitario ? (
                   <>
-                    <TextField
-                      size='small'
-                      type='number'
-                      label='Cantidad'
-                      disabled={!item.isPrecioUnitario}
-                      value={item.cantInput}
-                      onChange={e => handleInputChange(e.target.value, index, 'cantidad')}
-                      inputProps={{ min: 0, max: item.cantidad }}
-                      sx={{ maxWidth: 100, display: 'block' }}
-                    />
+                    {' '}
+                    <motion.div
+                      initial={{ opacity: 0, y: 40 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0, duration: 0.2 }}
+                    >
+                      <TextField
+                        size='small'
+                        type='number'
+                        label='Cantidad'
+                        disabled={!item.isPrecioUnitario}
+                        value={item.cantInput}
+                        onChange={e => handleInputChange(e.target.value, index, 'cantidad')}
+                        inputProps={{ min: 0, max: item.cantidad }}
+                        sx={{ maxWidth: 160, display: 'block', marginTop: 2 }}
+                      />
+                    </motion.div>
                   </>
                 ) : (
                   <>
-                    <TextField
-                      size='small'
-                      type='number'
-                      label='Kilos'
-                      disabled={item.isPrecioUnitario}
-                      value={item.kgInput}
-                      onChange={e => handleInputChange(e.target.value, index, 'kilos')}
-                      inputProps={{ min: 0.0, step: 0.1 }}
-                      sx={{ maxWidth: 100, display: 'block' }}
-                    />
+                    <motion.div
+                      initial={{ opacity: 0, y: -40 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0, duration: 0.2 }}
+                    >
+                      <TextField
+                        size='small'
+                        type='number'
+                        label='Kilos'
+                        disabled={item.isPrecioUnitario}
+                        value={item.kgInput}
+                        onChange={e => handleInputChange(e.target.value, index, 'kilos')}
+                        inputProps={{ min: 0.0, step: 0.1 }}
+                        sx={{ maxWidth: 160, display: 'block', marginTop: 2 }}
+                      />
+                    </motion.div>
                   </>
                 )}
               </FormControl>

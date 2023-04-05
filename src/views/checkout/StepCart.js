@@ -12,10 +12,10 @@ import { styled } from '@mui/material/styles'
 import List from '@mui/material/List'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import { FormControl, InputLabel, Select, MenuItem, Card } from '@mui/material'
-
+import AssignmentSharp from '@mui/icons-material/AssignmentSharp'
 import toast from 'react-hot-toast'
 import { useEffect, useState } from 'react'
-
+import Link from 'next/link'
 import authConfig from 'src/configs/auth'
 import axios from 'axios'
 
@@ -180,8 +180,9 @@ const StepCart = ({ handleNext }) => {
     <Grid container spacing={6}>
       <Grid item xs={12} lg={8}>
         <Typography variant='h6' sx={{ mb: 4 }}>
-          REGISTRAR VENTA EN EL INVENTARIO
+          Venta de Productos
         </Typography>
+
         <Box
           sx={{
             gap: 2,
@@ -192,63 +193,28 @@ const StepCart = ({ handleNext }) => {
             border: theme => `1px solid ${theme.palette.divider}`
           }}
         >
-          <Card style={{ width: '100%' }}>
-            <CardContent>
-              <Typography sx={{ mb: 4, fontWeight: 600 }}>Buscar Productos</Typography>
-              <Box sx={{ mb: 4, display: 'flex', alignItems: 'center' }}>
-                <FormControl>
-                  <TextField
-                    sx={{ mr: 4 }}
-                    value={barcode}
-                    type='number'
-                    label='Codigo de Barra'
-                    onKeyDown={e => {
-                      if (e.key == 'Enter') {
-                        handleEnterBarcode()
-                      }
-                    }}
-                    onChange={e => setBarcode(e.target.value)}
-                  />
-                </FormControl>
-                <FormControl>
-                  <TextField
-                    label={'Nombre del Producto'}
-                    sx={{ mr: 4 }}
-                    value={search}
-                    onChange={e => {
-                      setSearch(e.target.value)
-                      const found = data2.filter(i => i.nombre.toLowerCase().includes(e.target.value.toLowerCase()))
-                      setSearchResult(found)
-                    }}
-                  />
-                </FormControl>
-                <Button
-                  variant='outlined'
+          <CardContent>
+            <Typography sx={{ mb: 4, fontWeight: 600 }}>Escanea el Código de Barras</Typography>
+            <Box sx={{ mb: 4, display: 'flex', alignItems: 'center' }}>
+              <FormControl>
+                <TextField
                   sx={{ mr: 4 }}
-                  onClick={() => {
-                    const item = data2.find(i => i.codigo_barra === searchSelected)
-                    if (searchResult.length <= 0) {
-                      toast.error('No se han encontrado productos, pruebe escribiendo un nombre diferente.')
-
-                      return
+                  value={barcode}
+                  type='number'
+                  label='Codigo de Barra'
+                  onKeyDown={e => {
+                    if (e.key == 'Enter') {
+                      handleEnterBarcode()
                     }
-                    if (item === undefined) {
-                      toast.error('No se ha seleccionado un producto de la búsqueda.')
-
-                      return
-                    }
-                    setCart([...cart, item])
-                    setSearch('')
-                    setSearchSelected('')
                   }}
-                >
-                  Agregar
-                </Button>
-              </Box>
-              <FormControl fullWidth>
+                  onChange={e => setBarcode(e.target.value)}
+                />
+              </FormControl>
+
+              <FormControl>
                 <InputLabel>Resultados: {searchResult.length} </InputLabel>
                 <Select
-                  sx={{ mr: 4 }}
+                  sx={{ mr: 5, width: '330px' }}
                   label={`Resultados: ${searchResult.length} `}
                   value={searchSelected}
                   onChange={e => setSearchSelected(e.target.value)}
@@ -265,12 +231,61 @@ const StepCart = ({ handleNext }) => {
                   ))}
                 </Select>
               </FormControl>
-            </CardContent>
-          </Card>
+
+              <Button
+                variant='contained'
+                sx={{
+                  borderRadius: '10px',
+
+                  padding: '11px',
+                  fontSize: '1.1rem',
+                  scrollSnapMarginRight: '10px',
+                  width: '220px',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  transition: 'all 0.1s ease-in-out',
+                  backgroundColor: 'primary.light',
+                  color: '',
+                  boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.10)',
+                  fontWeight: '500',
+                  '&:hover': {
+                    transition: 'all 0.1s ease-in-out',
+                    transform: 'scale(0.99)',
+                    boxShadow: '-2px -2px 10px rgba(0, 0, 0, 0.20)',
+                    backgroundColor: 'primary.light                ',
+                    color: '#FFF'
+                  },
+                  '&:active': {
+                    transform: 'scale(0.98)'
+                  }
+                }}
+                onClick={() => {
+                  const item = data2.find(i => i.codigo_barra === searchSelected)
+                  if (searchResult.length <= 0) {
+                    toast.error('No se han encontrado productos, pruebe escribiendo un nombre diferente.')
+
+                    return
+                  }
+                  if (item === undefined) {
+                    toast.error('No se ha seleccionado un producto de la búsqueda.')
+
+                    return
+                  }
+                  setCart([...cart, item])
+                  setSearch('')
+                  setSearchSelected('')
+                }}
+              >
+                Agregar al Carrito
+              </Button>
+            </Box>
+          </CardContent>
         </Box>
         <Box
           sx={{
             gap: 2,
+            marginTop: '20px',
             display: 'flex',
             borderRadius: 1,
             alignItems: 'center',
@@ -305,9 +320,9 @@ const StepCart = ({ handleNext }) => {
                     <Box
                       sx={{
                         mb: 2,
-                        borderRadius: 1,
-                        border: theme => `1px solid ${theme.palette.divider}`,
+
                         gap: 2,
+                        padding: 24,
                         display: 'flex',
                         flexWrap: 'wrap',
                         flexDirection: 'column',
@@ -315,7 +330,7 @@ const StepCart = ({ handleNext }) => {
                         justifyContent: 'space-between'
                       }}
                     >
-                      <Typography variant='body2' sx={{ color: 'text.primary' }}>
+                      <Typography variant='body2' sx={{ color: 'text.primary', fontSize: '1.5rem' }}>
                         No existen productos en el carrito.
                       </Typography>
                     </Box>
@@ -387,8 +402,41 @@ const StepCart = ({ handleNext }) => {
           </CardContent>
         </Box>
         <Box sx={{ display: 'flex', ...(breakpointMD ? { justifyContent: 'flex-end' } : {}) }}>
-          <Button fullWidth={!breakpointMD} variant='contained' onClick={handleSubmit}>
-            CONTINUAR
+          <Button
+            sx={{
+              fontSize: '4rem', // Ajusta el tamaño del texto aquí
+              borderRadius: '10px',
+              marginTop: '10px',
+              marginBottom: '2px',
+              marginLeft: '8px',
+              marginRight: '8px',
+              scrollSnapMarginRight: '10px',
+              width: '500px',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              transition: 'all 0.1s ease-in-out',
+              backgroundColor: 'primary',
+              color: '#FAFAFA',
+              boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.10)',
+              fontWeight: '700',
+              '&:hover': {
+                transition: 'all 0.1s ease-in-out',
+                transform: 'scale(0.98)',
+
+                backgroundColor: '#f7ccda',
+                color: '#8e3553'
+              },
+              '&:active': {
+                transform: 'scale(0.95)',
+                color: '#FAFAFA'
+              }
+            }}
+            fullWidth={!breakpointMD}
+            variant='contained'
+            onClick={handleSubmit}
+          >
+            Vender
           </Button>
         </Box>
       </Grid>

@@ -154,7 +154,7 @@ const PetsModal = props => {
                 marginLeft: '8px',
                 marginRight: '8px  ',
                 scrollSnapMarginRight: '10px',
-                width: '192px',
+                width: '190px',
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
@@ -179,8 +179,8 @@ const PetsModal = props => {
                 dialogToggle()
               }}
             >
-              <AddIcon sx={{ marginRight: '3px', fontSize: 'large' }} />
-              Agregar Marca
+              <AddIcon sx={{ marginRight: '2px', fontSize: 'medium' }} />
+              Agregar
             </Button>
           </Box>
         </Box>
@@ -228,7 +228,7 @@ const PetsModal = props => {
               }}
             >
               <TextField
-                label='Nombre del tipo de Mascota'
+                label='Nombre de la Mascota'
                 fullWidth
                 value={nombreMascota}
                 onChange={event => setNombreMascota(event.target.value)}

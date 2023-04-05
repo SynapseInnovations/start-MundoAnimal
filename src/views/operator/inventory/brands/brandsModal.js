@@ -174,7 +174,7 @@ const BrandsModal = props => {
               }}
             >
               <AddIcon sx={{ marginRight: '3px', fontSize: 'large' }} />
-              Agregar Marca
+              Agregar
             </Button>
           </Box>
         </Box>

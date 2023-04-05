@@ -10,7 +10,23 @@ const navigation = () => {
       path: '/home',
       subject: 'home',
       action: 'read',
-      icon: 'mdi:paw'
+      icon: 'mdi:paw',
+      children: [
+        {
+          title: 'Inicio',
+          path: '/home',
+          subject: 'home',
+          action: 'read',
+          icon: 'mdi:paw'
+        },
+        {
+          title: 'Manual de Usuario',
+          path: '/usermanual',
+          subject: 'sales',
+          action: 'read',
+          icon: 'mdi:list-box'
+        }
+      ]
     },
     {
       sectionTitle: 'Panel de Operador',
@@ -21,69 +37,26 @@ const navigation = () => {
       title: 'Inventario',
       icon: 'mdi:garage-variant',
       subject: 'inventory',
-      action: 'read',
-      children: [
-        {
-          title: 'Productos',
-          path: '/operator/inventory/products',
-          subject: 'inventory',
-          action: 'read',
-          icon: 'mdi:archive'
-        },
-        {
-          title: 'Historial',
-          subject: 'inventory',
-          action: 'read',
-          path: '/operator/inventory/history',
-          icon: 'mdi:list-box'
-        }
-      ]
+      path: '/operator/inventory/products',
+      action: 'read'
     },
+
     {
-      title: 'Mantenedor',
-      icon: 'mdi:tune-variant',
-      subject: 'inventory',
-      action: 'read',
-      children: [
-        {
-          title: 'Marcas',
-          path: '/operator/inventory/brands',
-          subject: 'inventory',
-          action: 'read',
-          icon: 'mdi:briefcase'
-        },
-        {
-          title: 'Categorías',
-          path: '/operator/inventory/categories',
-          subject: 'inventory',
-          action: 'read',
-          icon: 'mdi:shape'
-        },
-        {
-          title: 'Mascotas',
-          path: '/operator/inventory/pets',
-          subject: 'inventory',
-          action: 'read',
-          icon: 'mdi:paw'
-        }
-      ]
-    },
-    {
-      title: 'Ventas',
+      title: 'Vender',
       path: '/',
       icon: 'mdi:cart',
       subject: 'sales',
       action: 'read',
       children: [
         {
-          title: 'Generar Venta',
+          title: 'Vender Producto',
           path: '/operator/sales/generate',
           subject: 'sales',
           action: 'read',
           icon: 'mdi:cart'
         },
         {
-          title: 'Listar Ventas',
+          title: 'Historial de Ventas',
           path: '/operator/sales/list',
           subject: 'sales',
           action: 'read',
@@ -91,7 +64,13 @@ const navigation = () => {
         }
       ]
     },
-
+    {
+      title: 'Categorias ',
+      icon: 'mdi:tune-variant',
+      subject: 'inventory',
+      action: 'read',
+      path: '/operator/inventory/mantainer'
+    },
     {
       sectionTitle: 'Panel de Administrador'
     },

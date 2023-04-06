@@ -123,16 +123,12 @@ const InventoryModal = props => {
 
   const handleSubmit = event => {
     event.preventDefault()
-    if (
-      nombreProducto.trim() === '' &&
-      codigoBarraProducto.trim() === 0 &&
-      cantidadProducto.trim() === '' &&
-      precioUnitarioProducto.trim() === 0
-    ) {
+    if (nombreProducto.trim() === 0) {
+      //setNombreProductoError(true)
       setNombreProductoError(true)
-      setCodigoBarraError(true)
-      setCantidadProductoError(true)
-      setPrecioUnitarioError(true)
+
+      //setCantidadProductoError(true)
+      //setPrecioUnitarioError(true)
       return
     }
     const inventoryForm = new FormData()

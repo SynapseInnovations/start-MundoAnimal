@@ -33,7 +33,7 @@ import { toast } from 'react-hot-toast'
 const CategoriesModal = props => {
   // ** Variables
   const [nombreCategoria, setNombreCategoria] = useState('')
-
+  const [nombreCategoriaError, setNombreCategoriaError] = useState('')
   const [edit, setEdit] = useState(false)
 
   // ** Props
@@ -52,6 +52,10 @@ const CategoriesModal = props => {
 
   const handleSubmit = event => {
     event.preventDefault()
+    if (nombreCategoria.trim() === '') {
+      setNombreCategoriaError(true)
+      return
+    }
     const inventoryForm = new FormData()
     if (edit) {
       inventoryForm.append('id', editTarget.variable)
@@ -70,6 +74,7 @@ const CategoriesModal = props => {
             toast.success(response.data.msg)
             updateMethod()
             dialogToggle()
+            setNombreCategoriaEror(false)
           })
       : axios
           .post(APIRoutes.mantenedor.categoria.registrar, inventoryForm, {
@@ -82,6 +87,7 @@ const CategoriesModal = props => {
             toast.success(response.data.msg)
             updateMethod()
             dialogToggle()
+            setNombreCategoriaError(false)
           })
   }
 
@@ -236,42 +242,80 @@ const CategoriesModal = props => {
                 fullWidth
                 value={nombreCategoria}
                 onChange={event => setNombreCategoria(event.target.value)}
+                required
+                error={nombreCategoriaError}
+                helperText={nombreCategoriaError ? 'Porfavor ingrese un nombre válido' : ''}
               />
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.15, duration: 0.7 }}
               >
-                <Button
-                  variant='contained'
-                  sx={{
-                    borderRadius: '10px',
-                    marginTop: '22px',
-                    width: '150px',
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.25)',
-                    transition: 'all 0.1s ease-in-out',
-                    backgroundColor: '#b24368',
-                    color: ' 	#faf0e6',
-                    marginLeft: 'auto',
-                    '&:hover': {
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <Button
+                    variant='contained'
+                    sx={{
+                      borderRadius: '10px',
+                      marginTop: '22px',
+                      width: '150px',
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.25)',
                       transition: 'all 0.1s ease-in-out',
-                      transform: 'scale(0.99)',
-                      boxShadow: '0px -1px 10px rgba(0, 0, 0, 0.20)',
+                      backgroundColor: '#606470',
+                      color: ' 	#faf0e6',
+                      marginLeft: 'auto',
+                      '&:hover': {
+                        transition: 'all 0.1s ease-in-out',
+                        transform: 'scale(0.99)',
+                        boxShadow: '0px -1px 10px rgba(0, 0, 0, 0.20)',
+                        backgroundColor: '#606470',
+                        color: '#ffcfdf',
+                        marginRight: '0'
+                      },
+                      '&:active': {
+                        transform: 'scale(0.97)'
+                      }
+                    }}
+                    onClick={() => {
+                      editTarget.method(null)
+                      dialogToggle(false)
+                    }}
+                  >
+                    Cancelar
+                  </Button>
+                  <Button
+                    variant='contained'
+                    sx={{
+                      borderRadius: '10px',
+                      marginTop: '22px',
+                      width: '150px',
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.25)',
+                      transition: 'all 0.1s ease-in-out',
                       backgroundColor: '#b24368',
-                      color: '#ffcfdf',
-                      marginRight: '0'
-                    },
-                    '&:active': {
-                      transform: 'scale(0.97)'
-                    }
-                  }}
-                  onClick={handleSubmit}
-                >
-                  {edit ? 'Modificar' : 'Agregar'}
-                </Button>
+                      color: ' 	#faf0e6',
+                      marginLeft: '30px',
+                      '&:hover': {
+                        transition: 'all 0.1s ease-in-out',
+                        transform: 'scale(0.99)',
+                        boxShadow: '0px -1px 10px rgba(0, 0, 0, 0.20)',
+                        backgroundColor: '#b24368',
+                        color: '#ffcfdf',
+                        marginRight: '0'
+                      },
+                      '&:active': {
+                        transform: 'scale(0.97)'
+                      }
+                    }}
+                    onClick={handleSubmit}
+                  >
+                    {edit ? 'Modificar' : 'Agregar'}
+                  </Button>
+                </div>
               </motion.div>
             </Box>
           </DialogContent>

@@ -43,7 +43,10 @@ const InventoryModal = props => {
   const [marcaProducto, setMarcaProducto] = useState('')
   const [categoriaProducto, setCategoriaProducto] = useState('')
   const [mascotaProducto, setMascotaProducto] = useState('')
-
+  const [precioUnitarioError, setPrecioUnitarioError] = useState('')
+  const [cantidadProductoError, setCantidadProductoError] = useState('')
+  const [nombreProductoError, setNombreProductoError] = useState('')
+  const [codigoBarraError, setCodigoBarraError] = useState('')
   const [edit, setEdit] = useState(false)
 
   // ** Props
@@ -120,6 +123,18 @@ const InventoryModal = props => {
 
   const handleSubmit = event => {
     event.preventDefault()
+    if (
+      nombreProducto.trim() === '' &&
+      codigoBarraProducto.trim() === 0 &&
+      cantidadProducto.trim() === '' &&
+      precioUnitarioProducto.trim() === 0
+    ) {
+      setNombreProductoError(true)
+      setCodigoBarraError(true)
+      setCantidadProductoError(true)
+      setPrecioUnitarioError(true)
+      return
+    }
     const inventoryForm = new FormData()
     inventoryForm.append('codigo_barra', codigoBarraProducto)
     inventoryForm.append('nombre', nombreProducto)
@@ -144,6 +159,10 @@ const InventoryModal = props => {
         toast.success(response.data.msg)
         updateMethod()
         dialogToggle()
+        setNombreProductoError(false)
+        setCodigoBarraError(false)
+        setCantidadProductoError(false)
+        setPrecioUnitarioError(false)
       })
   }
 
@@ -306,15 +325,21 @@ const InventoryModal = props => {
                 value={codigoBarraProducto}
                 disabled={edit}
                 onChange={event => setCodigoBarraProducto(event.target.value)}
+                required
+                error={codigoBarraError}
+                helperText={codigoBarraError ? 'Porfavor ingrese un código de barra' : ''}
               />
               <TextField
                 label='Nombre del producto'
                 fullWidth
                 value={nombreProducto}
                 onChange={event => setNombreProducto(event.target.value)}
+                required
+                error={nombreProductoError}
+                helperText={nombreProductoError ? 'Porfavor ingrese un nombre válido' : ''}
               />
               <TextField
-                label='Descripción del producto'
+                label='Descripción del producto (opcional)'
                 fullWidth
                 value={descripcionProducto}
                 onChange={event => setDescripcionProducto(event.target.value)}
@@ -329,6 +354,9 @@ const InventoryModal = props => {
                     value={cantidadProducto}
                     onChange={event => setCantidadProducto(event.target.value.replace(/\./g, ''))}
                     fullWidth
+                    required
+                    error={cantidadProductoError}
+                    helperText={cantidadProductoError ? 'Porfavor ingrese la cantidad de productos' : ''}
                   />
                 </Grid>
                 <Grid item xs={12} md={4}>
@@ -355,6 +383,9 @@ const InventoryModal = props => {
                     value={precioUnitarioProducto}
                     onChange={event => setPrecioUnitarioProducto(event.target.value.replace(/\./g, ''))}
                     fullWidth
+                    required
+                    error={precioUnitarioError}
+                    helperText={precioUnitarioError ? 'Porfavor ingrese un precio para el producto' : ''}
                   />
                 </Grid>
               </Grid>
@@ -424,36 +455,71 @@ const InventoryModal = props => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.15, duration: 0.7 }}
               >
-                <Button
-                  variant='contained'
-                  sx={{
-                    borderRadius: '10px',
-                    marginTop: '22px',
-                    width: '150px',
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.25)',
-                    transition: 'all 0.1s ease-in-out',
-                    backgroundColor: '#b24368',
-                    color: ' 	#faf0e6',
-                    marginLeft: 'auto',
-                    '&:hover': {
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <Button
+                    variant='contained'
+                    sx={{
+                      borderRadius: '10px',
+                      marginTop: '22px',
+                      width: '150px',
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.25)',
                       transition: 'all 0.1s ease-in-out',
-                      transform: 'scale(0.99)',
-                      boxShadow: '0px -1px 10px rgba(0, 0, 0, 0.20)',
+                      backgroundColor: '#606470',
+                      color: ' 	#faf0e6',
+                      marginLeft: 'auto',
+                      '&:hover': {
+                        transition: 'all 0.1s ease-in-out',
+                        transform: 'scale(0.99)',
+                        boxShadow: '0px -1px 10px rgba(0, 0, 0, 0.20)',
+                        backgroundColor: '#606470',
+                        color: '#ffcfdf',
+                        marginRight: '0'
+                      },
+                      '&:active': {
+                        transform: 'scale(0.97)'
+                      }
+                    }}
+                    onClick={() => {
+                      editTarget.method(null)
+                      dialogToggle(false)
+                    }}
+                  >
+                    Cancelar
+                  </Button>
+                  <Button
+                    variant='contained'
+                    sx={{
+                      borderRadius: '10px',
+                      marginTop: '22px',
+                      width: '150px',
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.25)',
+                      transition: 'all 0.1s ease-in-out',
                       backgroundColor: '#b24368',
-                      color: '#ffcfdf',
-                      marginRight: '0'
-                    },
-                    '&:active': {
-                      transform: 'scale(0.97)'
-                    }
-                  }}
-                  onClick={handleSubmit}
-                >
-                  {edit ? 'Modificar' : 'Agregar'}
-                </Button>
+                      color: ' 	#faf0e6',
+                      marginLeft: '70px',
+                      '&:hover': {
+                        transition: 'all 0.1s ease-in-out',
+                        transform: 'scale(0.99)',
+                        boxShadow: '0px -1px 10px rgba(0, 0, 0, 0.20)',
+                        backgroundColor: '#b24368',
+                        color: '#ffcfdf',
+                        marginRight: '0'
+                      },
+                      '&:active': {
+                        transform: 'scale(0.97)'
+                      }
+                    }}
+                    onClick={handleSubmit}
+                  >
+                    {edit ? 'Modificar' : 'Agregar'}
+                  </Button>
+                </div>
               </motion.div>
             </Box>
           </DialogContent>

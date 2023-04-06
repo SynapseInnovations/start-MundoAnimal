@@ -83,7 +83,11 @@ const StepCart = ({ handleNext }) => {
     toast('submitting')
     e.preventDefault()
     const newSaleForm = new FormData()
-    const currentDate = new Date()
+    const now = new Date()
+    const offsetInMinutes = now.getTimezoneOffset()
+    const offsetInMilliseconds = offsetInMinutes * 60 * 1000
+    const currentTime = now.getTime() + offsetInMilliseconds
+    const currentDate = new Date(currentTime)
     const mysqlDate = currentDate.toISOString().slice(0, 19).replace('T', ' ')
     newSaleForm.append('fecha', mysqlDate)
     newSaleForm.append('vendedor_rut', user.rut)
@@ -106,6 +110,10 @@ const StepCart = ({ handleNext }) => {
         setSearchResult([])
         setSearchSelected('')
         updateData()
+      })
+      .catch(e => {
+        console.log(e.response)
+        toast.error('error')
       })
   }
 

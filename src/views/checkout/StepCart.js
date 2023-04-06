@@ -20,6 +20,10 @@ import authConfig from 'src/configs/auth'
 import axios from 'axios'
 import { motion } from 'framer-motion'
 
+import { useContext } from 'react'
+
+import { AuthContext } from 'src/context/AuthContext'
+
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
 import CartItem from './CartItem'
@@ -73,21 +77,17 @@ const StepCart = ({ handleNext }) => {
   const [barcode, setBarcode] = useState('')
   const [searchResult, setSearchResult] = useState([])
   const [searchSelected, setSearchSelected] = useState('')
-
-  let commonData = {
-    fecha: '2023-03-18 12:30:45',
-    vendedor_rut: '19870095-9',
-    tipoventa_id: 1,
-    productos: []
-  }
+  const { user } = useContext(AuthContext)
 
   const handleSubmit = e => {
     toast('submitting')
     e.preventDefault()
     const newSaleForm = new FormData()
-    newSaleForm.append('fecha', commonData.fecha)
-    newSaleForm.append('vendedor_rut', commonData.vendedor_rut)
-    newSaleForm.append('tipoventa_id', commonData.tipoventa_id)
+    const currentDate = new Date()
+    const mysqlDate = currentDate.toISOString().slice(0, 19).replace('T', ' ')
+    newSaleForm.append('fecha', mysqlDate)
+    newSaleForm.append('vendedor_rut', user.rut)
+    newSaleForm.append('tipoventa_id', 1)
     newSaleForm.append('total', total)
     newSaleForm.append('productos', JSON.stringify(cart))
     axios

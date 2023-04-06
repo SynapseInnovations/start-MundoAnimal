@@ -63,6 +63,21 @@ const PetsIndex = () => {
     setValue(val)
   }, [])
 
+  const deleteThis = id => {
+    axios
+      .delete(APIRoutes.mantenedor.mascota.eliminar + '/?id=' + id, {
+        headers: {
+          token: window.localStorage.getItem(authConfig.storageTokenKeyName)
+        }
+      })
+      .then(response => {
+        updateData()
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }
+
   const updateData = () => {
     axios
       .get(APIRoutes.mantenedor.mascota.leer, {
@@ -93,6 +108,7 @@ const PetsIndex = () => {
       renderCell: ({ row }) => (
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <IconButton
+            disabled={row.id == 1}
             onClick={() => {
               setEditTarget(row.id)
               dialogToggle()
@@ -122,7 +138,7 @@ const PetsIndex = () => {
               />
             </motion.div>
           </IconButton>
-          <IconButton>
+          <IconButton disabled={row.id == 1}>
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
@@ -147,7 +163,7 @@ const PetsIndex = () => {
                 onClick={() => {
                   const shouldDelete = window.confirm('¿Desea eliminar realmente?')
                   if (shouldDelete) {
-                    handleDeletePermission(params.row.name)
+                    deleteThis(row.id)
                   }
                 }}
               />

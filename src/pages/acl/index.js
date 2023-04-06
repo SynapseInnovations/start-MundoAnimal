@@ -21,8 +21,8 @@ const ACLPage = () => {
         <Card>
           <CardHeader title='Common' />
           <CardContent>
-            <Typography sx={{ mb: 4 }}>No ability is required to view this card</Typography>
-            <Typography sx={{ color: 'primary.main' }}>This card is visible to 'user' and 'admin' both</Typography>
+            <Typography sx={{ mb: 4 }}>Cuenta deshabilitada</Typography>
+            <Typography sx={{ color: 'primary.main' }}>No puedes hacer nada más</Typography>
           </CardContent>
         </Card>
       </Grid>
@@ -42,7 +42,7 @@ const ACLPage = () => {
 }
 ACLPage.acl = {
   action: 'read',
-  subject: 'acl-page'
+  subject: 'disabled'
 }
 
 export default ACLPage

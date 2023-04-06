@@ -108,6 +108,7 @@ const BrandsIndex = () => {
       renderCell: ({ row }) => (
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <IconButton
+            disabled={row.id == 1}
             onClick={() => {
               setEditTarget(row.id)
               dialogToggle()
@@ -137,7 +138,7 @@ const BrandsIndex = () => {
               />
             </motion.div>
           </IconButton>
-          <IconButton>
+          <IconButton disabled={row.id == 1}>
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}

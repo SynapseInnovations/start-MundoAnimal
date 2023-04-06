@@ -153,31 +153,6 @@ const CreateAccountModal = props => {
           </Box>
 
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <TextField
-              size='small'
-              value={value}
-              sx={{
-                backgroundColor: '#F9F4F0',
-                color: '#3E363F',
-                marginBottom: '10px',
-                borderRadius: '10px',
-                transition: 'all 0.1s ease-in-out',
-                boxShadow: '1px 1px 8px rgba(0, 0, 0, 0.50)',
-                '&:hover': {
-                  transform: 'scale(0.99)',
-                  transition: 'all 0.1s ease-in-out',
-                  boxShadow: '-2px -2px 4px rgba(0, 0, 0, 0.40)',
-                  fontSize: 'small',
-                  color: '#031927'
-                },
-                '& input::placeholder': {
-                  color: 'black'
-                },
-                width: '13rem'
-              }}
-              placeholder='Buscar Producto'
-              onChange={e => handleFilter(e.target.value)}
-            />
             <Button
               variant='contained'
               sx={{

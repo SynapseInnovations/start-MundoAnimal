@@ -10,6 +10,8 @@ import { DataGrid } from '@mui/x-data-grid'
 import { IconButton } from '@mui/material'
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
+import PersonRemoveIcon from '@mui/icons-material/PersonRemove'
+import PersonAddIcon from '@mui/icons-material/PersonAdd'
 
 // ** Third Party Components
 import toast from 'react-hot-toast'
@@ -175,15 +177,6 @@ const UsersManageIndex = () => {
                   }
                 }}
                 onClick={async () => {
-                  toast(
-                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                      <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                        <Typography noWrap variant='body2' sx={{ color: 'text.primary', fontWeight: 600 }}>
-                          Obteniendo datos del perfil...
-                        </Typography>
-                      </Box>
-                    </Box>
-                  )
                   setEditTarget(params.row.rut)
                   dialogToggle()
                 }}
@@ -213,7 +206,7 @@ const UsersManageIndex = () => {
                   }
                 }}
               >
-                <DeleteIcon />
+                <PersonRemoveIcon />
               </IconButton>
             </Box>
           </>

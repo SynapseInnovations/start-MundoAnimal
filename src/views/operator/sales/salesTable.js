@@ -31,6 +31,12 @@ const Row = props => {
   // ** State
   const [open, setOpen] = useState(false)
 
+  const getDateFormatted = d => {
+    const dateObj = new Date(d)
+
+    return dateObj.toLocaleString()
+  }
+
   return (
     <Fragment>
       <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
@@ -40,7 +46,7 @@ const Row = props => {
           </IconButton>
         </TableCell>
         <TableCell component='th' scope='row'>
-          {row.fecha}
+          {getDateFormatted(row.fecha)}
         </TableCell>
         <TableCell align='center'>{row.numero_boleta}</TableCell>
         <TableCell align='center'>{row.TipoVenta_id == 1 ? 'Presencial' : 'En línea'}</TableCell>
@@ -102,7 +108,6 @@ const SalesTable = () => {
       })
       .then(response => {
         setData2(response.data.data)
-        console.log(response.data.data)
       })
       .catch(error => {
         console.log(error)

@@ -95,7 +95,7 @@ const ProductsHistory = () => {
       />
       <Grid item xs={12}>
         <TableContainer component={Paper} style={{ maxHeight: 1000 }}>
-          <Table aria-label='collapsible table'>
+          <Table size='small' aria-label='collapsible table'>
             <TableHead>
               <TableRow>
                 <TableCell align='center'>Responsable</TableCell>

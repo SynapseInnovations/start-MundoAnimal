@@ -50,11 +50,7 @@ const defaultColumns = [
     headerName: 'Disponible',
     headerAlign: 'center',
     align: 'center',
-    renderCell: ({ row }) => (
-      <Typography>
-        {row.cantidad.toLocaleString()}
-      </Typography>
-    )
+    renderCell: ({ row }) => <Typography>{row.cantidad.toLocaleString()}</Typography>
   },
   {
     flex: 0.1,
@@ -63,11 +59,7 @@ const defaultColumns = [
     headerName: '$ Kilo',
     headerAlign: 'center',
     align: 'center',
-    renderCell: ({ row }) => (
-      <Typography>
-        $ {parseFloat(row.precio_kilo).toLocaleString()}
-      </Typography>
-    )
+    renderCell: ({ row }) => <Typography>$ {parseFloat(row.precio_kilo).toLocaleString()}</Typography>
   },
   {
     flex: 0.1,
@@ -76,11 +68,7 @@ const defaultColumns = [
     headerName: '$ Unitario',
     headerAlign: 'center',
     align: 'center',
-    renderCell: ({ row }) => (
-      <Typography>
-        $ {parseFloat(row.precio_unitario).toLocaleString()}
-      </Typography>
-    )
+    renderCell: ({ row }) => <Typography>$ {parseFloat(row.precio_unitario).toLocaleString()}</Typography>
   },
   {
     flex: 0.1,
@@ -131,6 +119,21 @@ const ProductsIndex = () => {
   const handleFilter = useCallback(val => {
     setValue(val)
   }, [])
+
+  const deleteThis = codigo_barra => {
+    axios
+      .delete(APIRoutes.productos.eliminar + '/?codigo_barra=' + codigo_barra, {
+        headers: {
+          token: window.localStorage.getItem(authConfig.storageTokenKeyName)
+        }
+      })
+      .then(response => {
+        updateData()
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }
 
   const updateData = () => {
     axios
@@ -216,7 +219,7 @@ const ProductsIndex = () => {
                 onClick={() => {
                   const shouldDelete = window.confirm('¿Desea eliminar realmente?')
                   if (shouldDelete) {
-                    handleDeletePermission(params.row.name)
+                    deleteThis(row.codigo_barra)
                   }
                 }}
               />

@@ -21,6 +21,7 @@ import Icon from 'src/@core/components/icon'
 
 // ** API Routes
 import APIRoutes from 'src/configs/apiRoutes'
+import { toast } from 'react-hot-toast'
 
 const defaultColumns = [
   {
@@ -50,7 +51,7 @@ const defaultColumns = [
     headerName: 'Disponible',
     headerAlign: 'center',
     align: 'center',
-    renderCell: ({ row }) => <Typography>{row.cantidad.toLocaleString()}</Typography>
+    renderCell: ({ row }) => <Typography>{row.cantidad}</Typography>
   },
   {
     flex: 0.1,

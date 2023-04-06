@@ -44,7 +44,7 @@ const Row = props => {
         </TableCell>
         <TableCell align='center'>{row.numero_boleta}</TableCell>
         <TableCell align='center'>{row.TipoVenta_id == 1 ? 'Presencial' : 'En línea'}</TableCell>
-        <TableCell align='center'>$ {row.total}</TableCell>
+        <TableCell align='center'>$ {row.total.toLocaleString()}</TableCell>
         <TableCell align='center'>{row.Vendedor_rut}</TableCell>
       </TableRow>
       <TableRow>
@@ -71,7 +71,7 @@ const Row = props => {
                         {p.codigo_barra} - {p.nombre}
                       </TableCell>
                       <TableCell align='center'>{p.venta_unitaria == 1 ? 'Unitaria' : 'Por Kilo'}</TableCell>
-                      <TableCell align='center'>$ {p.precio_venta}</TableCell>
+                      <TableCell align='center'>$ {p.precio_venta.toLocaleString()}</TableCell>
                       <TableCell align='center'>{p.cantidad}</TableCell>
                       <TableCell align='center'>$ {p.cantidad * p.precio_venta}</TableCell>
                     </TableRow>

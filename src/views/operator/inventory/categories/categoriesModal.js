@@ -28,6 +28,7 @@ import PetsIcon from '@mui/icons-material/Pets'
 
 // ** API Routes
 import APIRoutes from 'src/configs/apiRoutes'
+import { toast } from 'react-hot-toast'
 
 const CategoriesModal = props => {
   // ** Variables
@@ -66,6 +67,7 @@ const CategoriesModal = props => {
             }
           })
           .then(async response => {
+            toast.success(response.data.msg)
             updateMethod()
             dialogToggle()
           })
@@ -77,6 +79,7 @@ const CategoriesModal = props => {
             }
           })
           .then(async response => {
+            toast.success(response.data.msg)
             updateMethod()
             dialogToggle()
           })

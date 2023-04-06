@@ -10,48 +10,25 @@ const navigation = () => {
       path: '/home',
       subject: 'home',
       action: 'read',
-      icon: 'mdi:paw',
-      children: [
-        {
-          title: 'Inicio',
-          path: '/home',
-          subject: 'home',
-          action: 'read',
-          icon: 'mdi:paw'
-        },
-        {
-          title: 'Manual de Usuario',
-          path: '/usermanual',
-          subject: 'sales',
-          action: 'read',
-          icon: 'mdi:list-box'
-        }
-      ]
+      icon: 'mdi:paw'
     },
     {
-      sectionTitle: 'Panel de Operador',
+      title: 'Manual de Usuario',
+      path: '/usermanual',
+      subject: 'sales',
+      action: 'read',
+      icon: 'mdi:list-box'
+    },
+    {
+      sectionTitle: 'Panel de Productos',
       subject: 'inventory',
       action: 'read'
     },
     {
-      title: 'Inventario',
+      title: 'Productos',
       icon: 'mdi:clipboard-list-outline',
       subject: 'inventory',
       path: '/operator/inventory/products',
-      action: 'read'
-    },
-  {
-      title: 'Venta',
-      icon: 'mdi:shopping-outline',
-      subject: 'venta',
-      path: '/operator/sales/generate',
-      action: 'read'
-    },
-    {
-      title: 'Historial',
-      icon: 'mdi:history',
-      subject: 'inventory',
-      path: '/operator/sales/list',
       action: 'read'
     },
     {
@@ -60,6 +37,32 @@ const navigation = () => {
       subject: 'inventory',
       action: 'read',
       path: '/operator/inventory/mantainer'
+    },
+    {
+      title: 'Historial de Cambios',
+      icon: 'mdi:history',
+      subject: 'inventory',
+      path: '/operator/inventory/history',
+      action: 'read'
+    },
+    {
+      sectionTitle: 'Panel de Ventas',
+      subject: 'inventory',
+      action: 'read'
+    },
+    {
+      title: 'Venta',
+      icon: 'mdi:shopping-outline',
+      subject: 'venta',
+      path: '/operator/sales/generate',
+      action: 'read'
+    },
+    {
+      title: 'Historial de Ventas',
+      icon: 'mdi:history',
+      subject: 'inventory',
+      path: '/operator/sales/list',
+      action: 'read'
     },
     {
       sectionTitle: 'Panel de Administrador'

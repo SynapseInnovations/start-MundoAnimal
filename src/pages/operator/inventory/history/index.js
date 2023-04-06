@@ -1,84 +1,119 @@
+// ** React Imports
+import { useState, Fragment, useEffect } from 'react'
+
+import axios from 'axios'
+
+import authConfig from 'src/configs/auth'
+
 // ** MUI Imports
-import Grid from '@mui/material/Grid'
-import Link from '@mui/material/Link'
-import Card from '@mui/material/Card'
+import Box from '@mui/material/Box'
+import Paper from '@mui/material/Paper'
+import Table from '@mui/material/Table'
+import Collapse from '@mui/material/Collapse'
+import TableRow from '@mui/material/TableRow'
+import TableHead from '@mui/material/TableHead'
+import TableBody from '@mui/material/TableBody'
+import TableCell from '@mui/material/TableCell'
 import Typography from '@mui/material/Typography'
-import CardHeader from '@mui/material/CardHeader'
-import AssignmentSharp from '@mui/icons-material/AssignmentSharp'
-import Button from '@mui/material/Button'
-import ArrowBackIosNewOutlinedIcon from '@mui/icons-material/ArrowBackIosNewOutlined'
-import { motion } from 'framer-motion'
+import IconButton from '@mui/material/IconButton'
+import TableContainer from '@mui/material/TableContainer'
+import { Grid } from '@mui/material'
+
+// ** Icon Imports
+import Icon from 'src/@core/components/icon'
+
+// ** API Routes
+import APIRoutes from 'src/configs/apiRoutes'
 
 // ** Custom Components Imports
 import PageHeader from 'src/@core/components/page-header'
+import { toast } from 'react-hot-toast'
 
-// ** Demo Components Imports
+const Row = props => {
+  // ** Props
+  const { row } = props
 
-import SalesTable from 'src/views/operator/sales/salesTable'
+  // ** State
+  const [open, setOpen] = useState(false)
+
+  return (
+    <Fragment>
+      <TableRow>
+        <TableCell align='center'>{row.Cuenta_rut}</TableCell>
+        <TableCell component='th' scope='row'>
+          {row.accion == 'modificó' ? (
+            <>
+              <Typography>
+                Se {row.accion} el atributo {row.atributo} del producto {row.nombre} ({row.codigo_barra}), cambió de "
+                {row.valor_viejo}" a "{row.valor_nuevo}"
+              </Typography>
+            </>
+          ) : (
+            <>
+              <Typography>
+                Se {row.accion} el producto {row.nombre} ({row.codigo_barra})
+              </Typography>
+            </>
+          )}
+        </TableCell>
+      </TableRow>
+    </Fragment>
+  )
+}
 
 const ProductsHistory = () => {
+  const [data2, setData2] = useState([])
+
+  useEffect(() => {
+    updateData()
+  }, [])
+
+  const updateData = () => {
+    axios
+      .get(APIRoutes.productos.leerHistorial, {
+        headers: {
+          token: window.localStorage.getItem(authConfig.storageTokenKeyName)
+        }
+      })
+      .then(response => {
+        setData2(response.data.data)
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }
+
   return (
     <Grid container spacing={6}>
-      <Link href='/operator/inventory/products'>
-        <Button
-          variant='contained'
-          sx={{
-            borderRadius: '10px',
-            marginTop: '10px',
-            marginBottom: '20px',
-            marginLeft: '8px',
-            marginRight: '2px  ',
-            scrollSnapMarginRight: '10px',
-            width: '130px',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            transition: 'all 0.1s ease-in-out',
-            backgroundColor: '#FAFAFA                ',
-            color: '#893350',
-            boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.10)',
-            fontWeight: '600',
-            '&:hover': {
-              transition: 'all 0.1s ease-in-out',
-              transform: 'scale(0.99)',
-              boxShadow: '-2px -2px 10px rgba(0, 0, 0, 0.30)',
-              backgroundColor: '#f7ccda                  ',
-              color: '#8e3553'
-            },
-            '&:active': {
-              transform: 'scale(0.98)'
-            }
-          }}
-        >
-          <ArrowBackIosNewOutlinedIcon sx={{ marginRight: '3px', fontSize: 'large' }} />
-          Inventario
-        </Button>
-      </Link>
       <PageHeader
-        title={
-          <Typography variant='h5'>
-            <Link href='https://mui.com/material-ui/react-table/' target='_blank'>
-              Historial de Cambios
-            </Link>
+        title={<Typography variant='h5'>Historial de Cambios</Typography>}
+        subtitle={
+          <Typography variant='body2'>
+            Registra los cambios realizados en el inventario por el usuario que tenga la sesión iniciada actualmente.
           </Typography>
         }
-        subtitle={<Typography variant='body2'>Historial de cambios en los productos</Typography>}
       />
-
       <Grid item xs={12}>
-        <motion.div
-          initial={{ opacity: 0, x: 30 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ type: 'spring', stiffness: 100, delay: 0.2, duration: 0.6 }}
-        >
-          <Card>
-            <SalesTable />
-          </Card>
-        </motion.div>
+        <TableContainer component={Paper} style={{ maxHeight: 1000 }}>
+          <Table aria-label='collapsible table'>
+            <TableHead>
+              <TableRow>
+                <TableCell align='center'>Responsable</TableCell>
+                <TableCell align='left'>Cambio</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {data2.map(row => (
+                <Row key={row.id} row={row} />
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
       </Grid>
     </Grid>
   )
 }
+
 ProductsHistory.acl = {
   action: 'read',
   subject: 'inventory'

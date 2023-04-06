@@ -21,6 +21,7 @@ import Icon from 'src/@core/components/icon'
 
 // ** API Routes
 import APIRoutes from 'src/configs/apiRoutes'
+import { ToastBar, toast } from 'react-hot-toast'
 
 const defaultColumns = [
   {

@@ -141,7 +141,7 @@ const InventoryModal = props => {
         }
       })
       .then(async response => {
-        console.log(response)
+        toast.success(response.data.msg)
         updateMethod()
         dialogToggle()
       })
@@ -184,7 +184,6 @@ const InventoryModal = props => {
           </Box>
 
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-
             <TextField
               size='large'
               value={value}
@@ -250,7 +249,7 @@ const InventoryModal = props => {
                 dialogToggle()
               }}
             >
-              <AddIcon sx={{ marginRight: '3px', fontSize: 'large',  fontSize: '1.3rem',  fontWeight: '700' }} />
+              <AddIcon sx={{ marginRight: '3px', fontSize: 'large', fontSize: '1.3rem', fontWeight: '700' }} />
               Agregar
             </Button>
           </Box>
@@ -321,54 +320,44 @@ const InventoryModal = props => {
                 onChange={event => setDescripcionProducto(event.target.value)}
               />
 
-<Grid container spacing={2} alignItems="center" mt={2}>
-      <Grid item xs={12} md={4}>
-        <TextField
-          label="Cantidad del producto"
-          type="number"
-          inputProps={{ min: 0 }}
-          value={cantidadProducto}
-          onChange={(event) =>
-            setCantidadProducto(event.target.value.replace(/\./g, ''))
-          }
-          fullWidth
-        />
-      </Grid>
-      <Grid item xs={12} md={4}>
-        <TextField
-          label="Precio por kilo"
-          type="number"
-          inputProps={{ min: 0, step: '0,1' }}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">$</InputAdornment>
-            ),
-          }}
-          value={precioKiloProducto}
-          onChange={(event) =>
-            setPrecioKiloProducto(event.target.value.replace(/\./g, ''))
-          }
-          fullWidth
-        />
-      </Grid>
-      <Grid item xs={12} md={4}>
-        <TextField
-          label="Precio unitario"
-          type="number"
-          inputProps={{ min: 0, step: '0,1' }}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">$</InputAdornment>
-            ),
-          }}
-          value={precioUnitarioProducto}
-          onChange={(event) =>
-            setPrecioUnitarioProducto(event.target.value.replace(/\./g, ''))
-          }
-          fullWidth
-        />
-      </Grid>
-    </Grid>
+              <Grid container spacing={2} alignItems='center' mt={2}>
+                <Grid item xs={12} md={4}>
+                  <TextField
+                    label='Cantidad del producto'
+                    type='number'
+                    inputProps={{ min: 0 }}
+                    value={cantidadProducto}
+                    onChange={event => setCantidadProducto(event.target.value.replace(/\./g, ''))}
+                    fullWidth
+                  />
+                </Grid>
+                <Grid item xs={12} md={4}>
+                  <TextField
+                    label='Precio por kilo'
+                    type='number'
+                    inputProps={{ min: 0, step: '0,1' }}
+                    InputProps={{
+                      startAdornment: <InputAdornment position='start'>$</InputAdornment>
+                    }}
+                    value={precioKiloProducto}
+                    onChange={event => setPrecioKiloProducto(event.target.value.replace(/\./g, ''))}
+                    fullWidth
+                  />
+                </Grid>
+                <Grid item xs={12} md={4}>
+                  <TextField
+                    label='Precio unitario'
+                    type='number'
+                    inputProps={{ min: 0, step: '0,1' }}
+                    InputProps={{
+                      startAdornment: <InputAdornment position='start'>$</InputAdornment>
+                    }}
+                    value={precioUnitarioProducto}
+                    onChange={event => setPrecioUnitarioProducto(event.target.value.replace(/\./g, ''))}
+                    fullWidth
+                  />
+                </Grid>
+              </Grid>
 
               <Grid container spacing={2} alignItems='center'>
                 <Grid item xs={4}>

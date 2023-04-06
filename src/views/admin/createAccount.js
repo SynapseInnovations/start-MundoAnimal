@@ -27,6 +27,7 @@ import GroupIcon from '@mui/icons-material/Group'
 
 // ** API Routes
 import APIRoutes from 'src/configs/apiRoutes'
+import { toast } from 'react-hot-toast'
 
 const CreateAccountModal = props => {
   // ** Form States
@@ -102,6 +103,7 @@ const CreateAccountModal = props => {
       })
       .then(async response => {
         editTarget.method(null)
+        toast.success(response.data.msg)
         updateMethod()
         dialogToggle()
       })

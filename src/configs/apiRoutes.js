@@ -1,5 +1,6 @@
 const productosRoutes = {
   leer: process.env.NEXT_PUBLIC_API_URL + '/producto',
+  leerHistorial: process.env.NEXT_PUBLIC_API_URL + '/producto/historial',
   modificar: process.env.NEXT_PUBLIC_API_URL + '/producto/modificar',
   registrar: process.env.NEXT_PUBLIC_API_URL + '/producto/agregar',
   eliminar: process.env.NEXT_PUBLIC_API_URL + '/producto/eliminar' //not working yet

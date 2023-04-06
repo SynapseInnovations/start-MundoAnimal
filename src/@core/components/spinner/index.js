@@ -89,6 +89,7 @@ const FallbackSpinner = ({ sx }) => {
         </defs>
       </svg>
       <CircularProgress disableShrink sx={{ mt: 6 }} />
+      CARGANDO
     </Box>
   )
 }

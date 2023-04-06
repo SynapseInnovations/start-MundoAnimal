@@ -15,7 +15,7 @@ const navigation = () => {
     {
       title: 'Manual de Usuario',
       path: '/usermanual',
-      subject: 'sales',
+      subject: 'home',
       action: 'read',
       icon: 'mdi:list-box'
     },
@@ -53,14 +53,14 @@ const navigation = () => {
     {
       title: 'Venta',
       icon: 'mdi:shopping-outline',
-      subject: 'venta',
+      subject: 'sales',
       path: '/operator/sales/generate',
       action: 'read'
     },
     {
       title: 'Historial de Ventas',
       icon: 'mdi:history',
-      subject: 'inventory',
+      subject: 'sales',
       path: '/operator/sales/list',
       action: 'read'
     },
@@ -70,12 +70,16 @@ const navigation = () => {
     {
       title: 'Usuarios',
       path: '/admin/users',
-      icon: 'mdi:account-multiple'
+      icon: 'mdi:account-multiple',
+      subject:'users',
+      action:'read'
     },
     {
       title: 'Finanzas (En Desarrollo)',
       path: '/',
-      icon: 'mdi:cash-multiple'
+      icon: 'mdi:cash-multiple',
+      subject:'finance',
+      action:'read'
 
       // children: [
       //   {

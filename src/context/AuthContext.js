@@ -9,6 +9,7 @@ import axios from 'axios'
 
 // ** Config
 import authConfig from 'src/configs/auth'
+import { toast } from 'react-hot-toast'
 
 // ** Defaults
 const defaultProvider = {
@@ -68,6 +69,9 @@ const AuthProvider = ({ children }) => {
     axios
       .post(authConfig.loginEndpoint, params)
       .then(async response => {
+        if(response.data.error){
+          return
+        }
         params.rememberMe
           ? window.localStorage.setItem(authConfig.storageTokenKeyName, response.data.data[1].token)
           : null

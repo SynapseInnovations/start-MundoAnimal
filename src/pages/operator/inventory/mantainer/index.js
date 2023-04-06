@@ -23,4 +23,8 @@ const MantainerIndex = () => {
   )
 }
 
+MantainerIndex.acl = {
+  action: 'read',
+  subject: 'inventory'
+}
 export default MantainerIndex

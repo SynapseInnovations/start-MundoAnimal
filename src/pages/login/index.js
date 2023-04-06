@@ -5,6 +5,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 
 // ** MUI Components
+import CircularProgress from '@mui/material/CircularProgress'
 import Alert from '@mui/material/Alert'
 import Button from '@mui/material/Button'
 import Divider from '@mui/material/Divider'
@@ -107,6 +108,7 @@ const defaultValues = {
 const LoginPage = () => {
   const [rememberMe, setRememberMe] = useState(true)
   const [showPassword, setShowPassword] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   // ** Hooks
   const auth = useAuth()
@@ -130,11 +132,14 @@ const LoginPage = () => {
   })
 
   const onSubmit = data => {
+    setLoading(true)
     const { rut, clave } = data
-    auth.login({ rut, clave, rememberMe }, () => {
+    auth.login({ rut, clave, rememberMe }, (err) => {
+      setLoading(false)
+      console.log(err)
       setError('rut', {
         type: 'manual',
-        message: 'RUT o contraseña inválidos'
+        message: 'Hubo un error al iniciar sesión'
       })
     })
   }
@@ -343,8 +348,8 @@ const LoginPage = () => {
                   control={<Checkbox checked={rememberMe} onChange={e => setRememberMe(e.target.checked)} />}
                 />
               </Box>
-              <Button fullWidth size='large' type='submit' variant='contained' sx={{ mb: 7 }}>
-                Ingresar
+              <Button fullWidth disabled={loading} size='large' type='submit' variant='contained' sx={{ mb: 7 }}>
+                {loading ? <><CircularProgress disableShrink size={20} sx={{m:2}}/> <Typography>Cargando</Typography></>:<>Ingresar</>} 
               </Button>
               <Divider
                 sx={{

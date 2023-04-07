@@ -123,12 +123,24 @@ const InventoryModal = props => {
 
   const handleSubmit = event => {
     event.preventDefault()
-    if (nombreProducto.trim() === 0) {
-      //setNombreProductoError(true)
+    setNombreProductoError(false)
+    setCodigoBarraError(false)
+    setCantidadProductoError(false)
+    setPrecioUnitarioError(false)
+    if (nombreProducto.trim() === '') {
       setNombreProductoError(true)
-
-      //setCantidadProductoError(true)
-      //setPrecioUnitarioError(true)
+      return
+    }
+    if (codigoBarraProducto == 0) {
+      setCodigoBarraError(true)
+      return
+    }
+    if (cantidadProducto == 0) {
+      setCantidadProductoError(true)
+      return
+    }
+    if (precioUnitarioProducto == 0) {
+      setPrecioUnitarioError(true)
       return
     }
     const inventoryForm = new FormData()
@@ -155,10 +167,6 @@ const InventoryModal = props => {
         toast.success(response.data.msg)
         updateMethod()
         dialogToggle()
-        setNombreProductoError(false)
-        setCodigoBarraError(false)
-        setCantidadProductoError(false)
-        setPrecioUnitarioError(false)
       })
   }
 
@@ -324,6 +332,7 @@ const InventoryModal = props => {
                 required
                 error={codigoBarraError}
                 helperText={codigoBarraError ? 'Porfavor ingrese un código de barra' : ''}
+                InputProps={{ inputProps: { min: '0', max: '10', step: '1' } }}
               />
               <TextField
                 label='Nombre del producto'

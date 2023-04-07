@@ -133,6 +133,7 @@ const InventoryModal = props => {
       setCodigoBarraError(true)
       setCantidadProductoError(true)
       setPrecioUnitarioError(true)
+
       return
     }
     const inventoryForm = new FormData()

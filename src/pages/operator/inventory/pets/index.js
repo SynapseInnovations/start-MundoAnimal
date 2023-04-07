@@ -40,6 +40,23 @@ const defaultColumns = [
         </Box>
       )
     }
+  },
+  {
+    flex: 0.4,
+    field: 'nombre',
+    minWidth: 200,
+    headerName: 'Nombre de Mascota',
+    renderCell: ({ row }) => {
+      return (
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+            <Typography noWrap variant='body2' sx={{ color: 'text.primary', fontWeight: 600 }}>
+              {row.nombre}
+            </Typography>
+          </Box>
+        </Box>
+      )
+    }
   }
 ]
 

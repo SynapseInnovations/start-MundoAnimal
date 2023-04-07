@@ -48,6 +48,7 @@ const BrandsModal = props => {
     event.preventDefault()
     if (nombreMarca.trim() === '') {
       setNombreMarcaError(true)
+
       return
     }
     const inventoryForm = new FormData()

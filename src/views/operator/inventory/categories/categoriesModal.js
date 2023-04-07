@@ -54,6 +54,7 @@ const CategoriesModal = props => {
     event.preventDefault()
     if (nombreCategoria.trim() === '') {
       setNombreCategoriaError(true)
+
       return
     }
     const inventoryForm = new FormData()

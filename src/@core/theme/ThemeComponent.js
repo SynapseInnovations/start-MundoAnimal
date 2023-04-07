@@ -3,6 +3,7 @@ import { deepmerge } from '@mui/utils'
 import CssBaseline from '@mui/material/CssBaseline'
 import GlobalStyles from '@mui/material/GlobalStyles'
 import { ThemeProvider, createTheme, responsiveFontSizes } from '@mui/material/styles'
+import esES from 'date-fns/locale/es'
 
 // ** Theme Config
 import themeConfig from 'src/configs/themeConfig'

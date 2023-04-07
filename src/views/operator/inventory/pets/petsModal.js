@@ -54,6 +54,7 @@ const PetsModal = props => {
     event.preventDefault()
     if (nombreMascota.trim() === '') {
       setNombreMascotaError(true)
+
       return
     }
     const inventoryForm = new FormData()

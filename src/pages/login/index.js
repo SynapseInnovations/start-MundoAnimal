@@ -134,7 +134,7 @@ const LoginPage = () => {
   const onSubmit = data => {
     setLoading(true)
     const { rut, clave } = data
-    auth.login({ rut, clave, rememberMe }, (err) => {
+    auth.login({ rut, clave, rememberMe }, err => {
       setLoading(false)
       console.log(err)
       setError('rut', {
@@ -144,6 +144,8 @@ const LoginPage = () => {
     })
   }
   const imageSource = skin === 'bordered' ? 'auth-v2-login-illustration-bordered' : 'auth-v2-login-illustration'
+
+  const logoSrc = theme.palette.mode === 'dark' ? '/images/MAlogo_dark.png' : '/images/MAlogo_light.png'
 
   return (
     <Box className='content-right'>
@@ -266,21 +268,22 @@ const LoginPage = () => {
             </Box>
             <Box>
               <img
-                src='/images/madeby.png'
+                src={logoSrc}
                 alt='Descripción de la imagen'
-                width='380'
-                height='90'
+                width='300'
+                height='300'
                 style={{
-                  marginBottom: '60px',
-                  marginRight: '20px',
+                  marginBottom: '70px',
                   display: 'block',
                   margin: 'auto',
 
-                  borderColor: 'red'
+                  borderColor: 'red',
+                  sticky: true,
+                  backgroundColor: 'transparent'
                 }}
               />
             </Box>
-            <Box sx={{ mb: 6 }}>
+            <Box sx={{ mb: 6, mt: 10 }}>
               <TypographyStyled variant='h5'>{`Iniciar Sesión `}</TypographyStyled>
             </Box>
             <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
@@ -349,7 +352,13 @@ const LoginPage = () => {
                 />
               </Box>
               <Button fullWidth disabled={loading} size='large' type='submit' variant='contained' sx={{ mb: 7 }}>
-                {loading ? <><CircularProgress disableShrink size={20} sx={{m:2}}/> <Typography>Cargando</Typography></>:<>Ingresar</>} 
+                {loading ? (
+                  <>
+                    <CircularProgress disableShrink size={20} sx={{ m: 2 }} /> <Typography>Cargando</Typography>
+                  </>
+                ) : (
+                  <>Ingresar</>
+                )}
               </Button>
               <Divider
                 sx={{

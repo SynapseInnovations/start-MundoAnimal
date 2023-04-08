@@ -38,20 +38,17 @@ const Error401 = () => {
     <Box className='content-center'>
       <Box sx={{ p: 5, display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
         <BoxWrapper>
-          <Typography variant='h1' sx={{ mb: 2.5 }}>
-            401
-          </Typography>
-          <Typography variant='h5' sx={{ mb: 2.5, fontSize: '1.5rem !important' }}>
+          <Typography variant='h2' sx={{ mb: 2.5 }}>
             Usted no tiene permiso para entrar 🔐
           </Typography>
-          <Typography variant='body2'>You don&prime;t have permission to access this page. Go Home!</Typography>
+          <Typography variant='h4' sx={{ mb: 2.5 }}>
+            No tienes permiso para entrar a esta sección
+          </Typography>
+          <Typography variant='h5' sx={{ mb: 2.5, fontSize: '1.5rem !important' }}></Typography>
         </BoxWrapper>
         <Img alt='error-illustration' src='/images/pages/401.png' />
         <Button href='/' component={Link} variant='contained' sx={{ px: 5.5 }}>
-          Back to Home
-        </Button>
-        <Button href='/logout' component={Link} variant='contained' sx={{ px: 5.5 }}>
-          Logout
+          Volver
         </Button>
       </Box>
       <FooterIllustrations image='/images/pages/misc-401-object.png' />

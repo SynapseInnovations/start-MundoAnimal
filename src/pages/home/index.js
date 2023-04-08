@@ -9,9 +9,12 @@ import { useContext } from 'react'
 import { AbilityContext } from 'src/layouts/components/acl/Can'
 import { Box } from '@mui/material'
 import { motion } from 'framer-motion'
+import { useTheme } from '@mui/material/styles'
 
 const Home = () => {
   const ability = useContext(AbilityContext)
+  const theme = useTheme()
+  const logoSrc = theme.palette.mode === 'dark' ? '/images/MAlogo_dark.png' : '/images/MAlogo_light.png'
 
   return (
     <Grid container spacing={6}>
@@ -22,17 +25,17 @@ const Home = () => {
           transition={{ type: 'spring', stiffness: 40, delay: 0.1, duration: 0.3 }}
         >
           <img
-            src='/images/MAlogo2.png'
+            src={logoSrc}
             alt='Descripción de la imagen'
-            width='180'
-            height='180'
+            width='300'
+            height='300'
             style={{
               marginBottom: '70px',
               display: 'block',
               margin: 'auto',
-              borderRadius: '50%',
+
               borderColor: 'red',
-              boxShadow: '0px 20px 70px rgba(200, 0, 10, 0.35)',
+              sticky: true,
               backgroundColor: 'transparent'
             }}
           />

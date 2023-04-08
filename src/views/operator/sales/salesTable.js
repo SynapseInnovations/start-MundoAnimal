@@ -65,8 +65,8 @@ const Row = props => {
                   <TableRow>
                     <TableCell>Nombre</TableCell>
                     <TableCell align='center'>Tipo Venta</TableCell>
-                    <TableCell align='center'>Precio Venta</TableCell>
                     <TableCell align='center'>Cantidad</TableCell>
+                    <TableCell align='center'>Precio Venta</TableCell>
                     <TableCell align='center'>Total</TableCell>
                   </TableRow>
                 </TableHead>
@@ -77,9 +77,9 @@ const Row = props => {
                         {p.codigo_barra} - {p.nombre}
                       </TableCell>
                       <TableCell align='center'>{p.venta_unitaria == 1 ? 'Unitaria' : 'Por Kilo'}</TableCell>
-                      <TableCell align='center'>$ {p.precio_venta.toLocaleString()}</TableCell>
                       <TableCell align='center'>{p.cantidad}</TableCell>
-                      <TableCell align='center'>$ {p.cantidad * p.precio_venta}</TableCell>
+                      <TableCell align='center'>$ {p.precio_venta.toLocaleString()}</TableCell>
+                      <TableCell align='center'>$ {(p.cantidad * p.precio_venta).toLocaleString()}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>

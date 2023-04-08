@@ -6,6 +6,9 @@ import CircularProgress from '@mui/material/CircularProgress'
 const FallbackSpinner = ({ sx }) => {
   // ** Hook
   const theme = useTheme()
+  const { mode } = theme.palette
+
+  const logoSrc = mode === 'dark' ? '/images/favicon.png' : '/images/favicon_light.png'
 
   return (
     <Box
@@ -18,7 +21,7 @@ const FallbackSpinner = ({ sx }) => {
         ...sx
       }}
     >
-      <img src='/images/favicon.png' alt='Logo' height='100' />
+      <img src={logoSrc} alt='Logo' height='100' />
       <CircularProgress disableShrink sx={{ mt: 6 }} />
       CARGANDO
     </Box>

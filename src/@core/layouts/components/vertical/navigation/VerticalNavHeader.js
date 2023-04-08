@@ -107,13 +107,15 @@ const VerticalNavHeader = props => {
     }
   }
 
+  const logoSrc = mode === 'dark' ? '/images/favicon.png' : '/images/favicon_light.png'
+
   return (
     <MenuHeaderWrapper className='nav-header' sx={{ pl: menuHeaderPaddingLeft() }}>
       {userNavMenuBranding ? (
         userNavMenuBranding(props)
       ) : (
         <StyledLink href='/'>
-          <img src='/images/favicon.png' alt='Logo' height='22' />
+          <img src={logoSrc} alt='Logo' height='22' />
           <HeaderTitle variant='h6' sx={{ ...menuCollapsedStyles, ...(navCollapsed && !navHover ? {} : { ml: 2 }) }}>
             {themeConfig.templateName}
           </HeaderTitle>

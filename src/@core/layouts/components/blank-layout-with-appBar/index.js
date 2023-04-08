@@ -26,6 +26,8 @@ const BlankLayoutAppBar = () => {
   const { settings } = useSettings()
   const { skin } = settings
 
+  const logoSrc = mode === 'dark' ? '/images/favicon.png' : '/images/favicon_light.png'
+
   return (
     <AppBar
       color='default'
@@ -44,7 +46,7 @@ const BlankLayoutAppBar = () => {
         }}
       >
         <StyledLink href='/'>
-          <img src='/images/favicon.png' alt='Logo' height='22' />
+          <img src={logoSrc} alt='Logo' height='22' />
           <Typography variant='h6' sx={{ ml: 2, fontWeight: 700, lineHeight: 1.2 }}>
             {themeConfig.templateName}
           </Typography>

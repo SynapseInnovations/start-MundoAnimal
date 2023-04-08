@@ -314,7 +314,8 @@ const StepCart = ({ handleNext }) => {
                           handleEnterBarcode()
                         }
                       }}
-                      onChange={e => setBarcode(e.target.value)}
+                      inputProps={{ min: 0, max: 999999999999999 }}
+                      onChange={e => setBarcode(e.target.value > 999999999999999 ? 999999999999999 : e.target.value)}
                     />
                   </FormControl>
                 </Grid>

@@ -5,6 +5,7 @@ import { Provider } from 'react-redux'
 import { useAuth } from 'src/hooks/useAuth'
 import authConfig from 'src/configs/auth'
 import axios from 'axios'
+import { useTheme } from '@mui/material/styles'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
@@ -95,6 +96,7 @@ const PetsIndex = () => {
         setLoading(false)
       })
   }
+  const theme = useTheme()
 
   const columns = [
     ...defaultColumns,
@@ -208,10 +210,11 @@ const PetsIndex = () => {
                 sx={{
                   '& .MuiDataGrid-columnHeaders': {
                     borderRadius: 0,
-                    backgroundColor: '#f4bbce                    ',
-                    color: '#5b2235                    ',
-                    border: '4px solid #F9F4F0',
-                    borderRadius: '12px'
+                    backgroundColor:
+                      theme.palette.mode === 'dark' ? theme.palette.primary.dark : theme.palette.primary.light,
+                    color: theme.palette.mode === 'dark' ? '#F9F4F0' : '#F9F4F0',
+                    border: theme.palette.mode === 'dark' ? '4px solid #313451' : '4px solid #F9F4F0',
+                    borderRadius: 2
                   }
                 }}
               />

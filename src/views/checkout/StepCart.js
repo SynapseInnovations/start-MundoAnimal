@@ -19,7 +19,7 @@ import Link from 'next/link'
 import authConfig from 'src/configs/auth'
 import axios from 'axios'
 import { motion } from 'framer-motion'
-
+import { useTheme } from '@mui/material/styles'
 import { useContext } from 'react'
 
 import { AuthContext } from 'src/context/AuthContext'
@@ -187,6 +187,8 @@ const StepCart = ({ handleNext }) => {
     setTotal(sub)
   }, [cart])
 
+  const theme = useTheme()
+
   return (
     <motion.div
       initial={{ opacity: 0, x: 100 }}
@@ -264,16 +266,16 @@ const StepCart = ({ handleNext }) => {
                     justifyContent: 'center',
                     alignItems: 'center',
                     transition: 'all 0.1s ease-in-out',
-                    backgroundColor: 'primary.light',
-                    color: '',
-                    boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.10)',
-                    fontWeight: '500',
+                    backgroundColor: theme.palette.mode === 'dark' ? '#893350' : '#f9dde6   ',
+                    color: theme.palette.mode === 'dark' ? '#f9dde6  ' : '#893350',
+                    boxShadow: '4px 4px 15px rgba(0, 0, 0, 0.14)',
+                    fontWeight: '600',
                     '&:hover': {
                       transition: 'all 0.1s ease-in-out',
                       transform: 'scale(0.99)',
                       boxShadow: '-2px -2px 10px rgba(0, 0, 0, 0.20)',
-                      backgroundColor: 'primary.light                ',
-                      color: '#FFF'
+                      backgroundColor: '#f7ccda                  ',
+                      color: '#8e3553'
                     },
                     '&:active': {
                       transform: 'scale(0.98)'
@@ -474,14 +476,15 @@ const StepCart = ({ handleNext }) => {
                   alignItems: 'center',
                   transition: 'all 0.1s ease-in-out',
                   backgroundColor: 'primary',
-                  color: '#FAFAFA',
-                  boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.10)',
-                  fontWeight: '700',
+                  backgroundColor: theme.palette.mode === 'dark' ? '#893350' : '#f9dde6   ',
+                  color: theme.palette.mode === 'dark' ? '#f9dde6  ' : '#893350',
+                  boxShadow: '4px 4px 20px rgba(0, 0, 0, 0.20)',
+                  fontWeight: '600',
                   '&:hover': {
                     transition: 'all 0.1s ease-in-out',
-                    transform: 'scale(0.98)',
-
-                    backgroundColor: '#f7ccda',
+                    transform: 'scale(0.99)',
+                    boxShadow: '-2px -2px 10px rgba(0, 0, 0, 0.10)',
+                    backgroundColor: '#f7ccda                  ',
                     color: '#8e3553'
                   },
                   '&:active': {

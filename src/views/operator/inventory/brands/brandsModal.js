@@ -19,6 +19,7 @@ import DialogContent from '@mui/material/DialogContent'
 import AddIcon from '@material-ui/icons/Add'
 import { motion } from 'framer-motion'
 import PetsIcon from '@mui/icons-material/Pets'
+import { useTheme } from '@mui/material/styles'
 
 // ** API Routes
 import APIRoutes from 'src/configs/apiRoutes'
@@ -85,13 +86,14 @@ const BrandsModal = props => {
             setNombreMarcaError(false)
           })
   }
+  const theme = useTheme()
 
   return (
     <>
       <motion.div
         initial={{ opacity: 0, y: 300 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ type: 'spring', stiffness: 40, delay: 0.1, duration: 0.7 }}
+        transition={{ type: 'spring', stiffness: 40, delay: 0.3, duration: 0.7 }}
       >
         <Box
           sx={{
@@ -100,9 +102,10 @@ const BrandsModal = props => {
             flexWrap: 'wrap',
             alignItems: 'center',
             justifyContent: 'space-between',
-            backgroundColor: '#b7446b',
-            border: '4px solid #F9F4F0',
-            borderRadius: '12px'
+            backgroundColor: theme.palette.mode === 'dark' ? theme.palette.primary.dark : theme.palette.primary.light,
+            color: theme.palette.mode === 'dark' ? '#F9F4F0' : '#F9F4F0',
+            border: theme.palette.mode === 'dark' ? '4px solid #313451' : '4px solid #F9F4F0',
+            borderRadius: 2
           }}
         >
           <Box sx={{ display: 'flex', marginBottom: '10px', alignItems: 'center', gap: '0.5rem' }}>
@@ -130,7 +133,7 @@ const BrandsModal = props => {
               sx={{
                 backgroundColor: '#F9F4F0',
                 color: '#3E363F',
-                marginBottom: '10px',
+                marginBottom: 'px',
                 borderRadius: '10px',
                 transition: 'all 0.1s ease-in-out',
                 boxShadow: '1px 1px 8px rgba(0, 0, 0, 0.50)',
@@ -154,23 +157,23 @@ const BrandsModal = props => {
               sx={{
                 borderRadius: '10px',
                 marginTop: '10px',
-                marginBottom: '20px',
-                marginLeft: '8px',
-                marginRight: '8px  ',
-                scrollSnapMarginRight: '10px',
+                marginBottom: '10px',
+                marginLeft: '10px',
+                marginRight: 'px  ',
+                scrollSnapMarginRight: '8px',
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
                 transition: 'all 0.1s ease-in-out',
-                backgroundColor: '#f9dde6',
-                color: '#893350',
+                backgroundColor: theme.palette.mode === 'dark' ? '#893350' : '#f9dde6   ',
+                color: theme.palette.mode === 'dark' ? '#f9dde6  ' : '#893350',
                 boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.40)',
                 fontWeight: '600',
                 '&:hover': {
                   transition: 'all 0.1s ease-in-out',
                   transform: 'scale(0.99)',
                   boxShadow: '-2px -2px 10px rgba(0, 0, 0, 0.30)',
-                  backgroundColor: '#f7ccda',
+                  backgroundColor: '#f7ccda                  ',
                   color: '#8e3553'
                 },
                 '&:active': {
@@ -182,7 +185,7 @@ const BrandsModal = props => {
                 dialogToggle()
               }}
             >
-              <AddIcon sx={{ marginRight: '3px', fontSize: 'large' }} />
+              <AddIcon sx={{ fontSize: 'large' }} />
               Agregar
             </Button>
           </Box>
@@ -306,7 +309,7 @@ const BrandsModal = props => {
                     }}
                     onClick={handleSubmit}
                   >
-                    {edit ? 'Modificar' : 'Agregar'}
+                    {edit ? 'Guardar' : 'Guardar'}
                   </Button>
                 </div>
               </motion.div>

@@ -21,7 +21,7 @@ import { Select, MenuItem } from '@mui/material'
 import AddIcon from '@material-ui/icons/Add'
 import { IconButton, InputAdornment } from '@material-ui/core'
 import { Visibility, VisibilityOff } from '@material-ui/icons'
-
+import { useTheme } from '@mui/material/styles'
 import { motion } from 'framer-motion'
 import GroupIcon from '@mui/icons-material/Group'
 
@@ -114,13 +114,14 @@ const CreateAccountModal = props => {
   const handleShowPassword = () => {
     setShowPassword(!showPassword)
   }
+  const theme = useTheme()
 
   return (
     <>
       <motion.div
         initial={{ opacity: 0, y: 100 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ type: 'spring', stiffness: 40, delay: 0.4, duration: 0.7 }}
+        transition={{ type: 'spring', stiffness: 40, delay: 0.1, duration: 0.3 }}
       >
         <Box
           sx={{
@@ -130,9 +131,10 @@ const CreateAccountModal = props => {
             flexWrap: 'wrap',
             alignItems: 'center',
             justifyContent: 'space-between',
-            backgroundColor: '#b7446b',
-            border: '4px solid #F9F4F0',
-            borderRadius: '12px'
+            backgroundColor: theme.palette.mode === 'dark' ? theme.palette.primary.dark : theme.palette.primary.light,
+            color: theme.palette.mode === 'dark' ? '#F9F4F0' : '#F9F4F0',
+            border: theme.palette.mode === 'dark' ? '4px solid #313451' : '4px solid #F9F4F0',
+            borderRadius: 2
           }}
         >
           <Box sx={{ display: 'flex', marginBottom: '10px', alignItems: 'center', gap: '0.5rem' }}>
@@ -167,8 +169,10 @@ const CreateAccountModal = props => {
                 justifyContent: 'center',
                 alignItems: 'center',
                 transition: 'all 0.1s ease-in-out',
-                backgroundColor: '#f9dde6                ',
-                color: '#893350',
+                backgroundColor: '             ',
+                color: '',
+                backgroundColor: theme.palette.mode === 'dark' ? '#893350' : '#f9dde6   ',
+                color: theme.palette.mode === 'dark' ? '#f9dde6  ' : '#893350',
                 boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.40)',
                 fontWeight: '600',
                 '&:hover': {
@@ -193,7 +197,19 @@ const CreateAccountModal = props => {
           </Box>
         </Box>
       </motion.div>
-      <Dialog fullWidth maxWidth='sm' onClose={dialogToggle} open={open}>
+      <Dialog
+        fullWidth
+        maxWidth='sm'
+        onClose={dialogToggle}
+        open={open}
+        sx={{
+          pb: 12,
+          backgroundColor: 'rgba(300, 0, 0, 0)',
+          backdropFilter: 'blur(8px)',
+          WebkitBackdropFilter: 'blur(2px)',
+          opacity: 0.99
+        }}
+      >
         <DialogTitle sx={{ pt: 12, mx: 'auto', textAlign: 'center' }}>
           <Typography variant='h5' component='span' sx={{ mb: 2 }}>
             {edit ? 'Modificar' : 'Agregar'} Usuario
@@ -218,6 +234,7 @@ const CreateAccountModal = props => {
             <TextField
               label='Rut'
               fullWidth
+              sx={{ mt: 2 }}
               value={rutUsuario}
               onChange={e => {
                 const rawValue = e.target.value.replace(/[^0-9kK]/g, '') // eliminar cualquier carácter que no sea número o k/K

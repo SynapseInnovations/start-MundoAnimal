@@ -1,4 +1,3 @@
-// ** MUI Imports
 import Card from '@mui/material/Card'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
@@ -40,93 +39,88 @@ const Home = () => {
           <CardHeader title='Manual de Usuario' />
           <CardContent>
             <Typography sx={{ mb: 2 }}>
-              <strong style={{ fontWeight: 'bold' }}>🐾 Inventario</strong>
-            </Typography>
-
-            <Typography sx={{ mb: 2, ml: 4 }}>
-              La opción de "Inventario" te permite gestionar el stock de productos de la empresa.
+              <strong>🐾 Inventario</strong>
             </Typography>
             <Typography sx={{ mb: 2, ml: 4 }}>
-              Para agregar un nuevo producto, sigue los siguientes pasos:
-              <li sx={{ mb: 2, ml: 12 }}> Haz clic en el botón "Inventario", y luego en "Productos".</li>
-              <li sx={{ mb: 2, ml: 12 }}>
-                Ingresa el nombre del producto, la descripción, la cantidad y el precio unitario.
-              </li>
-              <li sx={{ mb: 2, ml: 12 }}> Selecciona la categoría a la que pertenece el producto.</li>
-              <li sx={{ mb: 2, ml: 12 }}> Haz clic en "Guardar" para agregar el producto al inventario.</li>
+              Gestiona el stock de productos de la empresa con la opción "Inventario". Para agregar un nuevo producto:
+              <Typography sx={{ mb: 2, ml: 4, fontWeight: 'bold' }}></Typography>
+              Agregar Productos
+              <ol>
+                <li> Haz clic "Productos".</li>
+                <li> Aquí encontrarás el inventario general del sistema</li>
+                <li> Para ingresar un producto, haz click en agregar.</li>
+                <li> Ingresa las características del producto.</li>
+                <li> Haz clic en "Guardar" para agregar el producto al inventario.</li>
+                <li> ¡Has agregado productos con éxito!</li>
+              </ol>
+            </Typography>
+            <Typography sx={{ mb: 2, ml: 4 }}>
+              Editar Productos
+              <ol>
+                <li> Haz clic "Productos".</li>
+                <li> Aquí encontrarás el inventario general del sistema</li>
+                <li> Para editar un producto, haz click en el ícono de "Lapiz".</li>
+                <li> Ingresa las características nuevas del producto.</li>
+                <li> Haz clic en "Guardar" para editar el producto al inventario.</li>
+                <li> ¡Has editado productos con éxito!</li>
+              </ol>
+            </Typography>
+            <Typography sx={{ mb: 2, ml: 4 }}>
+              Eliminar Productos
+              <ol>
+                <li> Haz clic "Productos".</li>
+                <li> Aquí encontrarás el inventario general del sistema</li>
+                <li> Para eliminar un producto, haz click en el ícono de "Basurero".</li>
+                <li> Haz clic en "Aceptar" para eliminar el producto del inventario.</li>
+                <li> ¡Has eliminado productos con éxito!</li>
+              </ol>
+            </Typography>
+            <Typography sx={{ mb: 2 }}>
+              <strong>🐾 Ventas</strong>
+            </Typography>
+            <Typography sx={{ mb: 2, ml: 4 }}>
+              Gestiona nuevas ventas y revisa las ventas previas con la opción "Ventas". Aquí encontrarás "Generar
+              Venta" y "Listar Ventas". En "Listar Ventas" puedes revisar las ventas anteriores y las ganancias
+              obtenidas. Para ingresar una nueva venta:
+              <ol>
+                <li> Ve a "Ventas" y luego a "Generar Venta".</li>
+                <li> Selecciona o escanea el producto a vender y la cantidad.</li>
+                <li> Haz clic en "Vender" para vender el producto.</li>
+              </ol>
             </Typography>
 
             <Typography sx={{ mb: 2 }}>
-              <strong style={{ fontWeight: 'bold' }}>🐾 Ventas</strong>
-            </Typography>
-            <Typography sx={{ mb: 2, ml: 4 }}>
-              La opción de "Ventas" te permite gestionar nuevas ventas y revisar las previamente realizadas. Dentro de
-              esta sección puedes encontrar <strong>Generar Venta</strong> y <strong> Listar Ventas</strong>
-            </Typography>
-            <Typography sx={{ mb: 2, ml: 4 }}>
-              En <strong>Listar Ventas</strong>, puedes revisar las ventas previamente hechas.Para así tener en cuenta
-              las gananacias ya obtenidas.
-            </Typography>
-            <Typography sx={{ mb: 2, ml: 4 }}>
-              Para ingresar una nueva venta, sigue los siguientes pasos:
-              <li sx={{ mb: 2, ml: 12 }}>
-                {' '}
-                Dirígete a la sección de <strong>Ventas</strong>.
-              </li>
-              <li sx={{ mb: 2, ml: 12 }}>
-                {' '}
-                Luego ingresar a la seccion de <strong>Generar Venta</strong>.
-              </li>
-              <li sx={{ mb: 2, ml: 12 }}> Selecciona o escanea el producto a vender y la cantidad.</li>
-              <li sx={{ mb: 2, ml: 12 }}>
-                {' '}
-                Luego haz click en <strong>Continuar</strong> para dirigirse a la sección de Pagos.
-              </li>
-            </Typography>
-
-            <Typography sx={{ mb: 2 }}>
-              <strong style={{ fontWeight: 'bold' }}>🐾 Usuarios</strong>
+              <strong>🐾 Usuarios</strong>
             </Typography>
             <Typography sx={{ ml: 4 }}>
-              La opción de "Usuarios" permite administrar los usuarios que tienen acceso a la plataforma y la asignación
-              de roles.
+              Administra los usuarios y la asignación de roles con la opción "Usuarios". Para agregar un nuevo usuario:
+              <ol>
+                <li> Haz clic en "Agregar usuario".</li>
+                <li>Ingresa los datos correspondientes y una contraseña segura.</li>
+                <li> Haz clic en "Guardar" para agregar el usuario.</li>
+              </ol>
             </Typography>
-            <Typography sx={{ mb: 2, ml: 4 }}>
-              Para agregar un nuevo usuario, sigue los siguientes pasos:
-              <li sx={{ mb: 2, ml: 12 }}> Haz clic en el botón "Agregar usuario".</li>
-              <li sx={{ mb: 2, ml: 12 }}>
-                Ingresa el nombre completo del usuario, RUT, su dirección de correo electrónico y una contraseña segura.
-              </li>
-              <li sx={{ mb: 2, ml: 12 }}>
-                Selecciona el tipo de usuario que deseas ingresar. Puedes elegir entre administrador y usuario normal.
-              </li>
-              <li sx={{ mb: 2, ml: 12 }}>Haz clic en "Guardar" para agregar el usuario.</li>
-            </Typography>
-
             <Typography sx={{ mb: 2 }}>
-              <strong style={{ fontWeight: 'bold' }}>🐾 Finanzas</strong>
+              <strong>🐾 Finanzas (NO TERMINADO)</strong>
             </Typography>
             <Typography sx={{ ml: 4 }}>
-              La opción de "Finanzas" te permite registrar los ingresos y gastos de la empresa.
-            </Typography>
-            <Typography sx={{ mb: 2, ml: 4 }}>
-              Para agregar una nueva transacción, sigue los siguientes pasos:
-              <li sx={{ mb: 2, ml: 12 }}> Haz clic en el botón "Agregar transacción".</li>
-              <li sx={{ mb: 2, ml: 12 }}>
-                Selecciona el tipo de transacción que deseas agregar. Puedes elegir entre ingreso o gasto.
-              </li>
-              <li sx={{ mb: 2, ml: 12 }}> Ingresa la fecha de la transacción, una descripción breve y el monto.</li>
-              <li sx={{ mb: 2, ml: 12 }}>
-                Si es una transacción de ingreso, selecciona el método de pago. Si es una transacción de gasto,
-                selecciona la categoría a la que pertenece.
-              </li>
-              <li sx={{ mb: 6, ml: 12 }}> Haz clic en "Guardar" para registrar la transacción.</li>
+              Registra los ingresos y gastos de la empresa con la opción "Finanzas". Para agregar una nueva transacción:
+              <ol>
+                <li> Haz clic en "Agregar transacción".</li>
+                <li> Selecciona el tipo de transacción: ingreso o gasto.</li>
+                <li> Ingresa la fecha de la transacción, una descripción breve y el monto.</li>
+                <li>
+                  {' '}
+                  Si es un ingreso, selecciona el método de pago. Si es un gasto, selecciona la categoría
+                  correspondiente.
+                </li>
+                <li> Haz clic en "Guardar" para registrar la transacción.</li>
+              </ol>
             </Typography>
 
             <Typography sx={{ mb: 2, ml: 4 }}>
-              Además de estas opciones principales, la web de inventario también ofrece otras características útiles,
-              como la posibilidad de generar informes y estadísticas para ayudarte a tomar decisiones informadas sobre
-              tu empresa.
+              Además de estas opciones principales, el sistema de inventario ofrece características adicionales como la
+              generación de informes y estadísticas para ayudarte a tomar decisiones informadas sobre tu empresa.
             </Typography>
           </CardContent>
         </Card>
@@ -134,6 +128,7 @@ const Home = () => {
     </Grid>
   )
 }
+
 Home.acl = {
   action: 'read',
   subject: 'home'

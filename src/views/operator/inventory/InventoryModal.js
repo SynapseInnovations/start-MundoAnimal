@@ -27,6 +27,7 @@ import AddIcon from '@material-ui/icons/Add'
 import { motion } from 'framer-motion'
 import PetsIcon from '@mui/icons-material/Pets'
 import AssignmentSharp from '@mui/icons-material/AssignmentSharp'
+import { useTheme } from '@mui/material/styles'
 
 // ** API Routes
 import APIRoutes from 'src/configs/apiRoutes'
@@ -103,6 +104,8 @@ const InventoryModal = props => {
     }
   }, [editTarget.variable, data])
 
+  const theme = useTheme()
+
   useEffect(() => {
     //Modificar para hacer una sola petición lol
     axios
@@ -129,18 +132,22 @@ const InventoryModal = props => {
     setPrecioUnitarioError(false)
     if (nombreProducto.trim() === '') {
       setNombreProductoError(true)
+
       return
     }
     if (codigoBarraProducto == 0) {
       setCodigoBarraError(true)
+
       return
     }
     if (cantidadProducto == 0) {
       setCantidadProductoError(true)
+
       return
     }
     if (precioUnitarioProducto == 0) {
       setPrecioUnitarioError(true)
+
       return
     }
     const inventoryForm = new FormData()
@@ -185,20 +192,33 @@ const InventoryModal = props => {
             flexWrap: 'wrap',
             alignItems: 'center',
             justifyContent: 'space-between',
-            backgroundColor: 'primary.light',
-            border: '4px solid #F9F4F0',
-            borderRadius: '12px'
+            backgroundColor: theme.palette.mode === 'dark' ? theme.palette.primary.dark : theme.palette.primary.light,
+            border: theme.palette.mode === 'dark' ? '4px solid #313451' : '4px solid #F9F4F0',
+            borderRadius: 2
           }}
         >
-          <Box sx={{ display: 'flex', marginBottom: '10px', alignItems: 'center', gap: '0.5rem' }}>
-            <PetsIcon sx={{ fontSize: '2.5rem', color: '#F9F4F0', textShadow: '0px 0px 15px rgba(0,0,0,0.5)' }} />
+          <Box
+            sx={{
+              display: 'flex',
+              marginBottom: '10px',
+              alignItems: 'center',
+              gap: '1rem'
+            }}
+          >
+            <PetsIcon
+              fontSize='1rem'
+              sx={{
+                color: '#F9F4F0',
+                textShadow: '0px 0px 15px rgba(0,0,0,0.5)'
+              }}
+            />
             <Typography
-              variant='h5'
+              variant='h4'
               sx={{
                 color: '#F9F4F0',
                 fontWeight: 600,
                 textTransform: 'uppercase',
-                letterSpacing: '0.2rem',
+                letterSpacing: '0.3rem',
                 textShadow: '0px 0px 15px rgba(0,0,0,0.5)'
               }}
             >
@@ -242,7 +262,7 @@ const InventoryModal = props => {
 
                 padding: '14px',
                 mb: 4,
-                mr: 3,
+                mr: 1,
                 ml: 3,
                 mt: 2,
                 fontSize: '1.3rem',
@@ -252,16 +272,16 @@ const InventoryModal = props => {
                 justifyContent: 'center',
                 alignItems: 'center',
                 transition: 'all 0.1s ease-in-out',
-                backgroundColor: '',
-                color: '#fff',
-                boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.10)',
-                fontWeight: '700',
+                backgroundColor: theme.palette.mode === 'dark' ? '#893350' : '#f9dde6   ',
+                color: theme.palette.mode === 'dark' ? '#f9dde6  ' : '#893350',
+                boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.40)',
+                fontWeight: '600',
                 '&:hover': {
                   transition: 'all 0.1s ease-in-out',
                   transform: 'scale(0.99)',
-                  boxShadow: '-2px -2px 10px rgba(0, 0, 0, 0.20)',
-                  backgroundColor: 'primary.light',
-                  color: '#FFF'
+                  boxShadow: '-2px -2px 10px rgba(0, 0, 0, 0.30)',
+                  backgroundColor: '#f7ccda                  ',
+                  color: '#8e3553'
                 },
                 '&:active': {
                   transform: 'scale(0.98)'
@@ -522,7 +542,7 @@ const InventoryModal = props => {
                     }}
                     onClick={handleSubmit}
                   >
-                    {edit ? 'Modificar' : 'Agregar'}
+                    {edit ? 'Guardar' : 'Guardar'}
                   </Button>
                 </div>
               </motion.div>

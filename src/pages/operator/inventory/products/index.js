@@ -15,6 +15,7 @@ import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import { motion } from 'framer-motion'
 import InventoryModal from 'src/views/operator/inventory/InventoryModal'
+import { useTheme } from '@mui/material/styles'
 
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
@@ -230,6 +231,7 @@ const ProductsIndex = () => {
       )
     }
   ]
+  const theme = useTheme()
 
   return (
     <>
@@ -264,10 +266,11 @@ const ProductsIndex = () => {
                 sx={{
                   '& .MuiDataGrid-columnHeaders': {
                     borderRadius: 0,
-                    backgroundColor: '#f4bbce                    ',
-                    color: '#5b2235                    ',
-                    border: '4px solid #F9F4F0',
-                    borderRadius: '12px'
+                    backgroundColor:
+                      theme.palette.mode === 'dark' ? theme.palette.primary.dark : theme.palette.primary.light,
+                    color: theme.palette.mode === 'dark' ? '#F9F4F0' : '#F9F4F0',
+                    border: theme.palette.mode === 'dark' ? '4px solid #313451' : '4px solid #F9F4F0',
+                    borderRadius: 2
                   }
                 }}
               />

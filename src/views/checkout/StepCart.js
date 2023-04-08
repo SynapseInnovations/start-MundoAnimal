@@ -80,7 +80,7 @@ const StepCart = ({ handleNext }) => {
   const { user } = useContext(AuthContext)
 
   const handleSubmit = e => {
-    toast('submitting')
+    toast.loading('Cargando', { duration: 500 })
     e.preventDefault()
     const newSaleForm = new FormData()
     const now = new Date()
@@ -113,7 +113,7 @@ const StepCart = ({ handleNext }) => {
       })
       .catch(e => {
         console.log(e.response)
-        toast.error('error')
+        toast.error('Hay un error con la venta, verifica que tengas productos agregados')
       })
   }
 
@@ -233,7 +233,7 @@ const StepCart = ({ handleNext }) => {
                 <FormControl>
                   <InputLabel>Resultados: {searchResult.length} </InputLabel>
                   <Select
-                    sx={{ mr: 5, width: '330px' }}
+                    sx={{ mr: 5, width: '220px' }}
                     label={`Resultados: ${searchResult.length} `}
                     value={searchSelected}
                     onChange={e => setSearchSelected(e.target.value)}
@@ -360,7 +360,7 @@ const StepCart = ({ handleNext }) => {
                             variant='body2'
                             sx={{ color: 'text.primary', fontSize: '1.5rem', marginLeft: '0.5rem' }}
                           >
-                            No exiten productos, prueba agregándolos al carrito.
+                            No existen productos, prueba agregándolos al carrito.
                           </Typography>
                         </Box>
                       </Box>

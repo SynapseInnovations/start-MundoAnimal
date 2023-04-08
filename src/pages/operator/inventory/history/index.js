@@ -1,65 +1,21 @@
-// ** React Imports
-import { useState, Fragment, useEffect } from 'react'
-
+import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-
 import authConfig from 'src/configs/auth'
-
-// ** MUI Imports
 import Box from '@mui/material/Box'
 import Paper from '@mui/material/Paper'
-import Table from '@mui/material/Table'
-import Collapse from '@mui/material/Collapse'
-import TableRow from '@mui/material/TableRow'
-import TableHead from '@mui/material/TableHead'
-import TableBody from '@mui/material/TableBody'
-import TableCell from '@mui/material/TableCell'
 import Typography from '@mui/material/Typography'
-import IconButton from '@mui/material/IconButton'
-import TableContainer from '@mui/material/TableContainer'
 import { Grid } from '@mui/material'
-
-// ** Icon Imports
-import Icon from 'src/@core/components/icon'
-
-// ** API Routes
+import { DataGrid } from '@mui/x-data-grid'
 import APIRoutes from 'src/configs/apiRoutes'
-
-// ** Custom Components Imports
 import PageHeader from 'src/@core/components/page-header'
-import { toast } from 'react-hot-toast'
-
-const Row = props => {
-  // ** Props
-  const { row } = props
-
-  // ** State
-  const [open, setOpen] = useState(false)
-
-  return (
-    <Fragment>
-      <TableRow>
-        <TableCell align='center'>{row.Cuenta_rut}</TableCell>
-        <TableCell component='th' scope='row'>
-          {row.accion == 'modificó' ? (
-            <>
-              <Typography>
-                Se {row.accion} el atributo {row.atributo} del producto {row.nombre} ({row.codigo_barra}), cambió de "
-                {row.valor_viejo}" a "{row.valor_nuevo}"
-              </Typography>
-            </>
-          ) : (
-            <>
-              <Typography>
-                Se {row.accion} el producto {row.nombre} ({row.codigo_barra})
-              </Typography>
-            </>
-          )}
-        </TableCell>
-      </TableRow>
-    </Fragment>
-  )
-}
+import EditIcon from '@mui/icons-material/Edit'
+import DeleteIcon from '@mui/icons-material/Delete'
+import AddIcon from '@mui/icons-material/Add'
+import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt'
+import RemoveIcon from '@mui/icons-material/Remove'
+import moment from 'moment'
+import { motion } from 'framer-motion'
+import { useTheme } from '@mui/material/styles'
 
 const ProductsHistory = () => {
   const [data2, setData2] = useState([])
@@ -76,41 +32,126 @@ const ProductsHistory = () => {
         }
       })
       .then(response => {
-        setData2(response.data.data)
+        const reversedData = response.data.data.reverse()
+        setData2(reversedData)
       })
       .catch(error => {
         console.log(error)
       })
   }
 
-  return (
-    <Grid container spacing={6}>
-      <PageHeader
-        title={<Typography variant='h5'>Historial de Cambios</Typography>}
-        subtitle={
-          <Typography variant='body2'>
-            Registra los cambios realizados en el inventario por el usuario que tenga la sesión iniciada actualmente.
-          </Typography>
+  const theme = useTheme()
+
+  const columns = [
+    {
+      field: 'fecha',
+      headerName: 'Fecha',
+      flex: 0.8,
+      minWidth: 120,
+      align: 'center',
+      headerAlign: 'center',
+      renderCell: () => <>{moment().format('DD/MM/YYYY hh:mm:ss')}</>
+    },
+    {
+      field: 'Cuenta_rut',
+      headerName: 'Responsable',
+      flex: 0.4,
+      minWidth: 140,
+      align: 'center',
+      headerAlign: 'center'
+    },
+    {
+      field: 'modificacion',
+      headerName: 'Acción',
+      flex: 0.6,
+      minWidth: 140,
+      align: 'left',
+      headerAlign: 'center',
+      renderCell: params => {
+        const row = params.row
+
+        let icon = null
+        let text = null
+        let color = null
+        if (row.accion === 'inserto') {
+          icon = <AddIcon />
+          text = 'Se Agregó'
+          color = theme.palette.success.main
+        } else if (row.accion === 'modificó') {
+          icon = <EditIcon />
+          text = `${row.valor_viejo} → ${row.valor_nuevo}`
+          color = theme.palette.warning.main
+        } else if (row.accion === 'eliminó') {
+          icon = <DeleteIcon />
+          text = 'Se Eliminó'
+          color = theme.palette.error.main
         }
-      />
-      <Grid item xs={12}>
-        <TableContainer component={Paper} style={{ maxHeight: 1000 }}>
-          <Table size='small' aria-label='collapsible table'>
-            <TableHead>
-              <TableRow>
-                <TableCell align='center'>Responsable</TableCell>
-                <TableCell align='left'>Cambio</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {data2.map(row => (
-                <Row key={row.id} row={row} />
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+
+        return (
+          <div style={{ display: 'flex', alignItems: 'left', justifyContent: 'left' }}>
+            <div
+              className='icon'
+              style={{
+                marginRight: 8,
+                display: 'flex',
+                alignItems: 'left',
+                justifyContent: 'left',
+                borderRadius: '50%',
+                padding: 4,
+                backgroundColor: color ? color : 'transparent'
+              }}
+            >
+              {React.cloneElement(icon, { style: { color: 'white' } })}
+            </div>
+            <Typography variant='body1' component='span' style={{ color: color ? color : 'inherit' }}>
+              {text}
+            </Typography>
+          </div>
+        )
+      }
+    },
+    {
+      field: 'nombre',
+      headerName: 'Producto',
+      flex: 2,
+      minWidth: 200,
+      align: 'center',
+      headerAlign: 'center'
+    },
+    {
+      field: 'codigo_barra',
+      headerName: 'Código',
+      flex: 1,
+      minWidth: 150,
+      align: 'center',
+      headerAlign: 'center'
+    }
+  ]
+
+  // ...
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, x: 300 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ type: 'spring', stiffness: 40, delay: 0.1, duration: 0.3 }}
+    >
+      <Grid container spacing={6}>
+        <PageHeader
+          title={<Typography variant='h5'>Historial de Cambios</Typography>}
+          subtitle={
+            <Typography variant='body2'>
+              Registra los cambios realizados en el inventario por el usuario que tenga la sesión iniciada actualmente.
+            </Typography>
+          }
+        />
+        <Grid item xs={12}>
+          <div style={{ height: 600, width: '100%' }}>
+            <DataGrid rows={data2} columns={columns} pageSize={9} rowsPerPageOptions={[7]} />
+          </div>
+        </Grid>
       </Grid>
-    </Grid>
+    </motion.div>
   )
 }
 

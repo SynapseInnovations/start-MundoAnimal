@@ -143,7 +143,7 @@ const CategoriesIndex = () => {
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.2, duration: 0.9 }}
+              transition={{ delay: 0.4, duration: 0.9 }}
             >
               <Icon
                 icon='mdi:delete-outline'
@@ -184,7 +184,7 @@ const CategoriesIndex = () => {
           <motion.div
             initial={{ opacity: 0, x: 25 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ type: 'spring', stiffness: 60, delay: 0.55, duration: 0.1 }}
+            transition={{ type: 'spring', stiffness: 60, delay: 0.4, duration: 0.3 }}
           >
             <Card>
               <CategoriesModal

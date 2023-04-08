@@ -48,6 +48,7 @@ const BrandsModal = props => {
     event.preventDefault()
     if (nombreMarca.trim() === '') {
       setNombreMarcaError(true)
+
       return
     }
     const inventoryForm = new FormData()
@@ -90,7 +91,7 @@ const BrandsModal = props => {
       <motion.div
         initial={{ opacity: 0, y: 300 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ type: 'spring', stiffness: 40, delay: 0.4, duration: 0.7 }}
+        transition={{ type: 'spring', stiffness: 40, delay: 0.1, duration: 0.7 }}
       >
         <Box
           sx={{
@@ -241,7 +242,7 @@ const BrandsModal = props => {
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.15, duration: 0.7 }}
+                transition={{ delay: 0.15, duration: 0.3 }}
               >
                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                   <Button

@@ -238,9 +238,9 @@ const ProductsIndex = () => {
 
         <Grid item xs={12}>
           <motion.div
-            initial={{ opacity: 0, x: 25 }}
+            initial={{ opacity: 0, x: 250 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ type: 'spring', stiffness: 60, delay: 0.55, duration: 0.1 }}
+            transition={{ type: 'spring', stiffness: 60, delay: 0.1, duration: 0.6 }}
           >
             <Card>
               <InventoryModal

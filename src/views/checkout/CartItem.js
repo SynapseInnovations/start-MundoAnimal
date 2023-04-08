@@ -36,7 +36,7 @@ const CartItem = ({ item, index, handleInputChange, deleteThis }) => {
   const {
     codigo_barra,
     nombre,
-    unidades,
+    cantidad,
     descripcion,
     precio_kilo,
     precio_unitario,
@@ -138,23 +138,23 @@ const CartItem = ({ item, index, handleInputChange, deleteThis }) => {
                     <Chip label='Sin stock disponible' color='error' size='small' />
                   </>
                 )}
-                <RadioGroup
-                  onChange={e => {
-                    handleInputChange(e.target.value, index, 'tipo_precio')
-                  }}
-                  defaultValue='1'
-                >
-                  <FormControlLabel
-                    value='1'
-                    control={<Radio />}
-                    label={`Por Unidad: \n $${item.precio_unitario.toLocaleString()} `}
-                  />
-                  <FormControlLabel
-                    value='0'
-                    control={<Radio />}
-                    label={`Por Kilo:\n $${item.precio_kilo.toLocaleString()}`}
-                  />
-                </RadioGroup>
+                <List>
+                  {item.isPrecioUnitario ? (
+                    <>
+                      <ListItemText
+                        primary={`Por Unidad:  $${item?.precio_unitario?.toLocaleString()} `}
+                      ></ListItemText>
+                      <ListItemText secondary={`Por Kilo:    $${item?.precio_kilo?.toLocaleString()} `}></ListItemText>
+                    </>
+                  ) : (
+                    <>
+                      <ListItemText
+                        secondary={`Por Unidad:  $${item?.precio_unitario?.toLocaleString()} `}
+                      ></ListItemText>
+                      <ListItemText primary={`Por Kilo:    $${item?.precio_kilo?.toLocaleString()} `}></ListItemText>
+                    </>
+                  )}
+                </List>
                 {item.isPrecioUnitario ? (
                   <>
                     {' '}
@@ -170,8 +170,8 @@ const CartItem = ({ item, index, handleInputChange, deleteThis }) => {
                         disabled={!item.isPrecioUnitario}
                         value={item.cantInput}
                         onChange={e => handleInputChange(e.target.value, index, 'cantidad')}
-                        inputProps={{ min: 0, max: item.cantidad }}
-                        sx={{ width: 100, display: 'block', margin: 'auto', marginTop: 2  }}
+                        inputProps={{ min: 1, max: item.cantidad }}
+                        sx={{ width: 100, display: 'block', margin: 'auto', marginTop: 2 }}
                       />
                     </motion.div>
                   </>
@@ -182,16 +182,16 @@ const CartItem = ({ item, index, handleInputChange, deleteThis }) => {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0, duration: 0.2 }}
                     >
-                     <TextField
-  size='small'
-  type='number'
-  label='Kilos'
-  disabled={item.isPrecioUnitario}
-  value={item.kgInput}
-  onChange={e => handleInputChange(e.target.value, index, 'kilos')}
-  inputProps={{ min: 0.0, step: 0.1 }}
-  sx={{ maxWidth: 100, display: 'block', margin: 'auto', marginTop: 2 }}
-/>
+                      <TextField
+                        size='small'
+                        type='number'
+                        label='Kilos'
+                        disabled={item.isPrecioUnitario}
+                        value={item.kgInput}
+                        onChange={e => handleInputChange(e.target.value, index, 'kilos')}
+                        inputProps={{ min: 0.0, step: 0.1 }}
+                        sx={{ maxWidth: 100, display: 'block', margin: 'auto', marginTop: 2 }}
+                      />
                     </motion.div>
                   </>
                 )}

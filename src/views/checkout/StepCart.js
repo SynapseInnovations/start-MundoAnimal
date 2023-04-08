@@ -11,7 +11,12 @@ import CardContent from '@mui/material/CardContent'
 import { styled } from '@mui/material/styles'
 import List from '@mui/material/List'
 import useMediaQuery from '@mui/material/useMediaQuery'
-import { FormControl, InputLabel, Select, MenuItem, Card } from '@mui/material'
+import Radio from '@mui/material/Radio'
+import RadioGroup from '@mui/material/RadioGroup'
+import FormControlLabel from '@mui/material/FormControlLabel'
+import FormControl from '@mui/material/FormControl'
+import Autocomplete from '@mui/material/Autocomplete'
+import { InputLabel, Select, MenuItem, Card } from '@mui/material'
 import AssignmentSharp from '@mui/icons-material/AssignmentSharp'
 import toast from 'react-hot-toast'
 import { useEffect, useState } from 'react'
@@ -71,6 +76,7 @@ const StyledList = styled(List)(({ theme }) => ({
 const StepCart = ({ handleNext }) => {
   const breakpointMD = useMediaQuery(theme => theme.breakpoints.between('sm', 'lg'))
   const [data2, setData2] = useState([])
+  const [unitary, setUnitary] = useState(1)
   const [cart, setCart] = useState([])
   const [total, setTotal] = useState(0)
   const [search, setSearch] = useState('')
@@ -80,14 +86,16 @@ const StepCart = ({ handleNext }) => {
   const { user } = useContext(AuthContext)
 
   const handleSubmit = e => {
-    toast.loading('Cargando', { duration: 500 })
+    if (cart.length == 0) {
+      toast.error('Debes ingresar productos al carrito antes de vender algo.')
+
+      return
+    }
+    toast('Registrando venta...')
     e.preventDefault()
     const newSaleForm = new FormData()
     const now = new Date()
-    const offsetInMinutes = now.getTimezoneOffset()
-    const offsetInMilliseconds = offsetInMinutes * 60 * 1000
-    const currentTime = now.getTime() + offsetInMilliseconds
-    const currentDate = new Date(currentTime)
+    const currentDate = new Date(now.getTime() - now.getTimezoneOffset() * 60000)
     const mysqlDate = currentDate.toISOString().slice(0, 19).replace('T', ' ')
     newSaleForm.append('fecha', mysqlDate)
     newSaleForm.append('vendedor_rut', user.rut)
@@ -113,20 +121,52 @@ const StepCart = ({ handleNext }) => {
       })
       .catch(e => {
         console.log(e.response)
-        toast.error('Hay un error con la venta, verifica que tengas productos agregados')
+        toast.error('error')
+      })
+  }
+
+  const updateData = () => {
+    axios
+      .get(APIRoutes.productos.leer, {
+        headers: {
+          token: window.localStorage.getItem(authConfig.storageTokenKeyName)
+        }
+      })
+      .then(response => {
+        const newData = response.data.data.map(i => ({
+          ...i,
+          isPrecioUnitario: true,
+          kgInput: 0.0,
+          cantInput: 1,
+          cantidadOriginal: i.cantidad,
+          cantidad: i.cantidad - 1
+        }))
+        setData2(newData)
+        setSearch('')
+        setSearchResult(newData)
+        setSearch('')
+      })
+      .catch(error => {
+        console.log(error)
       })
   }
 
   const handleInputChange = (value, index, input) => {
     const updatedItems = cart.map((item, ix) => {
-      if (ix === index) {
+      if (ix == index) {
         switch (input) {
           case 'cantidad':
-            return { ...item, cantInput: Number(value) }
+            if (value > item.cantidadOriginal) {
+              return {
+                ...item,
+                cantInput: item.cantidadOriginal,
+                cantidad: item.cantidadOriginal - item.cantidadOriginal
+              }
+            }
+
+            return { ...item, cantInput: Number(value), cantidad: item.cantidadOriginal - Number(value) }
           case 'kilos':
             return { ...item, kgInput: Number(value) }
-          case 'tipo_precio':
-            return { ...item, isPrecioUnitario: value == '1' ? true : false }
           default:
             return item
         }
@@ -142,21 +182,55 @@ const StepCart = ({ handleNext }) => {
     setCart(newItems)
   }
 
-  const updateData = () => {
-    axios
-      .get(APIRoutes.productos.leer, {
-        headers: {
-          token: window.localStorage.getItem(authConfig.storageTokenKeyName)
+  const finallyAddToCart = item => {
+    let add = true
+    item.isPrecioUnitario = unitary == 1 ? true : false
+    let cart2 = cart.map(i => i)
+    cart2.forEach(i => {
+      if (i.codigo_barra == item.codigo_barra) {
+        //Se encontró el item en el carrito
+        if (i.isPrecioUnitario) {
+          if (item.isPrecioUnitario) {
+            if (i.cantidadOriginal >= i.cantInput + 1) {
+              i.cantInput += 1
+              i.cantidad -= 1
+            } else {
+              toast.error('No se puede agregar debido a que supera el límite del stock actual.')
+            }
+          } else {
+            toast.error('El producto ya se ha agregado al carrito para venderse por unidad.')
+          }
+        } else {
+          toast.error('El producto ya se ha agregado al carrito para venderse por kilo.')
         }
-      })
-      .then(response => {
-        const newData = response.data.data.map(i => ({ ...i, isPrecioUnitario: true, kgInput: 0.0, cantInput: 0 }))
-        setData2(newData)
-        setSearchResult(newData)
-      })
-      .catch(error => {
-        console.log(error)
-      })
+        add = false
+      }
+    })
+
+    if (add) {
+      setCart([...cart2, item])
+    } else {
+      setCart(cart2)
+    }
+    console.log(cart2)
+    setSearch('')
+    setSearchSelected('')
+    setSearchResult(data2)
+  }
+
+  const handleAddItemCart = () => {
+    let item = data2.find(i => i.codigo_barra === searchSelected.codigo_barra)
+    if (searchResult.length <= 0) {
+      toast.error('No se han encontrado productos, pruebe escribiendo un nombre diferente.')
+
+      return
+    }
+    if (item === undefined) {
+      toast.error('No se ha seleccionado un producto de la búsqueda.')
+
+      return
+    }
+    finallyAddToCart(item)
   }
 
   const handleEnterBarcode = () => {
@@ -169,10 +243,11 @@ const StepCart = ({ handleNext }) => {
     if (item === undefined) {
       setBarcode('')
       toast.error('Ese código de barra no existe en el inventario')
-    } else {
-      setCart([...cart, item])
-      setBarcode('')
+
+      return
     }
+    setBarcode('')
+    finallyAddToCart(item)
   }
 
   useEffect(() => {
@@ -213,94 +288,92 @@ const StepCart = ({ handleNext }) => {
             }}
           >
             <CardContent>
-              <Typography variant='h6' sx={{ mb: 4, fontWeight: 500 }}>
-                Escanea el Código de Barras
-              </Typography>
-              <Box sx={{ mb: 4, display: 'flex', alignItems: 'center' }}>
-                <FormControl>
-                  <TextField
-                    sx={{ mr: 4 }}
-                    value={barcode}
-                    type='number'
-                    label='Codigo de Barra'
-                    onKeyDown={e => {
-                      if (e.key == 'Enter') {
-                        handleEnterBarcode()
-                      }
-                    }}
-                    onChange={e => setBarcode(e.target.value)}
-                  />
-                </FormControl>
+              <Grid container>
+                <Grid item xs={4}>
+                  <Typography variant='h6' sx={{ mb: 4, fontWeight: 500 }}>
+                    Búsqueda de Productos
+                  </Typography>
+                </Grid>
+                <Grid item xs={8}>
+                  <Typography>
+                    <RadioGroup row value={unitary} onChange={e => setUnitary(e.target.value)}>
+                      <FormControlLabel value={1} control={<Radio />} label='Venta Unitaria' />
+                      <FormControlLabel value={0} control={<Radio />} label='Venta por Kilo' />
+                    </RadioGroup>
+                  </Typography>
+                </Grid>
+                <Grid item xs={4}>
+                  <FormControl>
+                    <TextField
+                      sx={{ mr: 4 }}
+                      value={barcode}
+                      type='number'
+                      label='Codigo de Barra'
+                      onKeyDown={e => {
+                        if (e.key == 'Enter') {
+                          handleEnterBarcode()
+                        }
+                      }}
+                      onChange={e => setBarcode(e.target.value)}
+                    />
+                  </FormControl>
+                </Grid>
+                <Grid item xs={8}>
+                  <Grid container>
+                    <Grid item xs={10}>
+                      <Autocomplete
+                        fullwidth
+                        value={searchSelected}
+                        getOptionLabel={option => option.nombre || ''}
+                        onChange={(event, newValue) => {
+                          setSearchSelected(newValue)
+                        }}
+                        inputValue={search}
+                        onInputChange={(event, newInputValue) => {
+                          setSearch(newInputValue)
 
-                <FormControl>
-                  <InputLabel>Resultados: {searchResult.length} </InputLabel>
-                  <Select
-                    sx={{ mr: 5, width: '220px' }}
-                    label={`Resultados: ${searchResult.length} `}
-                    value={searchSelected}
-                    onChange={e => setSearchSelected(e.target.value)}
-                  >
-                    <MenuItem value='' disabled>
-                      {searchResult.length > 0
-                        ? 'Código de barra - Nombre del Producto'
-                        : 'No existen productos en su búsqueda'}
-                    </MenuItem>
-                    {searchResult.map(item => (
-                      <MenuItem key={item.codigo_barra} value={item.codigo_barra}>
-                        {item.codigo_barra} - {item.nombre}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-
-                <Button
-                  variant='contained'
-                  sx={{
-                    borderRadius: '10px',
-
-                    padding: '11px',
-                    fontSize: '1.1rem',
-                    scrollSnapMarginRight: '10px',
-                    width: '220px',
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    transition: 'all 0.1s ease-in-out',
-                    backgroundColor: theme.palette.mode === 'dark' ? '#893350' : '#f9dde6   ',
-                    color: theme.palette.mode === 'dark' ? '#f9dde6  ' : '#893350',
-                    boxShadow: '4px 4px 15px rgba(0, 0, 0, 0.14)',
-                    fontWeight: '600',
-                    '&:hover': {
-                      transition: 'all 0.1s ease-in-out',
-                      transform: 'scale(0.99)',
-                      boxShadow: '-2px -2px 10px rgba(0, 0, 0, 0.20)',
-                      backgroundColor: '#f7ccda                  ',
-                      color: '#8e3553'
-                    },
-                    '&:active': {
-                      transform: 'scale(0.98)'
-                    }
-                  }}
-                  onClick={() => {
-                    const item = data2.find(i => i.codigo_barra === searchSelected)
-                    if (searchResult.length <= 0) {
-                      toast.error('No se han encontrado productos, pruebe escribiendo un nombre diferente.')
-
-                      return
-                    }
-                    if (item === undefined) {
-                      toast.error('No se ha seleccionado un producto de la búsqueda.')
-
-                      return
-                    }
-                    setCart([...cart, item])
-                    setSearch('')
-                    setSearchSelected('')
-                  }}
-                >
-                  Agregar al Carrito
-                </Button>
-              </Box>
+                          const found = data2.filter(i => i.nombre.toLowerCase().includes(newInputValue.toLowerCase()))
+                          setSearchResult(found)
+                        }}
+                        options={searchResult}
+                        renderInput={params => <TextField {...params} label='Nombre del Producto' />}
+                      />
+                    </Grid>
+                    <Grid item xs={2}>
+                      <Button
+                        variant='contained'
+                        sx={{
+                          borderRadius: '10px',
+                          padding: '11px',
+                          fontSize: '1.1rem',
+                          scrollSnapMarginRight: '10px',
+                          display: 'flex',
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                          transition: 'all 0.1s ease-in-out',
+                          backgroundColor: 'primary.light',
+                          color: '',
+                          boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.10)',
+                          fontWeight: '500',
+                          '&:hover': {
+                            transition: 'all 0.1s ease-in-out',
+                            transform: 'scale(0.99)',
+                            boxShadow: '-2px -2px 10px rgba(0, 0, 0, 0.20)',
+                            backgroundColor: 'primary.light                ',
+                            color: '#FFF'
+                          },
+                          '&:active': {
+                            transform: 'scale(0.98)'
+                          }
+                        }}
+                        onClick={handleAddItemCart}
+                      >
+                        +
+                      </Button>
+                    </Grid>
+                  </Grid>
+                </Grid>
+              </Grid>
             </CardContent>
           </Box>
           <Box

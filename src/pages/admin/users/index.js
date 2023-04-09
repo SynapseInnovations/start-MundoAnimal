@@ -12,6 +12,7 @@ import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
 import PersonRemoveIcon from '@mui/icons-material/PersonRemove'
 import PersonAddIcon from '@mui/icons-material/PersonAdd'
+import { esES } from '@mui/x-data-grid'
 
 // ** Third Party Components
 import toast from 'react-hot-toast'
@@ -162,7 +163,7 @@ const UsersManageIndex = () => {
             <Box sx={{ display: 'flex', gap: '8px' }}>
               <IconButton
                 size='small'
-                color='primary'
+                color='warning'
                 sx={{
                   display: 'flex',
                   justifyContent: 'center',
@@ -185,7 +186,7 @@ const UsersManageIndex = () => {
               </IconButton>
               <IconButton
                 size='small'
-                color='primary'
+                color='error'
                 sx={{
                   display: 'flex',
                   justifyContent: 'center',
@@ -235,6 +236,7 @@ const UsersManageIndex = () => {
           rows={data}
           columns={columns}
           pageSize={pageSize}
+          localeText={esES.components.MuiDataGrid.defaultProps.localeText}
           disableSelectionOnClick
           rowsPerPageOptions={[7, 10, 25, 50]}
           onPageSizeChange={newPageSize => setPageSize(newPageSize)}

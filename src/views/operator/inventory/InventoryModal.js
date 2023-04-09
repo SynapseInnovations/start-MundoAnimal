@@ -2,6 +2,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import FormData from 'form-data'
 import Link from 'next/link'
+import BallotIcon from '@mui/icons-material/Ballot'
 
 // ** Axios
 import axios from 'axios'
@@ -60,9 +61,54 @@ const InventoryModal = props => {
     { id: 2, nombre: 'Accesorios' }
   ])
 
-  const handleFilter = useCallback(val => {
-    setValue(val)
-  }, [])
+  const handleFilter = val => {
+    const filtered = props.data.filter(item => item.nombre.toLowerCase().includes(val.toLowerCase()))
+    setFilteredData(filtered)
+    setCurrentPage(1)
+  }
+
+  const [searchValue, setSearchValue] = useState('')
+
+  const [filteredData, setFilteredData] = useState([])
+
+  const filterData = useCallback(() => {
+    const filtered = data.filter(
+      item =>
+        item.nombre.toLowerCase().includes(searchValue.toLowerCase()) ||
+        item.Categoria.toLowerCase().includes(searchValue.toLowerCase()) ||
+        item.Marca.toLowerCase().includes(searchValue.toLowerCase()) ||
+        item.Mascota.toLowerCase().includes(searchValue.toLowerCase())
+    )
+    setFilteredData(filtered)
+  }, [data, searchValue])
+
+  const handleSearchChange = event => {
+    setSearchValue(event.target.value)
+    filterData()
+  }
+
+  const updateData = () => {
+    axios
+      .get(APIRoutes.productos.leer, {
+        headers: {
+          token: window.localStorage.getItem(authConfig.storageTokenKeyName)
+        }
+      })
+      .then(response => {
+        const responseData = response.data.data
+        if (value !== '') {
+          const filteredData = responseData.filter(item => item.nombre.toLowerCase().includes(value.toLowerCase()))
+          setData(filteredData)
+        } else {
+          setData(responseData)
+        }
+        setLoading(false)
+      })
+      .catch(error => {
+        console.log(error)
+        setLoading(false)
+      })
+  }
 
   const [mascotaDropdown, setMascotaDropdown] = useState([
     { id: 1, nombre: 'Perro' },
@@ -192,7 +238,7 @@ const InventoryModal = props => {
             flexWrap: 'wrap',
             alignItems: 'center',
             justifyContent: 'space-between',
-            backgroundColor: theme.palette.mode === 'dark' ? theme.palette.primary.dark : theme.palette.primary.light,
+            backgroundColor: theme.palette.mode === 'dark' ? theme.palette.primary.dark : '#e7bed8',
             border: theme.palette.mode === 'dark' ? '4px solid #313451' : '4px solid #F9F4F0',
             borderRadius: 2
           }}
@@ -205,21 +251,23 @@ const InventoryModal = props => {
               gap: '1rem'
             }}
           >
-            <PetsIcon
-              fontSize='1rem'
+            <BallotIcon
+              fontSize='large'
               sx={{
-                color: '#F9F4F0',
-                textShadow: '0px 0px 15px rgba(0,0,0,0.5)'
+                color: 'primary.dark',
+                textShadow: '0px 0px 15px rgba(0,0,0,0.5)',
+                color: theme.palette.mode === 'dark' ? '#e7bed8' : theme.palette.primary.dark,
+                width: '230px',
+                ml: 1
               }}
             />
             <Typography
               variant='h4'
               sx={{
-                color: '#F9F4F0',
+                color: theme.palette.mode === 'dark' ? '#e7bed8' : theme.palette.primary.dark,
                 fontWeight: 600,
                 textTransform: 'uppercase',
-                letterSpacing: '0.3rem',
-                textShadow: '0px 0px 15px rgba(0,0,0,0.5)'
+                letterSpacing: '0.3rem'
               }}
             >
               Productos
@@ -227,34 +275,6 @@ const InventoryModal = props => {
           </Box>
 
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <TextField
-              size='large'
-              value={value}
-              sx={{
-                backgroundColor: '#F9F4F0',
-                color: '#3E363F',
-                marginBottom: '8px',
-                marginRight: '4px',
-                padding: 1.3,
-                borderRadius: '10px',
-                transition: 'all 0.1s ease-in-out',
-                boxShadow: '1px 1px 8px rgba(0, 0, 0, 0.50)',
-                '&:hover': {
-                  transform: 'scale(0.99)',
-                  transition: 'all 0.1s ease-in-out',
-                  boxShadow: '-2px -2px 4px rgba(0, 0, 0, 0.40)',
-                  fontSize: 'small',
-                  color: '#031927'
-                },
-                '& input::placeholder': {
-                  color: 'black'
-                },
-                width: '13rem'
-              }}
-              placeholder='Buscar Producto'
-              onChange={e => handleFilter(e.target.value)}
-            />
-
             <Button
               variant='contained'
               sx={{
@@ -267,21 +287,22 @@ const InventoryModal = props => {
                 mt: 2,
                 fontSize: '1.3rem',
                 scrollSnapMarginRight: '10px',
-                width: '140px',
+                width: '250px',
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
                 transition: 'all 0.1s ease-in-out',
-                backgroundColor: theme.palette.mode === 'dark' ? '#893350' : '#f9dde6   ',
-                color: theme.palette.mode === 'dark' ? '#f9dde6  ' : '#893350',
-                boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.40)',
+                backgroundColor: theme.palette.mode === 'dark' ? '#30334e' : '#e7bed8 ',
+                color: theme.palette.mode === 'dark' ? '#e7bed8' : theme.palette.primary.dark,
+                boxShadow: '4px 4px 13px rgba(0, 0, 0, 0.30)',
                 fontWeight: '600',
+                border: theme.palette.mode === 'dark' ? 'solid 2px #e7bed8' : 'solid 2px #30334e',
                 '&:hover': {
                   transition: 'all 0.1s ease-in-out',
                   transform: 'scale(0.99)',
                   boxShadow: '-2px -2px 10px rgba(0, 0, 0, 0.30)',
-                  backgroundColor: '#f7ccda                  ',
-                  color: '#8e3553'
+                  backgroundColor: theme.palette.mode === 'dark' ? '#30334e' : '#e7bed8 ',
+                  color: theme.palette.mode === 'dark' ? '#e7bed8' : theme.palette.primary.dark
                 },
                 '&:active': {
                   transform: 'scale(0.98)'
@@ -292,7 +313,7 @@ const InventoryModal = props => {
                 dialogToggle()
               }}
             >
-              <AddIcon sx={{ marginRight: '3px', fontSize: 'large', fontSize: '1.3rem', fontWeight: '700' }} />
+              <AddIcon fontSize='large' marginRight='5px' />
               Agregar
             </Button>
           </Box>
@@ -342,6 +363,7 @@ const InventoryModal = props => {
               <TextField
                 label='Codigo de Barra producto'
                 fullWidth
+                autoFocus
                 type='number'
                 sx={{
                   marginTop: '5px'

@@ -17,13 +17,14 @@ const UserThemeOptions = () => {
   return {
     palette: {
       primary: {
-        light: '#FF6095',
-        main: '#FF3366',
+        light: '#fc65ca',
+        main: '#e7bed8',
         dark: '#282a42',
 
         contrastText: '#FFF'
       }
     },
+
     breakpoints: {
       values: {
         xs: 0,

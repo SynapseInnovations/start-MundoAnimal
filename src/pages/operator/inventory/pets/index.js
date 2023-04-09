@@ -6,6 +6,7 @@ import { useAuth } from 'src/hooks/useAuth'
 import authConfig from 'src/configs/auth'
 import axios from 'axios'
 import { useTheme } from '@mui/material/styles'
+import { esES } from '@mui/x-data-grid'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
@@ -124,7 +125,7 @@ const PetsIndex = () => {
             >
               <Icon
                 icon='mdi:pencil-outline'
-                color='#eec1ad'
+                color='#ffc107'
                 sx={{
                   display: 'flex',
                   justifyContent: 'center',
@@ -149,7 +150,7 @@ const PetsIndex = () => {
             >
               <Icon
                 icon='mdi:delete-outline'
-                color=' 	#e35d6a'
+                color='#dc3545'
                 sx={{
                   display: 'flex',
                   justifyContent: 'center',
@@ -206,14 +207,14 @@ const PetsIndex = () => {
                 pageSize={pageSize}
                 disableSelectionOnClick
                 rowsPerPageOptions={[10, 25, 50, 100]}
+                localeText={esES.components.MuiDataGrid.defaultProps.localeText}
                 onPageSizeChange={newPageSize => setPageSize(newPageSize)}
                 sx={{
                   '& .MuiDataGrid-columnHeaders': {
                     borderRadius: 0,
-                    backgroundColor:
-                      theme.palette.mode === 'dark' ? theme.palette.primary.dark : theme.palette.primary.light,
-                    color: theme.palette.mode === 'dark' ? '#F9F4F0' : '#F9F4F0',
+                    backgroundColor: theme.palette.mode === 'dark' ? theme.palette.primary.dark : '#e7bed8',
                     border: theme.palette.mode === 'dark' ? '4px solid #313451' : '4px solid #F9F4F0',
+                    color: theme.palette.mode === 'dark' ? '#e7bed8' : theme.palette.primary.dark,
                     borderRadius: 2
                   }
                 }}

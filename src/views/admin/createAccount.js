@@ -132,22 +132,27 @@ const CreateAccountModal = props => {
             alignItems: 'center',
             justifyContent: 'space-between',
             backgroundColor: theme.palette.mode === 'dark' ? theme.palette.primary.dark : theme.palette.primary.light,
-            color: theme.palette.mode === 'dark' ? '#F9F4F0' : '#F9F4F0',
+            backgroundColor: theme.palette.mode === 'dark' ? theme.palette.primary.dark : '#e7bed8',
             border: theme.palette.mode === 'dark' ? '4px solid #313451' : '4px solid #F9F4F0',
             borderRadius: 2
           }}
         >
           <Box sx={{ display: 'flex', marginBottom: '10px', alignItems: 'center', gap: '0.5rem' }}>
-            <GroupIcon sx={{ fontSize: '2.5rem', color: '#F9F4F0', textShadow: '0px 0px 15px rgba(0,0,0,0.5)' }} />
+            <GroupIcon
+              sx={{
+                fontSize: '2.5rem',
+                color: theme.palette.mode === 'dark' ? '#e7bed8' : theme.palette.primary.dark,
+                textShadow: '0px 0px 15px rgba(0,0,0,0.5)'
+              }}
+            />
             <Typography
               variant='h5'
               sx={{
-                color: '#F9F4F0',
+                color: theme.palette.mode === 'dark' ? '#e7bed8' : theme.palette.primary.dark,
 
                 fontWeight: 600,
                 textTransform: 'uppercase',
-                letterSpacing: '0.2rem',
-                textShadow: '0px 0px 15px rgba(0,0,0,0.5)'
+                letterSpacing: '0.2rem'
               }}
             >
               Usuarios
@@ -156,31 +161,30 @@ const CreateAccountModal = props => {
 
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <Button
+              style={{ width: '100%' }}
               variant='contained'
               sx={{
                 borderRadius: '10px',
                 marginTop: '10px',
                 marginBottom: '20px',
-                marginLeft: '8px',
-                marginRight: '8px  ',
+                marginRight: '2px',
                 scrollSnapMarginRight: '10px',
-                width: '220px',
+                width: '120px',
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
                 transition: 'all 0.1s ease-in-out',
-                backgroundColor: '             ',
-                color: '',
-                backgroundColor: theme.palette.mode === 'dark' ? '#893350' : '#f9dde6   ',
-                color: theme.palette.mode === 'dark' ? '#f9dde6  ' : '#893350',
-                boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.40)',
+                backgroundColor: theme.palette.mode === 'dark' ? '#30334e' : '#e7bed8 ',
+                color: theme.palette.mode === 'dark' ? '#e7bed8' : theme.palette.primary.dark,
+                boxShadow: '4px 4px 8px rgba(0, 0, 0, 0.15)',
                 fontWeight: '600',
+                border: theme.palette.mode === 'dark' ? 'solid 2px #e7bed8' : 'solid 2px #30334e',
                 '&:hover': {
                   transition: 'all 0.1s ease-in-out',
-                  transform: 'scale(0.99)',
-                  boxShadow: '-2px -2px 10px rgba(0, 0, 0, 0.30)',
-                  backgroundColor: '#f7ccda                  ',
-                  color: '#8e3553'
+                  transform: 'scale(0.98)',
+                  boxShadow: '-2px -2px 10px rgba(0, 0, 0, 0.10)',
+                  backgroundColor: theme.palette.mode === 'dark' ? '#30334e' : '#e7bed8 ',
+                  color: theme.palette.mode === 'dark' ? '#e7bed8' : theme.palette.primary.dark
                 },
                 '&:active': {
                   transform: 'scale(0.98)'

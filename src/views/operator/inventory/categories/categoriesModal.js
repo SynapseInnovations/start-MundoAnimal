@@ -11,6 +11,7 @@ import Grid from '@mui/material/Grid'
 import FormControl from '@mui/material/FormControl'
 import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
+import CategoryIcon from '@mui/icons-material/Category'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
@@ -108,81 +109,66 @@ const CategoriesModal = props => {
             flexWrap: 'wrap',
             alignItems: 'center',
             justifyContent: 'space-between',
-            backgroundColor: theme.palette.mode === 'dark' ? theme.palette.primary.dark : theme.palette.primary.light,
-            color: theme.palette.mode === 'dark' ? '#F9F4F0' : '#F9F4F0',
+            backgroundColor: theme.palette.mode === 'dark' ? theme.palette.primary.dark : '#e7bed8',
             border: theme.palette.mode === 'dark' ? '4px solid #313451' : '4px solid #F9F4F0',
             borderRadius: 2
           }}
         >
-          <Box sx={{ display: 'flex', marginBottom: '10px', alignItems: 'center', gap: '0.5rem' }}>
-            <PetsIcon sx={{ fontSize: '2.5rem', color: '#F9F4F0', textShadow: '0px 0px 15px rgba(0,0,0,0.5)' }} />
-            <Typography
-              variant='h5'
-              sx={{
-                color: '#F9F4F0',
-
-                fontWeight: 600,
-                textTransform: 'uppercase',
-                letterSpacing: '0.2rem',
-                textShadow: '0px 0px 15px rgba(0,0,0,0.5)'
-              }}
-            >
-              Tipo
-            </Typography>
-          </Box>
-
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <TextField
-              style={{ width: '60%' }}
-              size='small'
-              value={value}
-              sx={{
-                backgroundColor: '#F9F4F0',
-                color: '#3E363F',
-                marginBottom: 'px',
-                borderRadius: '10px',
-                transition: 'all 0.1s ease-in-out',
-                boxShadow: '1px 1px 8px rgba(0, 0, 0, 0.50)',
-                '&:hover': {
-                  transform: 'scale(0.99)',
-                  transition: 'all 0.1s ease-in-out',
-                  boxShadow: '-2px -2px 4px rgba(0, 0, 0, 0.40)',
-                  fontSize: 'small',
-                  color: '#031927'
-                },
-                '& input::placeholder': {
-                  color: 'black'
-                },
-                width: '13rem'
-              }}
-              placeholder='Buscar Tipo'
-              onChange={e => handleFilter(e.target.value)}
-            />
+          <Box
+            sx={{
+              display: 'flex',
+              marginBottom: '10px',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              gap: '0.5rem'
+            }}
+          >
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <CategoryIcon
+                sx={{
+                  fontSize: '2.5rem',
+                  color: theme.palette.mode === 'dark' ? '#e7bed8' : theme.palette.primary.dark,
+                  textShadow: '0px 0px 15px rgba(0,0,0,0.5)'
+                }}
+              />
+              <Typography
+                variant='h5'
+                sx={{
+                  color: theme.palette.mode === 'dark' ? '#e7bed8' : theme.palette.primary.dark,
+                  fontWeight: 600,
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.2rem',
+                  textShadow: '0px 0px 15px rgba(0,0,0,0.5)'
+                }}
+              >
+                Tipo
+              </Typography>
+            </Box>
             <Button
-              style={{ width: '40%' }}
+              style={{ width: '30%' }}
               variant='contained'
               sx={{
                 borderRadius: '10px',
                 marginTop: '10px',
                 marginBottom: '10px',
                 marginLeft: '10px',
-                marginRight: 'px  ',
                 scrollSnapMarginRight: '10px',
-                width: '192px',
+                width: '120px',
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
                 transition: 'all 0.1s ease-in-out',
-                backgroundColor: theme.palette.mode === 'dark' ? '#893350' : '#f9dde6   ',
-                color: theme.palette.mode === 'dark' ? '#f9dde6  ' : '#893350',
-                boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.40)',
+                backgroundColor: theme.palette.mode === 'dark' ? '#30334e' : '#e7bed8 ',
+                color: theme.palette.mode === 'dark' ? '#e7bed8' : theme.palette.primary.dark,
+                boxShadow: '4px 4px 8px rgba(0, 0, 0, 0.15)',
                 fontWeight: '600',
+                border: theme.palette.mode === 'dark' ? 'solid 2px #e7bed8' : 'solid 2px #30334e',
                 '&:hover': {
                   transition: 'all 0.1s ease-in-out',
-                  transform: 'scale(0.99)',
-                  boxShadow: '-2px -2px 10px rgba(0, 0, 0, 0.30)',
-                  backgroundColor: '#f7ccda                  ',
-                  color: '#8e3553'
+                  transform: 'scale(0.98)',
+                  boxShadow: '-2px -2px 10px rgba(0, 0, 0, 0.10)',
+                  backgroundColor: theme.palette.mode === 'dark' ? '#30334e' : '#e7bed8 ',
+                  color: theme.palette.mode === 'dark' ? '#e7bed8' : theme.palette.primary.dark
                 },
                 '&:active': {
                   transform: 'scale(0.98)'

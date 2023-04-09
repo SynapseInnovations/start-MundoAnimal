@@ -26,7 +26,8 @@ import axios from 'axios'
 import { motion } from 'framer-motion'
 import { useTheme } from '@mui/material/styles'
 import { useContext } from 'react'
-
+import StarIcon from '@mui/icons-material/Star'
+import MonetizationOnIcon from '@mui/icons-material/MonetizationOn'
 import { AuthContext } from 'src/context/AuthContext'
 
 // ** Icon Imports
@@ -287,43 +288,46 @@ const StepCart = ({ handleNext }) => {
               border: theme => `1px solid ${theme.palette.divider}`
             }}
           >
-            <CardContent>
-              <Grid container>
-                <Grid item xs={4}>
-                  <Typography variant='h6' sx={{ mb: 4, fontWeight: 500 }}>
-                    Búsqueda de Productos
-                  </Typography>
-                </Grid>
-                <Grid item xs={8}>
-                  <Typography>
-                    <RadioGroup row value={unitary} onChange={e => setUnitary(e.target.value)}>
-                      <FormControlLabel value={1} control={<Radio />} label='Venta Unitaria' />
-                      <FormControlLabel value={0} control={<Radio />} label='Venta por Kilo' />
-                    </RadioGroup>
-                  </Typography>
-                </Grid>
-                <Grid item xs={4}>
-                  <FormControl>
-                    <TextField
-                      sx={{ mr: 4 }}
-                      value={barcode}
-                      type='number'
-                      label='Codigo de Barra'
-                      onKeyDown={e => {
-                        if (e.key == 'Enter') {
-                          handleEnterBarcode()
-                        }
-                      }}
-                      inputProps={{ min: 0, max: 999999999999999 }}
-                      onChange={e => setBarcode(e.target.value > 999999999999999 ? 999999999999999 : e.target.value)}
-                    />
-                  </FormControl>
-                </Grid>
-                <Grid item xs={8}>
-                  <Grid container>
-                    <Grid item xs={10}>
+            <Box>
+              <Card>
+                <CardContent>
+                  <Grid container spacing={2}>
+                    <Grid item xs={12} sm={4}>
+                      <Typography variant='h6' sx={{ mb: 4, fontWeight: 500 }}>
+                        Búsqueda de Productos
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={12} sm={8}>
+                      <Typography>
+                        <RadioGroup row value={unitary} onChange={e => setUnitary(e.target.value)}>
+                          <FormControlLabel value={1} control={<Radio />} label='Venta Unitaria' />
+                          <FormControlLabel value={0} control={<Radio />} label='Venta por Kilo' />
+                        </RadioGroup>
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={12} sm={5}>
+                      <FormControl fullWidth>
+                        <TextField
+                          value={barcode}
+                          type='number'
+                          label='Codigo de Barra'
+                          autoFocus
+                          fullWidth
+                          onKeyDown={e => {
+                            if (e.key == 'Enter') {
+                              handleEnterBarcode()
+                            }
+                          }}
+                          inputProps={{ min: 0, max: 999999999999999 }}
+                          onChange={e =>
+                            setBarcode(e.target.value > 999999999999999 ? 999999999999999 : e.target.value)
+                          }
+                        />
+                      </FormControl>
+                    </Grid>
+                    <Grid item xs={9} sm={5}>
                       <Autocomplete
-                        fullwidth
+                        fullWidth
                         value={searchSelected}
                         getOptionLabel={option => option.nombre || ''}
                         onChange={(event, newValue) => {
@@ -337,114 +341,113 @@ const StepCart = ({ handleNext }) => {
                           setSearchResult(found)
                         }}
                         options={searchResult}
-                        renderInput={params => <TextField {...params} label='Nombre del Producto' />}
+                        renderInput={params => <TextField {...params} label='Nombre del Producto' fullWidth />}
                       />
                     </Grid>
-                    <Grid item xs={2}>
+                    <Grid item xs={3} sm={1}>
                       <Button
                         variant='contained'
                         sx={{
                           borderRadius: '10px',
-                          padding: '11px',
-                          fontSize: '1.1rem',
+                          padding: '10px',
+                          fontSize: { xs: '0.8rem', sm: '1.2rem' },
                           scrollSnapMarginRight: '10px',
                           display: 'flex',
+                          width: { xs: '50px', sm: '130px' },
                           justifyContent: 'center',
                           alignItems: 'center',
                           transition: 'all 0.1s ease-in-out',
-                          backgroundColor: 'primary.light',
-                          color: '',
-                          boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.10)',
-                          fontWeight: '500',
+                          backgroundColor: theme.palette.mode === 'dark' ? '#30334e' : '#e7bed8 ',
+                          color: theme.palette.mode === 'dark' ? '#e7bed8' : theme.palette.primary.dark,
+                          boxShadow: '4px 4px 8px rgba(0, 0, 0, 0.15)',
+                          fontWeight: '600',
+                          border: theme.palette.mode === 'dark' ? 'solid 2px #e7bed8' : 'solid 2px #30334e',
                           '&:hover': {
                             transition: 'all 0.1s ease-in-out',
-                            transform: 'scale(0.99)',
-                            boxShadow: '-2px -2px 10px rgba(0, 0, 0, 0.20)',
-                            backgroundColor: 'primary.light                ',
-                            color: '#FFF'
-                          },
-                          '&:active': {
-                            transform: 'scale(0.98)'
+                            transform: 'scale(0.98)',
+                            boxShadow: '-2px -2px 10px rgba(0, 0, 0, 0.10)',
+                            backgroundColor: theme.palette.mode === 'dark' ? '#30334e' : '#e7bed8 ',
+                            color: theme.palette.mode === 'dark' ? '#e7bed8' : theme.palette.primary.dark
                           }
                         }}
                         onClick={handleAddItemCart}
                       >
-                        +
+                        <Box display={{ xs: 'none', sm: 'block' }}>Agregar</Box>
+                        <Box display={{ xs: 'block', sm: 'none' }}>+</Box>
                       </Button>
                     </Grid>
                   </Grid>
-                </Grid>
-              </Grid>
-            </CardContent>
-          </Box>
-          <Box
-            sx={{
-              gap: 1,
-              marginTop: '20px',
-              display: 'flex',
-
-              borderRadius: 1,
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              border: theme => `1px solid ${theme.palette.divider}`
-            }}
-          >
-            <Card style={{ width: '100%' }}>
-              <CardContent>
-                <Box display='flex' alignItems='center'>
-                  <LocalGroceryStoreIcon sx={{ fontSize: '1rem', marginRight: '10px' }} />
-                  <Typography variant='h6' sx={{ fontWeight: 500 }}>
-                    Carrito
-                  </Typography>
-                </Box>
-                <StyledList
-                  style={{
-                    maxHeight: 400,
-                    overflow: 'auto'
-                  }}
-                  sx={{ mb: 4 }}
-                >
-                  {cart.length > 0 ? (
-                    <>
-                      {cart.map((item, index) => (
-                        <CartItem
-                          key={index}
-                          item={item}
-                          deleteThis={handleDeleteItemCart}
-                          index={index}
-                          handleInputChange={handleInputChange}
-                        />
-                      ))}
-                    </>
-                  ) : (
-                    <>
-                      <Box
-                        sx={{
-                          mb: 2,
-                          gap: 3,
-                          padding: 16,
-                          display: 'flex',
-                          flexWrap: 'wrap',
-                          flexDirection: 'column',
-                          alignItems: 'Center',
-                          justifyContent: 'space-between'
-                        }}
-                      >
-                        <Box display='flex' alignItems='center'>
-                          <RemoveShoppingCartIcon sx={{ fontSize: '2rem' }} />
-                          <Typography
-                            variant='body2'
-                            sx={{ color: 'text.primary', fontSize: '1.5rem', marginLeft: '0.5rem' }}
+                </CardContent>
+              </Card>
+              <Box
+                sx={{
+                  gap: 1,
+                  marginTop: '20px',
+                  display: 'flex',
+                  borderRadius: 1,
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  border: theme => `1px solid ${theme.palette.divider}`
+                }}
+              >
+                <Card style={{ width: '100%' }}>
+                  <CardContent>
+                    <Box display='flex' alignItems='center'>
+                      <LocalGroceryStoreIcon sx={{ fontSize: '1rem', marginRight: '10px' }} />
+                      <Typography variant='h6' sx={{ fontWeight: 500 }}>
+                        Carrito
+                      </Typography>
+                    </Box>
+                    <StyledList
+                      style={{
+                        maxHeight: 400,
+                        overflow: 'auto'
+                      }}
+                      sx={{ mb: 4 }}
+                    >
+                      {cart.length > 0 ? (
+                        <>
+                          {cart.map((item, index) => (
+                            <CartItem
+                              key={index}
+                              item={item}
+                              deleteThis={handleDeleteItemCart}
+                              index={index}
+                              handleInputChange={handleInputChange}
+                            />
+                          ))}
+                        </>
+                      ) : (
+                        <>
+                          <Box
+                            sx={{
+                              mb: 2,
+                              gap: 3,
+                              padding: 16,
+                              display: 'flex',
+                              flexWrap: 'wrap',
+                              flexDirection: 'column',
+                              alignItems: 'Center',
+                              justifyContent: 'space-between'
+                            }}
                           >
-                            No existen productos, prueba agregándolos al carrito.
-                          </Typography>
-                        </Box>
-                      </Box>
-                    </>
-                  )}
-                </StyledList>
-              </CardContent>
-            </Card>
+                            <Box display='flex' alignItems='center'>
+                              <RemoveShoppingCartIcon sx={{ fontSize: '2rem' }} />
+                              <Typography
+                                variant='body2'
+                                sx={{ color: 'text.primary', fontSize: '1.5rem', marginLeft: '0.5rem' }}
+                              >
+                                No existen productos, prueba agregándolos al carrito.
+                              </Typography>
+                            </Box>
+                          </Box>
+                        </>
+                      )}
+                    </StyledList>
+                  </CardContent>
+                </Card>
+              </Box>
+            </Box>
           </Box>
         </Grid>
 
@@ -537,7 +540,7 @@ const StepCart = ({ handleNext }) => {
             <Box sx={{ display: 'flex', ...(breakpointMD ? { justifyContent: 'flex-end' } : {}) }}>
               <Button
                 sx={{
-                  fontSize: '4rem', // Ajusta el tamaño del texto aquí
+                  fontSize: '3rem', // Ajusta el tamaño del texto aquí
                   borderRadius: '10px',
                   marginTop: '10px',
                   marginBottom: '2px',
@@ -549,17 +552,17 @@ const StepCart = ({ handleNext }) => {
                   justifyContent: 'center',
                   alignItems: 'center',
                   transition: 'all 0.1s ease-in-out',
-                  backgroundColor: 'primary',
-                  backgroundColor: theme.palette.mode === 'dark' ? '#893350' : '#f9dde6   ',
-                  color: theme.palette.mode === 'dark' ? '#f9dde6  ' : '#893350',
-                  boxShadow: '4px 4px 20px rgba(0, 0, 0, 0.20)',
+                  backgroundColor: theme.palette.mode === 'dark' ? '#30334e' : '#e7bed8 ',
+                  color: theme.palette.mode === 'dark' ? '#e7bed8' : theme.palette.primary.dark,
+                  boxShadow: '4px 4px 13px rgba(0, 0, 0, 0.30)',
                   fontWeight: '600',
+                  border: theme.palette.mode === 'dark' ? 'solid 3px #e7bed8' : 'solid 3px #30334e',
                   '&:hover': {
                     transition: 'all 0.1s ease-in-out',
                     transform: 'scale(0.99)',
-                    boxShadow: '-2px -2px 10px rgba(0, 0, 0, 0.10)',
-                    backgroundColor: '#f7ccda                  ',
-                    color: '#8e3553'
+                    boxShadow: '-2px -2px 10px rgba(0, 0, 0, 0.30)',
+                    backgroundColor: theme.palette.mode === 'dark' ? '#30334e' : '#e7bed8 ',
+                    color: theme.palette.mode === 'dark' ? '#e7bed8' : theme.palette.primary.dark
                   },
                   '&:active': {
                     transform: 'scale(0.95)',

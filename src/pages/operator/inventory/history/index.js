@@ -16,6 +16,7 @@ import RemoveIcon from '@mui/icons-material/Remove'
 import moment from 'moment'
 import { motion } from 'framer-motion'
 import { useTheme } from '@mui/material/styles'
+import { esES } from '@mui/x-data-grid'
 
 const ProductsHistory = () => {
   const [data2, setData2] = useState([])
@@ -147,7 +148,13 @@ const ProductsHistory = () => {
         />
         <Grid item xs={12}>
           <div style={{ height: 600, width: '100%' }}>
-            <DataGrid rows={data2} columns={columns} pageSize={9} rowsPerPageOptions={[7]} />
+            <DataGrid
+              rows={data2}
+              columns={columns}
+              pageSize={9}
+              rowsPerPageOptions={[7]}
+              localeText={esES.components.MuiDataGrid.defaultProps.localeText}
+            />
           </div>
         </Grid>
       </Grid>

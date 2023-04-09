@@ -288,8 +288,8 @@ const ProductsIndex = () => {
                 pageSize={pageSize}
                 disableSelectionOnClick
                 rowsPerPageOptions={[10, 25, 50, 100]}
-                localeText={esES.components.MuiDataGrid.defaultProps.localeText}
                 onPageSizeChange={newPageSize => setPageSize(newPageSize)}
+                localeText={esES.components.MuiDataGrid.defaultProps.localeText}
                 sx={{
                   '& .MuiDataGrid-columnHeaders': {
                     borderRadius: 0,

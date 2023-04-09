@@ -60,33 +60,45 @@ const BrandsModal = props => {
     }
     inventoryForm.append('nombre', nombreMarca)
 
-    edit
-      ? axios
-          .put(APIRoutes.mantenedor.marca.modificar, inventoryForm, {
-            headers: {
-              'Content-Type': `multipart/form-data`,
-              token: window.localStorage.getItem(authConfig.storageTokenKeyName)
-            }
-          })
-          .then(async response => {
-            toast.success(response.data.msg)
-            updateMethod()
-            dialogToggle()
-            setNombreMarcaError(false)
-          })
-      : axios
-          .post(APIRoutes.mantenedor.marca.registrar, inventoryForm, {
-            headers: {
-              'Content-Type': `multipart/form-data`,
-              token: window.localStorage.getItem(authConfig.storageTokenKeyName)
-            }
-          })
-          .then(async response => {
-            toast.success(response.data.msg)
-            updateMethod()
-            dialogToggle()
-            setNombreMarcaError(false)
-          })
+    if (edit) {
+      toast('Modificando...')
+      axios
+        .put(APIRoutes.mantenedor.marca.modificar, inventoryForm, {
+          headers: {
+            'Content-Type': `multipart/form-data`,
+            token: window.localStorage.getItem(authConfig.storageTokenKeyName)
+          }
+        })
+        .then(async response => {
+          toast.success(response.data.msg)
+          updateMethod()
+          dialogToggle()
+          setNombreMarcaError(false)
+        })
+        .catch(e => {
+          console.log(e.response)
+          toast.error('Hubo un error de conexión, intente nuevamente o contacte a soporte.')
+        })
+    } else {
+      toast('Agregando...')
+      axios
+        .post(APIRoutes.mantenedor.marca.registrar, inventoryForm, {
+          headers: {
+            'Content-Type': `multipart/form-data`,
+            token: window.localStorage.getItem(authConfig.storageTokenKeyName)
+          }
+        })
+        .then(async response => {
+          toast.success(response.data.msg)
+          updateMethod()
+          dialogToggle()
+          setNombreMarcaError(false)
+        })
+        .catch(e => {
+          console.log(e.response)
+          toast.error('Hubo un error de conexión, intente nuevamente o contacte a soporte.')
+        })
+    }
   }
   const theme = useTheme()
 

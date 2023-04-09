@@ -122,7 +122,7 @@ const StepCart = ({ handleNext }) => {
       })
       .catch(e => {
         console.log(e.response)
-        toast.error('error')
+        toast.error('Hubo un error de conexión, intente nuevamente o contacte a soporte.')
       })
   }
 

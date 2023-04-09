@@ -65,34 +65,48 @@ const CategoriesModal = props => {
     }
     inventoryForm.append('nombre', nombreCategoria)
 
-    edit
-      ? axios
-          .put(APIRoutes.mantenedor.categoria.modificar, inventoryForm, {
-            headers: {
-              'Content-Type': `multipart/form-data`,
-              token: window.localStorage.getItem(authConfig.storageTokenKeyName)
-            }
-          })
-          .then(async response => {
-            toast.success(response.data.msg)
-            updateMethod()
-            dialogToggle()
-            setNombreCategoriaEror(false)
-          })
-      : axios
-          .post(APIRoutes.mantenedor.categoria.registrar, inventoryForm, {
-            headers: {
-              'Content-Type': `multipart/form-data`,
-              token: window.localStorage.getItem(authConfig.storageTokenKeyName)
-            }
-          })
-          .then(async response => {
-            toast.success(response.data.msg)
-            updateMethod()
-            dialogToggle()
-            setNombreCategoriaError(false)
-          })
+    if (edit) {
+      toast('Modificando...')
+      axios
+        .put(APIRoutes.mantenedor.categoria.modificar, inventoryForm, {
+          headers: {
+            'Content-Type': `multipart/form-data`,
+            token: window.localStorage.getItem(authConfig.storageTokenKeyName)
+          }
+        })
+        .then(async response => {
+          toast.success(response.data.msg)
+          updateMethod()
+          dialogToggle()
+          setNombreCategoriaError(false)
+        })
+        .catch(e => {
+          console.log(e.response)
+          toast.error('Hubo un error de conexión, intente nuevamente o contacte a soporte.')
+        })
+    } else {
+      toast('Agregando...')
+
+      axios
+        .post(APIRoutes.mantenedor.categoria.registrar, inventoryForm, {
+          headers: {
+            'Content-Type': `multipart/form-data`,
+            token: window.localStorage.getItem(authConfig.storageTokenKeyName)
+          }
+        })
+        .then(async response => {
+          toast.success(response.data.msg)
+          updateMethod()
+          dialogToggle()
+          setNombreCategoriaError(false)
+        })
+        .catch(e => {
+          console.log(e.response)
+          toast.error('Hubo un error de conexión, intente nuevamente o contacte a soporte.')
+        })
+    }
   }
+
   const theme = useTheme()
 
   return (

@@ -91,6 +91,7 @@ const CreateAccountModal = props => {
     formData.append('clave', claveUsuario)
     formData.append('direccion', direccionUsuario)
     formData.append('imagen', imagenUsuario)
+    formData.append('modificarImagen', true)
     formData.append('Rol_id', rolUsuario)
     const url = edit ? APIRoutes.usuarios.modificar : APIRoutes.usuarios.registrar
 

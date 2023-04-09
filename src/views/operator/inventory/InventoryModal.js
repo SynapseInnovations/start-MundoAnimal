@@ -197,6 +197,9 @@ const InventoryModal = props => {
       return
     }
     const inventoryForm = new FormData()
+    const now = new Date()
+    const currentDate = new Date(now.getTime() - now.getTimezoneOffset() * 60000)
+    const mysqlDate = currentDate.toISOString().slice(0, 19).replace('T', ' ')
     inventoryForm.append('codigo_barra', codigoBarraProducto)
     inventoryForm.append('nombre', nombreProducto)
     inventoryForm.append('descripcion', descripcionProducto)
@@ -205,22 +208,47 @@ const InventoryModal = props => {
     inventoryForm.append('precio_unitario', precioUnitarioProducto)
     inventoryForm.append('categoria_id', categoriaProducto)
     inventoryForm.append('marca_id', marcaProducto)
+    inventoryForm.append('fecha', mysqlDate)
     inventoryForm.append('mascota_id', mascotaProducto)
     inventoryForm.append('imagen', null)
 
-    const url = edit ? APIRoutes.productos.modificar : APIRoutes.productos.registrar
-    axios
-      .post(url, inventoryForm, {
-        headers: {
-          'Content-Type': `multipart/form-data`,
-          token: window.localStorage.getItem(authConfig.storageTokenKeyName)
-        }
-      })
-      .then(async response => {
-        toast.success(response.data.msg)
-        updateMethod()
-        dialogToggle()
-      })
+    if (edit) {
+      toast('Modificando...')
+      axios
+        .put(APIRoutes.productos.modificar, inventoryForm, {
+          headers: {
+            'Content-Type': `multipart/form-data`,
+            token: window.localStorage.getItem(authConfig.storageTokenKeyName)
+          }
+        })
+        .then(async response => {
+          toast.success(response.data.msg)
+          updateMethod()
+          dialogToggle()
+        })
+        .catch(e => {
+          console.log(e.response)
+          toast.error('Hubo un error de conexión, intente nuevamente o contacte a soporte.')
+        })
+    } else {
+      toast('Agregando...')
+      axios
+        .post(APIRoutes.productos.registrar, inventoryForm, {
+          headers: {
+            'Content-Type': `multipart/form-data`,
+            token: window.localStorage.getItem(authConfig.storageTokenKeyName)
+          }
+        })
+        .then(async response => {
+          toast.success(response.data.msg)
+          updateMethod()
+          dialogToggle()
+        })
+        .catch(e => {
+          console.log(e.response)
+          toast.error('Hubo un error de conexión, intente nuevamente o contacte a soporte.')
+        })
+    }
   }
 
   return (

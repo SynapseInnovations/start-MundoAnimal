@@ -28,6 +28,7 @@ import { getInitials } from 'src/@core/utils/get-initials'
 
 // ** API Routes
 import APIRoutes from 'src/configs/apiRoutes'
+import authConfig from 'src/configs/auth'
 
 const renderClient = params => {
   const { row } = params
@@ -70,7 +71,11 @@ const UsersManageIndex = () => {
 
   const updateData = () => {
     axios
-      .get(APIRoutes.usuarios.leer)
+      .get(APIRoutes.usuarios.leer, {
+        headers: {
+          token: window.localStorage.getItem(authConfig.storageTokenKeyName)
+        }
+      })
       .then(response => {
         setData(response.data.data)
         setLoading(false)

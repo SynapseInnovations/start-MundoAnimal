@@ -20,6 +20,7 @@ import { esES } from '@mui/x-data-grid'
 
 const ProductsHistory = () => {
   const [data2, setData2] = useState([])
+  const [pageSize, setPageSize] = useState(10)
 
   useEffect(() => {
     updateData()
@@ -47,16 +48,18 @@ const ProductsHistory = () => {
     {
       field: 'fecha',
       headerName: 'Fecha',
-      flex: 0.8,
+      flex: 0.1,
       minWidth: 120,
       align: 'center',
       headerAlign: 'center',
-      renderCell: () => <>{moment().format('DD/MM/YYYY hh:mm:ss')}</>
+      renderCell: params => {
+        return new Date(params.row.fecha).toLocaleString()
+      }
     },
     {
       field: 'Cuenta_rut',
       headerName: 'Responsable',
-      flex: 0.4,
+      flex: 0.1,
       minWidth: 140,
       align: 'center',
       headerAlign: 'center'
@@ -64,7 +67,7 @@ const ProductsHistory = () => {
     {
       field: 'modificacion',
       headerName: 'Acción',
-      flex: 0.6,
+      flex: 0.1,
       minWidth: 140,
       align: 'left',
       headerAlign: 'center',
@@ -112,20 +115,20 @@ const ProductsHistory = () => {
       }
     },
     {
-      field: 'nombre',
-      headerName: 'Producto',
-      flex: 2,
-      minWidth: 200,
+      field: 'codigo_barra',
+      headerName: 'Código',
+      flex: 0.1,
+      minWidth: 100,
       align: 'center',
       headerAlign: 'center'
     },
     {
-      field: 'codigo_barra',
-      headerName: 'Código',
-      flex: 1,
-      minWidth: 150,
-      align: 'center',
-      headerAlign: 'center'
+      field: 'nombre',
+      headerName: 'Producto',
+      flex: 0.4,
+      minWidth: 200,
+      align: 'left',
+      headerAlign: 'left'
     }
   ]
 
@@ -147,15 +150,16 @@ const ProductsHistory = () => {
           }
         />
         <Grid item xs={12}>
-          <div style={{ height: 600, width: '100%' }}>
-            <DataGrid
-              rows={data2}
-              columns={columns}
-              pageSize={9}
-              rowsPerPageOptions={[7]}
-              localeText={esES.components.MuiDataGrid.defaultProps.localeText}
-            />
-          </div>
+          <DataGrid
+            style={{ height: 610, width: '100%' }}
+            rows={data2}
+            columns={columns}
+            pageSize={pageSize}
+            disableSelectionOnClick
+            rowsPerPageOptions={[10, 25, 50, 100]}
+            onPageSizeChange={newPageSize => setPageSize(newPageSize)}
+            localeText={esES.components.MuiDataGrid.defaultProps.localeText}
+          />
         </Grid>
       </Grid>
     </motion.div>

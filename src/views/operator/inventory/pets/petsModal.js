@@ -64,33 +64,45 @@ const PetsModal = props => {
     }
     inventoryForm.append('nombre', nombreMascota)
 
-    edit
-      ? axios
-          .put(APIRoutes.mantenedor.mascota.modificar, inventoryForm, {
-            headers: {
-              'Content-Type': `multipart/form-data`,
-              token: window.localStorage.getItem(authConfig.storageTokenKeyName)
-            }
-          })
-          .then(async response => {
-            toast.success(response.data.msg)
-            updateMethod()
-            dialogToggle()
-            setNombreMascotaError(false)
-          })
-      : axios
-          .post(APIRoutes.mantenedor.mascota.registrar, inventoryForm, {
-            headers: {
-              'Content-Type': `multipart/form-data`,
-              token: window.localStorage.getItem(authConfig.storageTokenKeyName)
-            }
-          })
-          .then(async response => {
-            toast.success(response.data.msg)
-            updateMethod()
-            dialogToggle()
-            setNombreMascotaError(false)
-          })
+    if (edit) {
+      toast('Modificando...')
+      axios
+        .put(APIRoutes.mantenedor.mascota.modificar, inventoryForm, {
+          headers: {
+            'Content-Type': `multipart/form-data`,
+            token: window.localStorage.getItem(authConfig.storageTokenKeyName)
+          }
+        })
+        .then(async response => {
+          toast.success(response.data.msg)
+          updateMethod()
+          dialogToggle()
+          setNombreMascotaError(false)
+        })
+        .catch(e => {
+          console.log(e.response)
+          toast.error('Hubo un error de conexión, intente nuevamente o contacte a soporte.')
+        })
+    } else {
+      toast('Agregando...')
+      axios
+        .post(APIRoutes.mantenedor.mascota.registrar, inventoryForm, {
+          headers: {
+            'Content-Type': `multipart/form-data`,
+            token: window.localStorage.getItem(authConfig.storageTokenKeyName)
+          }
+        })
+        .then(async response => {
+          toast.success(response.data.msg)
+          updateMethod()
+          dialogToggle()
+          setNombreMascotaError(false)
+        })
+        .catch(e => {
+          console.log(e.response)
+          toast.error('Hubo un error de conexión, intente nuevamente o contacte a soporte.')
+        })
+    }
   }
 
   const theme = useTheme()

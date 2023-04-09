@@ -539,32 +539,26 @@ const StepCart = ({ handleNext }) => {
           >
             <Button
               sx={{
-                fontSize: '4rem', // Ajusta el tamaño del texto aquí
+                fontSize: '3rem',
                 borderRadius: '10px',
-                marginTop: '10px',
-                marginBottom: '2px',
-                marginLeft: '8px',
-                marginRight: '8px',
+                padding: '10px',
                 scrollSnapMarginRight: '10px',
                 display: 'flex',
+                width: { xs: '50px', sm: '130px' },
                 justifyContent: 'center',
                 alignItems: 'center',
                 transition: 'all 0.1s ease-in-out',
-                backgroundColor: 'primary',
-                backgroundColor: theme.palette.mode === 'dark' ? '#893350' : '#f9dde6   ',
-                color: theme.palette.mode === 'dark' ? '#f9dde6  ' : '#893350',
-                boxShadow: '4px 4px 20px rgba(0, 0, 0, 0.20)',
-                fontWeight: '600',
+                backgroundColor: theme.palette.mode === 'dark' ? '#30334e' : '#e7bed8 ',
+                color: theme.palette.mode === 'dark' ? '#e7bed8' : theme.palette.primary.dark,
+                boxShadow: '4px 4px 8px rgba(0, 0, 0, 0.15)',
+                fontWeight: '700',
+                border: theme.palette.mode === 'dark' ? 'solid 3px #e7bed8' : 'solid 3px #30334e',
                 '&:hover': {
                   transition: 'all 0.1s ease-in-out',
-                  transform: 'scale(0.99)',
+                  transform: 'scale(0.98)',
                   boxShadow: '-2px -2px 10px rgba(0, 0, 0, 0.10)',
-                  backgroundColor: '#f7ccda                  ',
-                  color: '#8e3553'
-                },
-                '&:active': {
-                  transform: 'scale(0.95)',
-                  color: '#FAFAFA'
+                  backgroundColor: theme.palette.mode === 'dark' ? '#30334e' : '#e7bed8 ',
+                  color: theme.palette.mode === 'dark' ? '#e7bed8' : theme.palette.primary.dark
                 }
               }}
               style={{ width: '100%' }}

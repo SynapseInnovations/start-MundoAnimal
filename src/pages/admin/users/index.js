@@ -16,7 +16,7 @@ import { esES } from '@mui/x-data-grid'
 
 // ** Third Party Components
 import toast from 'react-hot-toast'
-import CreateUserModal from 'src/views/admin/createAccount'
+import CreateAccountModal from 'src/views/admin/createAccount'
 import { motion } from 'framer-motion'
 
 // ** Custom Components
@@ -223,7 +223,7 @@ const UsersManageIndex = () => {
       transition={{ type: 'spring', stiffness: 60, delay: 0.2, duration: 0.1 }}
     >
       <Card>
-        <CreateUserModal
+        <CreateAccountModal
           updateMethod={updateData}
           data={data}
           editTarget={{ variable: editTarget, method: setEditTarget }}

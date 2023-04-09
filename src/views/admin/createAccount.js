@@ -19,8 +19,8 @@ import DialogTitle from '@mui/material/DialogTitle'
 import DialogContent from '@mui/material/DialogContent'
 import { Select, MenuItem } from '@mui/material'
 import AddIcon from '@material-ui/icons/Add'
-import { IconButton, InputAdornment } from '@material-ui/core'
-import { Visibility, VisibilityOff } from '@material-ui/icons'
+import { IconButton, InputAdornment } from '@mui/material'
+import { Visibility, VisibilityOff } from '@mui/icons-material'
 import { useTheme } from '@mui/material/styles'
 import { motion } from 'framer-motion'
 import GroupIcon from '@mui/icons-material/Group'
@@ -201,19 +201,7 @@ const CreateAccountModal = props => {
           </Box>
         </Box>
       </motion.div>
-      <Dialog
-        fullWidth
-        maxWidth='sm'
-        onClose={dialogToggle}
-        open={open}
-        sx={{
-          pb: 12,
-          backgroundColor: 'rgba(300, 0, 0, 0)',
-          backdropFilter: 'blur(8px)',
-          WebkitBackdropFilter: 'blur(2px)',
-          opacity: 0.99
-        }}
-      >
+      <Dialog fullWidth maxWidth='sm' onClose={dialogToggle} open={open}>
         <DialogTitle sx={{ pt: 12, mx: 'auto', textAlign: 'center' }}>
           <Typography variant='h5' component='span' sx={{ mb: 2 }}>
             {edit ? 'Modificar' : 'Agregar'} Usuario
@@ -222,7 +210,7 @@ const CreateAccountModal = props => {
             {edit ? 'Modifica una cuenta en el' : 'Registra una nueva cuenta en el'} inventario de Mundo Animal!
           </Typography>
         </DialogTitle>
-        <DialogContent sx={{ pb: 12, mx: 'auto' }}>
+        <DialogContent>
           <Box
             component='form'
             onSubmit={handleSubmit}

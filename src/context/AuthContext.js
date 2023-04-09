@@ -46,13 +46,15 @@ const AuthProvider = ({ children }) => {
             setUser({ ...response.data.data[0] })
             setLoading(false)
           })
-          .catch(() => {
+          .catch(resp => {
+            console.log(resp)
             localStorage.removeItem('userData')
             localStorage.removeItem('rut')
             localStorage.removeItem('refreshToken')
             localStorage.removeItem('accessToken')
             setUser(null)
             setLoading(false)
+            console.log(authConfig.onTokenExpiration)
             if (authConfig.onTokenExpiration === 'logout' && !router.pathname.includes('login')) {
               router.replace('/login')
             }
@@ -69,7 +71,7 @@ const AuthProvider = ({ children }) => {
     axios
       .post(authConfig.loginEndpoint, params)
       .then(async response => {
-        if(response.data.error){
+        if (response.data.error) {
           return
         }
         params.rememberMe

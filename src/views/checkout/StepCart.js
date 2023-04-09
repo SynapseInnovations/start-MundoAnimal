@@ -537,45 +537,43 @@ const StepCart = ({ handleNext }) => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ type: 'spring', stiffness: 40, delay: 0.4, duration: 0.7 }}
           >
-            <Box sx={{ display: 'flex', ...(breakpointMD ? { justifyContent: 'flex-end' } : {}) }}>
-              <Button
-                sx={{
-                  fontSize: '3rem', // Ajusta el tamaño del texto aquí
-                  borderRadius: '10px',
-                  marginTop: '10px',
-                  marginBottom: '2px',
-                  marginLeft: '8px',
-                  marginRight: '8px',
-                  scrollSnapMarginRight: '10px',
-                  width: '500px',
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
+            <Button
+              sx={{
+                fontSize: '4rem', // Ajusta el tamaño del texto aquí
+                borderRadius: '10px',
+                marginTop: '10px',
+                marginBottom: '2px',
+                marginLeft: '8px',
+                marginRight: '8px',
+                scrollSnapMarginRight: '10px',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                transition: 'all 0.1s ease-in-out',
+                backgroundColor: 'primary',
+                backgroundColor: theme.palette.mode === 'dark' ? '#893350' : '#f9dde6   ',
+                color: theme.palette.mode === 'dark' ? '#f9dde6  ' : '#893350',
+                boxShadow: '4px 4px 20px rgba(0, 0, 0, 0.20)',
+                fontWeight: '600',
+                '&:hover': {
                   transition: 'all 0.1s ease-in-out',
-                  backgroundColor: theme.palette.mode === 'dark' ? '#30334e' : '#e7bed8 ',
-                  color: theme.palette.mode === 'dark' ? '#e7bed8' : theme.palette.primary.dark,
-                  boxShadow: '4px 4px 13px rgba(0, 0, 0, 0.30)',
-                  fontWeight: '600',
-                  border: theme.palette.mode === 'dark' ? 'solid 3px #e7bed8' : 'solid 3px #30334e',
-                  '&:hover': {
-                    transition: 'all 0.1s ease-in-out',
-                    transform: 'scale(0.99)',
-                    boxShadow: '-2px -2px 10px rgba(0, 0, 0, 0.30)',
-                    backgroundColor: theme.palette.mode === 'dark' ? '#30334e' : '#e7bed8 ',
-                    color: theme.palette.mode === 'dark' ? '#e7bed8' : theme.palette.primary.dark
-                  },
-                  '&:active': {
-                    transform: 'scale(0.95)',
-                    color: '#FAFAFA'
-                  }
-                }}
-                fullWidth={!breakpointMD}
-                variant='contained'
-                onClick={handleSubmit}
-              >
-                Vender
-              </Button>
-            </Box>
+                  transform: 'scale(0.99)',
+                  boxShadow: '-2px -2px 10px rgba(0, 0, 0, 0.10)',
+                  backgroundColor: '#f7ccda                  ',
+                  color: '#8e3553'
+                },
+                '&:active': {
+                  transform: 'scale(0.95)',
+                  color: '#FAFAFA'
+                }
+              }}
+              style={{ width: '100%' }}
+              fullWidth={!breakpointMD}
+              variant='contained'
+              onClick={handleSubmit}
+            >
+              Vender
+            </Button>
           </motion.div>
         </Grid>
       </Grid>

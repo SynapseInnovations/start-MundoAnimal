@@ -137,6 +137,14 @@ const LoginPage = () => {
     auth.login({ rut, clave, rememberMe }, err => {
       setLoading(false)
       console.log(err)
+      if (err.code == 'ERR_NETWORK') {
+        setError('rut', {
+          type: 'manual',
+          message: 'Hubo un error de conexión a los datos.'
+        })
+
+        return
+      }
       setError('rut', {
         type: 'manual',
         message: 'Hubo un error al iniciar sesión'

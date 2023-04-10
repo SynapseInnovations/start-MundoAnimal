@@ -76,7 +76,7 @@ const navigation = () => {
     },
     {
       title: 'Finanzas (En Desarrollo)',
-      path: '/home',
+      path: '',
       icon: 'mdi:cash-multiple',
       subject: 'finance',
       action: 'read'

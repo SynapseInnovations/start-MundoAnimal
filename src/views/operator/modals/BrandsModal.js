@@ -139,9 +139,7 @@ const BrandsModal = props => {
                 sx={{
                   color: 'primary.dark',
                   textShadow: '0px 0px 15px rgba(0,0,0,0.5)',
-                  color: theme.palette.mode === 'dark' ? '#fff3fb' : '#3a3b42',
-                  width: '230px',
-                  ml: 1
+                  color: theme.palette.mode === 'dark' ? '#fff3fb' : '#3a3b42'
                 }}
               />
               <Typography

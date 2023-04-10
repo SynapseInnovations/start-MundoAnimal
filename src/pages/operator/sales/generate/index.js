@@ -547,7 +547,7 @@ const NewSaleWindow = () => {
                 justifyContent: 'center',
                 alignItems: 'center',
                 transition: 'all 0.3s ease-in-out',
-                backgroundColor: theme.palette.mode === 'dark' ? '#282a42' : '#efefef',
+                backgroundColor: theme.palette.mode === 'dark' ? '#30334e' : '#efefef',
                 color: theme.palette.mode === 'dark' ? '#e7bed8' : theme.palette.primary.light,
 
                 fontWeight: '700',
@@ -556,7 +556,7 @@ const NewSaleWindow = () => {
                   transition: 'all 0.1s ease-in-out',
                   transform: 'scale(0.98)',
 
-                  backgroundColor: theme.palette.mode === 'dark' ? '#282a42' : '#efefef',
+                  backgroundColor: theme.palette.mode === 'dark' ? '#30334e' : '#efefef',
                   color: theme.palette.mode === 'dark' ? '#e7bed8' : theme.palette.primary.light
                 },
                 '&:active': {

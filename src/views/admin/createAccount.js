@@ -280,55 +280,121 @@ const CreateAccountModal = props => {
               value={direccionUsuario}
               onChange={e => setDireccionUsuario(e.target.value)}
             />
-            <Box sx={{ display: 'flex', alignItems: 'center', mb: '15px' }}>
-              <input type='file' id='product-image' style={{ display: 'none' }} onChange={handleFileInputChange} />
-              <label htmlFor='product-image'>
-                <Button variant='contained' component='span'>
-                  Seleccione una imagen
-                </Button>
-              </label>
-              {thumbnail && (
-                <img src={thumbnail} alt='thumbnail' style={{ marginLeft: '10px', maxHeight: '100px', gap: '16px' }} />
-              )}
-            </Box>
-          </Box>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: '16px', marginTop: '16px' }}>
-            <Typography variant='body1'>Rol:</Typography>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px' }}>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <Select label='Rol' value={rolUsuario || 0} onChange={event => setRolUsuario([event.target.value])}>
-                  <MenuItem value={0}>Seleccionar Rol</MenuItem>
-                  {roles.map(rol => (
-                    <MenuItem key={rol.id} value={rol.id}>
-                      {rol.id} - {rol.nombre}
-                    </MenuItem>
-                  ))}
-                </Select>
+            <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 2fr', alignItems: 'center', gap: '16px' }}>
+              <Box sx={{ height: '200px' }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: '16px', marginTop: '16px' }}>
+                  <Typography variant='body1'>Rol:</Typography>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px' }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <Select
+                        label='Rol'
+                        value={rolUsuario || 0}
+                        onChange={event => setRolUsuario([event.target.value])}
+                      >
+                        <MenuItem value={0}>Seleccionar Rol</MenuItem>
+                        {roles.map(rol => (
+                          <MenuItem key={rol.id} value={rol.id}>
+                            {rol.id} - {rol.nombre}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </Box>
+                  </Box>
+                </Box>
+              </Box>
+              <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mb: '15px' }}>
+                <Box sx={{ marginTop: '20px', marginBottom: '10px' }}>
+                  <label htmlFor='product-image'>
+                    <Button variant='contained' component='span'>
+                      Seleccione una imagen
+                    </Button>
+                  </label>
+                  <input type='file' id='product-image' style={{ display: 'none' }} onChange={handleFileInputChange} />
+                </Box>
+                <Box sx={{ position: 'relative', width: '100%', height: '0', paddingBottom: '5%', marginTop: '10px' }}>
+                  {thumbnail && (
+                    <img
+                      src={thumbnail}
+                      alt='thumbnail'
+                      style={{ marginLeft: '145px', maxHeight: '100px', gap: '16px' }}
+                    />
+                  )}
+                </Box>
               </Box>
             </Box>
-          </Box>{' '}
-          <Button
-            variant='contained'
-            sx={{
-              borderRadius: '16px',
-              marginTop: '50px',
-              width: '600px',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              transition: 'all 0.3s ease-in-out',
-              '&:hover': {
-                transform: 'scale(1.06)',
-                boxShadow: '0px 3px 5px rgba(0, 0, 0, 0.25)'
-              },
-              '&:active': {
-                transform: 'scale(0.95)'
-              }
-            }}
-            onClick={handleSubmit}
+          </Box>
+
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.15, duration: 0.7 }}
           >
-            {edit ? 'Modificar' : 'Registrar'}
-          </Button>
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <Button
+                variant='contained'
+                sx={{
+                  borderRadius: '10px',
+                  marginTop: '22px',
+                  width: '150px',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.25)',
+                  transition: 'all 0.1s ease-in-out',
+                  backgroundColor: '#606470',
+                  color: ' 	#faf0e6',
+                  marginLeft: '150px',
+                  '&:hover': {
+                    transition: 'all 0.1s ease-in-out',
+                    transform: 'scale(0.99)',
+                    boxShadow: '0px -1px 10px rgba(0, 0, 0, 0.20)',
+                    backgroundColor: '#606470',
+                    color: '#ffcfdf',
+                    marginRight: '0'
+                  },
+                  '&:active': {
+                    transform: 'scale(0.97)'
+                  }
+                }}
+                onClick={() => {
+                  editTarget.method(null)
+                  dialogToggle(false)
+                }}
+              >
+                Cancelar
+              </Button>
+              <Button
+                variant='contained'
+                sx={{
+                  borderRadius: '10px',
+                  marginTop: '22px',
+                  width: '150px',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.25)',
+                  transition: 'all 0.1s ease-in-out',
+                  backgroundColor: '#b24368',
+                  color: ' 	#faf0e6',
+                  marginLeft: '10px',
+                  marginRight: '150px',
+                  '&:hover': {
+                    transition: 'all 0.1s ease-in-out',
+                    transform: 'scale(0.99)',
+                    boxShadow: '0px -1px 10px rgba(0, 0, 0, 0.20)',
+                    backgroundColor: '#b24368',
+                    color: '#ffcfdf'
+                  },
+                  '&:active': {
+                    transform: 'scale(0.97)'
+                  }
+                }}
+                onClick={handleSubmit}
+              >
+                {edit ? 'Modificar' : 'Agregar'}
+              </Button>
+            </div>
+          </motion.div>
         </DialogContent>
       </Dialog>
     </>

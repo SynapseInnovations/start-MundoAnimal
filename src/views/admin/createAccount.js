@@ -24,6 +24,7 @@ import { Visibility, VisibilityOff } from '@mui/icons-material'
 import { useTheme } from '@mui/material/styles'
 import { motion } from 'framer-motion'
 import GroupIcon from '@mui/icons-material/Group'
+import { CircularProgress } from '@mui/material'
 
 // ** API Routes
 import APIRoutes from 'src/configs/apiRoutes'
@@ -37,27 +38,30 @@ const CreateAccountModal = props => {
   const [claveUsuario, setClaveUsuario] = useState('')
   const [direccionUsuario, setDireccionUsuario] = useState('')
   const [imagenUsuario, setImagenUsuario] = useState(null)
-  const [thumbnail, setThumbnail] = useState('https://i.imgur.com/EBH7aDM.png')
+  const [imgModificada, setImgModificada] = useState(false)
+  const [thumbnail, setThumbnail] = useState(process.env.NEXT_PUBLIC_IMG_TEMPORAL_REDONDA)
   const [rolUsuario, setRolUsuario] = useState(0)
+  const [edit, setEdit] = useState(false)
+  const [querying, setQuerying] = useState(false)
 
   const roles = [
     { id: 1, nombre: 'Administrador' },
     { id: 2, nombre: 'Operador' },
-    { id: 3, nombre: 'Usuario' }
+    { id: 3, nombre: 'Deshabilitado' }
   ]
 
   // ** Props
   const { value, handleFilter, updateMethod, open, dialogToggle, editTarget, data } = props
 
-  const [edit, setEdit] = useState(false)
-
   useEffect(() => {
+    setImgModificada(false)
     if (editTarget.variable != null) {
       const found = data.find(i => i.rut === editTarget.variable)
       setRutUsuario(found.rut)
       setNombreUsuario(found.nombre)
       setCorreoUsuario(found.correo)
       setDireccionUsuario(found.direccion)
+      setImagenUsuario(null)
       setThumbnail(found.imagen)
       setRolUsuario(found.Rol_id)
       setEdit(true)
@@ -66,7 +70,8 @@ const CreateAccountModal = props => {
       setNombreUsuario('')
       setCorreoUsuario('')
       setDireccionUsuario('')
-      setThumbnail('https://i.imgur.com/EBH7aDM.png')
+      setImagenUsuario(null)
+      setThumbnail(process.env.NEXT_PUBLIC_IMG_TEMPORAL_REDONDA)
       setRolUsuario(0)
       setEdit(false)
     }
@@ -74,6 +79,7 @@ const CreateAccountModal = props => {
 
   // ** Helper Functions
   const handleFileInputChange = e => {
+    setImgModificada(true)
     setImagenUsuario(e.target.files[0])
     const reader = new FileReader()
     reader.onload = () => {
@@ -84,6 +90,7 @@ const CreateAccountModal = props => {
 
   const handleSubmit = e => {
     e.preventDefault()
+    setQuerying(true)
     const formData = new FormData()
     formData.append('rut', rutUsuario)
     formData.append('nombre', nombreUsuario)
@@ -91,7 +98,7 @@ const CreateAccountModal = props => {
     formData.append('clave', claveUsuario)
     formData.append('direccion', direccionUsuario)
     formData.append('imagen', imagenUsuario)
-    formData.append('modificarImagen', true)
+    formData.append('modificarImagen', imgModificada)
     formData.append('Rol_id', rolUsuario)
     const url = edit ? APIRoutes.usuarios.modificar : APIRoutes.usuarios.registrar
 
@@ -107,6 +114,7 @@ const CreateAccountModal = props => {
         toast.success(response.data.msg)
         updateMethod()
         dialogToggle()
+        setQuerying(false)
       })
   }
 
@@ -365,6 +373,7 @@ const CreateAccountModal = props => {
               </Button>
               <Button
                 variant='contained'
+                disabled={querying}
                 sx={{
                   borderRadius: '10px',
                   marginTop: '22px',
@@ -391,7 +400,14 @@ const CreateAccountModal = props => {
                 }}
                 onClick={handleSubmit}
               >
-                {edit ? 'Modificar' : 'Agregar'}
+                {querying ? (
+                  <>
+                    <CircularProgress disableShrink size={20} sx={{ m: 2 }} />{' '}
+                    <Typography>{edit ? 'Modificando' : 'Guardando'}</Typography>
+                  </>
+                ) : (
+                  <>{edit ? 'Modificar' : 'Guardar'}</>
+                )}
               </Button>
             </div>
           </motion.div>

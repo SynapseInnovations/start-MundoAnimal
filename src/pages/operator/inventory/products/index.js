@@ -17,6 +17,7 @@ import Typography from '@mui/material/Typography'
 import { motion } from 'framer-motion'
 import InventoryModal from 'src/views/operator/inventory/InventoryModal'
 import { useTheme } from '@mui/material/styles'
+import CustomAvatar from 'src/@core/components/mui/avatar'
 
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
@@ -31,9 +32,24 @@ const defaultColumns = [
     field: 'nombre',
     minWidth: 500,
     headerName: 'Nombre',
+    hideable: false,
     renderCell: ({ row }) => {
+      /*return (
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+            <Typography noWrap variant='body2' sx={{ color: 'text.primary', fontWeight: 600 }}>
+              {row.nombre}
+            </Typography>
+            <Typography noWrap variant='caption'>
+              {row.codigo_barra}
+            </Typography>
+          </Box>
+        </Box>
+      )*/
+
       return (
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <CustomAvatar src={row.imagen} sx={{ mr: 3, width: '1.875rem', height: '1.875rem' }} />
           <Box sx={{ display: 'flex', flexDirection: 'column' }}>
             <Typography noWrap variant='body2' sx={{ color: 'text.primary', fontWeight: 600 }}>
               {row.nombre}
@@ -162,6 +178,7 @@ const ProductsIndex = () => {
       minWidth: 100,
       sortable: false,
       field: 'actions',
+      hideable: false,
       headerName: 'Acciones',
       headerAlign: 'center',
       align: 'center',

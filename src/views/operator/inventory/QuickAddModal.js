@@ -33,10 +33,12 @@ import { CircularProgress } from '@mui/material'
 import APIRoutes from 'src/configs/apiRoutes'
 import { toast } from 'react-hot-toast'
 
-const CategoriesModal = props => {
+const QuickAddModal = props => {
   // ** Variables
-  const [nombreCategoria, setNombreCategoria] = useState('')
-  const [nombreCategoriaError, setNombreCategoriaError] = useState('')
+  const [codigoBarraProducto, setCodigoBarraProducto] = useState('')
+  const [cantidadProducto, setCantidadProducto] = useState(0)
+  const [codigoBarraError, setCodigoBarraError] = useState('')
+  const [cantidadProductoError, setCantidadProductoError] = useState('')
   const [edit, setEdit] = useState(false)
   const [querying, setQuerying] = useState(false)
 
@@ -44,12 +46,14 @@ const CategoriesModal = props => {
   const { value, handleFilter, editTarget, data, open, dialogToggle, updateMethod } = props
 
   useEffect(() => {
+    setCodigoBarraError(false)
+    setCantidadProductoError(false)
     if (editTarget.variable != null) {
       const found = data.find(i => i.id === editTarget.variable)
-      setNombreCategoria(found.nombre)
+      setCodigoBarraProducto(found.codigo_barra)
       setEdit(true)
     } else {
-      setNombreCategoria('')
+      setCodigoBarraProducto('')
       setEdit(false)
     }
   }, [editTarget.variable, data])
@@ -57,158 +61,84 @@ const CategoriesModal = props => {
   const handleSubmit = event => {
     event.preventDefault()
     setQuerying(true)
-    if (nombreCategoria.trim() === '') {
-      setNombreCategoriaError(true)
+    if (codigoBarraProducto.trim() === '') {
+      setCodigoBarraError(true)
 
       return
     }
+    if (cantidadProducto == 0) {
+      setCodigoBarraError(true)
+
+      return
+    }
+
     const inventoryForm = new FormData()
-    if (edit) {
-      inventoryForm.append('id', editTarget.variable)
-    }
-    inventoryForm.append('nombre', nombreCategoria)
+    inventoryForm.append('codigo_barra', codigoBarraProducto)
+    inventoryForm.append('cantidad', cantidadProducto)
 
-    if (edit) {
-      toast('Modificando...')
-      axios
-        .put(APIRoutes.mantenedor.categoria.modificar, inventoryForm, {
-          headers: {
-            'Content-Type': `multipart/form-data`,
-            token: window.localStorage.getItem(authConfig.storageTokenKeyName)
-          }
-        })
-        .then(async response => {
-          toast.success(response.data.msg)
-          updateMethod()
-          dialogToggle()
-          setNombreCategoriaError(false)
-          setQuerying(false)
-        })
-        .catch(e => {
-          console.log(e.response)
-          setQuerying(false)
-          toast.error('Hubo un error de conexión, intente nuevamente o contacte a soporte.')
-        })
-    } else {
-      toast('Agregando...')
-
-      axios
-        .post(APIRoutes.mantenedor.categoria.registrar, inventoryForm, {
-          headers: {
-            'Content-Type': `multipart/form-data`,
-            token: window.localStorage.getItem(authConfig.storageTokenKeyName)
-          }
-        })
-        .then(async response => {
-          toast.success(response.data.msg)
-          updateMethod()
-          dialogToggle()
-          setQuerying(false)
-          setNombreCategoriaError(false)
-        })
-        .catch(e => {
-          console.log(e.response)
-          setQuerying(false)
-          toast.error('Hubo un error de conexión, intente nuevamente o contacte a soporte.')
-        })
-    }
+    toast('Actualizando...')
+    axios
+      .post(APIRoutes.productos.agregarRapido, inventoryForm, {
+        headers: {
+          'Content-Type': `multipart/form-data`,
+          token: window.localStorage.getItem(authConfig.storageTokenKeyName)
+        }
+      })
+      .then(async response => {
+        toast.success(response.data.msg)
+        updateMethod()
+        dialogToggle()
+        setQuerying(false)
+      })
+      .catch(e => {
+        console.log(e.response)
+        setQuerying(false)
+        toast.error('Hubo un error de conexión, intente nuevamente o contacte a soporte.')
+      })
   }
 
   const theme = useTheme()
 
   return (
     <>
-      <motion.div
-        initial={{ opacity: 0, y: 200 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ type: 'spring', stiffness: 40, delay: 0.4, duration: 0.7 }}
+      <Button
+        style={{ width: '30%' }}
+        variant='contained'
+        sx={{
+          borderRadius: '10px',
+          marginTop: '10px',
+          marginBottom: '10px',
+          marginLeft: '10px',
+          scrollSnapMarginRight: '10px',
+          width: '120px',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          transition: 'all 0.1s ease-in-out',
+          backgroundColor: theme.palette.mode === 'dark' ? '#30334e' : '#e7bed8 ',
+          color: theme.palette.mode === 'dark' ? '#e7bed8' : theme.palette.primary.dark,
+          boxShadow: '4px 4px 8px rgba(0, 0, 0, 0.15)',
+          fontWeight: '600',
+          border: theme.palette.mode === 'dark' ? 'solid 2px #e7bed8' : 'solid 2px #30334e',
+          '&:hover': {
+            transition: 'all 0.1s ease-in-out',
+            transform: 'scale(0.98)',
+            boxShadow: '-2px -2px 10px rgba(0, 0, 0, 0.10)',
+            backgroundColor: theme.palette.mode === 'dark' ? '#30334e' : '#e7bed8 ',
+            color: theme.palette.mode === 'dark' ? '#e7bed8' : theme.palette.primary.dark
+          },
+          '&:active': {
+            transform: 'scale(0.98)'
+          }
+        }}
+        onClick={() => {
+          editTarget.method(null)
+          dialogToggle()
+        }}
       >
-        <Box
-          sx={{
-            p: 3,
-            pb: 0,
-            flexWrap: 'wrap',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            backgroundColor: theme.palette.mode === 'dark' ? theme.palette.primary.dark : '#eaeaea',
-            border: theme.palette.mode === 'dark' ? '4px solid #313451' : '4px solid #F9F4F0',
-            borderRadius: 2
-          }}
-        >
-          <Box
-            sx={{
-              display: 'flex',
-              marginBottom: '10px',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              gap: '0.5rem'
-            }}
-          >
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <CategoryIcon
-                sx={{
-                  color: 'primary.dark',
-                  textShadow: '0px 0px 15px rgba(0,0,0,0.5)',
-                  color: theme.palette.mode === 'dark' ? '#fff3fb' : '#3a3b42',
-                  width: '230px',
-                  ml: 1
-                }}
-              />
-              <Typography
-                variant='h5'
-                sx={{
-                  color: theme.palette.mode === 'dark' ? '#fff3fb' : '#3a3b42',
-                  fontWeight: 600,
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.3rem'
-                }}
-              >
-                Tipo
-              </Typography>
-            </Box>
-            <Button
-              style={{ width: '20%' }}
-              variant='contained'
-              sx={{
-                borderRadius: '10px',
-                padding: '14px',
-                mb: 2,
-                mr: 1,
-                ml: 3,
-                mt: 2,
-                fontSize: '1.6rem',
-                scrollSnapMarginRight: '10px',
-                width: '20px',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                transition: 'all 0.1s ease-in-out',
-                backgroundColor: theme.palette.mode === 'dark' ? '#30334e' : '#efefef',
-                color: theme.palette.mode === 'dark' ? '#e7bed8' : theme.palette.primary.light,
-                boxShadow: '4px 4px 13px rgba(0, 0, 0, 0.15)',
-                fontWeight: '700',
-
-                '&:hover': {
-                  transition: 'all 0.1s ease-in-out',
-                  transform: 'scale(0.97)',
-                  boxShadow: '-2px -2px 15px rgba(0, 0, 0, 0.20)',
-                  backgroundColor: theme.palette.mode === 'dark' ? '#30334e' : '#efefef',
-                  color: theme.palette.mode === 'dark' ? '#e7bed8' : theme.palette.primary.light
-                },
-                '&:active': {
-                  transform: 'scale(0.90)'
-                }
-              }}
-              onClick={() => {
-                editTarget.method(null)
-                dialogToggle()
-              }}
-            >
-              <AddIcon sx={{ marginRight: '3px', fontSize: 'large' }} />
-            </Button>
-          </Box>
-        </Box>
-      </motion.div>
+        <AddIcon sx={{ marginRight: '3px', fontSize: 'large' }} />
+        Añadir unidades
+      </Button>
 
       <Dialog
         fullWidth
@@ -252,13 +182,31 @@ const CategoriesModal = props => {
               }}
             >
               <TextField
-                label='Nombre del Tipo'
+                label='Codigo de Barra producto'
                 fullWidth
-                value={nombreCategoria}
-                onChange={event => setNombreCategoria(event.target.value)}
+                autoFocus
+                type='number'
+                sx={{
+                  marginTop: '5px'
+                }}
+                value={codigoBarraProducto}
+                disabled={edit}
+                onChange={event => setCodigoBarraProducto(event.target.value)}
                 required
-                error={nombreCategoriaError}
-                helperText={nombreCategoriaError ? 'Porfavor ingrese un nombre válido' : ''}
+                error={codigoBarraError}
+                helperText={codigoBarraError ? 'Porfavor ingrese un código de barra' : ''}
+                InputProps={{ inputProps: { min: '0', max: '10', step: '1' } }}
+              />
+              <TextField
+                label='Cantidad del producto'
+                type='number'
+                inputProps={{ min: 0 }}
+                value={cantidadProducto}
+                onChange={event => setCantidadProducto(event.target.value.replace(/\./g, ''))}
+                fullWidth
+                required
+                error={cantidadProductoError}
+                helperText={cantidadProductoError ? 'Porfavor ingrese la cantidad de productos' : ''}
               />
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
@@ -300,7 +248,6 @@ const CategoriesModal = props => {
                     Cancelar
                   </Button>
                   <Button
-                    disabled={querying}
                     variant='contained'
                     sx={{
                       borderRadius: '10px',
@@ -328,14 +275,7 @@ const CategoriesModal = props => {
                     }}
                     onClick={handleSubmit}
                   >
-                    {querying ? (
-                      <>
-                        <CircularProgress disableShrink size={20} sx={{ m: 2 }} />{' '}
-                        <Typography>{edit ? 'Modificando' : 'Guardando'}</Typography>
-                      </>
-                    ) : (
-                      <>{edit ? 'Modificar' : 'Guardar'}</>
-                    )}
+                    {edit ? 'Guardar' : 'Guardar'}
                   </Button>
                 </div>
               </motion.div>
@@ -347,4 +287,4 @@ const CategoriesModal = props => {
   )
 }
 
-export default CategoriesModal
+export default QuickAddModal

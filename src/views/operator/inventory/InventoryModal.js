@@ -29,6 +29,7 @@ import { motion } from 'framer-motion'
 import PetsIcon from '@mui/icons-material/Pets'
 import AssignmentSharp from '@mui/icons-material/AssignmentSharp'
 import { useTheme } from '@mui/material/styles'
+import { CircularProgress } from '@mui/material'
 
 // ** API Routes
 import APIRoutes from 'src/configs/apiRoutes'
@@ -49,7 +50,11 @@ const InventoryModal = props => {
   const [cantidadProductoError, setCantidadProductoError] = useState('')
   const [nombreProductoError, setNombreProductoError] = useState('')
   const [codigoBarraError, setCodigoBarraError] = useState('')
+  const [imagenProducto, setImagenProducto] = useState(null)
+  const [imgModificada, setImgModificada] = useState(false)
+  const [thumbnail, setThumbnail] = useState(process.env.NEXT_PUBLIC_IMG_TEMPORAL_CUADRADA)
   const [edit, setEdit] = useState(false)
+  const [querying, setQuerying] = useState(false)
 
   // ** Props
   const { editTarget, data, open, dialogToggle, updateMethod } = props
@@ -60,55 +65,6 @@ const InventoryModal = props => {
     { id: 1, nombre: 'Comida' },
     { id: 2, nombre: 'Accesorios' }
   ])
-
-  const handleFilter = val => {
-    const filtered = props.data.filter(item => item.nombre.toLowerCase().includes(val.toLowerCase()))
-    setFilteredData(filtered)
-    setCurrentPage(1)
-  }
-
-  const [searchValue, setSearchValue] = useState('')
-
-  const [filteredData, setFilteredData] = useState([])
-
-  const filterData = useCallback(() => {
-    const filtered = data.filter(
-      item =>
-        item.nombre.toLowerCase().includes(searchValue.toLowerCase()) ||
-        item.Categoria.toLowerCase().includes(searchValue.toLowerCase()) ||
-        item.Marca.toLowerCase().includes(searchValue.toLowerCase()) ||
-        item.Mascota.toLowerCase().includes(searchValue.toLowerCase())
-    )
-    setFilteredData(filtered)
-  }, [data, searchValue])
-
-  const handleSearchChange = event => {
-    setSearchValue(event.target.value)
-    filterData()
-  }
-
-  const updateData = () => {
-    axios
-      .get(APIRoutes.productos.leer, {
-        headers: {
-          token: window.localStorage.getItem(authConfig.storageTokenKeyName)
-        }
-      })
-      .then(response => {
-        const responseData = response.data.data
-        if (value !== '') {
-          const filteredData = responseData.filter(item => item.nombre.toLowerCase().includes(value.toLowerCase()))
-          setData(filteredData)
-        } else {
-          setData(responseData)
-        }
-        setLoading(false)
-      })
-      .catch(error => {
-        console.log(error)
-        setLoading(false)
-      })
-  }
 
   const [mascotaDropdown, setMascotaDropdown] = useState([
     { id: 1, nombre: 'Perro' },
@@ -124,6 +80,8 @@ const InventoryModal = props => {
   ])
 
   useEffect(() => {
+    setImgModificada(false)
+    setImagenProducto(null)
     if (editTarget.variable != null) {
       const found = data.find(i => i.codigo_barra === editTarget.variable)
       setCodigoBarraProducto(found.codigo_barra)
@@ -132,6 +90,7 @@ const InventoryModal = props => {
       setCantidadProducto(found.cantidad)
       setPrecioKiloProducto(found.precio_kilo)
       setPrecioUnitarioProducto(found.precio_unitario)
+      setThumbnail(found.imagen)
       setMarcaProducto(found.marca_id)
       setCategoriaProducto(found.categoria_id)
       setMascotaProducto(found.mascota_id)
@@ -143,6 +102,7 @@ const InventoryModal = props => {
       setCantidadProducto(0)
       setPrecioKiloProducto(0)
       setPrecioUnitarioProducto(0)
+      setThumbnail(process.env.NEXT_PUBLIC_IMG_TEMPORAL_CUADRADA)
       setMarcaProducto(1)
       setCategoriaProducto(1)
       setMascotaProducto(1)
@@ -170,8 +130,19 @@ const InventoryModal = props => {
       })
   }, [])
 
+  const handleFileInputChange = e => {
+    setImgModificada(true)
+    setImagenProducto(e.target.files[0])
+    const reader = new FileReader()
+    reader.onload = () => {
+      setThumbnail(reader.result)
+    }
+    reader.readAsDataURL(e.target.files[0])
+  }
+
   const handleSubmit = event => {
     event.preventDefault()
+    setQuerying(true)
     setNombreProductoError(false)
     setCodigoBarraError(false)
     setCantidadProductoError(false)
@@ -210,7 +181,8 @@ const InventoryModal = props => {
     inventoryForm.append('marca_id', marcaProducto)
     inventoryForm.append('fecha', mysqlDate)
     inventoryForm.append('mascota_id', mascotaProducto)
-    inventoryForm.append('imagen', null)
+    inventoryForm.append('imgModificada', imgModificada)
+    inventoryForm.append('imagen', imagenProducto)
 
     if (edit) {
       toast('Modificando...')
@@ -225,9 +197,11 @@ const InventoryModal = props => {
           toast.success(response.data.msg)
           updateMethod()
           dialogToggle()
+          setQuerying(false)
         })
         .catch(e => {
           console.log(e.response)
+          setQuerying(false)
           toast.error('Hubo un error de conexión, intente nuevamente o contacte a soporte.')
         })
     } else {
@@ -243,9 +217,11 @@ const InventoryModal = props => {
           toast.success(response.data.msg)
           updateMethod()
           dialogToggle()
+          setQuerying(false)
         })
         .catch(e => {
           console.log(e.response)
+          setQuerying(false)
           toast.error('Hubo un error de conexión, intente nuevamente o contacte a soporte.')
         })
     }
@@ -464,6 +440,16 @@ const InventoryModal = props => {
                 </Grid>
               </Grid>
 
+              <Box sx={{ display: 'flex', alignItems: 'center', mb: '15px' }}>
+                <input type='file' id='product-image' style={{ display: 'none' }} onChange={handleFileInputChange} />
+                <label htmlFor='product-image'>
+                  <Button variant='contained' component='span'>
+                    Seleccione una imagen
+                  </Button>
+                </label>
+                <img src={thumbnail} alt='thumbnail' style={{ marginLeft: '10px', maxHeight: '100px', gap: '16px' }} />
+              </Box>
+
               <Grid container spacing={2} alignItems='center'>
                 <Grid item xs={4}>
                   <FormControl fullWidth>
@@ -564,6 +550,7 @@ const InventoryModal = props => {
                     Cancelar
                   </Button>
                   <Button
+                    disabled={querying}
                     variant='contained'
                     sx={{
                       borderRadius: '10px',
@@ -591,7 +578,14 @@ const InventoryModal = props => {
                     }}
                     onClick={handleSubmit}
                   >
-                    {edit ? 'Guardar' : 'Guardar'}
+                    {querying ? (
+                      <>
+                        <CircularProgress disableShrink size={20} sx={{ m: 2 }} />{' '}
+                        <Typography>{edit ? 'Modificando' : 'Guardando'}</Typography>
+                      </>
+                    ) : (
+                      <>{edit ? 'Modificar' : 'Guardar'}</>
+                    )}
                   </Button>
                 </div>
               </motion.div>

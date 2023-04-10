@@ -22,6 +22,7 @@ import AddIcon from '@material-ui/icons/Add'
 import { motion } from 'framer-motion'
 import PetsIcon from '@mui/icons-material/Pets'
 import { useTheme } from '@mui/material/styles'
+import { CircularProgress } from '@mui/material'
 
 // ** API Routes
 import APIRoutes from 'src/configs/apiRoutes'
@@ -32,6 +33,7 @@ const BrandsModal = props => {
   const [nombreMarca, setNombreMarca] = useState('')
   const [nombreMarcaError, setNombreMarcaError] = useState('')
   const [edit, setEdit] = useState(false)
+  const [querying, setQuerying] = useState(false)
 
   // ** Props
   const { value, handleFilter, editTarget, data, open, dialogToggle, updateMethod } = props
@@ -59,7 +61,7 @@ const BrandsModal = props => {
       inventoryForm.append('id', editTarget.variable)
     }
     inventoryForm.append('nombre', nombreMarca)
-
+    setQuerying(true)
     if (edit) {
       toast('Modificando...')
       axios
@@ -74,9 +76,11 @@ const BrandsModal = props => {
           updateMethod()
           dialogToggle()
           setNombreMarcaError(false)
+          setQuerying(false)
         })
         .catch(e => {
           console.log(e.response)
+          setQuerying(false)
           toast.error('Hubo un error de conexión, intente nuevamente o contacte a soporte.')
         })
     } else {
@@ -93,9 +97,11 @@ const BrandsModal = props => {
           updateMethod()
           dialogToggle()
           setNombreMarcaError(false)
+          setQuerying(false)
         })
         .catch(e => {
           console.log(e.response)
+          setQuerying(false)
           toast.error('Hubo un error de conexión, intente nuevamente o contacte a soporte.')
         })
     }
@@ -286,6 +292,7 @@ const BrandsModal = props => {
                     Cancelar
                   </Button>
                   <Button
+                    disabled={querying}
                     variant='contained'
                     sx={{
                       borderRadius: '10px',
@@ -313,7 +320,14 @@ const BrandsModal = props => {
                     }}
                     onClick={handleSubmit}
                   >
-                    {edit ? 'Guardar' : 'Guardar'}
+                    {querying ? (
+                      <>
+                        <CircularProgress disableShrink size={20} sx={{ m: 2 }} />{' '}
+                        <Typography>{edit ? 'Modificando' : 'Guardando'}</Typography>
+                      </>
+                    ) : (
+                      <>{edit ? 'Modificar' : 'Guardar'}</>
+                    )}
                   </Button>
                 </div>
               </motion.div>

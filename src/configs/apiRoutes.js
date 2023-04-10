@@ -3,7 +3,8 @@ const productosRoutes = {
   leerHistorial: process.env.NEXT_PUBLIC_API_URL + '/producto/historial',
   modificar: process.env.NEXT_PUBLIC_API_URL + '/producto/modificar',
   registrar: process.env.NEXT_PUBLIC_API_URL + '/producto/agregar',
-  eliminar: process.env.NEXT_PUBLIC_API_URL + '/producto/eliminar' //not working yet
+  eliminar: process.env.NEXT_PUBLIC_API_URL + '/producto/eliminar',
+  agregarRapido: process.env.NEXT_PUBLIC_API_URL + '/producto/agregadoRapido'
 }
 
 const mantenedorRoutes = {
@@ -11,19 +12,19 @@ const mantenedorRoutes = {
     leer: process.env.NEXT_PUBLIC_API_URL + '/categoria',
     modificar: process.env.NEXT_PUBLIC_API_URL + '/categoria/modificar',
     registrar: process.env.NEXT_PUBLIC_API_URL + '/categoria/agregar',
-    eliminar: process.env.NEXT_PUBLIC_API_URL + '/categoria/eliminar' //not working yet
+    eliminar: process.env.NEXT_PUBLIC_API_URL + '/categoria/eliminar'
   },
   marca: {
     leer: process.env.NEXT_PUBLIC_API_URL + '/marca',
     modificar: process.env.NEXT_PUBLIC_API_URL + '/marca/modificar',
     registrar: process.env.NEXT_PUBLIC_API_URL + '/marca/agregar',
-    eliminar: process.env.NEXT_PUBLIC_API_URL + '/marca/eliminar' //not working yet
+    eliminar: process.env.NEXT_PUBLIC_API_URL + '/marca/eliminar'
   },
   mascota: {
     leer: process.env.NEXT_PUBLIC_API_URL + '/mascota',
     modificar: process.env.NEXT_PUBLIC_API_URL + '/mascota/modificar',
     registrar: process.env.NEXT_PUBLIC_API_URL + '/mascota/agregar',
-    eliminar: process.env.NEXT_PUBLIC_API_URL + '/mascota/eliminar' //not working yet
+    eliminar: process.env.NEXT_PUBLIC_API_URL + '/mascota/eliminar'
   },
   leerTodo: process.env.NEXT_PUBLIC_API_URL + '/producto/mantenedor'
 }
@@ -37,7 +38,7 @@ const usuariosRoutes = {
   leer: process.env.NEXT_PUBLIC_API_URL + '/usuario',
   modificar: process.env.NEXT_PUBLIC_API_URL + '/usuario/modificar',
   registrar: process.env.NEXT_PUBLIC_API_URL + '/usuario/crear_cuenta',
-  eliminar: process.env.NEXT_PUBLIC_API_URL + '/usuario/eliminar' //not working yet
+  eliminar: process.env.NEXT_PUBLIC_API_URL + '/usuario/eliminar'
 }
 
 const finanzasRoutes = {

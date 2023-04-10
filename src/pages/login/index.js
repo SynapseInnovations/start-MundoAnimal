@@ -238,7 +238,19 @@ const LoginPage = () => {
                       label='RUT'
                       value={value}
                       onBlur={onBlur}
-                      onChange={onChange}
+                      onChange={e => {
+                        const newValue = e.target.value
+                        if (newValue.length <= 10) {
+                          const rawValue = newValue.replace(/[^0-9kK]/g, '')
+                          const formattedValue = `${rawValue.slice(0, -1)}-${rawValue.slice(-1)}`
+                          const limitedValue = formattedValue.slice(0, 10)
+                          if (limitedValue.length <= 10) {
+                            onChange(limitedValue)
+                          } else {
+                            onChange(limitedValue.slice(0, 10))
+                          }
+                        }
+                      }}
                       error={Boolean(errors.rut)}
                       placeholder='1111111-1'
                     />
@@ -299,29 +311,28 @@ const LoginPage = () => {
                 variant='contained'
                 sx={{
                   borderRadius: '10px',
-                  marginTop: '10px',
-                  marginBottom: '10px',
-                  marginLeft: '10px',
+                  padding: '12px',
+                  fontSize: '2rem',
                   scrollSnapMarginRight: '10px',
-                  width: '368px',
+                  width: '390px',
                   display: 'flex',
                   justifyContent: 'center',
                   alignItems: 'center',
-                  transition: 'all 0.1s ease-in-out',
-                  backgroundColor: theme.palette.mode === 'dark' ? '#30334e' : '#e7bed8 ',
-                  color: theme.palette.mode === 'dark' ? '#e7bed8' : theme.palette.primary.dark,
-                  boxShadow: '4px 4px 8px rgba(0, 0, 0, 0.15)',
-                  fontWeight: '600',
-                  border: theme.palette.mode === 'dark' ? 'solid 2px #e7bed8' : 'solid 2px #30334e',
+                  transition: 'all 0.3s ease-in-out',
+                  backgroundColor: theme.palette.mode === 'dark' ? '#282a42' : '#efefef',
+                  color: theme.palette.mode === 'dark' ? '#e7bed8' : theme.palette.primary.light,
+
+                  fontWeight: '700',
+
                   '&:hover': {
                     transition: 'all 0.1s ease-in-out',
                     transform: 'scale(0.98)',
-                    boxShadow: '-2px -2px 10px rgba(0, 0, 0, 0.10)',
-                    backgroundColor: theme.palette.mode === 'dark' ? '#30334e' : '#e7bed8 ',
-                    color: theme.palette.mode === 'dark' ? '#e7bed8' : theme.palette.primary.dark
+
+                    backgroundColor: theme.palette.mode === 'dark' ? '#282a42' : '#efefef',
+                    color: theme.palette.mode === 'dark' ? '#e7bed8' : theme.palette.primary.light
                   },
                   '&:active': {
-                    transform: 'scale(0.98)'
+                    transform: 'scale(0.90)'
                   }
                 }}
               >

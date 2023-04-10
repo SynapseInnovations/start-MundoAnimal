@@ -266,7 +266,7 @@ const InventoryModal = props => {
             flexWrap: 'wrap',
             alignItems: 'center',
             justifyContent: 'space-between',
-            backgroundColor: theme.palette.mode === 'dark' ? theme.palette.primary.dark : '#e7bed8',
+            backgroundColor: theme.palette.mode === 'dark' ? theme.palette.primary.dark : '#eaeaea',
             border: theme.palette.mode === 'dark' ? '4px solid #313451' : '4px solid #F9F4F0',
             borderRadius: 2
           }}
@@ -284,7 +284,7 @@ const InventoryModal = props => {
               sx={{
                 color: 'primary.dark',
                 textShadow: '0px 0px 15px rgba(0,0,0,0.5)',
-                color: theme.palette.mode === 'dark' ? '#e7bed8' : theme.palette.primary.dark,
+                color: theme.palette.mode === 'dark' ? '#fff3fb' : '#3a3b42',
                 width: '230px',
                 ml: 1
               }}
@@ -292,7 +292,7 @@ const InventoryModal = props => {
             <Typography
               variant='h4'
               sx={{
-                color: theme.palette.mode === 'dark' ? '#e7bed8' : theme.palette.primary.dark,
+                color: theme.palette.mode === 'dark' ? '#fff3fb' : '#3a3b42',
                 fontWeight: 600,
                 textTransform: 'uppercase',
                 letterSpacing: '0.3rem'
@@ -307,33 +307,32 @@ const InventoryModal = props => {
               variant='contained'
               sx={{
                 borderRadius: '10px',
-
                 padding: '14px',
-                mb: 4,
+                mb: 5,
                 mr: 1,
                 ml: 3,
                 mt: 2,
-                fontSize: '1.3rem',
+                fontSize: '1.6rem',
                 scrollSnapMarginRight: '10px',
-                width: '250px',
+                width: '200px',
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
                 transition: 'all 0.1s ease-in-out',
-                backgroundColor: theme.palette.mode === 'dark' ? '#30334e' : '#e7bed8 ',
-                color: theme.palette.mode === 'dark' ? '#e7bed8' : theme.palette.primary.dark,
-                boxShadow: '4px 4px 13px rgba(0, 0, 0, 0.30)',
-                fontWeight: '600',
-                border: theme.palette.mode === 'dark' ? 'solid 2px #e7bed8' : 'solid 2px #30334e',
+                backgroundColor: theme.palette.mode === 'dark' ? '#30334e' : '#efefef',
+                color: theme.palette.mode === 'dark' ? '#e7bed8' : theme.palette.primary.light,
+
+                fontWeight: '700',
+
                 '&:hover': {
                   transition: 'all 0.1s ease-in-out',
-                  transform: 'scale(0.99)',
-                  boxShadow: '-2px -2px 10px rgba(0, 0, 0, 0.30)',
-                  backgroundColor: theme.palette.mode === 'dark' ? '#30334e' : '#e7bed8 ',
-                  color: theme.palette.mode === 'dark' ? '#e7bed8' : theme.palette.primary.dark
+                  transform: 'scale(0.97)',
+                  boxShadow: '-2px -2px 2px rgba(0, 0, 0, 0.20)',
+                  backgroundColor: theme.palette.mode === 'dark' ? '#30334e' : '#efefef',
+                  color: theme.palette.mode === 'dark' ? '#e7bed8' : theme.palette.primary.light
                 },
                 '&:active': {
-                  transform: 'scale(0.98)'
+                  transform: 'scale(0.90)'
                 }
               }}
               onClick={() => {

@@ -13,6 +13,7 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import PersonRemoveIcon from '@mui/icons-material/PersonRemove'
 import PersonAddIcon from '@mui/icons-material/PersonAdd'
 import { esES } from '@mui/x-data-grid'
+import { useTheme } from '@mui/material/styles'
 
 // ** Third Party Components
 import toast from 'react-hot-toast'
@@ -154,6 +155,7 @@ const UsersManageIndex = () => {
       }
     }
   ]
+  const theme = useTheme()
 
   const columns = [
     ...defaultColumns,
@@ -244,6 +246,16 @@ const UsersManageIndex = () => {
           localeText={esES.components.MuiDataGrid.defaultProps.localeText}
           disableSelectionOnClick
           rowsPerPageOptions={[7, 10, 25, 50]}
+          sx={{
+            '& .MuiDataGrid-columnHeaders': {
+              borderRadius: 0,
+              backgroundColor: theme.palette.mode === 'dark' ? theme.palette.primary.dark : theme.palette.primary.light,
+              backgroundColor: theme.palette.mode === 'dark' ? theme.palette.primary.dark : '#eaeaea',
+              border: theme.palette.mode === 'dark' ? '4px solid #30334e' : '4px solid #F9F4F0',
+              color: theme.palette.mode === 'dark' ? '#fff3fb' : '#3a3b42 ',
+              borderRadius: 2
+            }
+          }}
           onPageSizeChange={newPageSize => setPageSize(newPageSize)}
         />
       </Card>

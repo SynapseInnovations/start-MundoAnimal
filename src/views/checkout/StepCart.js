@@ -29,6 +29,7 @@ import { useContext } from 'react'
 import StarIcon from '@mui/icons-material/Star'
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn'
 import { AuthContext } from 'src/context/AuthContext'
+import AddIcon from '@material-ui/icons/Add'
 
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
@@ -349,31 +350,34 @@ const StepCart = ({ handleNext }) => {
                         variant='contained'
                         sx={{
                           borderRadius: '10px',
-                          padding: '10px',
-                          fontSize: { xs: '0.8rem', sm: '1.2rem' },
+                          padding: '9px',
+                          marginLeft: '4px',
+                          fontSize: '0.5rem',
                           scrollSnapMarginRight: '10px',
+                          width: '10px',
                           display: 'flex',
-                          width: { xs: '50px', sm: '130px' },
                           justifyContent: 'center',
                           alignItems: 'center',
                           transition: 'all 0.1s ease-in-out',
-                          backgroundColor: theme.palette.mode === 'dark' ? '#30334e' : '#e7bed8 ',
-                          color: theme.palette.mode === 'dark' ? '#e7bed8' : theme.palette.primary.dark,
-                          boxShadow: '4px 4px 8px rgba(0, 0, 0, 0.15)',
-                          fontWeight: '600',
-                          border: theme.palette.mode === 'dark' ? 'solid 2px #e7bed8' : 'solid 2px #30334e',
+                          backgroundColor: theme.palette.mode === 'dark' ? '#282a42' : '#efefef',
+                          color: theme.palette.mode === 'dark' ? '#e7bed8' : theme.palette.primary.light,
+
+                          fontWeight: '700',
+
                           '&:hover': {
                             transition: 'all 0.1s ease-in-out',
-                            transform: 'scale(0.98)',
-                            boxShadow: '-2px -2px 10px rgba(0, 0, 0, 0.10)',
-                            backgroundColor: theme.palette.mode === 'dark' ? '#30334e' : '#e7bed8 ',
-                            color: theme.palette.mode === 'dark' ? '#e7bed8' : theme.palette.primary.dark
+                            transform: 'scale(0.96)',
+                            boxShadow: '-1px -1px 1px rgba(0, 0, 0, 0.20)',
+                            backgroundColor: theme.palette.mode === 'dark' ? '#282a42' : '#efefef',
+                            color: theme.palette.mode === 'dark' ? '#e7bed8' : theme.palette.primary.light
+                          },
+                          '&:active': {
+                            transform: 'scale(0.90)'
                           }
                         }}
                         onClick={handleAddItemCart}
                       >
-                        <Box display={{ xs: 'none', sm: 'block' }}>Agregar</Box>
-                        <Box display={{ xs: 'block', sm: 'none' }}>+</Box>
+                        <AddIcon fontSize='large' marginRight='5px' />
                       </Button>
                     </Grid>
                   </Grid>
@@ -539,26 +543,30 @@ const StepCart = ({ handleNext }) => {
           >
             <Button
               sx={{
-                fontSize: '3rem',
                 borderRadius: '10px',
-                padding: '10px',
+                padding: '12px',
+
+                fontSize: '3rem',
                 scrollSnapMarginRight: '10px',
+                width: '140px',
                 display: 'flex',
-                width: { xs: '50px', sm: '130px' },
                 justifyContent: 'center',
                 alignItems: 'center',
-                transition: 'all 0.1s ease-in-out',
-                backgroundColor: theme.palette.mode === 'dark' ? '#30334e' : '#e7bed8 ',
-                color: theme.palette.mode === 'dark' ? '#e7bed8' : theme.palette.primary.dark,
-                boxShadow: '4px 4px 8px rgba(0, 0, 0, 0.15)',
+                transition: 'all 0.3s ease-in-out',
+                backgroundColor: theme.palette.mode === 'dark' ? '#282a42' : '#efefef',
+                color: theme.palette.mode === 'dark' ? '#e7bed8' : theme.palette.primary.light,
+
                 fontWeight: '700',
-                border: theme.palette.mode === 'dark' ? 'solid 3px #e7bed8' : 'solid 3px #30334e',
+
                 '&:hover': {
                   transition: 'all 0.1s ease-in-out',
                   transform: 'scale(0.98)',
-                  boxShadow: '-2px -2px 10px rgba(0, 0, 0, 0.10)',
-                  backgroundColor: theme.palette.mode === 'dark' ? '#30334e' : '#e7bed8 ',
-                  color: theme.palette.mode === 'dark' ? '#e7bed8' : theme.palette.primary.dark
+
+                  backgroundColor: theme.palette.mode === 'dark' ? '#282a42' : '#efefef',
+                  color: theme.palette.mode === 'dark' ? '#e7bed8' : theme.palette.primary.light
+                },
+                '&:active': {
+                  transform: 'scale(0.90)'
                 }
               }}
               style={{ width: '100%' }}

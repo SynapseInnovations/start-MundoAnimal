@@ -221,9 +221,11 @@ const CategoriesIndex = () => {
                 sx={{
                   '& .MuiDataGrid-columnHeaders': {
                     borderRadius: 0,
-                    backgroundColor: theme.palette.mode === 'dark' ? theme.palette.primary.dark : '#e7bed8',
-                    border: theme.palette.mode === 'dark' ? '4px solid #313451' : '4px solid #F9F4F0',
-                    color: theme.palette.mode === 'dark' ? '#e7bed8' : theme.palette.primary.dark,
+                    backgroundColor:
+                      theme.palette.mode === 'dark' ? theme.palette.primary.dark : theme.palette.primary.light,
+                    backgroundColor: theme.palette.mode === 'dark' ? theme.palette.primary.dark : '#eaeaea',
+                    border: theme.palette.mode === 'dark' ? '4px solid #30334e' : '4px solid #F9F4F0',
+                    color: theme.palette.mode === 'dark' ? '#fff3fb' : '#3a3b42 ',
                     borderRadius: 2
                   }
                 }}

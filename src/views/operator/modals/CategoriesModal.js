@@ -1,17 +1,17 @@
 // ** React Imports
 import { useState, useEffect } from 'react'
-import FormData from 'form-data'
 
 // ** Axios
 import axios from 'axios'
 
 // ** Config
 import authConfig from 'src/configs/auth'
-import Grid from '@mui/material/Grid'
-import FormControl from '@mui/material/FormControl'
-import InputLabel from '@mui/material/InputLabel'
-import MenuItem from '@mui/material/MenuItem'
-import CategoryIcon from '@mui/icons-material/Category'
+import APIRoutes from 'src/configs/apiRoutes'
+
+// ** Imports
+import { toast } from 'react-hot-toast'
+import { motion } from 'framer-motion'
+import FormData from 'form-data'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
@@ -21,17 +21,10 @@ import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import DialogTitle from '@mui/material/DialogTitle'
 import DialogContent from '@mui/material/DialogContent'
-import InputAdornment from '@mui/material/InputAdornment'
-import { Select } from '@mui/material'
-import AddIcon from '@material-ui/icons/Add'
-import { motion } from 'framer-motion'
-import PetsIcon from '@mui/icons-material/Pets'
+import CircularProgress from '@mui/material/CircularProgress'
 import { useTheme } from '@mui/material/styles'
-import { CircularProgress } from '@mui/material'
-
-// ** API Routes
-import APIRoutes from 'src/configs/apiRoutes'
-import { toast } from 'react-hot-toast'
+import CategoryIcon from '@mui/icons-material/Category'
+import AddIcon from '@mui/icons-material/Add'
 
 const CategoriesModal = props => {
   // ** Variables

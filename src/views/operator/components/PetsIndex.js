@@ -16,7 +16,7 @@ import { DataGrid } from '@mui/x-data-grid'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import { motion } from 'framer-motion'
-import PetsModal from 'src/views/operator/inventory/pets/petsModal'
+import PetsModal from 'src/views/operator/modals/PetsModal'
 
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'

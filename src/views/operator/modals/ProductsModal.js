@@ -24,7 +24,7 @@ import DialogTitle from '@mui/material/DialogTitle'
 import DialogContent from '@mui/material/DialogContent'
 import InputAdornment from '@mui/material/InputAdornment'
 import { Select } from '@mui/material'
-import AddIcon from '@material-ui/icons/Add'
+import AddIcon from '@mui/icons-material/Add'
 import { motion } from 'framer-motion'
 import PetsIcon from '@mui/icons-material/Pets'
 import AssignmentSharp from '@mui/icons-material/AssignmentSharp'
@@ -35,7 +35,7 @@ import { CircularProgress } from '@mui/material'
 import APIRoutes from 'src/configs/apiRoutes'
 import { toast } from 'react-hot-toast'
 
-const InventoryModal = props => {
+const ProductsModal = props => {
   // ** Variables
   const [codigoBarraProducto, setCodigoBarraProducto] = useState('')
   const [nombreProducto, setNombreProducto] = useState('')
@@ -597,4 +597,4 @@ const InventoryModal = props => {
   )
 }
 
-export default InventoryModal
+export default ProductsModal

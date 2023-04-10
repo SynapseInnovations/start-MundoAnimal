@@ -12,6 +12,7 @@ import BlankLayout from 'src/@core/layouts/BlankLayout'
 
 // ** Demo Imports
 import FooterIllustrations from 'src/views/pages/misc/FooterIllustrations'
+import { useAuth } from 'src/hooks/useAuth'
 
 // ** Styled Components
 const BoxWrapper = styled(Box)(({ theme }) => ({
@@ -33,28 +34,30 @@ const Img = styled('img')(({ theme }) => ({
   }
 }))
 
-const Error404 = () => {
+const Error403 = () => {
+  const auth = useAuth()
+
   return (
     <Box className='content-center'>
       <Box sx={{ p: 5, display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
         <BoxWrapper>
-          <Typography variant='h2' sx={{ mb: 1 }}>
-            Página no encontrada ⚠️
+          <Typography variant='h2' sx={{ mb: 2.5 }}>
+            Acceso prohibido 🔐
           </Typography>
-          <Typography variant='h5' sx={{ mb: 2.5, mt: 2 }}>
-            La página a la que intentaste acceder no existe, vuelva al menú principal para continuar navegando por el
-            sistema.
+          <Typography variant='h4' sx={{ mb: 2.5 }}>
+            No tienes permiso para navegar debido a que su cuenta está deshabilitada.
           </Typography>
+          <Typography variant='h5' sx={{ mb: 2.5, fontSize: '1.5rem !important' }}></Typography>
         </BoxWrapper>
-        <Img alt='error-illustration' src='/images/pages/404.png' />
-        <Button href='/' component={Link} variant='contained' sx={{ px: 5.5 }}>
-          Volver
+        <Img alt='error-illustration' src='/images/pages/403.png' />
+        <Button onClick={auth.logout} variant='contained' sx={{ px: 5.5 }}>
+          Cerrar Sesión
         </Button>
       </Box>
-      <FooterIllustrations image='/images/pages/misc-404-object.png' />
+      <FooterIllustrations image='/images/pages/misc-401-object.png' />
     </Box>
   )
 }
-Error404.getLayout = page => <BlankLayout>{page}</BlankLayout>
+Error403.getLayout = page => <BlankLayout>{page}</BlankLayout>
 
-export default Error404
+export default Error403

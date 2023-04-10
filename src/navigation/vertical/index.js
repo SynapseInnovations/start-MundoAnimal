@@ -36,7 +36,7 @@ const navigation = () => {
       icon: 'mdi:tune-variant',
       subject: 'inventory',
       action: 'read',
-      path: '/operator/inventory/mantainer'
+      path: '/operator/inventory/categorization'
     },
     {
       title: 'Historial de Cambios',
@@ -71,15 +71,15 @@ const navigation = () => {
       title: 'Usuarios',
       path: '/admin/users',
       icon: 'mdi:account-multiple',
-      subject:'users',
-      action:'read'
+      subject: 'users',
+      action: 'read'
     },
     {
       title: 'Finanzas (En Desarrollo)',
-      path: '/',
+      path: '/home',
       icon: 'mdi:cash-multiple',
-      subject:'finance',
-      action:'read'
+      subject: 'finance',
+      action: 'read'
 
       // children: [
       //   {

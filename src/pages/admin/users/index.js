@@ -9,7 +9,6 @@ import Typography from '@mui/material/Typography'
 import { DataGrid } from '@mui/x-data-grid'
 import { IconButton } from '@mui/material'
 import EditIcon from '@mui/icons-material/Edit'
-import DeleteIcon from '@mui/icons-material/Delete'
 import PersonRemoveIcon from '@mui/icons-material/PersonRemove'
 import PersonAddIcon from '@mui/icons-material/PersonAdd'
 import { esES } from '@mui/x-data-grid'
@@ -17,7 +16,7 @@ import { useTheme } from '@mui/material/styles'
 
 // ** Third Party Components
 import toast from 'react-hot-toast'
-import CreateAccountModal from 'src/views/admin/createAccount'
+import UserModal from 'src/views/admin/modals/UserModal'
 import { motion } from 'framer-motion'
 
 // ** Custom Components
@@ -84,6 +83,36 @@ const UsersManageIndex = () => {
       .catch(error => {
         console.log(error)
         setLoading(false)
+      })
+  }
+
+  const disableAccount = rut => {
+    axios
+      .delete(APIRoutes.usuarios.eliminar + '/?rut=' + rut, {
+        headers: {
+          token: window.localStorage.getItem(authConfig.storageTokenKeyName)
+        }
+      })
+      .then(response => {
+        updateData()
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }
+
+  const enableAccount = rut => {
+    axios
+      .put(APIRoutes.usuarios.habilitar + '/?rut=' + rut, {
+        headers: {
+          token: window.localStorage.getItem(authConfig.storageTokenKeyName)
+        }
+      })
+      .then(response => {
+        updateData()
+      })
+      .catch(error => {
+        console.log(error)
       })
   }
 
@@ -208,13 +237,20 @@ const UsersManageIndex = () => {
                   }
                 }}
                 onClick={() => {
-                  const shouldDelete = window.confirm('¿Desea eliminar realmente?')
-                  if (shouldDelete) {
-                    handleDeletePermission(params.row.name)
+                  if (params.row.Rol_id == 3) {
+                    const shouldEnable = window.confirm('¿Desea volver a habilitar la cuenta?')
+                    if (shouldEnable) {
+                      enableAccount(params.row.rut)
+                    }
+                  } else {
+                    const shouldDelete = window.confirm('¿Desea desactivar la cuenta?')
+                    if (shouldDelete) {
+                      disableAccount(params.row.rut)
+                    }
                   }
                 }}
               >
-                <PersonRemoveIcon />
+                {params.row.Rol_id == 3 ? <PersonAddIcon /> : <PersonRemoveIcon />}
               </IconButton>
             </Box>
           </>
@@ -230,7 +266,7 @@ const UsersManageIndex = () => {
       transition={{ type: 'spring', stiffness: 60, delay: 0.2, duration: 0.1 }}
     >
       <Card>
-        <CreateAccountModal
+        <UserModal
           updateMethod={updateData}
           data={data}
           editTarget={{ variable: editTarget, method: setEditTarget }}

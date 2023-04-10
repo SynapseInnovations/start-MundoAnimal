@@ -11,7 +11,7 @@ import PageHeader from 'src/@core/components/page-header'
 
 // ** Demo Components Imports
 
-import SalesTable from 'src/views/operator/sales/salesTable'
+import SalesTable from 'src/views/operator/tables/SalesHistoryTable'
 
 const SalesListIndex = () => {
   return (

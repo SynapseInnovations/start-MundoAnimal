@@ -15,7 +15,7 @@ import { DataGrid } from '@mui/x-data-grid'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import { motion } from 'framer-motion'
-import InventoryModal from 'src/views/operator/inventory/InventoryModal'
+import ProductsModal from 'src/views/operator/modals/ProductsModal'
 import { useTheme } from '@mui/material/styles'
 import CustomAvatar from 'src/@core/components/mui/avatar'
 
@@ -288,7 +288,7 @@ const ProductsIndex = () => {
             transition={{ type: 'spring', stiffness: 60, delay: 0.1, duration: 0.6 }}
           >
             <Card>
-              <InventoryModal
+              <ProductsModal
                 updateMethod={updateData}
                 data={data}
                 editTarget={{ variable: editTarget, method: setEditTarget }}

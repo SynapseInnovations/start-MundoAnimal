@@ -1,12 +1,12 @@
-import PetsIndex from 'src/pages/operator/inventory/pets'
-import BrandsIndex from 'src/pages/operator/inventory/brands'
-import CategoriesIndex from 'src/pages/operator/inventory/categories'
+import PetsIndex from 'src/views/operator/components/PetsIndex'
+import BrandsIndex from 'src/views/operator/components/BrandsIndex'
+import CategoriesIndex from 'src/views/operator/components/CategoriesIndex'
 
 // ** MUI Imports
 import Grid from '@mui/material/Grid'
 
-const MantainerIndex = () => {
-  // ** SUPER COMPONENTE XD
+const CategorizationIndex = () => {
+  // ** SUPER MODAL XD
 
   return (
     <Grid container spacing={8}>
@@ -23,9 +23,9 @@ const MantainerIndex = () => {
   )
 }
 
-MantainerIndex.acl = {
+CategorizationIndex.acl = {
   action: 'read',
   subject: 'inventory'
 }
 
-export default MantainerIndex
+export default CategorizationIndex

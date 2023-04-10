@@ -15,7 +15,7 @@ import { DataGrid } from '@mui/x-data-grid'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import { motion } from 'framer-motion'
-import CategoriesModal from 'src/views/operator/inventory/categories/categoriesModal'
+import BrandsModal from 'src/views/operator/modals/BrandsModal'
 import { useTheme } from '@mui/material/styles'
 
 // ** Icon Imports
@@ -23,7 +23,7 @@ import Icon from 'src/@core/components/icon'
 
 // ** API Routes
 import APIRoutes from 'src/configs/apiRoutes'
-import { ToastBar, toast } from 'react-hot-toast'
+import { toast } from 'react-hot-toast'
 
 const defaultColumns = [
   {
@@ -45,7 +45,7 @@ const defaultColumns = [
   }
 ]
 
-const CategoriesIndex = () => {
+const BrandsIndex = () => {
   // ** Table Data
   const [data, setData] = useState([])
   const [value, setValue] = useState('')
@@ -68,7 +68,7 @@ const CategoriesIndex = () => {
 
   const deleteThis = id => {
     axios
-      .delete(APIRoutes.mantenedor.categoria.eliminar + '/?id=' + id, {
+      .delete(APIRoutes.mantenedor.marca.eliminar + '/?id=' + id, {
         headers: {
           token: window.localStorage.getItem(authConfig.storageTokenKeyName)
         }
@@ -81,9 +81,11 @@ const CategoriesIndex = () => {
       })
   }
 
+  const theme = useTheme()
+
   const updateData = () => {
     axios
-      .get(APIRoutes.mantenedor.categoria.leer, {
+      .get(APIRoutes.mantenedor.marca.leer, {
         headers: {
           token: window.localStorage.getItem(authConfig.storageTokenKeyName)
         }
@@ -97,7 +99,6 @@ const CategoriesIndex = () => {
         setLoading(false)
       })
   }
-  const theme = useTheme()
 
   const columns = [
     ...defaultColumns,
@@ -146,11 +147,11 @@ const CategoriesIndex = () => {
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.4, duration: 0.9 }}
+              transition={{ delay: 0.2, duration: 0.2 }}
             >
               <Icon
                 icon='mdi:delete-outline'
-                color=' 	#dc3545'
+                color='#dc3545'
                 sx={{
                   display: 'flex',
                   justifyContent: 'center',
@@ -178,15 +179,6 @@ const CategoriesIndex = () => {
     }
   ]
 
-  const localizedTextsMap = {
-    columnMenuUnsort: 'a',
-    columnMenuSortAsc: 'Classificar por ordem crescente',
-    columnMenuSortDesc: 'Classificar por ordem decrescente',
-    columnMenuFilter: 'Filtro',
-    columnMenuHideColumn: 'Ocultar',
-    columnMenuShowColumns: 'Mostrar colunas'
-  }
-
   return (
     <>
       <Grid container spacing={6}>
@@ -196,10 +188,10 @@ const CategoriesIndex = () => {
           <motion.div
             initial={{ opacity: 0, x: 25 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ type: 'spring', stiffness: 60, delay: 0.4, duration: 0.3 }}
+            transition={{ type: 'spring', stiffness: 60, delay: 0.4, duration: 0.1 }}
           >
             <Card>
-              <CategoriesModal
+              <BrandsModal
                 updateMethod={updateData}
                 data={data}
                 editTarget={{ variable: editTarget, method: setEditTarget }}
@@ -237,9 +229,9 @@ const CategoriesIndex = () => {
     </>
   )
 }
-CategoriesIndex.acl = {
+BrandsIndex.acl = {
   action: 'read',
   subject: 'inventory'
 }
 
-export default CategoriesIndex
+export default BrandsIndex

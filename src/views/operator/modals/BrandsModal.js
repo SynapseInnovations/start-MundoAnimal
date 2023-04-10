@@ -1,8 +1,6 @@
 // ** React Imports
 import { useState, useEffect } from 'react'
 import FormData from 'form-data'
-import BusinessCenterIcon from '@mui/icons-material/BusinessCenter'
-import StarIcon from '@mui/icons-material/Star'
 
 // ** Axios
 import axios from 'axios'
@@ -18,14 +16,14 @@ import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import DialogTitle from '@mui/material/DialogTitle'
 import DialogContent from '@mui/material/DialogContent'
-import AddIcon from '@material-ui/icons/Add'
-import { motion } from 'framer-motion'
-import PetsIcon from '@mui/icons-material/Pets'
+import AddIcon from '@mui/icons-material/Add'
+import StarIcon from '@mui/icons-material/Star'
 import { useTheme } from '@mui/material/styles'
-import { CircularProgress } from '@mui/material'
+import CircularProgress from '@mui/material/CircularProgress'
 
 // ** API Routes
 import APIRoutes from 'src/configs/apiRoutes'
+import { motion } from 'framer-motion'
 import { toast } from 'react-hot-toast'
 
 const BrandsModal = props => {

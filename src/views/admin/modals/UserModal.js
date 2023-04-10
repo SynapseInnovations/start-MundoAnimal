@@ -18,7 +18,7 @@ import Typography from '@mui/material/Typography'
 import DialogTitle from '@mui/material/DialogTitle'
 import DialogContent from '@mui/material/DialogContent'
 import { Select, MenuItem } from '@mui/material'
-import AddIcon from '@material-ui/icons/Add'
+import AddIcon from '@mui/icons-material/Add'
 import { IconButton, InputAdornment } from '@mui/material'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
 import { useTheme } from '@mui/material/styles'
@@ -30,7 +30,7 @@ import { CircularProgress } from '@mui/material'
 import APIRoutes from 'src/configs/apiRoutes'
 import { toast } from 'react-hot-toast'
 
-const CreateAccountModal = props => {
+const UserModal = props => {
   // ** Form States
   const [rutUsuario, setRutUsuario] = React.useState('')
   const [nombreUsuario, setNombreUsuario] = useState('')
@@ -417,4 +417,4 @@ const CreateAccountModal = props => {
   )
 }
 
-export default CreateAccountModal
+export default UserModal

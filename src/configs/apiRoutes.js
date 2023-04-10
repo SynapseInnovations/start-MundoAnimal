@@ -38,7 +38,8 @@ const usuariosRoutes = {
   leer: process.env.NEXT_PUBLIC_API_URL + '/usuario',
   modificar: process.env.NEXT_PUBLIC_API_URL + '/usuario/modificar',
   registrar: process.env.NEXT_PUBLIC_API_URL + '/usuario/crear_cuenta',
-  eliminar: process.env.NEXT_PUBLIC_API_URL + '/usuario/eliminar'
+  eliminar: process.env.NEXT_PUBLIC_API_URL + '/usuario/eliminar',
+  habilitar: process.env.NEXT_PUBLIC_API_URL + '/usuario/habilitar'
 }
 
 const finanzasRoutes = {

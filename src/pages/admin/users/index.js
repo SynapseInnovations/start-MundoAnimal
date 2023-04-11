@@ -30,11 +30,6 @@ import { getInitials } from 'src/@core/utils/get-initials'
 import APIRoutes from 'src/configs/apiRoutes'
 import authConfig from 'src/configs/auth'
 
-const apiConfig = {
-  headers: {
-    token: window.localStorage.getItem(authConfig.storageTokenKeyName)
-  }
-}
 
 const renderClient = params => {
   const { row } = params
@@ -91,7 +86,11 @@ const UsersManageIndex = () => {
   const disableAccount = rut => {
     toast('Deshabilitando...')
     axios
-      .delete(APIRoutes.usuarios.eliminar + `/?rut=${rut}`, null, apiConfig)
+      .delete(APIRoutes.usuarios.eliminar + `/?rut=${rut}`, null, {
+        headers: {
+          token: window.localStorage.getItem(authConfig.storageTokenKeyName)
+        }
+      })
       .then(response => {
         toast.success(response.data.msg)
         updateData()
@@ -104,7 +103,11 @@ const UsersManageIndex = () => {
   const enableAccount = rut => {
     toast('Habilitando...')
     axios
-      .put(APIRoutes.usuarios.habilitar + `/?rut=${rut}`, null, apiConfig)
+      .put(APIRoutes.usuarios.habilitar + `/?rut=${rut}`, null, {
+        headers: {
+          token: window.localStorage.getItem(authConfig.storageTokenKeyName)
+        }
+      })
       .then(response => {
         toast.success(response.data.msg)
         updateData()

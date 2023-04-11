@@ -577,4 +577,9 @@ const NewSaleWindow = () => {
   )
 }
 
+NewSaleWindow.acl = {
+  action: 'read',
+  subject: 'sales'
+}
+
 export default NewSaleWindow

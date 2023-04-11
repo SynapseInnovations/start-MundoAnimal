@@ -16,11 +16,10 @@ const FooterContent = () => {
           ❤️
         </Box>
         {` by `}
-        <Link target='_blank' href='https://pixinvent.com/'>
-        Synapse Innovations
+        <Link target='_blank' href='https://www.youtube.com/watch?v=mCdA4bJAGGk&ab_channel=sweetblue./'>
+          Synapse Innovations
         </Link>
       </Typography>
-
     </Box>
   )
 }

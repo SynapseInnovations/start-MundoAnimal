@@ -18,7 +18,7 @@ const defineRulesFor = (role, subject) => {
     can(['create'], ['sales'])
     can(['update'], ['inventory'])
   } else if (role === 3) {
-    can(['read'], 'acl-page')
+    can(['read'], ['disabled'])
   } else {
     can(['read', 'create', 'update', 'delete'], subject)
   }

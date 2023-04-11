@@ -5,6 +5,7 @@ import { Provider } from 'react-redux'
 import { useAuth } from 'src/hooks/useAuth'
 import authConfig from 'src/configs/auth'
 import axios from 'axios'
+import { esES } from '@mui/x-data-grid'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
@@ -14,20 +15,41 @@ import { DataGrid } from '@mui/x-data-grid'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import { motion } from 'framer-motion'
-import InventoryModal from 'src/views/operator/inventory/InventoryModal'
+import ProductsModal from 'src/views/operator/modals/ProductsModal'
+import { useTheme } from '@mui/material/styles'
+import CustomAvatar from 'src/@core/components/mui/avatar'
 
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
+
+// ** API Routes
+import APIRoutes from 'src/configs/apiRoutes'
+import { toast } from 'react-hot-toast'
 
 const defaultColumns = [
   {
     flex: 0.4,
     field: 'nombre',
     minWidth: 500,
-    headerName: 'Nombre del Producto',
+    headerName: 'Nombre',
+    hideable: false,
     renderCell: ({ row }) => {
+      /*return (
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+            <Typography noWrap variant='body2' sx={{ color: 'text.primary', fontWeight: 600 }}>
+              {row.nombre}
+            </Typography>
+            <Typography noWrap variant='caption'>
+              {row.codigo_barra}
+            </Typography>
+          </Box>
+        </Box>
+      )*/
+
       return (
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <CustomAvatar src={row.imagen} sx={{ mr: 3, width: '1.875rem', height: '1.875rem' }} />
           <Box sx={{ display: 'flex', flexDirection: 'column' }}>
             <Typography noWrap variant='body2' sx={{ color: 'text.primary', fontWeight: 600 }}>
               {row.nombre}
@@ -43,11 +65,11 @@ const defaultColumns = [
   {
     flex: 0.1,
     minWidth: 100,
-    field: 'unidades',
+    field: 'cantidad',
     headerName: 'Disponible',
     headerAlign: 'center',
     align: 'center',
-    renderCell: ({ row }) => <Typography>{row.unidades}</Typography>
+    renderCell: ({ row }) => <Typography>{row.cantidad}</Typography>
   },
   {
     flex: 0.1,
@@ -56,7 +78,7 @@ const defaultColumns = [
     headerName: '$ Kilo',
     headerAlign: 'center',
     align: 'center',
-    renderCell: ({ row }) => <Typography>$ {row.precio_kilo}</Typography>
+    renderCell: ({ row }) => <Typography>$ {parseFloat(row.precio_kilo).toLocaleString()}</Typography>
   },
   {
     flex: 0.1,
@@ -65,7 +87,7 @@ const defaultColumns = [
     headerName: '$ Unitario',
     headerAlign: 'center',
     align: 'center',
-    renderCell: ({ row }) => <Typography>$ {row.precio_unitario}</Typography>
+    renderCell: ({ row }) => <Typography>$ {parseFloat(row.precio_unitario).toLocaleString()}</Typography>
   },
   {
     flex: 0.1,
@@ -84,6 +106,15 @@ const defaultColumns = [
     headerAlign: 'center',
     align: 'center',
     renderCell: ({ row }) => <Typography>{row.Marca}</Typography>
+  },
+  {
+    flex: 0.1,
+    minWidth: 100,
+    field: 'Mascota',
+    headerName: 'Mascota',
+    headerAlign: 'center',
+    align: 'center',
+    renderCell: ({ row }) => <Typography>{row.Mascota}</Typography>
   }
 ]
 
@@ -108,9 +139,26 @@ const ProductsIndex = () => {
     setValue(val)
   }, [])
 
+  const deleteThis = codigo_barra => {
+    toast('Eliminando...')
+    axios
+      .delete(APIRoutes.productos.eliminar + '/?codigo_barra=' + codigo_barra, {
+        headers: {
+          token: window.localStorage.getItem(authConfig.storageTokenKeyName)
+        }
+      })
+      .then(response => {
+        toast.success(response.data.msg)
+        updateData()
+      })
+      .catch(e => {
+        toast.error(e.response.data.msg)
+      })
+  }
+
   const updateData = () => {
     axios
-      .get('http://localhost:10905/producto/', {
+      .get(APIRoutes.productos.leer, {
         headers: {
           token: window.localStorage.getItem(authConfig.storageTokenKeyName)
         }
@@ -132,6 +180,7 @@ const ProductsIndex = () => {
       minWidth: 100,
       sortable: false,
       field: 'actions',
+      hideable: false,
       headerName: 'Acciones',
       headerAlign: 'center',
       align: 'center',
@@ -150,7 +199,7 @@ const ProductsIndex = () => {
             >
               <Icon
                 icon='mdi:pencil-outline'
-                color='#eec1ad'
+                color='#ffc107'
                 sx={{
                   display: 'flex',
                   justifyContent: 'center',
@@ -175,7 +224,7 @@ const ProductsIndex = () => {
             >
               <Icon
                 icon='mdi:delete-outline'
-                color=' 	#e35d6a'
+                color=' 	#dc3545'
                 sx={{
                   display: 'flex',
                   justifyContent: 'center',
@@ -192,7 +241,7 @@ const ProductsIndex = () => {
                 onClick={() => {
                   const shouldDelete = window.confirm('¿Desea eliminar realmente?')
                   if (shouldDelete) {
-                    handleDeletePermission(params.row.name)
+                    deleteThis(row.codigo_barra)
                   }
                 }}
               />
@@ -202,6 +251,32 @@ const ProductsIndex = () => {
       )
     }
   ]
+  const theme = useTheme()
+
+  const localizedTextsMap = {
+    columnMenuUnsort: 'No Clasificado',
+    columnMenuSortAsc: 'Ordenar de Mayor a Menor',
+    columnMenuSortDesc: 'Cordenar de Menor a Mayor',
+    columnMenuFilter: 'Búsqueda',
+    columnMenuHideColumn: 'Ocultar Columna',
+    columnMenuShowColumns: 'Mostrar Columnas',
+    filterPanelOperators: 'Fitlro',
+    filterPanelInputLabel: 'Buscar',
+    filterPanelInputPlaceholder: 'Dog Chow...',
+    filterPanelColumns: 'Columna',
+    filterOperatorContains: 'Nombre',
+    filterOperatorEquals: 'Igual',
+    filterOperatorStartsWith: 'Empieza por',
+    filterOperatorEndsWith: 'Termina por',
+    filterOperatorIs: 'Es',
+    filterOperatorIsEmpty: 'Está vacío',
+    filterOperatorIsNotEmpty: 'No está vacío',
+    filterOperatorIsAnyOf: 'Es alguno de',
+    columnsPanelTextFieldLabel: 'Buscar Columna',
+    columnsPanelShowAllButton: 'Mostrar Todas',
+    columnsPanelHideAllButton: 'Ocultar Todas',
+    columnsPanelTextFieldPlaceholder: 'Nombre de Columna'
+  }
 
   return (
     <>
@@ -210,12 +285,12 @@ const ProductsIndex = () => {
 
         <Grid item xs={12}>
           <motion.div
-            initial={{ opacity: 0, x: 25 }}
+            initial={{ opacity: 0, x: 250 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ type: 'spring', stiffness: 60, delay: 0.55, duration: 0.1 }}
+            transition={{ type: 'spring', stiffness: 60, delay: 0.1, duration: 0.6 }}
           >
             <Card>
-              <InventoryModal
+              <ProductsModal
                 updateMethod={updateData}
                 data={data}
                 editTarget={{ variable: editTarget, method: setEditTarget }}
@@ -233,13 +308,16 @@ const ProductsIndex = () => {
                 disableSelectionOnClick
                 rowsPerPageOptions={[10, 25, 50, 100]}
                 onPageSizeChange={newPageSize => setPageSize(newPageSize)}
+                localeText={esES.components.MuiDataGrid.defaultProps.localeText}
                 sx={{
                   '& .MuiDataGrid-columnHeaders': {
                     borderRadius: 0,
-                    backgroundColor: '#f4bbce                    ',
-                    color: '#5b2235                    ',
-                    border: '4px solid #F9F4F0',
-                    borderRadius: '12px'
+                    backgroundColor:
+                      theme.palette.mode === 'dark' ? theme.palette.primary.dark : theme.palette.primary.light,
+                    backgroundColor: theme.palette.mode === 'dark' ? theme.palette.primary.dark : '#eaeaea',
+                    border: theme.palette.mode === 'dark' ? '4px solid #30334e' : '4px solid #F9F4F0',
+                    color: theme.palette.mode === 'dark' ? '#fff3fb' : '#3a3b42 ',
+                    borderRadius: 2
                   }
                 }}
               />
@@ -249,6 +327,11 @@ const ProductsIndex = () => {
       </Grid>
     </>
   )
+}
+
+ProductsIndex.acl = {
+  action: 'read',
+  subject: 'inventory'
 }
 
 export default ProductsIndex

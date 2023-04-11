@@ -123,18 +123,18 @@ const UserDropdown = props => {
             </Box>
           </Box>
         </Box>
-        <Divider sx={{ mt: '0 !important' }} />
+
         <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
-          <Box sx={styles}>
+          {/* <Box sx={styles}>
             <Icon icon='mdi:account-outline' />
             Perfil
-          </Box>
+          </Box> */}
         </MenuItem>
         <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
-          <Box sx={styles}>
+          {/* <Box sx={styles}>
             <Icon icon='mdi:help-circle-outline' />
             Preguntas Frecuentes
-          </Box>
+          </Box> */}
         </MenuItem>
         <Divider />
         <MenuItem

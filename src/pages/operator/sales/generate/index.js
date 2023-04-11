@@ -16,7 +16,7 @@ import RadioGroup from '@mui/material/RadioGroup'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import FormControl from '@mui/material/FormControl'
 import Autocomplete from '@mui/material/Autocomplete'
-import { InputLabel, Select, MenuItem, Card } from '@mui/material'
+import { InputLabel, Select, MenuItem, Card, CircularProgress } from '@mui/material'
 import toast from 'react-hot-toast'
 import { useEffect, useState } from 'react'
 import authConfig from 'src/configs/auth'
@@ -82,6 +82,7 @@ const NewSaleWindow = () => {
   const [searchResult, setSearchResult] = useState([])
   const [searchSelected, setSearchSelected] = useState('')
   const { user } = useContext(AuthContext)
+  const [querying, setQuerying] = useState(false)
 
   const handleSubmit = e => {
     if (cart.length == 0) {
@@ -90,6 +91,8 @@ const NewSaleWindow = () => {
       return
     }
     toast('Registrando venta...')
+
+    setQuerying(true)
     e.preventDefault()
     const newSaleForm = new FormData()
     const now = new Date()
@@ -103,11 +106,12 @@ const NewSaleWindow = () => {
     axios
       .post(APIRoutes.ventas.registrar, newSaleForm, {
         headers: {
-          'Content-Type': `multipart/form-data`,
-          token: window.localStorage.getItem(authConfig.storageTokenKeyName)
+          token: window.localStorage.getItem(authConfig.storageTokenKeyName),
+          'Content-Type': `multipart/form-data`
         }
       })
       .then(async response => {
+        setQuerying(false)
         toast.success(response.data.msg)
         setCart([])
         setTotal(0)
@@ -118,8 +122,15 @@ const NewSaleWindow = () => {
         updateData()
       })
       .catch(e => {
-        console.log(e.response)
-        toast.error('Hubo un error de conexión, intente nuevamente o contacte a soporte.')
+        setQuerying(false)
+        console.log(e)
+        if (e.code == 'ERR_NETWORK') {
+          toast.error('Error de conexión.')
+
+          return
+        }
+
+        toast.error(e.response.data.msg)
       })
   }
 
@@ -536,6 +547,7 @@ const NewSaleWindow = () => {
             transition={{ type: 'spring', stiffness: 40, delay: 0.4, duration: 0.7 }}
           >
             <Button
+              disabled={querying}
               sx={{
                 borderRadius: '10px',
                 padding: '12px',
@@ -568,7 +580,13 @@ const NewSaleWindow = () => {
               variant='contained'
               onClick={handleSubmit}
             >
-              Vender
+              {querying ? (
+                <>
+                  <CircularProgress disableShrink size={20} sx={{ m: 7 }} /> <Typography>Vendiendo...</Typography>
+                </>
+              ) : (
+                <>Vender</>
+              )}
             </Button>
           </motion.div>
         </Grid>

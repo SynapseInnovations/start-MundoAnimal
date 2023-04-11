@@ -87,6 +87,12 @@ const PetsModal = props => {
         })
         .catch(e => {
           setQuerying(false)
+          if (e.code == 'ERR_NETWORK') {
+            toast.error('Error de conexión.')
+
+            return
+          }
+
           toast.error(e.response.data.msg)
         })
     } else {
@@ -106,6 +112,12 @@ const PetsModal = props => {
         })
         .catch(e => {
           setQuerying(false)
+          if (e.code == 'ERR_NETWORK') {
+            toast.error('Error de conexión.')
+
+            return
+          }
+
           toast.error(e.response.data.msg)
         })
     }

@@ -89,7 +89,7 @@ const UsersManageIndex = () => {
   const disableAccount = rut => {
     toast('Deshabilitando...')
     axios
-      .delete(APIRoutes.usuarios.eliminar + `/?rut=${rut}`, null, {
+      .delete(APIRoutes.usuarios.eliminar + `/?rut=${rut}`, {
         headers: {
           token: window.localStorage.getItem(authConfig.storageTokenKeyName)
         }
@@ -98,7 +98,7 @@ const UsersManageIndex = () => {
         toast.success(response.data.msg)
         updateData()
       })
-      .catch(error => {
+      .catch(e => {
         toast.error(e.response.data.msg)
       })
   }
@@ -115,7 +115,7 @@ const UsersManageIndex = () => {
         toast.success(response.data.msg)
         updateData()
       })
-      .catch(error => {
+      .catch(e => {
         toast.error(e.response.data.msg)
       })
   }

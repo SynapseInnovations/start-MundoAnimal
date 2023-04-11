@@ -46,10 +46,10 @@ const ProductsModal = props => {
   const [marcaProducto, setMarcaProducto] = useState('')
   const [categoriaProducto, setCategoriaProducto] = useState('')
   const [mascotaProducto, setMascotaProducto] = useState('')
-  const [precioUnitarioError, setPrecioUnitarioError] = useState('')
-  const [cantidadProductoError, setCantidadProductoError] = useState('')
-  const [nombreProductoError, setNombreProductoError] = useState('')
-  const [codigoBarraError, setCodigoBarraError] = useState('')
+  const [precioUnitarioError, setPrecioUnitarioError] = useState(false)
+  const [cantidadProductoError, setCantidadProductoError] = useState(false)
+  const [nombreProductoError, setNombreProductoError] = useState(false)
+  const [codigoBarraError, setCodigoBarraError] = useState(false)
   const [imagenProducto, setImagenProducto] = useState(null)
   const [imgModificada, setImgModificada] = useState(false)
   const [thumbnail, setThumbnail] = useState(process.env.NEXT_PUBLIC_IMG_TEMPORAL_CUADRADA)
@@ -206,6 +206,12 @@ const ProductsModal = props => {
         })
         .catch(e => {
           setQuerying(false)
+          if (e.code == 'ERR_NETWORK') {
+            toast.error('Error de conexión.')
+
+            return
+          }
+
           toast.error(e.response.data.msg)
         })
     } else {
@@ -225,6 +231,12 @@ const ProductsModal = props => {
         })
         .catch(e => {
           setQuerying(false)
+          if (e.code == 'ERR_NETWORK') {
+            toast.error('Error de conexión.')
+
+            return
+          }
+
           toast.error(e.response.data.msg)
         })
     }

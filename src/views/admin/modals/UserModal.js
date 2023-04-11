@@ -121,9 +121,14 @@ const UserModal = props => {
           setQuerying(false)
         })
         .catch(e => {
-          console.log(e.response)
           setQuerying(false)
-          toast.error('Hubo un error de conexión, intente nuevamente o contacte a soporte.')
+          if (e.code == 'ERR_NETWORK') {
+            toast.error('Error de conexión.')
+
+            return
+          }
+
+          toast.error(e.response.data.msg)
         })
     } else {
       toast('Agregando...')
@@ -144,6 +149,12 @@ const UserModal = props => {
         })
         .catch(e => {
           setQuerying(false)
+          if (e.code == 'ERR_NETWORK') {
+            toast.error('Error de conexión.')
+
+            return
+          }
+
           toast.error(e.response.data.msg)
         })
     }

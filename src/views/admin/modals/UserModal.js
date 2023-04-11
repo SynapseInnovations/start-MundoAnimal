@@ -54,6 +54,7 @@ const UserModal = props => {
   const { value, handleFilter, updateMethod, open, dialogToggle, editTarget, data } = props
 
   useEffect(() => {
+    setQuerying(false)
     setImgModificada(false)
     if (editTarget.variable != null) {
       const found = data.find(i => i.rut === editTarget.variable)
@@ -61,6 +62,7 @@ const UserModal = props => {
       setNombreUsuario(found.nombre)
       setCorreoUsuario(found.correo)
       setDireccionUsuario(found.direccion)
+      setClaveUsuario('')
       setImagenUsuario(null)
       setThumbnail(found.imagen)
       setRolUsuario(found.Rol_id)
@@ -70,6 +72,7 @@ const UserModal = props => {
       setNombreUsuario('')
       setCorreoUsuario('')
       setDireccionUsuario('')
+      setClaveUsuario('')
       setImagenUsuario(null)
       setThumbnail(process.env.NEXT_PUBLIC_IMG_TEMPORAL_REDONDA)
       setRolUsuario(0)
@@ -100,22 +103,50 @@ const UserModal = props => {
     formData.append('imagen', imagenUsuario)
     formData.append('modificarImagen', imgModificada)
     formData.append('Rol_id', rolUsuario)
-    const url = edit ? APIRoutes.usuarios.modificar : APIRoutes.usuarios.registrar
 
-    axios
-      .post(url, formData, {
-        headers: {
-          'Content-Type': `multipart/form-data; boundary=${formData._boundary}`,
-          token: window.localStorage.getItem(authConfig.storageTokenKeyName)
-        }
-      })
-      .then(async response => {
-        editTarget.method(null)
-        toast.success(response.data.msg)
-        updateMethod()
-        dialogToggle()
-        setQuerying(false)
-      })
+    if (edit) {
+      toast('Modificando...')
+      axios
+        .put(APIRoutes.usuarios.modificar, formData, {
+          headers: {
+            'Content-Type': `multipart/form-data; boundary=${formData._boundary}`,
+            token: window.localStorage.getItem(authConfig.storageTokenKeyName)
+          }
+        })
+        .then(async response => {
+          editTarget.method(null)
+          toast.success(response.data.msg)
+          updateMethod()
+          dialogToggle()
+          setQuerying(false)
+        })
+        .catch(e => {
+          console.log(e.response)
+          setQuerying(false)
+          toast.error('Hubo un error de conexión, intente nuevamente o contacte a soporte.')
+        })
+    } else {
+      toast('Agregando...')
+
+      axios
+        .post(APIRoutes.usuarios.registrar, formData, {
+          headers: {
+            'Content-Type': `multipart/form-data; boundary=${formData._boundary}`,
+            token: window.localStorage.getItem(authConfig.storageTokenKeyName)
+          }
+        })
+        .then(async response => {
+          editTarget.method(null)
+          toast.success(response.data.msg)
+          updateMethod()
+          dialogToggle()
+          setQuerying(false)
+        })
+        .catch(e => {
+          setQuerying(false)
+          toast.error(e.response.data.msg)
+        })
+    }
   }
 
   const [showPassword, setShowPassword] = useState(false)

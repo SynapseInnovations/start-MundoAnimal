@@ -37,6 +37,7 @@ const CategoriesModal = props => {
   const { value, handleFilter, editTarget, data, open, dialogToggle, updateMethod } = props
 
   useEffect(() => {
+    setQuerying(false)
     if (editTarget.variable != null) {
       const found = data.find(i => i.id === editTarget.variable)
       setNombreCategoria(found.nombre)
@@ -52,6 +53,7 @@ const CategoriesModal = props => {
     setQuerying(true)
     if (nombreCategoria.trim() === '') {
       setNombreCategoriaError(true)
+      setQuerying(false)
 
       return
     }
@@ -78,9 +80,8 @@ const CategoriesModal = props => {
           setQuerying(false)
         })
         .catch(e => {
-          console.log(e.response)
           setQuerying(false)
-          toast.error('Hubo un error de conexión, intente nuevamente o contacte a soporte.')
+          toast.error(e.response.data.msg)
         })
     } else {
       toast('Agregando...')
@@ -100,9 +101,8 @@ const CategoriesModal = props => {
           setNombreCategoriaError(false)
         })
         .catch(e => {
-          console.log(e.response)
           setQuerying(false)
-          toast.error('Hubo un error de conexión, intente nuevamente o contacte a soporte.')
+          toast.error(e.response.data.msg)
         })
     }
   }

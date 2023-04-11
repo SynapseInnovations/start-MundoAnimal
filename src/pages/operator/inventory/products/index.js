@@ -140,6 +140,7 @@ const ProductsIndex = () => {
   }, [])
 
   const deleteThis = codigo_barra => {
+    toast('Eliminando...')
     axios
       .delete(APIRoutes.productos.eliminar + '/?codigo_barra=' + codigo_barra, {
         headers: {
@@ -147,10 +148,11 @@ const ProductsIndex = () => {
         }
       })
       .then(response => {
+        toast.success(response.data.msg)
         updateData()
       })
-      .catch(error => {
-        console.log(error)
+      .catch(e => {
+        toast.error(e.response.data.msg)
       })
   }
 

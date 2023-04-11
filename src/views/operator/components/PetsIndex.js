@@ -67,6 +67,7 @@ const PetsIndex = () => {
   }, [])
 
   const deleteThis = id => {
+    toast('Eliminando...')
     axios
       .delete(APIRoutes.mantenedor.mascota.eliminar + '/?id=' + id, {
         headers: {
@@ -74,10 +75,11 @@ const PetsIndex = () => {
         }
       })
       .then(response => {
+        toast.success(response.data.msg)
         updateData()
       })
-      .catch(error => {
-        console.log(error)
+      .catch(e => {
+        toast.error(e.response.data.msg)
       })
   }
 

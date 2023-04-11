@@ -30,6 +30,12 @@ import { getInitials } from 'src/@core/utils/get-initials'
 import APIRoutes from 'src/configs/apiRoutes'
 import authConfig from 'src/configs/auth'
 
+const apiConfig = {
+  headers: {
+    token: window.localStorage.getItem(authConfig.storageTokenKeyName)
+  }
+}
+
 const renderClient = params => {
   const { row } = params
   const stateNum = Math.floor(Math.random() * 3)
@@ -71,11 +77,7 @@ const UsersManageIndex = () => {
 
   const updateData = () => {
     axios
-      .get(APIRoutes.usuarios.leer, {
-        headers: {
-          token: window.localStorage.getItem(authConfig.storageTokenKeyName)
-        }
-      })
+      .get(APIRoutes.usuarios.leer, apiConfig)
       .then(response => {
         setData(response.data.data)
         setLoading(false)
@@ -87,32 +89,28 @@ const UsersManageIndex = () => {
   }
 
   const disableAccount = rut => {
+    toast('Deshabilitando...')
     axios
-      .delete(APIRoutes.usuarios.eliminar + '/?rut=' + rut, {
-        headers: {
-          token: window.localStorage.getItem(authConfig.storageTokenKeyName)
-        }
-      })
+      .delete(APIRoutes.usuarios.eliminar + `/?rut=${rut}`, null, apiConfig)
       .then(response => {
+        toast.success(response.data.msg)
         updateData()
       })
       .catch(error => {
-        console.log(error)
+        toast.error(e.response.data.msg)
       })
   }
 
   const enableAccount = rut => {
+    toast('Habilitando...')
     axios
-      .put(APIRoutes.usuarios.habilitar + '/?rut=' + rut, {
-        headers: {
-          token: window.localStorage.getItem(authConfig.storageTokenKeyName)
-        }
-      })
+      .put(APIRoutes.usuarios.habilitar + `/?rut=${rut}`, null, apiConfig)
       .then(response => {
+        toast.success(response.data.msg)
         updateData()
       })
       .catch(error => {
-        console.log(error)
+        toast.error(e.response.data.msg)
       })
   }
 

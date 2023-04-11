@@ -43,6 +43,7 @@ const PetsModal = props => {
   const { value, handleFilter, editTarget, data, open, dialogToggle, updateMethod } = props
 
   useEffect(() => {
+    setQuerying(false)
     if (editTarget.variable != null) {
       const found = data.find(i => i.id === editTarget.variable)
       setNombreMascota(found.nombre)
@@ -58,6 +59,7 @@ const PetsModal = props => {
     setQuerying(true)
     if (nombreMascota.trim() === '') {
       setNombreMascotaError(true)
+      setQuerying(false)
 
       return
     }
@@ -84,9 +86,8 @@ const PetsModal = props => {
           setQuerying(false)
         })
         .catch(e => {
-          console.log(e.response)
           setQuerying(false)
-          toast.error('Hubo un error de conexión, intente nuevamente o contacte a soporte.')
+          toast.error(e.response.data.msg)
         })
     } else {
       toast('Agregando...')
@@ -102,12 +103,10 @@ const PetsModal = props => {
           updateMethod()
           dialogToggle()
           setQuerying(false)
-          setNombreMascotaError(false)
         })
         .catch(e => {
-          console.log(e.response)
           setQuerying(false)
-          toast.error('Hubo un error de conexión, intente nuevamente o contacte a soporte.')
+          toast.error(e.response.data.msg)
         })
     }
   }

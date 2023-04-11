@@ -67,6 +67,7 @@ const CategoriesIndex = () => {
   }, [])
 
   const deleteThis = id => {
+    toast('Eliminando...')
     axios
       .delete(APIRoutes.mantenedor.categoria.eliminar + '/?id=' + id, {
         headers: {
@@ -74,10 +75,11 @@ const CategoriesIndex = () => {
         }
       })
       .then(response => {
+        toast.success(response.data.msg)
         updateData()
       })
       .catch(error => {
-        console.log(error)
+        toast.error(e.response.data.msg)
       })
   }
 
@@ -92,9 +94,10 @@ const CategoriesIndex = () => {
         setData(response.data.data)
         setLoading(false)
       })
-      .catch(error => {
-        console.log(error)
+      .catch(e => {
+        console.log(e)
         setLoading(false)
+        toast.error(e.response.data.msg)
       })
   }
   const theme = useTheme()

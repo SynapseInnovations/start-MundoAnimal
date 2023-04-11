@@ -37,6 +37,7 @@ const BrandsModal = props => {
   const { value, handleFilter, editTarget, data, open, dialogToggle, updateMethod } = props
 
   useEffect(() => {
+    setQuerying(false)
     if (editTarget.variable != null) {
       const found = data.find(i => i.id === editTarget.variable)
       setNombreMarca(found.nombre)
@@ -51,6 +52,7 @@ const BrandsModal = props => {
     event.preventDefault()
     if (nombreMarca.trim() === '') {
       setNombreMarcaError(true)
+      setQuerying(false)
 
       return
     }
@@ -77,9 +79,8 @@ const BrandsModal = props => {
           setQuerying(false)
         })
         .catch(e => {
-          console.log(e.response)
           setQuerying(false)
-          toast.error('Hubo un error de conexión, intente nuevamente o contacte a soporte.')
+          toast.error(e.response.data.msg)
         })
     } else {
       toast('Agregando...')
@@ -94,13 +95,11 @@ const BrandsModal = props => {
           toast.success(response.data.msg)
           updateMethod()
           dialogToggle()
-          setNombreMarcaError(false)
           setQuerying(false)
         })
         .catch(e => {
-          console.log(e.response)
           setQuerying(false)
-          toast.error('Hubo un error de conexión, intente nuevamente o contacte a soporte.')
+          toast.error(e.response.data.msg)
         })
     }
   }

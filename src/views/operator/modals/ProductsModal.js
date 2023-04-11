@@ -80,6 +80,7 @@ const ProductsModal = props => {
   ])
 
   useEffect(() => {
+    setQuerying(false)
     setImgModificada(false)
     setImagenProducto(null)
     if (editTarget.variable != null) {
@@ -149,21 +150,25 @@ const ProductsModal = props => {
     setPrecioUnitarioError(false)
     if (nombreProducto.trim() === '') {
       setNombreProductoError(true)
+      setQuerying(false)
 
       return
     }
     if (codigoBarraProducto == 0) {
       setCodigoBarraError(true)
+      setQuerying(false)
 
       return
     }
     if (cantidadProducto == 0) {
       setCantidadProductoError(true)
+      setQuerying(false)
 
       return
     }
     if (precioUnitarioProducto == 0) {
       setPrecioUnitarioError(true)
+      setQuerying(false)
 
       return
     }
@@ -200,9 +205,8 @@ const ProductsModal = props => {
           setQuerying(false)
         })
         .catch(e => {
-          console.log(e.response)
           setQuerying(false)
-          toast.error('Hubo un error de conexión, intente nuevamente o contacte a soporte.')
+          toast.error(e.response.data.msg)
         })
     } else {
       toast('Agregando...')
@@ -220,9 +224,8 @@ const ProductsModal = props => {
           setQuerying(false)
         })
         .catch(e => {
-          console.log(e.response)
           setQuerying(false)
-          toast.error('Hubo un error de conexión, intente nuevamente o contacte a soporte.')
+          toast.error(e.response.data.msg)
         })
     }
   }

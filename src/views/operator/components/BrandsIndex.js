@@ -67,6 +67,7 @@ const BrandsIndex = () => {
   }, [])
 
   const deleteThis = id => {
+    toast('Eliminando...')
     axios
       .delete(APIRoutes.mantenedor.marca.eliminar + '/?id=' + id, {
         headers: {
@@ -74,10 +75,11 @@ const BrandsIndex = () => {
         }
       })
       .then(response => {
+        toast.success(response.data.msg)
         updateData()
       })
-      .catch(error => {
-        console.log(error)
+      .catch(e => {
+        toast.error(e.response.data.msg)
       })
   }
 

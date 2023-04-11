@@ -71,7 +71,11 @@ const UsersManageIndex = () => {
 
   const updateData = () => {
     axios
-      .get(APIRoutes.usuarios.leer, apiConfig)
+      .get(APIRoutes.usuarios.leer, {
+        headers: {
+          token: window.localStorage.getItem(authConfig.storageTokenKeyName)
+        }
+      })
       .then(response => {
         setData(response.data.data)
         setLoading(false)

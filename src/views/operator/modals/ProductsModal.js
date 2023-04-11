@@ -317,7 +317,7 @@ const ProductsModal = props => {
                 dialogToggle()
               }}
             >
-              <AddIcon fontSize='large' marginRight='5px' />
+              <AddIcon fontSize='large' />
               Agregar
             </Button>
           </Box>

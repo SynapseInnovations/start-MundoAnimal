@@ -84,6 +84,7 @@ const PetsIndex = () => {
   }
 
   const updateData = () => {
+    setLoading(true)
     axios
       .get(APIRoutes.mantenedor.mascota.leer, {
         headers: {
@@ -203,6 +204,7 @@ const PetsIndex = () => {
               />
               <DataGrid
                 autoHeight
+                loading={loading}
                 rows={data}
                 getRowId={row => row.id}
                 columns={columns}

@@ -5,6 +5,9 @@ import Card from '@mui/material/Card'
 import Typography from '@mui/material/Typography'
 import CardHeader from '@mui/material/CardHeader'
 import { motion } from 'framer-motion'
+import { Button } from '@mui/material'
+import { Box } from '@mui/material'
+import { useTheme } from '@mui/material'
 
 // ** Custom Components Imports
 import PageHeader from 'src/@core/components/page-header'
@@ -14,6 +17,8 @@ import PageHeader from 'src/@core/components/page-header'
 import SalesTable from 'src/views/operator/tables/SalesHistoryTable'
 
 const SalesListIndex = () => {
+  const theme = useTheme()
+
   return (
     <motion.div
       initial={{ opacity: 0, x: 100 }}
@@ -21,11 +26,6 @@ const SalesListIndex = () => {
       transition={{ type: 'spring', stiffness: 40, delay: 0.1, duration: 0.3 }}
     >
       <Grid container spacing={6}>
-        <PageHeader
-          title={<Typography variant='h5'>Historial de Ventas</Typography>}
-          subtitle={<Typography variant='body2'>Historial de ventas Mundo Animal</Typography>}
-        />
-
         <Grid item xs={12}>
           <motion.div
             initial={{ opacity: 0, x: 300 }}

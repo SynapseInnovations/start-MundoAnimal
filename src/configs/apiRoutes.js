@@ -31,7 +31,8 @@ const mantenedorRoutes = {
 
 const ventasRoutes = {
   leer: process.env.NEXT_PUBLIC_API_URL + '/venta',
-  registrar: process.env.NEXT_PUBLIC_API_URL + '/venta/registrar_venta'
+  registrar: process.env.NEXT_PUBLIC_API_URL + '/venta/registrar_venta',
+  anular: process.env.NEXT_PUBLIC_API_URL + '/venta/eliminar'
 }
 
 const usuariosRoutes = {

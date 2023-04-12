@@ -146,6 +146,7 @@ const ProductsIndex = () => {
   }
 
   const updateData = () => {
+    setLoading(true)
     axios
       .get(APIRoutes.productos.leer, {
         headers: {
@@ -290,6 +291,7 @@ const ProductsIndex = () => {
               />
               <DataGrid
                 autoHeight
+                loading={loading}
                 rows={data}
                 getRowId={row => row.codigo_barra}
                 columns={columns}

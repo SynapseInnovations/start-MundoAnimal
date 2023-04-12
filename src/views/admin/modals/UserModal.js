@@ -249,7 +249,7 @@ const UserModal = props => {
                 dialogToggle()
               }}
             >
-              <AddIcon sx={{ marginRight: '3px', fontSize: 'large' }} />
+              <AddIcon sx={{ fontSize: 'large' }} />
               Registrar Usuario
             </Button>
           </Box>

@@ -309,18 +309,18 @@ const NewSaleWindow = () => {
             Venta de Productos
           </Typography>
 
-          <Box
-            sx={{
-              gap: 2,
-              display: 'flex',
-              borderRadius: 1,
-
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              border: theme => `1px solid ${theme.palette.divider}`
-            }}
-          >
-            <Box>
+          <Box>
+            <Box
+              sx={{
+                gap: 1,
+                marginTop: '20px',
+                display: 'flex',
+                borderRadius: 1,
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                border: theme => `1px solid ${theme.palette.divider}`
+              }}
+            >
               <Card>
                 <CardContent>
                   <Grid container spacing={2}>
@@ -355,7 +355,7 @@ const NewSaleWindow = () => {
                         />
                       </FormControl>
                     </Grid>
-                    <Grid item xs={9} sm={7}>
+                    <Grid item xs={9} sm={6}>
                       <Autocomplete
                         fullWidth
                         value={searchSelected}
@@ -374,8 +374,9 @@ const NewSaleWindow = () => {
                         renderInput={params => <TextField {...params} label='Nombre del Producto' fullWidth />}
                       />
                     </Grid>
-                    <Grid item xs={3} sm={1}>
+                    <Grid item xs={3} sm={2}>
                       <Button
+                        fullWidth
                         variant='contained'
                         sx={{
                           borderRadius: '10px',
@@ -383,7 +384,6 @@ const NewSaleWindow = () => {
                           marginLeft: '4px',
                           fontSize: '0.5rem',
                           scrollSnapMarginRight: '10px',
-                          width: '10px',
                           display: 'flex',
                           justifyContent: 'center',
                           alignItems: 'center',
@@ -412,74 +412,74 @@ const NewSaleWindow = () => {
                   </Grid>
                 </CardContent>
               </Card>
-              <Box
-                sx={{
-                  gap: 1,
-                  marginTop: '20px',
-                  display: 'flex',
-                  borderRadius: 1,
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  border: theme => `1px solid ${theme.palette.divider}`
-                }}
-              >
-                <Card style={{ width: '100%' }}>
-                  <CardContent>
-                    <Box display='flex' alignItems='center'>
-                      <LocalGroceryStoreIcon sx={{ fontSize: '1rem', marginRight: '10px' }} />
-                      <Typography variant='h6' sx={{ fontWeight: 500 }}>
-                        Carrito
-                      </Typography>
-                    </Box>
-                    <StyledList
-                      style={{
-                        maxHeight: 400,
-                        overflow: 'auto'
-                      }}
-                      sx={{ mb: 4 }}
-                    >
-                      {cart.length > 0 ? (
-                        <>
-                          {cart.map((item, index) => (
-                            <CartItem
-                              key={index}
-                              item={item}
-                              deleteThis={handleDeleteItemCart}
-                              index={index}
-                              handleInputChange={handleInputChange}
-                            />
-                          ))}
-                        </>
-                      ) : (
-                        <>
-                          <Box
-                            sx={{
-                              mb: 2,
-                              gap: 3,
-                              padding: 16,
-                              display: 'flex',
-                              flexWrap: 'wrap',
-                              flexDirection: 'column',
-                              alignItems: 'Center',
-                              justifyContent: 'space-between'
-                            }}
-                          >
-                            <Box display='flex' alignItems='center'>
-                              <RemoveShoppingCartIcon sx={{ fontSize: '2rem' }} />
-                              <Typography
-                                variant='body2'
-                                sx={{ color: 'text.primary', fontSize: '1.5rem', marginLeft: '0.5rem' }}
-                              >
-                                No existen productos, prueba agregándolos al carrito.
-                              </Typography>
-                            </Box>
+            </Box>
+            <Box
+              sx={{
+                gap: 1,
+                marginTop: '20px',
+                display: 'flex',
+                borderRadius: 1,
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                border: theme => `1px solid ${theme.palette.divider}`
+              }}
+            >
+              <Card style={{ width: '100%' }}>
+                <CardContent>
+                  <Box display='flex' alignItems='center'>
+                    <LocalGroceryStoreIcon sx={{ fontSize: '1rem', marginRight: '10px' }} />
+                    <Typography variant='h6' sx={{ fontWeight: 500 }}>
+                      Carrito
+                    </Typography>
+                  </Box>
+                  <StyledList
+                    style={{
+                      maxHeight: 400,
+                      overflow: 'auto'
+                    }}
+                    sx={{ mb: 4 }}
+                  >
+                    {cart.length > 0 ? (
+                      <>
+                        {cart.map((item, index) => (
+                          <CartItem
+                            key={index}
+                            item={item}
+                            deleteThis={handleDeleteItemCart}
+                            index={index}
+                            handleInputChange={handleInputChange}
+                          />
+                        ))}
+                      </>
+                    ) : (
+                      <>
+                        <Box
+                          sx={{
+                            mb: 2,
+                            gap: 3,
+                            padding: 16,
+                            display: 'flex',
+                            flexWrap: 'wrap',
+                            flexDirection: 'column',
+                            alignItems: 'Center',
+                            justifyContent: 'space-between'
+                          }}
+                        >
+                          <Box display='flex' alignItems='center'>
+                            <RemoveShoppingCartIcon sx={{ fontSize: '2rem' }} />
+                            <Typography
+                              variant='body2'
+                              sx={{ color: 'text.primary', fontSize: '1.5rem', marginLeft: '0.5rem' }}
+                            >
+                              No existen productos, prueba agregándolos al carrito.
+                            </Typography>
                           </Box>
-                        </>
-                      )}
-                    </StyledList>
-                  </CardContent>
-                </Card>
-              </Box>
+                        </Box>
+                      </>
+                    )}
+                  </StyledList>
+                </CardContent>
+              </Card>
             </Box>
           </Box>
         </Grid>

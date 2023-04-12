@@ -86,6 +86,7 @@ const BrandsIndex = () => {
   const theme = useTheme()
 
   const updateData = () => {
+    setLoading(true)
     axios
       .get(APIRoutes.mantenedor.marca.leer, {
         headers: {
@@ -205,6 +206,7 @@ const BrandsIndex = () => {
               <DataGrid
                 autoHeight
                 rows={data}
+                loading={loading}
                 getRowId={row => row.id}
                 columns={columns}
                 pageSize={pageSize}

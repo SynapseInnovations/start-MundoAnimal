@@ -203,7 +203,7 @@ const BrandsModal = props => {
                 dialogToggle()
               }}
             >
-              <AddIcon sx={{ marginRight: '3px', fontSize: 'large' }} />
+              <AddIcon sx={{ fontSize: 'large' }} />
             </Button>
           </Box>
         </Box>

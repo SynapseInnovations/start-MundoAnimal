@@ -145,7 +145,7 @@ const NewSaleWindow = () => {
         const newData = response.data.data.map(i => ({
           ...i,
           isPrecioUnitario: true,
-          kgInput: 0.0,
+          kgInput: 0.1,
           cantInput: 1,
           cantidadOriginal: i.cantidad,
           cantidad: i.cantidad - 1
@@ -165,11 +165,18 @@ const NewSaleWindow = () => {
       if (ix == index) {
         switch (input) {
           case 'cantidad':
+            value = Number(value).toFixed(0)
             if (value > item.cantidadOriginal) {
               return {
                 ...item,
                 cantInput: item.cantidadOriginal,
                 cantidad: item.cantidadOriginal - item.cantidadOriginal
+              }
+            } else if (value < 0) {
+              return {
+                ...item,
+                cantInput: 0,
+                cantidad: item.cantidadOriginal
               }
             }
 
@@ -194,6 +201,12 @@ const NewSaleWindow = () => {
   const finallyAddToCart = item => {
     let add = true
     item.isPrecioUnitario = unitary == 1 ? true : false
+    if (item.isPrecioUnitario) {
+      item.kgInput = 0
+    } else {
+      item.cantInput = 0
+      item.cantidad = item.cantidadOriginal
+    }
     let cart2 = cart.map(i => i)
     cart2.forEach(i => {
       if (i.codigo_barra == item.codigo_barra) {
@@ -228,7 +241,7 @@ const NewSaleWindow = () => {
   }
 
   const handleAddItemCart = () => {
-    let item = data2.find(i => i.codigo_barra === searchSelected.codigo_barra)
+    const item = data2.find(i => i.codigo_barra === searchSelected.codigo_barra)
     if (searchResult.length <= 0) {
       toast.error('No se han encontrado productos, pruebe escribiendo un nombre diferente.')
 
@@ -239,6 +252,12 @@ const NewSaleWindow = () => {
 
       return
     }
+    if (item.cantidadOriginal == 0 && unitary == 1 ? true : false) {
+      toast.error('No hay stock suficiente de este producto para ingresarlo al carrito.')
+
+      return
+    }
+
     finallyAddToCart(item)
   }
 
@@ -252,6 +271,11 @@ const NewSaleWindow = () => {
     if (item === undefined) {
       setBarcode('')
       toast.error('Ese código de barra no existe en el inventario')
+
+      return
+    }
+    if (item.cantidadOriginal == 0 && unitary == 1 ? true : false) {
+      toast.error('No hay stock suficiente de este producto para ingresarlo al carrito.')
 
       return
     }
@@ -311,7 +335,7 @@ const NewSaleWindow = () => {
                         <FormControlLabel value={0} control={<Radio />} label='Venta por Kilo' />
                       </RadioGroup>
                     </Grid>
-                    <Grid item xs={12} sm={5}>
+                    <Grid item xs={12} sm={4}>
                       <FormControl fullWidth>
                         <TextField
                           value={barcode}
@@ -331,7 +355,7 @@ const NewSaleWindow = () => {
                         />
                       </FormControl>
                     </Grid>
-                    <Grid item xs={9} sm={5}>
+                    <Grid item xs={9} sm={7}>
                       <Autocomplete
                         fullWidth
                         value={searchSelected}
@@ -382,7 +406,7 @@ const NewSaleWindow = () => {
                         }}
                         onClick={handleAddItemCart}
                       >
-                        <AddIcon fontSize='large' marginRight='5px' />
+                        <AddIcon fontSize='large' />
                       </Button>
                     </Grid>
                   </Grid>
@@ -462,27 +486,13 @@ const NewSaleWindow = () => {
 
         <Grid item xs={12} lg={4}>
           <motion.div
-            initial={{ opacity: 0, x: -150 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ type: 'spring', stiffness: 40, delay: 0.2, duration: 0.9 }}
-          >
-            <Alert severity='success' icon={<Icon icon='mdi:tag-outline' />} sx={{ mb: 4 }}>
-              <AlertTitle>Mundo Animal: Pasos para vender</AlertTitle>
-              <Typography sx={{ color: 'success.main' }}>
-                - Buscar producto por Nombre o Ingresar código de barra
-              </Typography>
-              <Typography sx={{ color: 'success.main' }}>
-                - Seleccionar si desea vender unidades o el peso en kilos
-              </Typography>
-              <Typography sx={{ color: 'success.main' }}>- Ingresar la cantidad correspondiente</Typography>
-              <Typography sx={{ color: 'success.main' }}>- Comprobar todos los datos y pulsar continuar</Typography>
-            </Alert>
-          </motion.div>
-          <motion.div
             initial={{ opacity: 0, x: -120 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ type: 'spring', stiffness: 40, delay: 0.2, duration: 0.7 }}
           >
+            <Typography variant='h4' sx={{ mb: 4, fontWeight: 600 }}>
+               
+            </Typography>
             <Box sx={{ mb: 4, borderRadius: 1, border: theme => `1px solid ${theme.palette.divider}` }}>
               <CardContent>
                 <Typography sx={{ mb: 10, fontWeight: 800 }}>Detalle</Typography>

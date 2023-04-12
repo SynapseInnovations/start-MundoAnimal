@@ -211,7 +211,7 @@ const PetsModal = props => {
                 dialogToggle()
               }}
             >
-              <AddIcon sx={{ marginRight: '3px', fontSize: 'large', fontWeight: '700' }} />
+              <AddIcon sx={{ fontSize: 'large', fontWeight: '700' }} />
             </Button>
           </Box>
         </Box>

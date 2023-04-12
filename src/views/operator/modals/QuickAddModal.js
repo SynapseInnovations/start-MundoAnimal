@@ -136,7 +136,7 @@ const QuickAddModal = props => {
           dialogToggle()
         }}
       >
-        <AddIcon sx={{ marginRight: '3px', fontSize: 'large' }} />
+        <AddIcon sx={{ fontSize: 'large' }} />
         Añadir unidades
       </Button>
 

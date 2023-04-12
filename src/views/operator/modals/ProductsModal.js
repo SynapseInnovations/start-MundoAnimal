@@ -511,7 +511,7 @@ const ProductsModal = props => {
                       </MenuItem>
                       {mascotaDropdown.map(mascota => (
                         <MenuItem key={mascota.id} value={mascota.id}>
-                          {mascota.id} - {mascota.nombre}
+                          {mascota.nombre}
                         </MenuItem>
                       ))}
                     </Select>
@@ -530,7 +530,7 @@ const ProductsModal = props => {
                       </MenuItem>
                       {marcaDropdown.map(marca => (
                         <MenuItem key={marca.id} value={marca.id}>
-                          {marca.id} - {marca.nombre}
+                          {marca.nombre}
                         </MenuItem>
                       ))}
                     </Select>
@@ -549,7 +549,7 @@ const ProductsModal = props => {
                       </MenuItem>
                       {categoriaDropdown.map(categoria => (
                         <MenuItem key={categoria.id} value={categoria.id}>
-                          {categoria.id} - {categoria.nombre}
+                          {categoria.nombre}
                         </MenuItem>
                       ))}
                     </Select>

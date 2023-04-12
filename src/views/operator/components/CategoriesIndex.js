@@ -84,6 +84,7 @@ const CategoriesIndex = () => {
   }
 
   const updateData = () => {
+    setLoading(true)
     axios
       .get(APIRoutes.mantenedor.categoria.leer, {
         headers: {
@@ -214,6 +215,7 @@ const CategoriesIndex = () => {
               <DataGrid
                 autoHeight
                 rows={data}
+                loading={loading}
                 getRowId={row => row.id}
                 columns={columns}
                 pageSize={pageSize}

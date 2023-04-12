@@ -124,20 +124,12 @@ const CartItem = ({ item, index, handleInputChange, deleteThis }) => {
               }}
             >
               <FormControl>
-                {item.cantidad > 0 ? (
-                  <>
-                    <Chip
-                      label={`${item.cantidad} en Stock`}
-                      color={item.cantidad < 5 ? 'warning' : 'primary'}
-                      size='small'
-                      sx={{ mb: 4, mt: 1 }}
-                    />
-                  </>
-                ) : (
-                  <>
-                    <Chip label='Sin stock disponible' color='error' size='small' />
-                  </>
-                )}
+                <Chip
+                  label={`${item.cantidad}/${item.cantidadOriginal} en Stock`}
+                  color={item.cantidad < 5 ? 'warning' : 'primary'}
+                  size='small'
+                  sx={{ mb: 4, mt: 1 }}
+                />
                 <List>
                   {item.isPrecioUnitario ? (
                     <>
@@ -167,10 +159,16 @@ const CartItem = ({ item, index, handleInputChange, deleteThis }) => {
                         size='small'
                         type='number'
                         label='Cantidad'
+                        onKeyPress={e => {
+                          if (e.key === ',') {
+                            e.preventDefault() // Prevents the comma from being entered
+                            handleInputChange(e.target.value, index, 'cantidad') // Restores the previous value
+                          }
+                        }}
                         disabled={!item.isPrecioUnitario}
                         value={item.cantInput}
                         onChange={e => handleInputChange(e.target.value, index, 'cantidad')}
-                        inputProps={{ min: 1, max: item.cantidad }}
+                        inputProps={{ min: 1, max: item.cantidadOriginal }}
                         sx={{ width: 100, display: 'block', margin: 'auto', marginTop: 2 }}
                       />
                     </motion.div>
@@ -189,7 +187,7 @@ const CartItem = ({ item, index, handleInputChange, deleteThis }) => {
                         disabled={item.isPrecioUnitario}
                         value={item.kgInput}
                         onChange={e => handleInputChange(e.target.value, index, 'kilos')}
-                        inputProps={{ min: 0.0, step: 0.1 }}
+                        inputProps={{ min: 0.1, step: 0.1, max: 1000.0 }}
                         sx={{ maxWidth: 100, display: 'block', margin: 'auto', marginTop: 2 }}
                       />
                     </motion.div>

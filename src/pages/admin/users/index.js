@@ -55,7 +55,7 @@ const roleList = {
 
 const UsersManageIndex = () => {
   // ** Table Data
-  const [pageSize, setPageSize] = useState(7)
+  const [pageSize, setPageSize] = useState(10)
   const [hideNameColumn, setHideNameColumn] = useState(false)
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(true)
@@ -69,7 +69,22 @@ const UsersManageIndex = () => {
     updateData()
   }, [])
 
+  const handleAddOrDelete = Rol_id => {
+    if (Rol_id == 3) {
+      const shouldEnable = window.confirm('¿Desea volver a habilitar la cuenta?')
+      if (shouldEnable) {
+        enableAccount(params.row.rut)
+      }
+    } else {
+      const shouldDelete = window.confirm('¿Desea desactivar la cuenta?')
+      if (shouldDelete) {
+        disableAccount(params.row.rut)
+      }
+    }
+  }
+
   const updateData = () => {
+    setLoading(true)
     axios
       .get(APIRoutes.usuarios.leer, {
         headers: {
@@ -217,7 +232,7 @@ const UsersManageIndex = () => {
                     transform: 'rotate(-40deg)'
                   }
                 }}
-                onClick={async () => {
+                onClick={() => {
                   setEditTarget(params.row.rut)
                   dialogToggle()
                 }}
@@ -240,19 +255,7 @@ const UsersManageIndex = () => {
                     transform: 'rotate(50deg)'
                   }
                 }}
-                onClick={() => {
-                  if (params.row.Rol_id == 3) {
-                    const shouldEnable = window.confirm('¿Desea volver a habilitar la cuenta?')
-                    if (shouldEnable) {
-                      enableAccount(params.row.rut)
-                    }
-                  } else {
-                    const shouldDelete = window.confirm('¿Desea desactivar la cuenta?')
-                    if (shouldDelete) {
-                      disableAccount(params.row.rut)
-                    }
-                  }
-                }}
+                onClick={() => handleAddOrDelete(params.row.Rol_id)}
               >
                 {params.row.Rol_id == 3 ? <PersonAddIcon /> : <PersonRemoveIcon />}
               </IconButton>
@@ -280,12 +283,13 @@ const UsersManageIndex = () => {
         <DataGrid
           autoHeight
           getRowId={row => row.rut}
+          loading={loading}
           rows={data}
           columns={columns}
           pageSize={pageSize}
           localeText={esES.components.MuiDataGrid.defaultProps.localeText}
           disableSelectionOnClick
-          rowsPerPageOptions={[7, 10, 25, 50]}
+          rowsPerPageOptions={[10, 25, 50, 100]}
           sx={{
             '& .MuiDataGrid-columnHeaders': {
               borderRadius: 0,

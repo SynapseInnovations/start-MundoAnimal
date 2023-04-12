@@ -13,7 +13,10 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import AddIcon from '@mui/icons-material/Add'
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt'
 import RemoveIcon from '@mui/icons-material/Remove'
+import Chip from '@mui/material/Chip'
+import CustomChip from 'src/@core/components/mui/chip'
 import moment from 'moment'
+import { Button } from '@mui/material/Button'
 import { motion } from 'framer-motion'
 import { useTheme } from '@mui/material/styles'
 import { esES } from '@mui/x-data-grid'
@@ -48,7 +51,7 @@ const ProductsHistory = () => {
     {
       field: 'fecha',
       headerName: 'Fecha',
-      flex: 0.1,
+      flex: 0.125,
       minWidth: 120,
       align: 'center',
       headerAlign: 'center',
@@ -67,7 +70,7 @@ const ProductsHistory = () => {
     {
       field: 'modificacion',
       headerName: 'Acción',
-      flex: 0.1,
+      flex: 0.15,
       minWidth: 140,
       align: 'left',
       headerAlign: 'center',
@@ -79,16 +82,16 @@ const ProductsHistory = () => {
         let color = null
         if (row.accion === 'inserto') {
           icon = <AddIcon />
-          text = 'Se Agregó'
-          color = theme.palette.success.main
+          text = 'Agregado'
+          color = theme.palette.success
         } else if (row.accion === 'modificó') {
           icon = <EditIcon />
           text = `${row.valor_viejo} → ${row.valor_nuevo}`
-          color = theme.palette.warning.main
+          color = theme.palette.warning
         } else if (row.accion === 'eliminó') {
           icon = <DeleteIcon />
-          text = 'Se Eliminó'
-          color = theme.palette.error.main
+          text = 'Eliminado'
+          color = theme.palette.error
         }
 
         return (
@@ -102,12 +105,12 @@ const ProductsHistory = () => {
                 justifyContent: 'left',
                 borderRadius: '50%',
                 padding: 4,
-                backgroundColor: color ? color : 'transparent'
+                backgroundColor: color ? color.main : 'transparent'
               }}
             >
               {React.cloneElement(icon, { style: { color: 'white' } })}
             </div>
-            <Typography variant='body1' component='span' style={{ color: color ? color : 'inherit' }}>
+            <Typography variant='body1' component='span' style={{ color: color ? color.dark : 'inherit' }}>
               {text}
             </Typography>
           </div>
@@ -115,17 +118,17 @@ const ProductsHistory = () => {
       }
     },
     {
-      field: 'nombre',
-      headerName: 'Producto',
-      flex: 0.2,
-      minWidth: 180,
+      field: 'codigo_barra',
+      headerName: 'Código',
+      flex: 0.15,
+      minWidth: 100,
       align: 'center',
       headerAlign: 'center'
     },
     {
-      field: 'codigo_barra',
-      headerName: 'Código de barras',
-      flex: 0.2,
+      field: 'nombre',
+      headerName: 'Producto',
+      flex: 0.4,
       minWidth: 100,
       align: 'center',
       headerAlign: 'center'
@@ -151,7 +154,7 @@ const ProductsHistory = () => {
         />
         <Grid item xs={12}>
           <DataGrid
-            style={{ height: 610, width: '100%' }}
+            autoHeight
             rows={data2}
             columns={columns}
             pageSize={pageSize}

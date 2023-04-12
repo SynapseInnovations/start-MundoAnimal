@@ -178,7 +178,7 @@ const SalesTable = () => {
               justifyContent: 'space-between',
               backgroundColor: theme.palette.mode === 'dark' ? theme.palette.primary.dark : '#FAFAFA',
               border: theme.palette.mode === 'dark' ? '4px solid #313451' : '4px solid #FAFAFA',
-              boxShadow: '0px -10px 100px rgba(0, 0, 0, 0.3)'
+              boxShadow: '0px -10px 30px rgba(0, 0, 0, 0.3)'
             }}
           >
             <Box
@@ -198,6 +198,36 @@ const SalesTable = () => {
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
               <Button
                 variant='contained'
+                sx={{
+                  borderRadius: '10px',
+                  padding: '10px',
+                  mb: 5,
+                  mr: 1,
+                  ml: 3,
+                  mt: 2,
+                  fontSize: '1.2rem',
+                  scrollSnapMarginRight: '10px',
+                  width: '280px',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  transition: 'all 0.1s ease-in-out',
+                  backgroundColor: theme.palette.mode === 'dark' ? '#30334e' : '#efefef',
+                  color: theme.palette.mode === 'dark' ? '#e7bed8' : theme.palette.primary.light,
+                  boxShadow: '4px 4px 13px rgba(0, 0, 0, 0.15)',
+                  fontWeight: '700',
+
+                  '&:hover': {
+                    transition: 'all 0.1s ease-in-out',
+                    transform: 'scale(0.97)',
+                    boxShadow: '-2px -2px 15px rgba(0, 0, 0, 0.20)',
+                    backgroundColor: theme.palette.mode === 'dark' ? '#30334e' : '#efefef',
+                    color: theme.palette.mode === 'dark' ? '#e7bed8' : theme.palette.primary.light
+                  },
+                  '&:active': {
+                    transform: 'scale(0.90)'
+                  }
+                }}
                 onClick={() => {
                   setShow(!show)
                 }}

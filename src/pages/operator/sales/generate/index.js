@@ -495,7 +495,7 @@ const NewSaleWindow = () => {
             </Typography>
             <Box sx={{ mb: 4, borderRadius: 1, border: theme => `1px solid ${theme.palette.divider}` }}>
               <CardContent>
-                <Typography sx={{ mb: 10, fontWeight: 800 }}>Detalle</Typography>
+                <Typography sx={{ mb: 3, fontWeight: 800 }}>Detalle</Typography>
                 <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                   {cart.length > 0 ? (
                     <>
@@ -527,7 +527,7 @@ const NewSaleWindow = () => {
                     </>
                   ) : (
                     <>
-                      <Typography variant='body2' sx={{ color: 'text.primary' }}>
+                      <Typography variant='body2' sx={{ mb: 45, color: 'text.primary' }}>
                         Agrega productos al carrito para actualizar el detalle.
                       </Typography>
                     </>

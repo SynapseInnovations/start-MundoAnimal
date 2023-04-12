@@ -97,7 +97,7 @@ const FormControlLabel = styled(MuiFormControlLabel)(({ theme }) => ({
 
 const schema = yup.object().shape({
   rut: yup.string().min(9, 'El formato es solo números, guión y luego dígito verificador.').required(),
-  clave: yup.string().min(5, 'Debe contener al menos 5 caracteres.').required()
+  clave: yup.string().min(5, 'Ingrese una contraseña válida').required()
 })
 
 const defaultValues = {
@@ -321,13 +321,11 @@ const LoginPage = () => {
                   transition: 'all 0.3s ease-in-out',
                   backgroundColor: theme.palette.mode === 'dark' ? '#282a42' : '#efefef',
                   color: theme.palette.mode === 'dark' ? '#e7bed8' : theme.palette.primary.light,
-
                   fontWeight: '700',
 
                   '&:hover': {
                     transition: 'all 0.1s ease-in-out',
                     transform: 'scale(0.98)',
-
                     backgroundColor: theme.palette.mode === 'dark' ? '#282a42' : '#efefef',
                     color: theme.palette.mode === 'dark' ? '#e7bed8' : theme.palette.primary.light
                   },

@@ -25,6 +25,7 @@ import { useTheme } from '@mui/material/styles'
 import { motion } from 'framer-motion'
 import GroupIcon from '@mui/icons-material/Group'
 import { CircularProgress } from '@mui/material'
+import * as Yup from 'yup'
 
 // ** API Routes
 import APIRoutes from 'src/configs/apiRoutes'
@@ -43,6 +44,7 @@ const UserModal = props => {
   const [rolUsuario, setRolUsuario] = useState(0)
   const [edit, setEdit] = useState(false)
   const [querying, setQuerying] = useState(false)
+  const [rutValid, setRutValid] = useState(true)
 
   const roles = [
     { id: 1, nombre: 'Administrador' },
@@ -91,72 +93,118 @@ const UserModal = props => {
     reader.readAsDataURL(e.target.files[0])
   }
 
-  const handleSubmit = e => {
+  const validateRut = rut => {
+    const rutValue = rut.replace(/\./g, '').split('-')
+    const number = rutValue[0]
+    const checkDigit = rutValue[1].toUpperCase()
+    let sum = 0
+    let factor = 2
+
+    for (let i = number.length - 1; i >= 0; i--) {
+      sum += number[i] * factor
+      factor = factor === 7 ? 2 : factor + 1
+    }
+
+    const mod = sum % 11
+    const calculatedCheckDigit = mod === 0 ? '0' : mod === 1 ? 'K' : 11 - mod
+
+    return checkDigit === calculatedCheckDigit.toString()
+  }
+
+  const rutSchema = Yup.string()
+    .required('El RUT es requerido')
+    .test('rut-valid', 'RUT inválido', value => {
+      if (!value) return false
+      const pattern = /^\d{1,8}-[\d|kK]{1}$/
+      if (!pattern.test(value)) {
+        return false
+      }
+
+      return validateRut(value)
+    })
+
+  const passwordSchema = Yup.string()
+    .min(8, 'La contraseña debe tener al menos 8 caracteres')
+    .required('La contraseña es requerida')
+
+  const emailSchema = Yup.string().email('Correo electrónico inválido').required('El correo electrónico es requerido')
+
+  const handleSubmit = async e => {
     e.preventDefault()
-    setQuerying(true)
-    const formData = new FormData()
-    formData.append('rut', rutUsuario)
-    formData.append('nombre', nombreUsuario)
-    formData.append('correo', correoUsuario)
-    formData.append('clave', claveUsuario)
-    formData.append('direccion', direccionUsuario)
-    formData.append('imagen', imagenUsuario)
-    formData.append('modificarImagen', imgModificada)
-    formData.append('Rol_id', rolUsuario)
 
-    if (edit) {
-      toast('Modificando...')
-      axios
-        .put(APIRoutes.usuarios.modificar, formData, {
-          headers: {
-            'Content-Type': `multipart/form-data; boundary=${formData._boundary}`,
-            token: window.localStorage.getItem(authConfig.storageTokenKeyName)
-          }
-        })
-        .then(async response => {
-          editTarget.method(null)
-          toast.success(response.data.msg)
-          updateMethod()
-          dialogToggle()
-          setQuerying(false)
-        })
-        .catch(e => {
-          setQuerying(false)
-          if (e.code == 'ERR_NETWORK') {
-            toast.error('Error de conexión.')
+    try {
+      await rutSchema.validate(rutUsuario)
+      await passwordSchema.validate(claveUsuario)
+      await emailSchema.validate(correoUsuario)
 
-            return
-          }
+      setQuerying(true)
+      const formData = new FormData()
+      formData.append('rut', rutUsuario)
+      formData.append('nombre', nombreUsuario)
+      formData.append('correo', correoUsuario)
+      formData.append('clave', claveUsuario)
+      formData.append('direccion', direccionUsuario)
+      formData.append('imagen', imagenUsuario)
+      formData.append('modificarImagen', imgModificada)
+      formData.append('Rol_id', rolUsuario)
 
-          toast.error(e.response.data.msg)
-        })
-    } else {
-      toast('Agregando...')
+      if (edit) {
+        toast('Modificando...')
+        axios
+          .put(APIRoutes.usuarios.modificar, formData, {
+            headers: {
+              'Content-Type': `multipart/form-data; boundary=${formData._boundary}`,
+              token: window.localStorage.getItem(authConfig.storageTokenKeyName)
+            }
+          })
+          .then(async response => {
+            editTarget.method(null)
+            toast.success(response.data.msg)
+            updateMethod()
+            dialogToggle()
+            setQuerying(false)
+          })
+          .catch(e => {
+            setQuerying(false)
+            if (e.code == 'ERR_NETWORK') {
+              toast.error('Error de conexión.')
 
-      axios
-        .post(APIRoutes.usuarios.registrar, formData, {
-          headers: {
-            'Content-Type': `multipart/form-data; boundary=${formData._boundary}`,
-            token: window.localStorage.getItem(authConfig.storageTokenKeyName)
-          }
-        })
-        .then(async response => {
-          editTarget.method(null)
-          toast.success(response.data.msg)
-          updateMethod()
-          dialogToggle()
-          setQuerying(false)
-        })
-        .catch(e => {
-          setQuerying(false)
-          if (e.code == 'ERR_NETWORK') {
-            toast.error('Error de conexión.')
+              return
+            }
 
-            return
-          }
+            toast.error(e.response.data.msg)
+          })
+      } else {
+        toast('Agregando...')
 
-          toast.error(e.response.data.msg)
-        })
+        axios
+          .post(APIRoutes.usuarios.registrar, formData, {
+            headers: {
+              'Content-Type': `multipart/form-data; boundary=${formData._boundary}`,
+              token: window.localStorage.getItem(authConfig.storageTokenKeyName)
+            }
+          })
+          .then(async response => {
+            editTarget.method(null)
+            toast.success(response.data.msg)
+            updateMethod()
+            dialogToggle()
+            setQuerying(false)
+          })
+          .catch(e => {
+            setQuerying(false)
+            if (e.code == 'ERR_NETWORK') {
+              toast.error('Error de conexión.')
+
+              return
+            }
+
+            toast.error(e.response.data.msg)
+          })
+      }
+    } catch (error) {
+      console.error(error.message)
+      setQuerying(false)
     }
   }
 
@@ -182,8 +230,8 @@ const UserModal = props => {
             flexWrap: 'wrap',
             alignItems: 'center',
             justifyContent: 'space-between',
-            backgroundColor: theme.palette.mode === 'dark' ? theme.palette.primary.dark : '#eaeaea',
-            border: theme.palette.mode === 'dark' ? '4px solid #313451' : '4px solid #F9F4F0',
+            backgroundColor: theme.palette.mode === 'dark' ? theme.palette.primary.dark : '#FAFAFA',
+            border: theme.palette.mode === 'dark' ? ' solid #313451' : 'solid #FAFAFA',
             borderRadius: 2
           }}
         >
@@ -193,7 +241,7 @@ const UserModal = props => {
                 color: 'primary.dark',
                 textShadow: '0px 0px 15px rgba(0,0,0,0.5)',
                 color: theme.palette.mode === 'dark' ? '#fff3fb' : '#3a3b42',
-                width: '230px',
+
                 ml: 1
               }}
             />
@@ -280,18 +328,23 @@ const UserModal = props => {
             <TextField
               label='Rut'
               fullWidth
+              disabled={edit}
+              error={!rutValid || rutUsuario.length < 10}
+              helperText={!rutValid ? 'RUT inválido' : rutUsuario.length < 10 ? 'Ingrese un rut válido.' : ''}
               sx={{ mt: 2 }}
               value={rutUsuario}
               onChange={e => {
                 const newValue = e.target.value
                 if (newValue.length <= 10) {
-                  const rawValue = newValue.replace(/[^0-9kK]/g, '') // eliminar cualquier carácter que no sea número o k/K
-                  const formattedValue = `${rawValue.slice(0, -1)}-${rawValue.slice(-1)}` // agregar guión antes del último dígito
-                  const limitedValue = formattedValue.slice(0, 10) // limitar la longitud del RUT a 10 caracteres incluyendo el guión
+                  const rawValue = newValue.replace(/[^0-9kK]/g, '')
+                  const formattedValue = `${rawValue.slice(0, -1)}-${rawValue.slice(-1)}`
+                  const limitedValue = formattedValue.slice(0, 10)
                   if (limitedValue.length <= 10) {
                     setRutUsuario(limitedValue)
+                    setRutValid(validateRut(limitedValue))
                   } else {
                     setRutUsuario(limitedValue.slice(0, 10))
+                    setRutValid(validateRut(limitedValue.slice(0, 10)))
                   }
                 }
               }}
@@ -305,12 +358,20 @@ const UserModal = props => {
             <TextField
               label='Correo Electrónico'
               fullWidth
+              error={!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(correoUsuario)}
+              helperText={
+                !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(correoUsuario)
+                  ? 'Ingrese un correo electrónico válido.'
+                  : ''
+              }
               value={correoUsuario}
               onChange={e => setCorreoUsuario(e.target.value)}
             />
             <TextField
               label='Contraseña'
               fullWidth
+              error={claveUsuario.length < 8}
+              helperText={claveUsuario.length < 8 ? 'La contraseña debe tener al menos 8 caracteres.' : ''}
               type={showPassword ? 'text' : 'password'} // cambiar dinámicamente el tipo de entrada de texto
               value={claveUsuario}
               onChange={e => setClaveUsuario(e.target.value)}

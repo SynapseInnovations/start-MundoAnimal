@@ -10,14 +10,11 @@ const FooterContent = () => {
 
   return (
     <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between' }}>
-      <Typography sx={{ mr: 2 }}>
-        {`© ${new Date().getFullYear()}, Made with `}
-        <Box component='span' sx={{ color: 'error.main' }}>
-          ❤️
-        </Box>
-        {` by `}
-        <Link target='_blank' href='https://www.youtube.com/watch?v=mCdA4bJAGGk&ab_channel=sweetblue./'>
-          Synapse Innovations
+      <Typography sx={{ mr: 5 }}>
+        {`© ${new Date().getFullYear()}, Desarrollado por `}
+
+        <Link target='_blank' href='https://github.com/SynapseInnovations'>
+          Synapse.
         </Link>
       </Typography>
     </Box>

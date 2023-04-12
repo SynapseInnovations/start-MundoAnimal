@@ -5,12 +5,11 @@
   storageTokenKeyName: 'accessToken',
   onTokenExpiration: 'refreshToken' // logout | refreshToken
 } */
-const apiAddress = 'http://localhost:10905'
 
 export default {
-  meEndpoint: apiAddress + '/usuario/perfil',
-  loginEndpoint: apiAddress + '/usuario/iniciar_sesion',
-  registerEndpoint: apiAddress + '/usuario/crear_cuenta',
+  meEndpoint: process.env.NEXT_PUBLIC_API_URL + '/usuario/perfil',
+  loginEndpoint: process.env.NEXT_PUBLIC_API_URL + '/usuario/iniciar_sesion',
+  registerEndpoint: process.env.NEXT_PUBLIC_API_URL + '/usuario/crear_cuenta',
   storageTokenKeyName: 'accessToken',
-  onTokenExpiration: 'refreshToken' // logout | refreshToken
+  onTokenExpiration: 'refreshToken'
 }

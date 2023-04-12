@@ -38,17 +38,17 @@ const Error404 = () => {
     <Box className='content-center'>
       <Box sx={{ p: 5, display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
         <BoxWrapper>
-          <Typography variant='h1' sx={{ mb: 2.5 }}>
-            404
+          <Typography variant='h2' sx={{ mb: 1 }}>
+            Página no encontrada ⚠️
           </Typography>
-          <Typography variant='h5' sx={{ mb: 2.5, letterSpacing: '0.18px', fontSize: '1.5rem !important' }}>
-            Page Not Found ⚠️
+          <Typography variant='h5' sx={{ mb: 2.5, mt: 2 }}>
+            La página a la que intentaste acceder no existe, vuelva al menú principal para continuar navegando por el
+            sistema.
           </Typography>
-          <Typography variant='body2'>We couldn&prime;t find the page you are looking for.</Typography>
         </BoxWrapper>
         <Img alt='error-illustration' src='/images/pages/404.png' />
         <Button href='/' component={Link} variant='contained' sx={{ px: 5.5 }}>
-          Back to Home
+          Volver
         </Button>
       </Box>
       <FooterIllustrations image='/images/pages/misc-404-object.png' />

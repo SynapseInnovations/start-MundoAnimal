@@ -10,7 +10,7 @@ const themeConfig = {
   layout: 'vertical' /* vertical | horizontal */,
   mode: 'light' /* light | dark | semi-dark /*! Note: semi-dark value will only work for Vertical Layout */,
   direction: 'ltr' /* ltr | rtl */,
-  skin: 'default' /* default | bordered */,
+  skin: 'bordered' /* default | bordered */,
   contentWidth: 'boxed' /* full | boxed */,
   footer: 'static' /* fixed | static | hidden */,
   // ** Routing Configs
@@ -21,8 +21,8 @@ const themeConfig = {
   navSubItemIcon: 'mdi:circle' /* Icon */,
   verticalNavToggleType: 'accordion' /* accordion | collapse /*! Note: This is for Vertical navigation menu only */,
   navCollapsed: false /* true | false /*! Note: This is for Vertical navigation menu only */,
-  navigationSize: 300 /* Number in px(Pixels) /*! Note: This is for Vertical navigation menu only */,
-  collapsedNavigationSize: 80 /* Number in px(Pixels) /*! Note: This is for Vertical navigation menu only */,
+  navigationSize: 270 /* Number in px(Pixels) /*! Note: This is for Vertical navigation menu only */,
+  collapsedNavigationSize: 70 /* Number in px(Pixels) /*! Note: This is for Vertical navigation menu only */,
   afterVerticalNavMenuContentPosition: 'fixed' /* fixed | static */,
   beforeVerticalNavMenuContentPosition: 'fixed' /* fixed | static */,
   horizontalMenuToggle: 'hover' /* click | hover /*! Note: This is for Horizontal navigation menu only */,
@@ -34,7 +34,7 @@ const themeConfig = {
   responsiveFontSizes: true /* true | false */,
   disableRipple: false /* true | false */,
   disableCustomizer: true /* true | false */,
-  toastPosition: 'top-right' /* top-left | top-center | top-right | bottom-left | bottom-center | bottom-right */
+  toastPosition: 'bottom-right' /* top-left | top-center | top-right | bottom-left | bottom-center | bottom-right */
 }
 
 export default themeConfig

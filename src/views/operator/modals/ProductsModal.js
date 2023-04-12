@@ -41,12 +41,11 @@ const ProductsModal = props => {
   const [nombreProducto, setNombreProducto] = useState('')
   const [descripcionProducto, setDescripcionProducto] = useState('')
   const [cantidadProducto, setCantidadProducto] = useState(0)
-  const [precioKiloProducto, setPrecioKiloProducto] = useState(0)
-  const [precioUnitarioProducto, setPrecioUnitarioProducto] = useState(0)
+  const [precioKiloProducto, setPrecioKiloProducto] = useState(100)
+  const [precioUnitarioProducto, setPrecioUnitarioProducto] = useState(100)
   const [marcaProducto, setMarcaProducto] = useState('')
   const [categoriaProducto, setCategoriaProducto] = useState('')
   const [mascotaProducto, setMascotaProducto] = useState('')
-  const [precioUnitarioError, setPrecioUnitarioError] = useState(false)
   const [cantidadProductoError, setCantidadProductoError] = useState(false)
   const [nombreProductoError, setNombreProductoError] = useState(false)
   const [codigoBarraError, setCodigoBarraError] = useState(false)
@@ -55,6 +54,8 @@ const ProductsModal = props => {
   const [thumbnail, setThumbnail] = useState(process.env.NEXT_PUBLIC_IMG_TEMPORAL_CUADRADA)
   const [edit, setEdit] = useState(false)
   const [querying, setQuerying] = useState(false)
+  const [precioUnitarioError, setPrecioUnitarioError] = useState(false)
+  const [precioKiloError, setPrecioKiloError] = useState(false)
 
   // ** Props
   const { editTarget, data, open, dialogToggle, updateMethod } = props
@@ -112,6 +113,12 @@ const ProductsModal = props => {
   }, [editTarget.variable, data])
 
   const theme = useTheme()
+  function handleNumericInput(event, setter, minValue = 0) {
+    const value = event.target.value
+    if (!isNaN(value) && !/[\D.]/.test(value)) {
+      setter(value)
+    }
+  }
 
   useEffect(() => {
     //Modificar para hacer una sola petición lol
@@ -246,6 +253,22 @@ const ProductsModal = props => {
     const value = event.target.value
     if (!isNaN(value) && !/[\D.]/.test(value) && parseInt(value) >= minValue) {
       setter(value)
+    }
+  }
+  function handleNumericInput(event, setter, minValue = 0) {
+    const value = event.target.value
+    if (!isNaN(value) && !/[\D.]/.test(value)) {
+      setter(value)
+    }
+  }
+  useEffect(() => {
+    setPrecioKiloError(precioKiloProducto < 100)
+    setPrecioUnitarioError(precioUnitarioProducto < 100)
+  }, [precioKiloProducto, precioUnitarioProducto])
+
+  function handleKeyPress(event) {
+    if (!/[0-9]/.test(event.key)) {
+      event.preventDefault()
     }
   }
 
@@ -438,8 +461,11 @@ const ProductsModal = props => {
                       startAdornment: <InputAdornment position='start'>$</InputAdornment>
                     }}
                     value={precioKiloProducto}
-                    onChange={event => handleNumericInput(event, setPrecioKiloProducto, 100)}
+                    onChange={event => handleNumericInput(event, setPrecioKiloProducto)}
+                    onKeyPress={handleKeyPress}
                     fullWidth
+                    error={precioKiloError}
+                    helperText={precioKiloError ? 'Ingrese un valor mayor a 100' : ''}
                   />
                 </Grid>
                 <Grid item xs={12} md={4}>
@@ -451,11 +477,12 @@ const ProductsModal = props => {
                       startAdornment: <InputAdornment position='start'>$</InputAdornment>
                     }}
                     value={precioUnitarioProducto}
-                    onChange={event => handleNumericInput(event, setPrecioUnitarioProducto, 100)}
+                    onChange={event => handleNumericInput(event, setPrecioUnitarioProducto)}
+                    onKeyPress={handleKeyPress}
                     fullWidth
                     required
                     error={precioUnitarioError}
-                    helperText={precioUnitarioError ? 'Por favor ingrese un precio para el producto' : ''}
+                    helperText={precioUnitarioError ? 'Ingrese un valor mayor a 100' : ''}
                   />
                 </Grid>
               </Grid>
@@ -471,6 +498,25 @@ const ProductsModal = props => {
               </Box>
 
               <Grid container spacing={2} alignItems='center'>
+                <Grid item xs={4}>
+                  <FormControl fullWidth>
+                    <InputLabel>Mascota</InputLabel>
+                    <Select
+                      label='Mascota'
+                      value={mascotaProducto}
+                      onChange={event => setMascotaProducto([event.target.value])}
+                    >
+                      <MenuItem value='' disabled>
+                        Seleccionar Mascota
+                      </MenuItem>
+                      {mascotaDropdown.map(mascota => (
+                        <MenuItem key={mascota.id} value={mascota.id}>
+                          {mascota.id} - {mascota.nombre}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </Grid>
                 <Grid item xs={4}>
                   <FormControl fullWidth>
                     <InputLabel>Marca</InputLabel>
@@ -504,25 +550,6 @@ const ProductsModal = props => {
                       {categoriaDropdown.map(categoria => (
                         <MenuItem key={categoria.id} value={categoria.id}>
                           {categoria.id} - {categoria.nombre}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                </Grid>
-                <Grid item xs={4}>
-                  <FormControl fullWidth>
-                    <InputLabel>Mascota</InputLabel>
-                    <Select
-                      label='Mascota'
-                      value={mascotaProducto}
-                      onChange={event => setMascotaProducto([event.target.value])}
-                    >
-                      <MenuItem value='' disabled>
-                        Seleccionar Mascota
-                      </MenuItem>
-                      {mascotaDropdown.map(mascota => (
-                        <MenuItem key={mascota.id} value={mascota.id}>
-                          {mascota.id} - {mascota.nombre}
                         </MenuItem>
                       ))}
                     </Select>

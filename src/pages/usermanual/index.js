@@ -8,6 +8,7 @@ import { useContext } from 'react'
 import { AbilityContext } from 'src/layouts/components/acl/Can'
 import { Box } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
+import { motion } from 'framer-motion'
 
 const Home = () => {
   const ability = useContext(AbilityContext)
@@ -17,21 +18,26 @@ const Home = () => {
   return (
     <Grid container spacing={6}>
       <Grid item xs={12}>
-        <img
-          src={logoSrc}
-          alt='Descripción de la imagen'
-          width='300'
-          height='300'
-          style={{
-            marginBottom: '70px',
-            display: 'block',
-            margin: 'auto',
-
-            borderColor: 'red',
-            sticky: true,
-            backgroundColor: 'transparent'
-          }}
-        />
+        <motion.div
+          initial={{ opacity: 0, y: -50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ type: 'spring', stiffness: 40, delay: 0.1, duration: 0.5 }}
+        >
+          <img
+            src={logoSrc}
+            alt='Descripción de la imagen'
+            width='300'
+            height='300'
+            style={{
+              marginBottom: '70px',
+              display: 'block',
+              margin: 'auto',
+              borderColor: 'red',
+              sticky: true,
+              backgroundColor: 'transparent'
+            }}
+          />
+        </motion.div>
         <Card style={{ marginTop: '10px' }}>
           <CardHeader
             title='Manual de Usuario: Sistema de Inventario Mundo Animal🚀'
@@ -91,7 +97,6 @@ const Home = () => {
                 <li> Haz clic en "Vender" para vender el producto.</li>
               </ol>
             </Typography>
-
             <Typography sx={{ mb: 2 }}>
               <strong>🐾 Usuarios</strong>
             </Typography>
@@ -99,7 +104,7 @@ const Home = () => {
               Administra los usuarios y la asignación de roles con la opción "Usuarios". Para agregar un nuevo usuario:
               <ol>
                 <li> Haz clic en "Agregar usuario".</li>
-                <li>Ingresa los datos correspondientes y una contraseña segura.</li>
+                <li> Ingresa los datos correspondientes y una contraseña segura.</li>
                 <li> Haz clic en "Guardar" para agregar el usuario.</li>
               </ol>
             </Typography>

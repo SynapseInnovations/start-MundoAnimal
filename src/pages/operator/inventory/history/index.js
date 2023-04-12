@@ -115,20 +115,20 @@ const ProductsHistory = () => {
       }
     },
     {
-      field: 'codigo_barra',
-      headerName: 'Código',
-      flex: 0.1,
-      minWidth: 100,
+      field: 'nombre',
+      headerName: 'Producto',
+      flex: 0.2,
+      minWidth: 180,
       align: 'center',
       headerAlign: 'center'
     },
     {
-      field: 'nombre',
-      headerName: 'Producto',
-      flex: 0.4,
-      minWidth: 200,
-      align: 'left',
-      headerAlign: 'left'
+      field: 'codigo_barra',
+      headerName: 'Código de barras',
+      flex: 0.2,
+      minWidth: 100,
+      align: 'center',
+      headerAlign: 'center'
     }
   ]
 

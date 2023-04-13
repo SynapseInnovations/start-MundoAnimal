@@ -275,6 +275,7 @@ const NewSaleWindow = () => {
       return
     }
     if (item.cantidadOriginal == 0 && unitary == 1 ? true : false) {
+      setBarcode('')
       toast.error('No hay stock suficiente de este producto para ingresarlo al carrito.')
 
       return

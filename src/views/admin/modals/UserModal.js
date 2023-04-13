@@ -17,7 +17,7 @@ import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import DialogTitle from '@mui/material/DialogTitle'
 import DialogContent from '@mui/material/DialogContent'
-import { Select, MenuItem } from '@mui/material'
+import { Select, MenuItem, FormControl, InputLabel } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
 import { IconButton, InputAdornment } from '@mui/material'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
@@ -41,7 +41,7 @@ const UserModal = props => {
   const [imagenUsuario, setImagenUsuario] = useState(null)
   const [imgModificada, setImgModificada] = useState(false)
   const [thumbnail, setThumbnail] = useState(process.env.NEXT_PUBLIC_IMG_TEMPORAL_REDONDA)
-  const [rolUsuario, setRolUsuario] = useState(0)
+  const [rolUsuario, setRolUsuario] = useState(2)
   const [edit, setEdit] = useState(false)
   const [querying, setQuerying] = useState(false)
   const [rutValid, setRutValid] = useState(true)
@@ -77,7 +77,7 @@ const UserModal = props => {
       setClaveUsuario('')
       setImagenUsuario(null)
       setThumbnail(process.env.NEXT_PUBLIC_IMG_TEMPORAL_REDONDA)
-      setRolUsuario(0)
+      setRolUsuario(2)
       setEdit(false)
     }
   }, [editTarget.variable, data])
@@ -328,6 +328,7 @@ const UserModal = props => {
             <TextField
               label='Rut'
               fullWidth
+              inputProps={{ autoComplete: 'off' }}
               disabled={edit}
               error={!rutValid || rutUsuario.length < 10}
               helperText={!rutValid ? 'RUT inválido' : rutUsuario.length < 10 ? 'Ingrese un rut válido.' : ''}
@@ -352,10 +353,12 @@ const UserModal = props => {
             <TextField
               label='Nombre'
               fullWidth
+              inputProps={{ autoComplete: 'off' }}
               value={nombreUsuario}
               onChange={e => setNombreUsuario(e.target.value)}
             />
             <TextField
+              inputProps={{ autoComplete: 'off' }}
               label='Correo Electrónico'
               fullWidth
               error={!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(correoUsuario)}
@@ -370,6 +373,7 @@ const UserModal = props => {
             <TextField
               label='Contraseña'
               fullWidth
+              inputProps={{ autoComplete: 'off' }}
               error={claveUsuario.length < 8}
               helperText={claveUsuario.length < 8 ? 'La contraseña debe tener al menos 8 caracteres.' : ''}
               type={showPassword ? 'text' : 'password'} // cambiar dinámicamente el tipo de entrada de texto
@@ -387,6 +391,7 @@ const UserModal = props => {
             />
             <TextField
               label='Dirección'
+              inputProps={{ autoComplete: 'off' }}
               fullWidth
               value={direccionUsuario}
               onChange={e => setDireccionUsuario(e.target.value)}
@@ -397,18 +402,19 @@ const UserModal = props => {
                   <Typography variant='body1'>Rol:</Typography>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px' }}>
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <Select
-                        label='Rol'
-                        value={rolUsuario || 0}
-                        onChange={event => setRolUsuario([event.target.value])}
-                      >
-                        <MenuItem value={0}>Seleccionar Rol</MenuItem>
-                        {roles.map(rol => (
-                          <MenuItem key={rol.id} value={rol.id}>
-                            {rol.id} - {rol.nombre}
+                      <FormControl>
+                        <InputLabel>Rol</InputLabel>
+                        <Select label='Rol' value={rolUsuario} onChange={event => setRolUsuario([event.target.value])}>
+                          <MenuItem value={''} disabled>
+                            Seleccionar Rol
                           </MenuItem>
-                        ))}
-                      </Select>
+                          {roles.map(rol => (
+                            <MenuItem key={rol.id} value={rol.id}>
+                              {rol.nombre}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl>
                     </Box>
                   </Box>
                 </Box>

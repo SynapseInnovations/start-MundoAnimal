@@ -254,31 +254,6 @@ const ProductsIndex = () => {
   ]
   const theme = useTheme()
 
-  const localizedTextsMap = {
-    columnMenuUnsort: 'No Clasificado',
-    columnMenuSortAsc: 'Ordenar de Mayor a Menor',
-    columnMenuSortDesc: 'Cordenar de Menor a Mayor',
-    columnMenuFilter: 'Búsqueda',
-    columnMenuHideColumn: 'Ocultar Columna',
-    columnMenuShowColumns: 'Mostrar Columnas',
-    filterPanelOperators: 'Fitlro',
-    filterPanelInputLabel: 'Buscar',
-    filterPanelInputPlaceholder: 'Dog Chow...',
-    filterPanelColumns: 'Columna',
-    filterOperatorContains: 'Nombre',
-    filterOperatorEquals: 'Igual',
-    filterOperatorStartsWith: 'Empieza por',
-    filterOperatorEndsWith: 'Termina por',
-    filterOperatorIs: 'Es',
-    filterOperatorIsEmpty: 'Está vacío',
-    filterOperatorIsNotEmpty: 'No está vacío',
-    filterOperatorIsAnyOf: 'Es alguno de',
-    columnsPanelTextFieldLabel: 'Buscar Columna',
-    columnsPanelShowAllButton: 'Mostrar Todas',
-    columnsPanelHideAllButton: 'Ocultar Todas',
-    columnsPanelTextFieldPlaceholder: 'Nombre de Columna'
-  }
-
   return (
     <>
       <Grid container spacing={6}>

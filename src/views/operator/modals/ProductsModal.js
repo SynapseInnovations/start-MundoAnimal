@@ -102,8 +102,8 @@ const ProductsModal = props => {
       setNombreProducto('')
       setDescripcionProducto('')
       setCantidadProducto(0)
-      setPrecioKiloProducto(0)
-      setPrecioUnitarioProducto(0)
+      setPrecioKiloProducto(100)
+      setPrecioUnitarioProducto(100)
       setThumbnail(process.env.NEXT_PUBLIC_IMG_TEMPORAL_CUADRADA)
       setMarcaProducto(1)
       setCategoriaProducto(1)
@@ -167,12 +167,7 @@ const ProductsModal = props => {
 
       return
     }
-    if (cantidadProducto == 0) {
-      setCantidadProductoError(true)
-      setQuerying(false)
 
-      return
-    }
     if (precioUnitarioProducto == 0) {
       setPrecioUnitarioError(true)
       setQuerying(false)
@@ -445,7 +440,8 @@ const ProductsModal = props => {
                     type='number'
                     inputProps={{ min: 0 }}
                     value={cantidadProducto}
-                    onChange={event => setCantidadProducto(event.target.value.replace(/\./g, ''))}
+                    onChange={event => handleNumericInput(event, setCantidadProducto)}
+                    onKeyPress={handleKeyPress}
                     fullWidth
                     required
                     error={cantidadProductoError}

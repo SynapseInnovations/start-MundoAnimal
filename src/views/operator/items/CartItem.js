@@ -50,6 +50,12 @@ const CartItem = ({ item, index, handleInputChange, deleteThis }) => {
     cantInput
   } = item
 
+  function handleKeyPress(event) {
+    if (!/[0-9]/.test(event.key)) {
+      event.preventDefault()
+    }
+  }
+
   return (
     <ListItem key={index}>
       <IconButton onClick={() => deleteThis(index)} size='small' className='remove-item' sx={{ color: 'text.primary' }}>
@@ -159,12 +165,7 @@ const CartItem = ({ item, index, handleInputChange, deleteThis }) => {
                         size='small'
                         type='number'
                         label='Cantidad'
-                        onKeyPress={e => {
-                          if (e.key === ',') {
-                            e.preventDefault() // Prevents the comma from being entered
-                            handleInputChange(e.target.value, index, 'cantidad') // Restores the previous value
-                          }
-                        }}
+                        onKeyPress={handleKeyPress}
                         disabled={!item.isPrecioUnitario}
                         value={item.cantInput}
                         onChange={e => handleInputChange(e.target.value, index, 'cantidad')}

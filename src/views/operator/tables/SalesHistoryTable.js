@@ -57,6 +57,7 @@ const Row = props => {
         <TableCell align='center'>{row.Vendedor_rut}</TableCell>
         <TableCell align='center'>
           <Button
+            variant='outlined'
             disabled={row.anulada == 1}
             onClick={e => {
               anularVenta(row.numero_boleta)

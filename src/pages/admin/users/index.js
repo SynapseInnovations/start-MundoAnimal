@@ -7,7 +7,7 @@ import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
 import Typography from '@mui/material/Typography'
 import { DataGrid } from '@mui/x-data-grid'
-import { IconButton } from '@mui/material'
+import IconButton from '@mui/material/IconButton'
 import EditIcon from '@mui/icons-material/Edit'
 import PersonRemoveIcon from '@mui/icons-material/PersonRemove'
 import PersonAddIcon from '@mui/icons-material/PersonAdd'
@@ -293,10 +293,9 @@ const UsersManageIndex = () => {
           sx={{
             '& .MuiDataGrid-columnHeaders': {
               borderRadius: 0,
-              backgroundColor: theme.palette.mode === 'dark' ? theme.palette.primary.dark : theme.palette.primary.light,
-              backgroundColor: theme.palette.mode === 'dark' ? theme.palette.primary.dark : '#eaeaea',
-              border: theme.palette.mode === 'dark' ? '2px solid #30334e' : '1px solid #F9F4F0',
-              color: theme.palette.mode === 'dark' ? '#fff3fb' : '#3a3b42 '
+              backgroundColor: theme.palette.customColors.tableHeaderBg,
+              border: theme.palette.customColors.tableBorder,
+              color: theme.palette.customColors.tableHeaderColor
             }
           }}
           onPageSizeChange={newPageSize => setPageSize(newPageSize)}

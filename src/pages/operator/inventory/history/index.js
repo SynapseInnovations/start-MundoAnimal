@@ -4,7 +4,7 @@ import authConfig from 'src/configs/auth'
 import Box from '@mui/material/Box'
 import Paper from '@mui/material/Paper'
 import Typography from '@mui/material/Typography'
-import { Grid } from '@mui/material'
+import { Card, CardContent, CardHeader, Grid } from '@mui/material'
 import { DataGrid } from '@mui/x-data-grid'
 import APIRoutes from 'src/configs/apiRoutes'
 import PageHeader from 'src/@core/components/page-header'
@@ -144,25 +144,28 @@ const ProductsHistory = () => {
       transition={{ type: 'spring', stiffness: 40, delay: 0.1, duration: 0.3 }}
     >
       <Grid container spacing={6}>
-        <PageHeader
-          title={<Typography variant='h5'>Historial de Cambios</Typography>}
-          subtitle={
-            <Typography variant='body2'>
-              Registra los cambios realizados en el inventario por el usuario que tenga la sesión iniciada actualmente.
-            </Typography>
-          }
-        />
         <Grid item xs={12}>
-          <DataGrid
-            autoHeight
-            rows={data2}
-            columns={columns}
-            pageSize={pageSize}
-            disableSelectionOnClick
-            rowsPerPageOptions={[10, 25, 50, 100]}
-            onPageSizeChange={newPageSize => setPageSize(newPageSize)}
-            localeText={esES.components.MuiDataGrid.defaultProps.localeText}
-          />
+          <Card>
+            <CardHeader
+              title={<Typography variant='h5'>Historial de Cambios</Typography>}
+              subheader={
+                <Typography variant='body2'>
+                  Registra los cambios realizados en el inventario por el usuario que tenga la sesión iniciada
+                  actualmente.
+                </Typography>
+              }
+            />
+            <DataGrid
+              autoHeight
+              rows={data2}
+              columns={columns}
+              pageSize={pageSize}
+              disableSelectionOnClick
+              rowsPerPageOptions={[10, 25, 50, 100]}
+              onPageSizeChange={newPageSize => setPageSize(newPageSize)}
+              localeText={esES.components.MuiDataGrid.defaultProps.localeText}
+            />
+          </Card>
         </Grid>
       </Grid>
     </motion.div>

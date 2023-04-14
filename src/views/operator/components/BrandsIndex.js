@@ -217,11 +217,9 @@ const BrandsIndex = () => {
                 sx={{
                   '& .MuiDataGrid-columnHeaders': {
                     borderRadius: 0,
-                    backgroundColor:
-                      theme.palette.mode === 'dark' ? theme.palette.primary.dark : theme.palette.primary.light,
-                    backgroundColor: theme.palette.mode === 'dark' ? theme.palette.primary.dark : '#eaeaea',
-                    border: theme.palette.mode === 'dark' ? '1px solid #30334e' : '1px solid #F9F4F0',
-                    color: theme.palette.mode === 'dark' ? '#fff3fb' : '#3a3b42 '
+                    backgroundColor: theme.palette.customColors.tableHeaderBg,
+                    border: theme.palette.customColors.tableBorder,
+                    color: theme.palette.customColors.tableHeaderColor
                   }
                 }}
               />

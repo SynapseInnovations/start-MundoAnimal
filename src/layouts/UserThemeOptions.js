@@ -14,14 +14,74 @@ const UserThemeOptions = () => {
   // ** To use core palette, uncomment the below line
   const palette = corePalette(mode, skin)
 
-  return {
-    palette: {
-      primary: {
-        light: '#fc65ca',
-        main: '#fc65ca',
-        dark: '#282a42',
+  // ** Vars
+  const whiteColor = '#FFF'
+  const lightColor = '76, 78, 100'
+  const darkColor = '234, 234, 255'
+  const mainColor = mode === 'light' ? lightColor : darkColor
 
-        contrastText: '#FFF'
+  return {
+    mode: mode,
+    common: {
+      black: '#000',
+      white: whiteColor
+    },
+    palette: {
+      customColors: {
+        dark: darkColor,
+        main: mainColor,
+        light: lightColor,
+        darkBg: '#282A42',
+        lightBg: '#F7F7F9',
+        bodyBg: mode === 'light' ? '#F7F7F9' : '#282A42',
+        trackBg: mode === 'light' ? '#F2F2F4' : '#41435C',
+        tooltipBg: mode === 'light' ? '#262732' : '#464A65',
+        tableHeaderBg: mode === 'light' ? '#f8bfe9' : '#3A3E5B',
+
+        tableHeaderColor: mode === 'light' ? '#000000' : '#ffffffal',
+
+        buttonBg: mode === 'light' ? '#FC65CA' : '#3A3E5B', //primary-light - darkcolor
+        buttonColor: mode === 'light' ? '#ffffff' : '#f8bfe9', //whitecolor - primary-light
+        titleHeaderBg: mode === 'light' ? '#ffffff' : '#282A42',
+        titleHeaderColor: mode === 'light' ? '#3a3b42' : '#fff3fb',
+        tableBorder: mode === 'light' ? '#00ffff' : '#30334e',
+        cardBorder: mode === 'light' ? '#FAFAFA' : '#313451'
+      },
+      primary: {
+        light: '#f8bfe9',
+        main: '#FC65CA',
+        dark: '#c0008f',
+        contrastText: whiteColor
+      },
+      secondary: {
+        light: '#7F889B',
+        main: '#6D788D',
+        dark: '#606A7C',
+        contrastText: whiteColor
+      },
+      error: {
+        light: '#FF625F',
+        main: '#FF4D49',
+        dark: '#E04440',
+        contrastText: whiteColor
+      },
+      warning: {
+        light: '#FDBE42',
+        main: '#FDB528',
+        dark: '#DF9F23',
+        contrastText: whiteColor
+      },
+      info: {
+        light: '#40CDFA',
+        main: '#26C6F9',
+        dark: '#21AEDB',
+        contrastText: whiteColor
+      },
+      success: {
+        light: '#83E542',
+        main: '#72E128',
+        dark: '#64C623',
+        contrastText: whiteColor
       }
     },
 

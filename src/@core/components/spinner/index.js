@@ -18,7 +18,7 @@ const FallbackSpinner = ({ sx }) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setShow(true)
-    }, 10000) // set the delay time in milliseconds
+    }, 5000) // set the delay time in milliseconds
 
     return () => clearTimeout(timer)
   }, [])
@@ -61,17 +61,17 @@ const FallbackSpinner = ({ sx }) => {
                 justifyContent: 'center',
                 alignItems: 'center',
                 transition: 'all 0.1s ease-in-out',
-                backgroundColor: theme.palette.mode === 'dark' ? '#30334e' : '#e7bed8 ',
-                color: theme.palette.mode === 'dark' ? '#e7bed8' : theme.palette.primary.dark,
+                backgroundColor: theme.palette.customColors.bgButton,
+                color: theme.palette.customColors.bgColor,
                 boxShadow: '4px 4px 8px rgba(0, 0, 0, 0.15)',
-                fontWeight: '600',
+                fontWeight: '700',
                 border: theme.palette.mode === 'dark' ? 'solid 2px #e7bed8' : 'solid 2px #30334e',
                 '&:hover': {
                   transition: 'all 0.1s ease-in-out',
                   transform: 'scale(0.98)',
                   boxShadow: '-2px -2px 10px rgba(0, 0, 0, 0.10)',
-                  backgroundColor: theme.palette.mode === 'dark' ? '#30334e' : '#e7bed8 ',
-                  color: theme.palette.mode === 'dark' ? '#e7bed8' : theme.palette.primary.dark
+                  backgroundColor: theme.palette.customColors.bgButton,
+                  color: theme.palette.customColors.bgColor
                 },
                 '&:active': {
                   transform: 'scale(0.98)'

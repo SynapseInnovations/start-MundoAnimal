@@ -115,8 +115,8 @@ const QuickAddModal = props => {
           justifyContent: 'center',
           alignItems: 'center',
           transition: 'all 0.1s ease-in-out',
-          backgroundColor: theme.palette.mode === 'dark' ? '#30334e' : '#e7bed8 ',
-          color: theme.palette.mode === 'dark' ? '#e7bed8' : theme.palette.primary.dark,
+          backgroundColor: theme.palette.customColors.buttonBg,
+          color: theme.palette.mode === 'dark' ? theme.palette.primary.light : theme.palette.primary.dark,
           boxShadow: '4px 4px 8px rgba(0, 0, 0, 0.15)',
           fontWeight: '600',
           border: theme.palette.mode === 'dark' ? 'solid 2px #e7bed8' : 'solid 2px #30334e',
@@ -124,8 +124,8 @@ const QuickAddModal = props => {
             transition: 'all 0.1s ease-in-out',
             transform: 'scale(0.98)',
             boxShadow: '-2px -2px 10px rgba(0, 0, 0, 0.10)',
-            backgroundColor: theme.palette.mode === 'dark' ? '#30334e' : '#e7bed8 ',
-            color: theme.palette.mode === 'dark' ? '#e7bed8' : theme.palette.primary.dark
+            backgroundColor: theme.palette.customColors.buttonBg,
+            color: theme.palette.mode === 'dark' ? theme.palette.primary.light : theme.palette.primary.dark
           },
           '&:active': {
             transform: 'scale(0.98)'

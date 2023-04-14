@@ -14,7 +14,7 @@ import PageHeader from 'src/@core/components/page-header'
 
 // ** Demo Components Imports
 
-import SalesTable from 'src/views/operator/tables/SalesHistoryTable'
+import SalesHistoryTable from 'src/views/operator/tables/SalesHistoryTable'
 
 const SalesListIndex = () => {
   const theme = useTheme()
@@ -33,7 +33,7 @@ const SalesListIndex = () => {
             transition={{ type: 'spring', stiffness: 40, delay: 0.1, duration: 0.3 }}
           >
             <Card>
-              <SalesTable />
+              <SalesHistoryTable />
             </Card>
           </motion.div>
         </Grid>

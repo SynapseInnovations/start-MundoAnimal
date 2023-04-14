@@ -44,11 +44,7 @@ const usuariosRoutes = {
 }
 
 const finanzasRoutes = {
-  //not working yet
-  leer: process.env.NEXT_PUBLIC_API_URL + '/finanzas',
-  modificar: process.env.NEXT_PUBLIC_API_URL + '/finanzas/modificar',
-  registrar: process.env.NEXT_PUBLIC_API_URL + '/finanzas/agregar',
-  eliminar: process.env.NEXT_PUBLIC_API_URL + '/finanzas/eliminar'
+  leer: process.env.NEXT_PUBLIC_API_URL + '/finanza/historial'
 }
 
 const APIRoutes = {

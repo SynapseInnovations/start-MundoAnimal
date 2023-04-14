@@ -1,8 +1,5 @@
 // ** React Imports
 import { useState, useEffect, useCallback } from 'react'
-import { Provider } from 'react-redux'
-
-import { useAuth } from 'src/hooks/useAuth'
 import authConfig from 'src/configs/auth'
 import axios from 'axios'
 import { esES } from '@mui/x-data-grid'
@@ -23,7 +20,7 @@ import Icon from 'src/@core/components/icon'
 
 // ** API Routes
 import APIRoutes from 'src/configs/apiRoutes'
-import { ToastBar, toast } from 'react-hot-toast'
+import { toast } from 'react-hot-toast'
 
 const defaultColumns = [
   {
@@ -182,15 +179,6 @@ const CategoriesIndex = () => {
     }
   ]
 
-  const localizedTextsMap = {
-    columnMenuUnsort: 'a',
-    columnMenuSortAsc: 'Classificar por ordem crescente',
-    columnMenuSortDesc: 'Classificar por ordem decrescente',
-    columnMenuFilter: 'Filtro',
-    columnMenuHideColumn: 'Ocultar',
-    columnMenuShowColumns: 'Mostrar colunas'
-  }
-
   return (
     <>
       <Grid container spacing={6}>
@@ -226,12 +214,9 @@ const CategoriesIndex = () => {
                 sx={{
                   '& .MuiDataGrid-columnHeaders': {
                     borderRadius: 0,
-                    backgroundColor:
-                      theme.palette.mode === 'dark' ? theme.palette.primary.dark : theme.palette.primary.light,
-                    backgroundColor: theme.palette.mode === 'dark' ? theme.palette.primary.dark : '#eaeaea',
-                    border: theme.palette.mode === 'dark' ? '4px solid #30334e' : '4px solid #F9F4F0',
-                    color: theme.palette.mode === 'dark' ? '#fff3fb' : '#3a3b42 ',
-                    borderRadius: 2
+                    backgroundColor: theme.palette.customColors.tableHeaderBg,
+                    border: theme.palette.customColors.tableBorder,
+                    color: theme.palette.customColors.tableHeaderColor
                   }
                 }}
               />

@@ -305,115 +305,259 @@ const NewSaleWindow = () => {
       transition={{ type: 'spring', stiffness: 40, delay: 0.1, duration: 0.3 }}
     >
       <Grid container spacing={6}>
+        <Grid item xs={12} lg={12}>
+          <Typography variant='h4'>Venta de Productos</Typography>
+        </Grid>
         <Grid item xs={12} lg={8}>
-          <Typography variant='h4' sx={{ mb: 4, fontWeight: 600 }}>
-            Venta de Productos
-          </Typography>
+          <Box
+            sx={{
+              gap: 1,
+              display: 'flex',
+              borderRadius: 1,
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              border: theme => `1px solid ${theme.palette.divider}`
+            }}
+          >
+            <Card>
+              <CardContent>
+                <Grid container spacing={2}>
+                  <Grid item xs={12} sm={4}>
+                    <Typography variant='h6' sx={{ mb: 4, fontWeight: 500 }}>
+                      Búsqueda de Productos
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={12} sm={8}>
+                    <RadioGroup row value={unitary} onChange={e => setUnitary(e.target.value)}>
+                      <FormControlLabel value={1} control={<Radio />} label='Venta Unitaria' />
+                      <FormControlLabel value={0} control={<Radio />} label='Venta por Kilo' />
+                    </RadioGroup>
+                  </Grid>
+                  <Grid item xs={12} sm={4}>
+                    <FormControl fullWidth>
+                      <TextField
+                        value={barcode}
+                        type='number'
+                        label='Codigo de Barra'
+                        autoFocus
+                        fullWidth
+                        onKeyDown={e => {
+                          if (e.key == 'Enter') {
+                            handleEnterBarcode()
+                          }
+                        }}
+                        inputProps={{ min: 0, max: 999999999999999 }}
+                        onChange={e => setBarcode(e.target.value > 999999999999999 ? 999999999999999 : e.target.value)}
+                      />
+                    </FormControl>
+                  </Grid>
+                  <Grid item xs={9} sm={6}>
+                    <Autocomplete
+                      fullWidth
+                      value={searchSelected}
+                      getOptionLabel={option => option.nombre || ''}
+                      onChange={(event, newValue) => {
+                        setSearchSelected(newValue)
+                      }}
+                      inputValue={search}
+                      onInputChange={(event, newInputValue) => {
+                        setSearch(newInputValue)
 
-          <Box>
+                        const found = data2.filter(i => i.nombre.toLowerCase().includes(newInputValue.toLowerCase()))
+                        setSearchResult(found)
+                      }}
+                      options={searchResult}
+                      renderInput={params => <TextField {...params} label='Nombre del Producto' fullWidth />}
+                    />
+                  </Grid>
+                  <Grid item xs={3} sm={2}>
+                    <Button
+                      fullWidth
+                      variant='contained'
+                      sx={{
+                        borderRadius: '10px',
+                        padding: '9px',
+                        marginLeft: '4px',
+                        fontSize: '0.5rem',
+                        scrollSnapMarginRight: '10px',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        transition: 'all 0.1s ease-in-out',
+                        backgroundColor: theme.palette.customColors.buttonBg,
+                        color: theme.palette.customColors.buttonColor,
+
+                        fontWeight: '700',
+
+                        '&:hover': {
+                          transition: 'all 0.1s ease-in-out',
+                          transform: 'scale(0.96)',
+                          boxShadow: '-1px -1px 1px rgba(0, 0, 0, 0.20)',
+                          backgroundColor: theme.palette.customColors.buttonBg,
+                          color: theme.palette.customColors.buttonColor
+                        },
+                        '&:active': {
+                          transform: 'scale(0.90)'
+                        }
+                      }}
+                      onClick={handleAddItemCart}
+                    >
+                      <AddIcon fontSize='large' />
+                    </Button>
+                  </Grid>
+                </Grid>
+              </CardContent>
+            </Card>
+          </Box>
+          <Box
+            sx={{
+              gap: 1,
+              marginTop: '20px',
+              display: 'flex',
+              borderRadius: 1,
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              border: theme => `1px solid ${theme.palette.divider}`
+            }}
+          >
+            <Card style={{ width: '100%' }}>
+              <CardContent>
+                <Box display='flex' alignItems='center'>
+                  <LocalGroceryStoreIcon sx={{ fontSize: '1rem', marginRight: '10px' }} />
+                  <Typography variant='h6' sx={{ fontWeight: 500 }}>
+                    Carrito
+                  </Typography>
+                </Box>
+                <StyledList
+                  style={{
+                    maxHeight: 400,
+                    overflow: 'auto'
+                  }}
+                  sx={{ mb: 4 }}
+                >
+                  {cart.length > 0 ? (
+                    <>
+                      {cart.map((item, index) => (
+                        <CartItem
+                          key={index}
+                          item={item}
+                          deleteThis={handleDeleteItemCart}
+                          index={index}
+                          handleInputChange={handleInputChange}
+                        />
+                      ))}
+                    </>
+                  ) : (
+                    <>
+                      <Box
+                        sx={{
+                          mb: 2,
+                          gap: 3,
+                          padding: 16,
+                          display: 'flex',
+                          flexWrap: 'wrap',
+                          flexDirection: 'column',
+                          alignItems: 'Center',
+                          justifyContent: 'space-between'
+                        }}
+                      >
+                        <Box display='flex' alignItems='center'>
+                          <RemoveShoppingCartIcon sx={{ fontSize: '2rem' }} />
+                          <Typography
+                            variant='body2'
+                            sx={{ color: 'text.primary', fontSize: '1.5rem', marginLeft: '0.5rem' }}
+                          >
+                            No existen productos, prueba agregándolos al carrito.
+                          </Typography>
+                        </Box>
+                      </Box>
+                    </>
+                  )}
+                </StyledList>
+              </CardContent>
+            </Card>
+          </Box>
+        </Grid>
+        <Grid item xs={12} lg={4}>
+          <motion.div
+            initial={{ opacity: 0, x: -120 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ type: 'spring', stiffness: 40, delay: 0.2, duration: 0.4 }}
+          >
             <Box
               sx={{
                 gap: 1,
-                marginTop: '20px',
-                display: 'flex',
                 borderRadius: 1,
                 alignItems: 'center',
                 justifyContent: 'space-between',
+                width: '100%',
                 border: theme => `1px solid ${theme.palette.divider}`
               }}
             >
               <Card>
                 <CardContent>
-                  <Grid container spacing={2}>
-                    <Grid item xs={12} sm={4}>
-                      <Typography variant='h6' sx={{ mb: 4, fontWeight: 500 }}>
-                        Búsqueda de Productos
-                      </Typography>
-                    </Grid>
-                    <Grid item xs={12} sm={8}>
-                      <RadioGroup row value={unitary} onChange={e => setUnitary(e.target.value)}>
-                        <FormControlLabel value={1} control={<Radio />} label='Venta Unitaria' />
-                        <FormControlLabel value={0} control={<Radio />} label='Venta por Kilo' />
-                      </RadioGroup>
-                    </Grid>
-                    <Grid item xs={12} sm={4}>
-                      <FormControl fullWidth>
-                        <TextField
-                          value={barcode}
-                          type='number'
-                          label='Codigo de Barra'
-                          autoFocus
-                          fullWidth
-                          onKeyDown={e => {
-                            if (e.key == 'Enter') {
-                              handleEnterBarcode()
-                            }
-                          }}
-                          inputProps={{ min: 0, max: 999999999999999 }}
-                          onChange={e =>
-                            setBarcode(e.target.value > 999999999999999 ? 999999999999999 : e.target.value)
-                          }
-                        />
-                      </FormControl>
-                    </Grid>
-                    <Grid item xs={9} sm={6}>
-                      <Autocomplete
-                        fullWidth
-                        value={searchSelected}
-                        getOptionLabel={option => option.nombre || ''}
-                        onChange={(event, newValue) => {
-                          setSearchSelected(newValue)
-                        }}
-                        inputValue={search}
-                        onInputChange={(event, newInputValue) => {
-                          setSearch(newInputValue)
-
-                          const found = data2.filter(i => i.nombre.toLowerCase().includes(newInputValue.toLowerCase()))
-                          setSearchResult(found)
-                        }}
-                        options={searchResult}
-                        renderInput={params => <TextField {...params} label='Nombre del Producto' fullWidth />}
-                      />
-                    </Grid>
-                    <Grid item xs={3} sm={2}>
-                      <Button
-                        fullWidth
-                        variant='contained'
-                        sx={{
-                          borderRadius: '10px',
-                          padding: '9px',
-                          marginLeft: '4px',
-                          fontSize: '0.5rem',
-                          scrollSnapMarginRight: '10px',
-                          display: 'flex',
-                          justifyContent: 'center',
-                          alignItems: 'center',
-                          transition: 'all 0.1s ease-in-out',
-                          backgroundColor: theme.palette.mode === 'dark' ? '#282a42' : '#efefef',
-                          color: theme.palette.mode === 'dark' ? '#e7bed8' : theme.palette.primary.light,
-
-                          fontWeight: '700',
-
-                          '&:hover': {
-                            transition: 'all 0.1s ease-in-out',
-                            transform: 'scale(0.96)',
-                            boxShadow: '-1px -1px 1px rgba(0, 0, 0, 0.20)',
-                            backgroundColor: theme.palette.mode === 'dark' ? '#282a42' : '#efefef',
-                            color: theme.palette.mode === 'dark' ? '#e7bed8' : theme.palette.primary.light
-                          },
-                          '&:active': {
-                            transform: 'scale(0.90)'
-                          }
-                        }}
-                        onClick={handleAddItemCart}
-                      >
-                        <AddIcon fontSize='large' />
-                      </Button>
-                    </Grid>
-                  </Grid>
+                  <Typography sx={{ mb: 3, fontWeight: 800 }}>Detalle</Typography>
+                  <Box sx={{ display: 'flex', flexGrow: 1, borderRadius: 1, flexDirection: 'column' }}>
+                    {cart.length > 0 ? (
+                      <>
+                        {cart.map((item, index) => (
+                          <Box
+                            key={index}
+                            sx={{
+                              mb: 2,
+                              gap: 2,
+                              display: 'flex',
+                              flexWrap: 'wrap',
+                              alignItems: 'center',
+                              justifyContent: 'space-between'
+                            }}
+                          >
+                            <Typography variant='body2' sx={{ color: 'text.primary' }}>
+                              {item.nombre}
+                            </Typography>
+                            <Typography variant='body2'>
+                              ${' '}
+                              {parseFloat(
+                                item.isPrecioUnitario ? item.precio_unitario : item.precio_kilo
+                              ).toLocaleString()}{' '}
+                              x {parseFloat(item.isPrecioUnitario ? item.cantInput : item.kgInput).toLocaleString()}{' '}
+                              {item.isPrecioUnitario ? 'Unidades' : 'KG'}
+                            </Typography>
+                          </Box>
+                        ))}
+                      </>
+                    ) : (
+                      <>
+                        <Typography variant='body2' sx={{ mb: 45, color: 'text.primary' }}>
+                          Agrega productos al carrito para actualizar el detalle.
+                        </Typography>
+                      </>
+                    )}
+                  </Box>
+                </CardContent>
+                <Divider sx={{ my: '0 !important' }} />
+                <CardContent sx={{ py: theme => `${theme.spacing(3.5)} !important` }}>
+                  <Box
+                    sx={{
+                      gap: 2,
+                      display: 'flex',
+                      flexWrap: 'wrap',
+                      alignItems: 'center',
+                      justifyContent: 'space-between'
+                    }}
+                  >
+                    <Typography sx={{ fontWeight: 600 }}>Total</Typography>
+                    <Typography sx={{ fontWeight: 600 }}>$ {cart.length > 0 ? total.toLocaleString() : '0'}</Typography>
+                  </Box>
                 </CardContent>
               </Card>
             </Box>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 100 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ type: 'spring', stiffness: 40, delay: 0.4, duration: 0.4 }}
+          >
             <Box
               sx={{
                 gap: 1,
@@ -425,180 +569,46 @@ const NewSaleWindow = () => {
                 border: theme => `1px solid ${theme.palette.divider}`
               }}
             >
-              <Card style={{ width: '100%' }}>
-                <CardContent>
-                  <Box display='flex' alignItems='center'>
-                    <LocalGroceryStoreIcon sx={{ fontSize: '1rem', marginRight: '10px' }} />
-                    <Typography variant='h6' sx={{ fontWeight: 500 }}>
-                      Carrito
-                    </Typography>
-                  </Box>
-                  <StyledList
-                    style={{
-                      maxHeight: 400,
-                      overflow: 'auto'
-                    }}
-                    sx={{ mb: 4 }}
-                  >
-                    {cart.length > 0 ? (
-                      <>
-                        {cart.map((item, index) => (
-                          <CartItem
-                            key={index}
-                            item={item}
-                            deleteThis={handleDeleteItemCart}
-                            index={index}
-                            handleInputChange={handleInputChange}
-                          />
-                        ))}
-                      </>
-                    ) : (
-                      <>
-                        <Box
-                          sx={{
-                            mb: 2,
-                            gap: 3,
-                            padding: 16,
-                            display: 'flex',
-                            flexWrap: 'wrap',
-                            flexDirection: 'column',
-                            alignItems: 'Center',
-                            justifyContent: 'space-between'
-                          }}
-                        >
-                          <Box display='flex' alignItems='center'>
-                            <RemoveShoppingCartIcon sx={{ fontSize: '2rem' }} />
-                            <Typography
-                              variant='body2'
-                              sx={{ color: 'text.primary', fontSize: '1.5rem', marginLeft: '0.5rem' }}
-                            >
-                              No existen productos, prueba agregándolos al carrito.
-                            </Typography>
-                          </Box>
-                        </Box>
-                      </>
-                    )}
-                  </StyledList>
-                </CardContent>
-              </Card>
+              <Button
+                disabled={querying}
+                sx={{
+                  borderRadius: '10px',
+                  padding: '12px',
+
+                  fontSize: '3rem',
+                  scrollSnapMarginRight: '10px',
+                  width: '140px',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  transition: 'all 0.3s ease-in-out',
+                  backgroundColor: theme.palette.customColors.buttonBg,
+                  color: theme.palette.customColors.buttonColor,
+
+                  fontWeight: '700',
+
+                  '&:hover': {
+                    transition: 'all 0.1s ease-in-out',
+                    transform: 'scale(0.98)'
+                  },
+                  '&:active': {
+                    transform: 'scale(0.90)'
+                  }
+                }}
+                style={{ width: '100%' }}
+                fullWidth={!breakpointMD}
+                variant='contained'
+                onClick={handleSubmit}
+              >
+                {querying ? (
+                  <>
+                    <CircularProgress disableShrink size={20} sx={{ m: 7 }} /> <Typography>Vendiendo...</Typography>
+                  </>
+                ) : (
+                  <>Vender</>
+                )}
+              </Button>
             </Box>
-          </Box>
-        </Grid>
-
-        <Grid item xs={12} lg={4}>
-          <motion.div
-            initial={{ opacity: 0, x: -120 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ type: 'spring', stiffness: 40, delay: 0.2, duration: 0.7 }}
-          >
-            <Typography variant='h4' sx={{ mb: 4, fontWeight: 600 }}>
-               
-            </Typography>
-            <Box sx={{ mb: 4, borderRadius: 1, border: theme => `1px solid ${theme.palette.divider}` }}>
-              <CardContent>
-                <Typography sx={{ mb: 3, fontWeight: 800 }}>Detalle</Typography>
-                <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                  {cart.length > 0 ? (
-                    <>
-                      {cart.map((item, index) => (
-                        <Box
-                          key={index}
-                          sx={{
-                            mb: 2,
-                            gap: 2,
-                            display: 'flex',
-                            flexWrap: 'wrap',
-                            alignItems: 'center',
-                            justifyContent: 'space-between'
-                          }}
-                        >
-                          <Typography variant='body2' sx={{ color: 'text.primary' }}>
-                            {item.nombre}
-                          </Typography>
-                          <Typography variant='body2'>
-                            ${' '}
-                            {parseFloat(
-                              item.isPrecioUnitario ? item.precio_unitario : item.precio_kilo
-                            ).toLocaleString()}{' '}
-                            x {parseFloat(item.isPrecioUnitario ? item.cantInput : item.kgInput).toLocaleString()}{' '}
-                            {item.isPrecioUnitario ? 'Unidades' : 'KG'}
-                          </Typography>
-                        </Box>
-                      ))}
-                    </>
-                  ) : (
-                    <>
-                      <Typography variant='body2' sx={{ mb: 45, color: 'text.primary' }}>
-                        Agrega productos al carrito para actualizar el detalle.
-                      </Typography>
-                    </>
-                  )}
-                </Box>
-              </CardContent>
-              <Divider sx={{ my: '0 !important' }} />
-              <CardContent sx={{ py: theme => `${theme.spacing(3.5)} !important` }}>
-                <Box
-                  sx={{
-                    gap: 2,
-                    display: 'flex',
-                    flexWrap: 'wrap',
-                    alignItems: 'center',
-                    justifyContent: 'space-between'
-                  }}
-                >
-                  <Typography sx={{ fontWeight: 600 }}>Total</Typography>
-                  <Typography sx={{ fontWeight: 600 }}>$ {cart.length > 0 ? total.toLocaleString() : '0'}</Typography>
-                </Box>
-              </CardContent>
-            </Box>
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0, y: 100 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ type: 'spring', stiffness: 40, delay: 0.4, duration: 0.7 }}
-          >
-            <Button
-              disabled={querying}
-              sx={{
-                borderRadius: '10px',
-                padding: '12px',
-
-                fontSize: '3rem',
-                scrollSnapMarginRight: '10px',
-                width: '140px',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                transition: 'all 0.3s ease-in-out',
-                backgroundColor: theme.palette.mode === 'dark' ? '#30334e' : '#efefef',
-                color: theme.palette.mode === 'dark' ? '#e7bed8' : theme.palette.primary.light,
-
-                fontWeight: '700',
-
-                '&:hover': {
-                  transition: 'all 0.1s ease-in-out',
-                  transform: 'scale(0.98)',
-
-                  backgroundColor: theme.palette.mode === 'dark' ? '#30334e' : '#efefef',
-                  color: theme.palette.mode === 'dark' ? '#e7bed8' : theme.palette.primary.light
-                },
-                '&:active': {
-                  transform: 'scale(0.90)'
-                }
-              }}
-              style={{ width: '100%' }}
-              fullWidth={!breakpointMD}
-              variant='contained'
-              onClick={handleSubmit}
-            >
-              {querying ? (
-                <>
-                  <CircularProgress disableShrink size={20} sx={{ m: 7 }} /> <Typography>Vendiendo...</Typography>
-                </>
-              ) : (
-                <>Vender</>
-              )}
-            </Button>
           </motion.div>
         </Grid>
       </Grid>

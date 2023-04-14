@@ -1,23 +1,22 @@
 // ** React Imports
 import { useState, Fragment, useEffect } from 'react'
-
-import axios from 'axios'
 import { useTheme } from '@mui/material'
+import axios from 'axios'
 import authConfig from 'src/configs/auth'
 import toast from 'react-hot-toast'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
+import Collapse from '@mui/material/Collapse'
 import Paper from '@mui/material/Paper'
 import Table from '@mui/material/Table'
-import Collapse from '@mui/material/Collapse'
+import TableContainer from '@mui/material/TableContainer'
 import TableRow from '@mui/material/TableRow'
 import TableHead from '@mui/material/TableHead'
 import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
 import Typography from '@mui/material/Typography'
 import IconButton from '@mui/material/IconButton'
-import TableContainer from '@mui/material/TableContainer'
 import { Grid, Button } from '@mui/material'
 import PageHeader from 'src/@core/components/page-header'
 
@@ -59,8 +58,13 @@ const Row = props => {
           <Button
             variant='outlined'
             disabled={row.anulada == 1}
-            onClick={e => {
-              anularVenta(row.numero_boleta)
+            onClick={() => {
+              const shouldDelete = window.confirm(
+                '¿Desea realmente anular esta venta? Esta acción no se puede deshacer.'
+              )
+              if (shouldDelete) {
+                anularVenta(row.numero_boleta)
+              }
             }}
           >
             {row.anulada == 1 ? 'Anulada' : 'Anular'}
@@ -177,8 +181,8 @@ const SalesTable = () => {
               flexWrap: 'wrap',
               alignItems: 'center',
               justifyContent: 'space-between',
-              backgroundColor: theme.palette.mode === 'dark' ? theme.palette.primary.dark : '#FAFAFA',
-              border: theme.palette.mode === 'dark' ? '4px solid #313451' : '4px solid #FAFAFA',
+              backgroundColor: theme.palette.customColors.titleHeaderBg,
+              border: theme.palette.customColors.cardBorder,
               boxShadow: '0px -10px 30px rgba(0, 0, 0, 0.3)'
             }}
           >
@@ -213,8 +217,8 @@ const SalesTable = () => {
                   justifyContent: 'center',
                   alignItems: 'center',
                   transition: 'all 0.1s ease-in-out',
-                  backgroundColor: theme.palette.mode === 'dark' ? '#30334e' : '#efefef',
-                  color: theme.palette.mode === 'dark' ? '#e7bed8' : theme.palette.primary.light,
+                  backgroundColor: theme.palette.customColors.buttonBg,
+                  color: theme.palette.customColors.buttonColor,
                   boxShadow: '4px 4px 13px rgba(0, 0, 0, 0.15)',
                   fontWeight: '700',
 
@@ -222,8 +226,8 @@ const SalesTable = () => {
                     transition: 'all 0.1s ease-in-out',
                     transform: 'scale(0.97)',
                     boxShadow: '-2px -2px 15px rgba(0, 0, 0, 0.20)',
-                    backgroundColor: theme.palette.mode === 'dark' ? '#30334e' : '#efefef',
-                    color: theme.palette.mode === 'dark' ? '#e7bed8' : theme.palette.primary.light
+                    backgroundColor: theme.palette.customColors.buttonBg,
+                    color: theme.palette.customColors.buttonColor
                   },
                   '&:active': {
                     transform: 'scale(0.90)'
@@ -238,27 +242,29 @@ const SalesTable = () => {
             </Box>
           </Box>
         </Grid>
+        <Grid item xs={12}>
+          <TableContainer component={Paper}>
+            <Table aria-label='collapsible table'>
+              <TableHead>
+                <TableRow>
+                  <TableCell />
+                  <TableCell>Fecha</TableCell>
+                  <TableCell align='center'>N° Boleta</TableCell>
+                  <TableCell align='center'>Tipo Venta</TableCell>
+                  <TableCell align='center'>Total</TableCell>
+                  <TableCell align='center'>RUT Vendedor</TableCell>
+                  <TableCell align='center'>Anular Venta</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {dataFiltered.map(row => (
+                  <Row key={row.numero_boleta} row={row} anularVenta={deleteThis} />
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Grid>
       </Grid>
-      <TableContainer component={Paper}>
-        <Table aria-label='collapsible table'>
-          <TableHead>
-            <TableRow>
-              <TableCell />
-              <TableCell>Fecha</TableCell>
-              <TableCell align='center'>N° Boleta</TableCell>
-              <TableCell align='center'>Tipo Venta</TableCell>
-              <TableCell align='center'>Total</TableCell>
-              <TableCell align='center'>RUT Vendedor</TableCell>
-              <TableCell align='center'>Anular Venta</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {dataFiltered.map(row => (
-              <Row key={row.numero_boleta} row={row} anularVenta={deleteThis} />
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
     </Fragment>
   )
 }

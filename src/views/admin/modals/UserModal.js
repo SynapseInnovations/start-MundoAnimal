@@ -17,10 +17,15 @@ import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import DialogTitle from '@mui/material/DialogTitle'
 import DialogContent from '@mui/material/DialogContent'
-import { Select, MenuItem, FormControl, InputLabel } from '@mui/material'
+import Select from '@mui/material/Select'
+import MenuItem from '@mui/material/MenuItem'
+import FormControl from '@mui/material/FormControl'
+import InputLabel from '@mui/material/InputLabel'
 import AddIcon from '@mui/icons-material/Add'
-import { IconButton, InputAdornment } from '@mui/material'
-import { Visibility, VisibilityOff } from '@mui/icons-material'
+import IconButton from '@mui/material/IconButton'
+import InputAdornment from '@mui/material/InputAdornment'
+import Visibility from '@mui/icons-material/Visibility'
+import VisibilityOff from '@mui/icons-material/VisibilityOff'
 import { useTheme } from '@mui/material/styles'
 import { motion } from 'framer-motion'
 import GroupIcon from '@mui/icons-material/Group'
@@ -230,7 +235,7 @@ const UserModal = props => {
             flexWrap: 'wrap',
             alignItems: 'center',
             justifyContent: 'space-between',
-            backgroundColor: theme.palette.mode === 'dark' ? theme.palette.primary.dark : '#FAFAFA',
+            backgroundColor: theme.palette.customColors.titleHeaderBg,
             border: theme.palette.mode === 'dark' ? ' solid #313451' : 'solid #FAFAFA',
             borderRadius: 2
           }}
@@ -238,9 +243,8 @@ const UserModal = props => {
           <Box sx={{ display: 'flex', marginBottom: '10px', alignItems: 'center', gap: '0.5rem' }}>
             <GroupIcon
               sx={{
-                color: 'primary.dark',
                 textShadow: '0px 0px 15px rgba(0,0,0,0.5)',
-                color: theme.palette.mode === 'dark' ? '#fff3fb' : '#3a3b42',
+                color: theme.palette.customColors.titleHeaderColor,
 
                 ml: 1
               }}
@@ -248,7 +252,7 @@ const UserModal = props => {
             <Typography
               variant='h5'
               sx={{
-                color: theme.palette.mode === 'dark' ? '#fff3fb' : '#3a3b42',
+                color: theme.palette.customColors.titleHeaderColor,
                 fontWeight: 600,
                 textTransform: 'uppercase',
                 letterSpacing: '0.3rem'
@@ -276,8 +280,8 @@ const UserModal = props => {
                 justifyContent: 'center',
                 alignItems: 'center',
                 transition: 'all 0.1s ease-in-out',
-                backgroundColor: theme.palette.mode === 'dark' ? '#30334e' : '#efefef',
-                color: theme.palette.mode === 'dark' ? '#e7bed8' : theme.palette.primary.light,
+                backgroundColor: theme.palette.customColors.buttonBg,
+                color: theme.palette.customColors.buttonColor,
 
                 fontWeight: '700',
 
@@ -285,8 +289,8 @@ const UserModal = props => {
                   transition: 'all 0.1s ease-in-out',
                   transform: 'scale(0.97)',
                   boxShadow: '-2px -2px 2px rgba(0, 0, 0, 0.20)',
-                  backgroundColor: theme.palette.mode === 'dark' ? '#30334e' : '#efefef',
-                  color: theme.palette.mode === 'dark' ? '#e7bed8' : theme.palette.primary.light
+                  backgroundColor: theme.palette.customColors.buttonBg,
+                  color: theme.palette.customColors.buttonColor
                 },
                 '&:active': {
                   transform: 'scale(0.90)'

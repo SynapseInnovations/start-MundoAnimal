@@ -282,9 +282,9 @@ const ProductsModal = props => {
             flexWrap: 'wrap',
             alignItems: 'center',
             justifyContent: 'space-between',
-            backgroundColor: theme.palette.mode === 'dark' ? theme.palette.primary.dark : '#eaeaea',
-            border: theme.palette.mode === 'dark' ? '4px solid #313451' : '4px solid #F9F4F0',
-            borderRadius: 2
+            backgroundColor: theme.palette.customColors.headerBg,
+            border: theme.palette.customColors.cardBorder,
+            boxShadow: '0px -10px 100px rgba(0, 0, 0, 0.3)'
           }}
         >
           <Box
@@ -298,15 +298,14 @@ const ProductsModal = props => {
             <BallotIcon
               fontSize='large'
               sx={{
-                color: 'primary.dark',
                 textShadow: '0px 0px 15px rgba(0,0,0,0.5)',
-                color: theme.palette.mode === 'dark' ? '#fff3fb' : '#3a3b42'
+                color: theme.palette.customColors.titleHeaderColor
               }}
             />
             <Typography
               variant='h4'
               sx={{
-                color: theme.palette.mode === 'dark' ? '#fff3fb' : '#3a3b42',
+                color: theme.palette.customColors.titleHeaderColor,
                 fontWeight: 600,
                 textTransform: 'uppercase',
                 letterSpacing: '0.3rem'
@@ -333,8 +332,8 @@ const ProductsModal = props => {
                 justifyContent: 'center',
                 alignItems: 'center',
                 transition: 'all 0.1s ease-in-out',
-                backgroundColor: theme.palette.mode === 'dark' ? '#30334e' : '#efefef',
-                color: theme.palette.mode === 'dark' ? '#e7bed8' : theme.palette.primary.light,
+                backgroundColor: theme.palette.customColors.buttonBg,
+                color: theme.palette.customColors.buttonColor,
 
                 fontWeight: '700',
 
@@ -342,8 +341,8 @@ const ProductsModal = props => {
                   transition: 'all 0.1s ease-in-out',
                   transform: 'scale(0.97)',
                   boxShadow: '-2px -2px 2px rgba(0, 0, 0, 0.20)',
-                  backgroundColor: theme.palette.mode === 'dark' ? '#30334e' : '#efefef',
-                  color: theme.palette.mode === 'dark' ? '#e7bed8' : theme.palette.primary.light
+                  backgroundColor: theme.palette.customColors.buttonBg,
+                  color: theme.palette.customColors.buttonColor
                 },
                 '&:active': {
                   transform: 'scale(0.90)'

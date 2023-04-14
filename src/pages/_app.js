@@ -102,9 +102,8 @@ const App = props => {
           <title>{`${themeConfig.templateName} - Inventario`}</title>
           <meta
             name='description'
-            content={`${themeConfig.templateName} – Material Design React Admin Dashboard Template – is the most developer friendly & highly customizable Admin Dashboard Template based on MUI v5.`}
+            content={`${themeConfig.templateName} Sistema de inventario de Mundo Animal, basado en Material UI.`}
           />
-          <meta name='keywords' content='Material Design, MUI, Admin Template, React Admin Template' />
           <meta name='viewport' content='initial-scale=1, width=device-width' />
         </Head>
 

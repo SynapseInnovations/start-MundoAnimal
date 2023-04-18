@@ -140,12 +140,15 @@ const ProductsModal = props => {
 
   const handleFileInputChange = e => {
     setImgModificada(true)
-    setImagenProducto(e.target.files[0])
-    const reader = new FileReader()
-    reader.onload = () => {
-      setThumbnail(reader.result)
+    const f = e.target.files[0]
+    if (f instanceof Blob) {
+      setImagenProducto(f)
+      const reader = new FileReader()
+      reader.onload = () => {
+        setThumbnail(reader.result)
+      }
+      reader.readAsDataURL(f)
     }
-    reader.readAsDataURL(e.target.files[0])
   }
 
   const handleSubmit = event => {
@@ -400,39 +403,42 @@ const ProductsModal = props => {
                 mt: '1px'
               }}
             >
-              <TextField
-                label='Codigo de Barra producto'
-                fullWidth
-                autoFocus
-                type='number'
-                sx={{
-                  marginTop: '5px'
-                }}
-                value={codigoBarraProducto}
-                disabled={edit}
-                onChange={event => setCodigoBarraProducto(event.target.value)}
-                required
-                error={codigoBarraError}
-                helperText={codigoBarraError ? 'Porfavor ingrese un código de barra' : ''}
-                InputProps={{ inputProps: { min: '0', max: '10', step: '1' } }}
-              />
-              <TextField
-                label='Nombre del producto'
-                fullWidth
-                value={nombreProducto}
-                onChange={event => setNombreProducto(event.target.value)}
-                required
-                error={nombreProductoError}
-                helperText={nombreProductoError ? 'Porfavor ingrese un nombre válido' : ''}
-              />
-              <TextField
-                label='Descripción del producto (opcional)'
-                fullWidth
-                value={descripcionProducto}
-                onChange={event => setDescripcionProducto(event.target.value)}
-              />
-
-              <Grid container spacing={2} alignItems='center' mt={2}>
+              <Grid container spacing={4}>
+                <Grid item xs={12} md={4}>
+                  <TextField
+                    label='Codigo de Barra'
+                    fullWidth
+                    autoFocus
+                    type='number'
+                    value={codigoBarraProducto}
+                    disabled={edit}
+                    onChange={event => setCodigoBarraProducto(event.target.value)}
+                    required
+                    error={codigoBarraError}
+                    helperText={codigoBarraError ? 'Ingrese un código de barra.' : ' '}
+                    InputProps={{ inputProps: { min: '0', max: '10', step: '1' } }}
+                  />
+                </Grid>
+                <Grid item xs={12} md={8}>
+                  <TextField
+                    label='Nombre del producto'
+                    fullWidth
+                    value={nombreProducto}
+                    onChange={event => setNombreProducto(event.target.value)}
+                    required
+                    error={nombreProductoError}
+                    helperText={nombreProductoError ? 'Ingrese un nombre.' : ' '}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    label='Descripción del producto (opcional)'
+                    fullWidth
+                    value={descripcionProducto}
+                    onChange={event => setDescripcionProducto(event.target.value)}
+                    helperText=' '
+                  />
+                </Grid>
                 <Grid item xs={12} md={4}>
                   <TextField
                     label='Cantidad del producto'
@@ -444,7 +450,7 @@ const ProductsModal = props => {
                     fullWidth
                     required
                     error={cantidadProductoError}
-                    helperText={cantidadProductoError ? 'Por favor ingrese la cantidad de productos' : ''}
+                    helperText={cantidadProductoError ? 'Por favor ingrese la cantidad de productos' : ' '}
                   />
                 </Grid>
                 <Grid item xs={12} md={4}>
@@ -460,7 +466,7 @@ const ProductsModal = props => {
                     onKeyPress={handleKeyPress}
                     fullWidth
                     error={precioKiloError}
-                    helperText={precioKiloError ? 'Ingrese un valor mayor a 100' : ''}
+                    helperText={precioKiloError ? 'Ingrese un valor mayor a 100' : ' '}
                   />
                 </Grid>
                 <Grid item xs={12} md={4}>
@@ -477,23 +483,10 @@ const ProductsModal = props => {
                     fullWidth
                     required
                     error={precioUnitarioError}
-                    helperText={precioUnitarioError ? 'Ingrese un valor mayor a 100' : ''}
+                    helperText={precioUnitarioError ? 'Ingrese un valor mayor a 100' : ' '}
                   />
                 </Grid>
-              </Grid>
-
-              <Box sx={{ display: 'flex', alignItems: 'center', mb: '15px' }}>
-                <input type='file' id='product-image' style={{ display: 'none' }} onChange={handleFileInputChange} />
-                <label htmlFor='product-image'>
-                  <Button variant='contained' component='span'>
-                    Seleccione una imagen
-                  </Button>
-                </label>
-                <img src={thumbnail} alt='thumbnail' style={{ marginLeft: '10px', maxHeight: '100px', gap: '16px' }} />
-              </Box>
-
-              <Grid container spacing={2} alignItems='center'>
-                <Grid item xs={4}>
+                <Grid item xs={12} md={4}>
                   <FormControl fullWidth>
                     <InputLabel>Mascota</InputLabel>
                     <Select
@@ -512,7 +505,7 @@ const ProductsModal = props => {
                     </Select>
                   </FormControl>
                 </Grid>
-                <Grid item xs={4}>
+                <Grid item xs={12} md={4}>
                   <FormControl fullWidth>
                     <InputLabel>Marca</InputLabel>
                     <Select
@@ -531,7 +524,7 @@ const ProductsModal = props => {
                     </Select>
                   </FormControl>
                 </Grid>
-                <Grid item xs={4}>
+                <Grid item xs={12} md={4}>
                   <FormControl fullWidth>
                     <InputLabel>Tipo</InputLabel>
                     <Select
@@ -549,6 +542,22 @@ const ProductsModal = props => {
                       ))}
                     </Select>
                   </FormControl>
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    fullWidth
+                    type='file'
+                    label='Imagen'
+                    onChange={handleFileInputChange}
+                    InputLabelProps={{
+                      shrink: true
+                    }}
+                    InputProps={{
+                      endAdornment: thumbnail ? (
+                        <img src={thumbnail} alt='preview' width='32' height='32' gap='16' />
+                      ) : null
+                    }}
+                  />
                 </Grid>
               </Grid>
 

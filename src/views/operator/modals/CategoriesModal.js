@@ -29,7 +29,7 @@ import AddIcon from '@mui/icons-material/Add'
 const CategoriesModal = props => {
   // ** Variables
   const [nombreCategoria, setNombreCategoria] = useState('')
-  const [nombreCategoriaError, setNombreCategoriaError] = useState('')
+  const [nombreCategoriaError, setNombreCategoriaError] = useState(false)
   const [edit, setEdit] = useState(false)
   const [querying, setQuerying] = useState(false)
 

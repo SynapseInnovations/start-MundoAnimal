@@ -35,7 +35,7 @@ import { toast } from 'react-hot-toast'
 const PetsModal = props => {
   // ** Variables
   const [nombreMascota, setNombreMascota] = useState('')
-  const [nombreMascotaError, setNombreMascotaError] = useState('')
+  const [nombreMascotaError, setNombreMascotaError] = useState(false)
   const [edit, setEdit] = useState(false)
   const [querying, setQuerying] = useState(false)
 

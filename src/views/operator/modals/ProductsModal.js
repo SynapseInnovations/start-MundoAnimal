@@ -42,20 +42,26 @@ const ProductsModal = props => {
   const [descripcionProducto, setDescripcionProducto] = useState('')
   const [cantidadProducto, setCantidadProducto] = useState(0)
   const [precioKiloProducto, setPrecioKiloProducto] = useState(100)
+  const [precioNetoProducto, setPrecioNetoProducto] = useState(100)
   const [precioUnitarioProducto, setPrecioUnitarioProducto] = useState(100)
   const [marcaProducto, setMarcaProducto] = useState('')
   const [categoriaProducto, setCategoriaProducto] = useState('')
   const [mascotaProducto, setMascotaProducto] = useState('')
+  const [imagenProducto, setImagenProducto] = useState(null)
+  const [imgModificada, setImgModificada] = useState(false)
+
+  // ** Errores
   const [cantidadProductoError, setCantidadProductoError] = useState(false)
   const [nombreProductoError, setNombreProductoError] = useState(false)
   const [codigoBarraError, setCodigoBarraError] = useState(false)
-  const [imagenProducto, setImagenProducto] = useState(null)
-  const [imgModificada, setImgModificada] = useState(false)
+  const [precioUnitarioError, setPrecioUnitarioError] = useState(false)
+  const [precioKiloError, setPrecioKiloError] = useState(false)
+  const [precioNetoError, setPrecioNetoError] = useState(false)
+
+  // ** Control
   const [thumbnail, setThumbnail] = useState(process.env.NEXT_PUBLIC_IMG_TEMPORAL_CUADRADA)
   const [edit, setEdit] = useState(false)
   const [querying, setQuerying] = useState(false)
-  const [precioUnitarioError, setPrecioUnitarioError] = useState(false)
-  const [precioKiloError, setPrecioKiloError] = useState(false)
 
   // ** Props
   const { editTarget, data, open, dialogToggle, updateMethod } = props
@@ -91,6 +97,7 @@ const ProductsModal = props => {
       setDescripcionProducto(found.descripcion)
       setCantidadProducto(found.cantidad)
       setPrecioKiloProducto(found.precio_kilo)
+      setPrecioNetoProducto(found.precio_neto)
       setPrecioUnitarioProducto(found.precio_unitario)
       setThumbnail(found.imagen)
       setMarcaProducto(found.marca_id)
@@ -104,6 +111,7 @@ const ProductsModal = props => {
       setCantidadProducto(0)
       setPrecioKiloProducto(100)
       setPrecioUnitarioProducto(100)
+      setPrecioNetoProducto(100)
       setThumbnail(process.env.NEXT_PUBLIC_IMG_TEMPORAL_CUADRADA)
       setMarcaProducto(1)
       setCategoriaProducto(1)
@@ -186,6 +194,7 @@ const ProductsModal = props => {
     inventoryForm.append('descripcion', descripcionProducto)
     inventoryForm.append('cantidad', cantidadProducto)
     inventoryForm.append('precio_kilo', precioKiloProducto)
+    inventoryForm.append('precio_neto', precioNetoProducto)
     inventoryForm.append('precio_unitario', precioUnitarioProducto)
     inventoryForm.append('categoria_id', categoriaProducto)
     inventoryForm.append('marca_id', marcaProducto)
@@ -381,15 +390,13 @@ const ProductsModal = props => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1, duration: 0.3 }}
         >
-          <DialogTitle sx={{ mx: 'auto', textAlign: 'center', marginTop: '30px', marginBottom: '20px' }}>
-            <Typography variant='h5' component='span' sx={{ mb: 2 }}>
-              {edit ? 'Modificar Producto Existente' : 'Agregar Nuevo Producto'}
-            </Typography>
+          <DialogTitle sx={{ textAlign: 'center', marginTop: '30px' }}>
+            <Typography variant='h4'>{edit ? 'Modificar Producto Existente' : 'Agregar Nuevo Producto'}</Typography>
             <Typography variant='body2'>
               {edit ? 'Modifica datos de productos en el' : 'Agrega nuevos productos al'} inventario de Mundo Animal!
             </Typography>
           </DialogTitle>
-          <DialogContent sx={{ pb: 12, mx: 'auto' }}>
+          <DialogContent sx={{ p: 12, paddingTop: '20px !important' }}>
             <Box
               component='form'
               onSubmit={handleSubmit}
@@ -453,20 +460,36 @@ const ProductsModal = props => {
                     helperText={cantidadProductoError ? 'Por favor ingrese la cantidad de productos' : ' '}
                   />
                 </Grid>
+                <Grid item xs={12} md={8}>
+                  <TextField
+                    fullWidth
+                    type='file'
+                    label='Imagen'
+                    onChange={handleFileInputChange}
+                    InputLabelProps={{
+                      shrink: true
+                    }}
+                    InputProps={{
+                      endAdornment: thumbnail ? (
+                        <img src={thumbnail} alt='preview' width='32' height='32' gap='16' />
+                      ) : null
+                    }}
+                  />
+                </Grid>
                 <Grid item xs={12} md={4}>
                   <TextField
-                    label='Precio por kilo'
+                    label='Precio neto'
                     type='number'
                     inputProps={{ min: 100, step: '0.1' }}
                     InputProps={{
                       startAdornment: <InputAdornment position='start'>$</InputAdornment>
                     }}
-                    value={precioKiloProducto}
-                    onChange={event => handleNumericInput(event, setPrecioKiloProducto)}
+                    value={precioNetoProducto}
+                    onChange={event => handleNumericInput(event, setPrecioNetoProducto)}
                     onKeyPress={handleKeyPress}
                     fullWidth
-                    error={precioKiloError}
-                    helperText={precioKiloError ? 'Ingrese un valor mayor a 100' : ' '}
+                    error={precioNetoError}
+                    helperText={precioNetoError ? 'Ingrese un valor mayor a 100' : ' '}
                   />
                 </Grid>
                 <Grid item xs={12} md={4}>
@@ -484,6 +507,22 @@ const ProductsModal = props => {
                     required
                     error={precioUnitarioError}
                     helperText={precioUnitarioError ? 'Ingrese un valor mayor a 100' : ' '}
+                  />
+                </Grid>
+                <Grid item xs={12} md={4}>
+                  <TextField
+                    label='Precio por kilo'
+                    type='number'
+                    inputProps={{ min: 100, step: '0.1' }}
+                    InputProps={{
+                      startAdornment: <InputAdornment position='start'>$</InputAdornment>
+                    }}
+                    value={precioKiloProducto}
+                    onChange={event => handleNumericInput(event, setPrecioKiloProducto)}
+                    onKeyPress={handleKeyPress}
+                    fullWidth
+                    error={precioKiloError}
+                    helperText={precioKiloError ? 'Ingrese un valor mayor a 100' : ' '}
                   />
                 </Grid>
                 <Grid item xs={12} md={4}>
@@ -542,22 +581,6 @@ const ProductsModal = props => {
                       ))}
                     </Select>
                   </FormControl>
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    fullWidth
-                    type='file'
-                    label='Imagen'
-                    onChange={handleFileInputChange}
-                    InputLabelProps={{
-                      shrink: true
-                    }}
-                    InputProps={{
-                      endAdornment: thumbnail ? (
-                        <img src={thumbnail} alt='preview' width='32' height='32' gap='16' />
-                      ) : null
-                    }}
-                  />
                 </Grid>
               </Grid>
 

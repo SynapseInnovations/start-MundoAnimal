@@ -62,12 +62,12 @@ const defaultColumns = [
   },
   {
     flex: 0.12,
-    field: 'precio_kilo',
+    field: 'precio_neto',
     minWidth: 120,
-    headerName: '$ Kilo',
+    headerName: '$ Neto',
     headerAlign: 'center',
     align: 'center',
-    renderCell: ({ row }) => <Typography>$ {parseFloat(row.precio_kilo).toLocaleString()}</Typography>
+    renderCell: ({ row }) => <Typography>$ {parseFloat(row.precio_neto).toLocaleString()} c/u</Typography>
   },
   {
     flex: 0.12,
@@ -76,7 +76,16 @@ const defaultColumns = [
     headerName: '$ Unitario',
     headerAlign: 'center',
     align: 'center',
-    renderCell: ({ row }) => <Typography>$ {parseFloat(row.precio_unitario).toLocaleString()}</Typography>
+    renderCell: ({ row }) => <Typography>$ {parseFloat(row.precio_unitario).toLocaleString()} c/u</Typography>
+  },
+  {
+    flex: 0.12,
+    field: 'precio_kilo',
+    minWidth: 120,
+    headerName: '$ Kilo',
+    headerAlign: 'center',
+    align: 'center',
+    renderCell: ({ row }) => <Typography>$ {parseFloat(row.precio_kilo).toLocaleString()}/kg</Typography>
   },
   {
     flex: 0.15,
@@ -85,6 +94,7 @@ const defaultColumns = [
     headerName: 'Mascota',
     headerAlign: 'center',
     align: 'center',
+    hide: 'true',
     renderCell: ({ row }) => <Typography>{row.Mascota}</Typography>
   },
   {
@@ -94,6 +104,7 @@ const defaultColumns = [
     headerName: 'Marca',
     headerAlign: 'center',
     align: 'center',
+    hide: 'true',
     renderCell: ({ row }) => <Typography>{row.Marca}</Typography>
   },
   {
@@ -103,6 +114,7 @@ const defaultColumns = [
     headerName: 'Tipo',
     headerAlign: 'center',
     align: 'center',
+    hide: 'true',
     renderCell: ({ row }) => <Typography>{row.Categoria}</Typography>
   }
 ]

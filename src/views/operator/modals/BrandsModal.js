@@ -29,7 +29,7 @@ import { toast } from 'react-hot-toast'
 const BrandsModal = props => {
   // ** Variables
   const [nombreMarca, setNombreMarca] = useState('')
-  const [nombreMarcaError, setNombreMarcaError] = useState('')
+  const [nombreMarcaError, setNombreMarcaError] = useState(false)
   const [edit, setEdit] = useState(false)
   const [querying, setQuerying] = useState(false)
 

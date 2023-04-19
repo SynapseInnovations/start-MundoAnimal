@@ -10,13 +10,13 @@ const CategorizationIndex = () => {
 
   return (
     <Grid container spacing={8}>
-      <Grid item xs={4}>
+      <Grid item xs={12} md={4}>
         <PetsIndex />
       </Grid>
-      <Grid item xs={4}>
+      <Grid item xs={12} md={4}>
         <BrandsIndex />
       </Grid>
-      <Grid item xs={4}>
+      <Grid item xs={12} md={4}>
         <CategoriesIndex />
       </Grid>
     </Grid>

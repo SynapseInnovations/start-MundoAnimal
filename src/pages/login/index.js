@@ -349,7 +349,7 @@ const LoginPage = () => {
                   mb: theme => `${theme.spacing(7.5)} !important`
                 }}
               >
-                Inventario Mundo Animal
+                Second Mind
               </Divider>
             </form>
           </BoxWrapper>

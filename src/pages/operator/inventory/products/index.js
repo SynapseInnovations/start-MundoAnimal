@@ -28,34 +28,21 @@ import { toast } from 'react-hot-toast'
 
 const defaultColumns = [
   {
-    flex: 0.4,
+    flex: 0.3,
     field: 'nombre',
     minWidth: 500,
-    headerName: 'Nombre',
+    headerName: 'Título',
     hideable: false,
     renderCell: ({ row }) => {
-      /*return (
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-            <Typography noWrap variant='body2' sx={{ color: 'text.primary', fontWeight: 600 }}>
-              {row.nombre}
-            </Typography>
-            <Typography noWrap variant='caption'>
-              {row.codigo_barra}
-            </Typography>
-          </Box>
-        </Box>
-      )*/
-
       return (
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <CustomAvatar src={row.imagen} sx={{ mr: 3, width: '1.875rem', height: '1.875rem' }} />
           <Box sx={{ display: 'flex', flexDirection: 'column' }}>
             <Typography noWrap variant='body2' sx={{ color: 'text.primary', fontWeight: 600 }}>
-              {row.nombre}
+              {row.titulo}
             </Typography>
             <Typography noWrap variant='caption'>
-              {row.codigo_barra}
+              ISBN: {row.codigo_barra}
             </Typography>
           </Box>
         </Box>
@@ -63,58 +50,31 @@ const defaultColumns = [
     }
   },
   {
-    flex: 0.1,
-    minWidth: 100,
-    field: 'cantidad',
-    headerName: 'Disponible',
+    flex: 0.3,
+    minWidth: 200,
+    field: 'autor',
+    headerName: 'Autor',
     headerAlign: 'center',
     align: 'center',
-    renderCell: ({ row }) => <Typography>{row.cantidad}</Typography>
+    renderCell: ({ row }) => <Typography>{row.autor}</Typography>
   },
   {
     flex: 0.1,
-    field: 'precio_kilo',
+    field: 'anio',
     minWidth: 100,
-    headerName: '$ Kilo',
+    headerName: 'Año',
     headerAlign: 'center',
     align: 'center',
-    renderCell: ({ row }) => <Typography>$ {parseFloat(row.precio_kilo).toLocaleString()}</Typography>
-  },
-  {
-    flex: 0.1,
-    field: 'precio_unitario',
-    minWidth: 100,
-    headerName: '$ Unitario',
-    headerAlign: 'center',
-    align: 'center',
-    renderCell: ({ row }) => <Typography>$ {parseFloat(row.precio_unitario).toLocaleString()}</Typography>
+    renderCell: ({ row }) => <Typography>{new Date(row.anio_publicacion).getFullYear()}</Typography>
   },
   {
     flex: 0.1,
     field: 'Categoria',
     minWidth: 100,
-    headerName: 'Categoría',
+    headerName: 'Editorial',
     headerAlign: 'center',
     align: 'center',
-    renderCell: ({ row }) => <Typography>{row.Categoria}</Typography>
-  },
-  {
-    flex: 0.1,
-    minWidth: 100,
-    field: 'Marca',
-    headerName: 'Marca',
-    headerAlign: 'center',
-    align: 'center',
-    renderCell: ({ row }) => <Typography>{row.Marca}</Typography>
-  },
-  {
-    flex: 0.1,
-    minWidth: 100,
-    field: 'Mascota',
-    headerName: 'Mascota',
-    headerAlign: 'center',
-    align: 'center',
-    renderCell: ({ row }) => <Typography>{row.Mascota}</Typography>
+    renderCell: ({ row }) => <Typography>{row.editorial}</Typography>
   }
 ]
 
@@ -159,7 +119,7 @@ const ProductsIndex = () => {
   const updateData = () => {
     setLoading(true)
     axios
-      .get(APIRoutes.productos.leer, {
+      .get(APIRoutes.libros.leer, {
         headers: {
           token: window.localStorage.getItem(authConfig.storageTokenKeyName)
         }

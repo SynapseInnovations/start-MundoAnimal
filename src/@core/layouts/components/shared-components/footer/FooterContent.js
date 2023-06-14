@@ -11,11 +11,11 @@ const FooterContent = () => {
   return (
     <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between' }}>
       <Typography sx={{ mr: 5 }}>
-        {`© ${new Date().getFullYear()}, Desarrollado por `}
-
+        {`© ${new Date().getFullYear()}  `}
         <Link target='_blank' href='https://github.com/SynapseInnovations'>
-          Synapse.
+          Second Mind
         </Link>
+        . Sistema de Gestión [DEMO]
       </Typography>
     </Box>
   )

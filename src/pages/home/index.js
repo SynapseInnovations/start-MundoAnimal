@@ -43,7 +43,7 @@ const Home = () => {
             transition={{ delay: 0.1, duration: 2 }}
           />
           <Card style={{ marginTop: '20px', marginBottom: '20px' }}>
-            <CardHeader title='🚀 Bienvenido al Sistema de Inventario Mundo Animal 🚀'></CardHeader>
+            <CardHeader title='🚀 Bienvenido al Sistema de Gestión Second Mind 🚀'></CardHeader>
             <CardContent>
               <motion.div
                 initial={{ x: -100, opacity: 0 }}
@@ -51,8 +51,8 @@ const Home = () => {
                 transition={{ delay: 1, duration: 0.8 }}
               >
                 <Typography sx={{ mb: 3, fontWeight: 'bold', fontSize: '18px' }}>
-                  Tu sistema de inventario donde podrás gestionar fácilmente todos los productos, usuarios y finanzas de
-                  Mundo Animal.
+                  Tu sistema de inventario donde podrás gestionar fácilmente todas las utilidades escolares que tu
+                  centro educativo brinda a sus estudiantes..
                 </Typography>
               </motion.div>
               <motion.div
@@ -63,7 +63,7 @@ const Home = () => {
                 <Typography sx={{ mb: 3 }}>
                   Para comenzar, navega por las diferentes secciones utilizando los botones de la barra de navegación
                   que encontrarás a tu izquierda. En cada sección, encontrarás las funciones y herramientas necesarias
-                  para administrar eficientemente tus productos.
+                  para administrar eficientemente tus artículos.
                 </Typography>
               </motion.div>
               <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 2, duration: 0.8 }}>
@@ -71,7 +71,7 @@ const Home = () => {
                   <Avatar sx={{ width: 56, height: 56, mr: 2 }}>
                     <PetsIcon />
                   </Avatar>
-                  <Typography variant='h6'>Inventario Mundo Animal - Tu aliado en la gestión de productos</Typography>
+                  <Typography variant='h6'>Second Mind - Impulsando el futuro educativo.</Typography>
                 </Box>
               </motion.div>
               <motion.div
@@ -83,7 +83,7 @@ const Home = () => {
                 <Typography sx={{ mt: 1 }}>
                   Por favor, asegúrate de leer y comprender el Manual del Usuario antes de comenzar a utilizar el
                   sistema. El manual te proporcionará una descripción detallada de cada función y te ayudará a
-                  aprovechar al máximo nuestro sistema de inventario. Puedes encontrarlo en la barra de navegación.
+                  aprovechar al máximo el sistema de gestión. Puedes encontrarlo en la barra de navegación.
                 </Typography>
               </motion.div>
             </CardContent>

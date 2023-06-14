@@ -41,8 +41,9 @@ const ProductsModal = props => {
   const [nombreProducto, setNombreProducto] = useState('')
   const [descripcionProducto, setDescripcionProducto] = useState('')
   const [cantidadProducto, setCantidadProducto] = useState(0)
-  const [precioKiloProducto, setPrecioKiloProducto] = useState(100)
-  const [precioUnitarioProducto, setPrecioUnitarioProducto] = useState(100)
+  const [precioKiloProducto, setPrecioKiloProducto] = useState(2023)
+  const [editorialProducto, setEditorialProducto] = useState('')
+  const [precioUnitarioProducto, setPrecioUnitarioProducto] = useState(2023)
   const [marcaProducto, setMarcaProducto] = useState('')
   const [categoriaProducto, setCategoriaProducto] = useState('')
   const [mascotaProducto, setMascotaProducto] = useState('')
@@ -101,9 +102,10 @@ const ProductsModal = props => {
       setCodigoBarraProducto('')
       setNombreProducto('')
       setDescripcionProducto('')
+      setEditorialProducto('')
       setCantidadProducto(0)
-      setPrecioKiloProducto(100)
-      setPrecioUnitarioProducto(100)
+      setPrecioKiloProducto(2023)
+      setPrecioUnitarioProducto(2023)
       setThumbnail(process.env.NEXT_PUBLIC_IMG_TEMPORAL_CUADRADA)
       setMarcaProducto(1)
       setCategoriaProducto(1)
@@ -176,20 +178,15 @@ const ProductsModal = props => {
     }
     const inventoryForm = new FormData()
     const now = new Date()
+    const d = new Date(precioKiloProducto, 0, 1)
     const currentDate = new Date(now.getTime() - now.getTimezoneOffset() * 60000)
     const mysqlDate = currentDate.toISOString().slice(0, 19).replace('T', ' ')
     inventoryForm.append('codigo_barra', codigoBarraProducto)
-    inventoryForm.append('nombre', nombreProducto)
-    inventoryForm.append('descripcion', descripcionProducto)
+    inventoryForm.append('titulo', nombreProducto)
+    inventoryForm.append('autor', descripcionProducto)
+    inventoryForm.append('editorial', editorialProducto)
+    inventoryForm.append('anio_publicacion', d.toISOString().slice(0, 19).replace('T', ' '))
     inventoryForm.append('cantidad', cantidadProducto)
-    inventoryForm.append('precio_kilo', precioKiloProducto)
-    inventoryForm.append('precio_unitario', precioUnitarioProducto)
-    inventoryForm.append('categoria_id', categoriaProducto)
-    inventoryForm.append('marca_id', marcaProducto)
-    inventoryForm.append('fecha', mysqlDate)
-    inventoryForm.append('mascota_id', mascotaProducto)
-    inventoryForm.append('imgModificada', imgModificada)
-    inventoryForm.append('imagen', imagenProducto)
 
     if (edit) {
       toast('Modificando...')
@@ -219,7 +216,7 @@ const ProductsModal = props => {
     } else {
       toast('Agregando...')
       axios
-        .post(APIRoutes.productos.registrar, inventoryForm, {
+        .post(APIRoutes.libros.registrar, inventoryForm, {
           headers: {
             'Content-Type': `multipart/form-data`,
             token: window.localStorage.getItem(authConfig.storageTokenKeyName)
@@ -238,7 +235,7 @@ const ProductsModal = props => {
 
             return
           }
-
+          console.log(e.response)
           toast.error(e.response.data.msg)
         })
     }
@@ -257,8 +254,8 @@ const ProductsModal = props => {
     }
   }
   useEffect(() => {
-    setPrecioKiloError(precioKiloProducto < 100)
-    setPrecioUnitarioError(precioUnitarioProducto < 100)
+    setPrecioKiloError(precioKiloProducto < 0)
+    setPrecioUnitarioError(precioUnitarioProducto < 0)
   }, [precioKiloProducto, precioUnitarioProducto])
 
   function handleKeyPress(event) {
@@ -311,7 +308,7 @@ const ProductsModal = props => {
                 letterSpacing: '0.3rem'
               }}
             >
-              Productos
+              Listado de Libros
             </Typography>
           </Box>
 
@@ -380,10 +377,10 @@ const ProductsModal = props => {
         >
           <DialogTitle sx={{ mx: 'auto', textAlign: 'center', marginTop: '30px', marginBottom: '20px' }}>
             <Typography variant='h5' component='span' sx={{ mb: 2 }}>
-              {edit ? 'Modificar Producto Existente' : 'Agregar Nuevo Producto'}
+              {edit ? 'Modificar Libro existente' : 'Agregar Nuevo Libro'}
             </Typography>
             <Typography variant='body2'>
-              {edit ? 'Modifica datos de productos en el' : 'Agrega nuevos productos al'} inventario de Mundo Animal!
+              {edit ? 'Modifica datos de libros en el' : 'Agrega nuevos libros al'} sistema de Second Mind
             </Typography>
           </DialogTitle>
           <DialogContent sx={{ pb: 12, mx: 'auto' }}>
@@ -401,7 +398,7 @@ const ProductsModal = props => {
               }}
             >
               <TextField
-                label='Codigo de Barra producto'
+                label='ISBN (código de barra)'
                 fullWidth
                 autoFocus
                 type='number'
@@ -417,7 +414,7 @@ const ProductsModal = props => {
                 InputProps={{ inputProps: { min: '0', max: '10', step: '1' } }}
               />
               <TextField
-                label='Nombre del producto'
+                label='Título'
                 fullWidth
                 value={nombreProducto}
                 onChange={event => setNombreProducto(event.target.value)}
@@ -426,7 +423,7 @@ const ProductsModal = props => {
                 helperText={nombreProductoError ? 'Porfavor ingrese un nombre válido' : ''}
               />
               <TextField
-                label='Descripción del producto (opcional)'
+                label='Autor'
                 fullWidth
                 value={descripcionProducto}
                 onChange={event => setDescripcionProducto(event.target.value)}
@@ -435,7 +432,7 @@ const ProductsModal = props => {
               <Grid container spacing={2} alignItems='center' mt={2}>
                 <Grid item xs={12} md={4}>
                   <TextField
-                    label='Cantidad del producto'
+                    label='Cantidad'
                     type='number'
                     inputProps={{ min: 0 }}
                     value={cantidadProducto}
@@ -449,106 +446,24 @@ const ProductsModal = props => {
                 </Grid>
                 <Grid item xs={12} md={4}>
                   <TextField
-                    label='Precio por kilo'
+                    label='Año'
                     type='number'
-                    inputProps={{ min: 0, step: '0,1' }}
-                    InputProps={{
-                      startAdornment: <InputAdornment position='start'>$</InputAdornment>
-                    }}
+                    inputProps={{ min: 0, step: '1' }}
                     value={precioKiloProducto}
                     onChange={event => handleNumericInput(event, setPrecioKiloProducto)}
                     onKeyPress={handleKeyPress}
                     fullWidth
                     error={precioKiloError}
-                    helperText={precioKiloError ? 'Ingrese un valor mayor a 100' : ''}
+                    helperText={precioKiloError ? 'Ingrese un valor mayor a 0' : ''}
                   />
                 </Grid>
-                <Grid item xs={12} md={4}>
+                <Grid item md={4}>
                   <TextField
-                    label='Precio unitario'
-                    type='number'
-                    inputProps={{ min: 0, step: '0,1' }}
-                    InputProps={{
-                      startAdornment: <InputAdornment position='start'>$</InputAdornment>
-                    }}
-                    value={precioUnitarioProducto}
-                    onChange={event => handleNumericInput(event, setPrecioUnitarioProducto)}
-                    onKeyPress={handleKeyPress}
+                    label='Editorial'
                     fullWidth
-                    required
-                    error={precioUnitarioError}
-                    helperText={precioUnitarioError ? 'Ingrese un valor mayor a 100' : ''}
+                    value={editorialProducto}
+                    onChange={event => setEditorialProducto(event.target.value)}
                   />
-                </Grid>
-              </Grid>
-
-              <Box sx={{ display: 'flex', alignItems: 'center', mb: '15px' }}>
-                <input type='file' id='product-image' style={{ display: 'none' }} onChange={handleFileInputChange} />
-                <label htmlFor='product-image'>
-                  <Button variant='contained' component='span'>
-                    Seleccione una imagen
-                  </Button>
-                </label>
-                <img src={thumbnail} alt='thumbnail' style={{ marginLeft: '10px', maxHeight: '100px', gap: '16px' }} />
-              </Box>
-
-              <Grid container spacing={2} alignItems='center'>
-                <Grid item xs={4}>
-                  <FormControl fullWidth>
-                    <InputLabel>Mascota</InputLabel>
-                    <Select
-                      label='Mascota'
-                      value={mascotaProducto}
-                      onChange={event => setMascotaProducto([event.target.value])}
-                    >
-                      <MenuItem value='' disabled>
-                        Seleccionar Mascota
-                      </MenuItem>
-                      {mascotaDropdown.map(mascota => (
-                        <MenuItem key={mascota.id} value={mascota.id}>
-                          {mascota.nombre}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                </Grid>
-                <Grid item xs={4}>
-                  <FormControl fullWidth>
-                    <InputLabel>Marca</InputLabel>
-                    <Select
-                      label='Marca'
-                      value={marcaProducto}
-                      onChange={event => setMarcaProducto([event.target.value])}
-                    >
-                      <MenuItem value='' disabled>
-                        Seleccionar Marca
-                      </MenuItem>
-                      {marcaDropdown.map(marca => (
-                        <MenuItem key={marca.id} value={marca.id}>
-                          {marca.nombre}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                </Grid>
-                <Grid item xs={4}>
-                  <FormControl fullWidth>
-                    <InputLabel>Categoría</InputLabel>
-                    <Select
-                      label='Categoría'
-                      value={categoriaProducto}
-                      onChange={event => setCategoriaProducto([event.target.value])}
-                    >
-                      <MenuItem value='' disabled>
-                        Seleccionar Categoría
-                      </MenuItem>
-                      {categoriaDropdown.map(categoria => (
-                        <MenuItem key={categoria.id} value={categoria.id}>
-                          {categoria.nombre}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
                 </Grid>
               </Grid>
 

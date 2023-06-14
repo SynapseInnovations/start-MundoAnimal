@@ -7,6 +7,16 @@ const productosRoutes = {
   agregarRapido: process.env.NEXT_PUBLIC_API_URL + '/producto/agregadoRapido'
 }
 
+const librosRoutes = {
+  leer: process.env.NEXT_PUBLIC_API_URL + '/libro',
+  registrar: process.env.NEXT_PUBLIC_API_URL + '/libro/registrar_libro'
+}
+
+const prestamosRoutes = {
+  leer: process.env.NEXT_PUBLIC_API_URL + '/prestamo',
+  registrar: process.env.NEXT_PUBLIC_API_URL + '/prestamo/prestar_libro'
+}
+
 const mantenedorRoutes = {
   categoria: {
     leer: process.env.NEXT_PUBLIC_API_URL + '/categoria',
@@ -62,7 +72,10 @@ const APIRoutes = {
   usuarios: usuariosRoutes,
 
   //Finanzas
-  finanzas: finanzasRoutes
+  finanzas: finanzasRoutes,
+
+  libros: librosRoutes,
+  prestamos: prestamosRoutes
 }
 
 export default APIRoutes

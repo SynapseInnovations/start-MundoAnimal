@@ -20,12 +20,12 @@ const navigation = () => {
       icon: 'mdi:list-box'
     },
     {
-      sectionTitle: 'Panel de Productos',
+      sectionTitle: 'Panel de Biblioteca',
       subject: 'inventory',
       action: 'read'
     },
     {
-      title: 'Productos',
+      title: 'Libros',
       icon: 'mdi:clipboard-list-outline',
       subject: 'inventory',
       path: '/operator/inventory/products',
@@ -39,26 +39,26 @@ const navigation = () => {
       path: '/operator/inventory/categorization'
     },
     {
-      title: 'Historial de Cambios',
-      icon: 'mdi:history',
-      subject: 'inventory',
-      path: '/operator/inventory/history',
-      action: 'read'
-    },
-    {
-      sectionTitle: 'Panel de Ventas',
+      sectionTitle: 'Panel de Préstamos',
       subject: 'inventory',
       action: 'read'
     },
     {
-      title: 'Venta',
+      title: 'Préstamo de Material',
       icon: 'mdi:shopping-outline',
       subject: 'sales',
       path: '/operator/sales/generate',
       action: 'read'
     },
     {
-      title: 'Historial de Ventas',
+      title: 'Devolución de Material',
+      icon: 'mdi:shopping-outline',
+      subject: 'sales',
+      path: '/operator/sales/generate2',
+      action: 'read'
+    },
+    {
+      title: 'Historial de Préstamos',
       icon: 'mdi:history',
       subject: 'sales',
       path: '/operator/sales/list',
@@ -75,7 +75,7 @@ const navigation = () => {
       action: 'read'
     },
     {
-      title: 'Finanzas',
+      title: 'Reportes',
       path: '/admin/finance',
       icon: 'mdi:cash-multiple',
       subject: 'finance',

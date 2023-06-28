@@ -98,13 +98,22 @@ const NewSaleWindow = () => {
     const now = new Date()
     const currentDate = new Date(now.getTime() - now.getTimezoneOffset() * 60000)
     const mysqlDate = currentDate.toISOString().slice(0, 19).replace('T', ' ')
+
+    /*
+            this.rut = rut,
+            this.codigo_barra = codigo_barra,
+            this.fecha_prestamo = fecha_prestamo,
+            this.fecha_devolucion = fecha_devolucion
+            this.estado = estado
+    */
+
     newSaleForm.append('fecha', mysqlDate)
     newSaleForm.append('vendedor_rut', user.rut)
     newSaleForm.append('tipoventa_id', 1)
     newSaleForm.append('total', total)
     newSaleForm.append('productos', JSON.stringify(cart))
     axios
-      .post(APIRoutes.ventas.registrar, newSaleForm, {
+      .post(APIRoutes.libros.registrar, newSaleForm, {
         headers: {
           token: window.localStorage.getItem(authConfig.storageTokenKeyName),
           'Content-Type': `multipart/form-data`
@@ -136,7 +145,7 @@ const NewSaleWindow = () => {
 
   const updateData = () => {
     axios
-      .get(APIRoutes.productos.leer, {
+      .get(APIRoutes.libros.leer, {
         headers: {
           token: window.localStorage.getItem(authConfig.storageTokenKeyName)
         }
@@ -331,7 +340,7 @@ const NewSaleWindow = () => {
                     <RadioGroup row value={unitary} onChange={e => setUnitary(e.target.value)}>
                       <FormControlLabel value={1} control={<Radio />} label='Libros' />
                       <FormControlLabel value={0} control={<Radio />} label='Espacios' />
-                      <FormControlLabel value={0} control={<Radio />} label='Material Didáctico' />
+                      <FormControlLabel value={2} control={<Radio />} label='Material Didáctico' />
                     </RadioGroup>
                   </Grid>
                   <Grid item xs={12} sm={4}>
@@ -356,7 +365,7 @@ const NewSaleWindow = () => {
                     <Autocomplete
                       fullWidth
                       value={searchSelected}
-                      getOptionLabel={option => option.nombre || ''}
+                      getOptionLabel={option => option.titulo || ''}
                       onChange={(event, newValue) => {
                         setSearchSelected(newValue)
                       }}
@@ -364,7 +373,7 @@ const NewSaleWindow = () => {
                       onInputChange={(event, newInputValue) => {
                         setSearch(newInputValue)
 
-                        const found = data2.filter(i => i.nombre.toLowerCase().includes(newInputValue.toLowerCase()))
+                        const found = data2.filter(i => i.titulo.toLowerCase().includes(newInputValue.toLowerCase()))
                         setSearchResult(found)
                       }}
                       options={searchResult}
@@ -495,7 +504,7 @@ const NewSaleWindow = () => {
             >
               <Card>
                 <CardContent>
-                  <Typography sx={{ mb: 3, fontWeight: 800 }}>Detalle</Typography>
+                  <Typography sx={{ mb: 3, fontWeight: 800 }}>Listado de Libros</Typography>
                   <Box sx={{ display: 'flex', flexGrow: 1, borderRadius: 1, flexDirection: 'column' }}>
                     {cart.length > 0 ? (
                       <>
@@ -512,16 +521,9 @@ const NewSaleWindow = () => {
                             }}
                           >
                             <Typography variant='body2' sx={{ color: 'text.primary' }}>
-                              {item.nombre}
+                              {item.titulo}
                             </Typography>
-                            <Typography variant='body2'>
-                              ${' '}
-                              {parseFloat(
-                                item.isPrecioUnitario ? item.precio_unitario : item.precio_kilo
-                              ).toLocaleString()}{' '}
-                              x {parseFloat(item.isPrecioUnitario ? item.cantInput : item.kgInput).toLocaleString()}{' '}
-                              {item.isPrecioUnitario ? 'Unidades' : 'KG'}
-                            </Typography>
+                            <Typography variant='body2'>{item.cantInput} copia(s)</Typography>
                           </Box>
                         ))}
                       </>

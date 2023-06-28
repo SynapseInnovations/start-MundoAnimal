@@ -47,7 +47,11 @@ const CartItem = ({ item, index, handleInputChange, deleteThis }) => {
     Marca_id,
     isPrecioUnitario,
     kgInput,
-    cantInput
+    cantInput,
+    titulo,
+    autor,
+    editorial,
+    anio_publicacion
   } = item
 
   function handleKeyPress(event) {
@@ -76,7 +80,7 @@ const CartItem = ({ item, index, handleInputChange, deleteThis }) => {
           <ListItemText
             primary={
               <Typography component='span' variant='body1' style={{ fontWeight: 'bold', fontSize: '1.8rem' }}>
-                {item.nombre}
+                {item.titulo}
               </Typography>
             }
             secondary={
@@ -90,7 +94,7 @@ const CartItem = ({ item, index, handleInputChange, deleteThis }) => {
           <ListItemText
             primary={
               <Typography component='span' variant='body1' style={{ fontWeight: 'bold' }}>
-                Código de barras:
+                ISBN:
               </Typography>
             }
             secondary={item.codigo_barra}
@@ -98,10 +102,18 @@ const CartItem = ({ item, index, handleInputChange, deleteThis }) => {
           <ListItemText
             primary={
               <Typography component='span' variant='body1' style={{ fontWeight: 'bold' }}>
-                Marca:
+                Editorial:
               </Typography>
             }
-            secondary={item.Marca}
+            secondary={item.editorial}
+          />
+          <ListItemText
+            primary={
+              <Typography component='span' variant='body1' style={{ fontWeight: 'bold' }}>
+                Año de publicación:
+              </Typography>
+            }
+            secondary={new Date(item.anio_publicacion).getFullYear()}
           />
         </Grid>
         <Grid item xs={12} md={4} sx={{}}>
@@ -136,23 +148,6 @@ const CartItem = ({ item, index, handleInputChange, deleteThis }) => {
                   size='small'
                   sx={{ mb: 4, mt: 1 }}
                 />
-                <List>
-                  {item.isPrecioUnitario ? (
-                    <>
-                      <ListItemText
-                        primary={`Por Unidad:  $${item?.precio_unitario?.toLocaleString()} `}
-                      ></ListItemText>
-                      <ListItemText secondary={`Por Kilo:    $${item?.precio_kilo?.toLocaleString()} `}></ListItemText>
-                    </>
-                  ) : (
-                    <>
-                      <ListItemText
-                        secondary={`Por Unidad:  $${item?.precio_unitario?.toLocaleString()} `}
-                      ></ListItemText>
-                      <ListItemText primary={`Por Kilo:    $${item?.precio_kilo?.toLocaleString()} `}></ListItemText>
-                    </>
-                  )}
-                </List>
                 {item.isPrecioUnitario ? (
                   <>
                     {' '}

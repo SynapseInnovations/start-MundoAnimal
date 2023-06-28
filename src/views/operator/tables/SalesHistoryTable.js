@@ -39,35 +39,37 @@ const Row = props => {
     return dateObj.toLocaleString()
   }
 
+  /*
+            this.rut = rut,
+            this.codigo_barra = codigo_barra,
+            this.fecha_prestamo = fecha_prestamo,
+            this.fecha_devolucion = fecha_devolucion
+            this.estado = estado
+    */
+
   return (
     <Fragment>
       <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
-        <TableCell>
-          <IconButton aria-label='expand row' size='small' onClick={() => setOpen(!open)}>
-            <Icon icon={open ? 'mdi:chevron-up' : 'mdi:chevron-down'} />
-          </IconButton>
-        </TableCell>
-        <TableCell component='th' scope='row'>
-          {getDateFormatted(row.fecha)}
-        </TableCell>
-        <TableCell align='center'>{row.numero_boleta}</TableCell>
-        <TableCell align='center'>{row.TipoVenta_id == 1 ? 'Presencial' : 'En línea'}</TableCell>
-        <TableCell align='center'>$ {row.total.toLocaleString()}</TableCell>
-        <TableCell align='center'>{row.Vendedor_rut}</TableCell>
+        <TableCell align='center'>{row.id}</TableCell>
+        <TableCell align='center'>{row.rut}</TableCell>
+        <TableCell align='center'>{row.codigo_barra}</TableCell>
+        <TableCell align='center'>{row.fecha_prestamo}</TableCell>
+        <TableCell align='center'>{row.fecla_devolucion}</TableCell>
+        <TableCell align='center'>{row.estado}</TableCell>
         <TableCell align='center'>
           <Button
             variant='outlined'
-            disabled={row.anulada == 1}
+            disabled={row.estado == 1}
             onClick={() => {
               const shouldDelete = window.confirm(
-                '¿Desea realmente anular esta venta? Esta acción no se puede deshacer.'
+                '¿Devolver este libro? Confirme que sea el libro correcto para reintegrarlo al sistema.'
               )
               if (shouldDelete) {
-                anularVenta(row.numero_boleta)
+                anularVenta(row.id)
               }
             }}
           >
-            {row.anulada == 1 ? 'Anulada' : 'Anular'}
+            {row.estado == 1 ? 'Devuelto' : 'Devolver'}
           </Button>
         </TableCell>
       </TableRow>
@@ -122,13 +124,13 @@ const SalesTable = () => {
 
   useEffect(() => {
     if (show) {
-      const filteredArray = data.filter(obj => obj.anulada === 1 || obj.anulada === 0)
+      const filteredArray = data.filter(obj => obj.estado === 1 || obj.estado === 0)
       filteredArray.sort((a, b) => {
-        if (a.anulada !== b.anulada) {
-          return a.anulada - b.anulada
+        if (a.estado !== b.estado) {
+          return a.estado - b.estado
         }
 
-        return b.numero_boleta - a.numero_boleta
+        return b.id - a.id
       })
       setDataFiltered(filteredArray)
 
@@ -137,10 +139,10 @@ const SalesTable = () => {
     setDataFiltered(data.filter(f => f.anulada === 0))
   }, [data, show])
 
-  const deleteThis = numero_boleta => {
-    toast('Anulando...')
+  const deleteThis = id => {
+    toast('Devolviendo...')
     axios
-      .delete(APIRoutes.ventas.anular + '/?numero_boleta=' + numero_boleta, {
+      .delete(APIRoutes.ventas.anular + '/?id=' + id, {
         headers: {
           token: window.localStorage.getItem(authConfig.storageTokenKeyName)
         }
@@ -156,7 +158,7 @@ const SalesTable = () => {
 
   const updateData = () => {
     axios
-      .get(APIRoutes.ventas.leer, {
+      .get(APIRoutes.prestamos.leer, {
         headers: {
           token: window.localStorage.getItem(authConfig.storageTokenKeyName)
         }
@@ -241,7 +243,7 @@ const SalesTable = () => {
                   setShow(!show)
                 }}
               >
-                {show ? 'Ocultar Préstamos Anulados' : 'Mostrar Préstamos Anulados'}
+                {show ? 'Ocultar Préstamos Devueltos' : 'Mostrar Préstamos Devueltos'}
               </Button>
             </Box>
           </Box>
@@ -251,18 +253,17 @@ const SalesTable = () => {
             <Table aria-label='collapsible table'>
               <TableHead>
                 <TableRow>
-                  <TableCell />
-                  <TableCell>Fecha</TableCell>
-                  <TableCell align='center'>N° Identificador</TableCell>
-                  <TableCell align='center'>Tipo de Préstamo</TableCell>
-                  <TableCell align='center'>Total ?? </TableCell>
-                  <TableCell align='center'>Rut Encargado</TableCell>
-                  <TableCell align='center'>Anular Préstamo</TableCell>
+                  <TableCell align='center'>ID</TableCell>
+                  <TableCell align='center'>RUT Solicitante</TableCell>
+                  <TableCell align='center'>Código de Barra</TableCell>
+                  <TableCell align='center'>Fecha Préstamo </TableCell>
+                  <TableCell align='center'>Fecha Devolución</TableCell>
+                  <TableCell align='center'>Estado</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 {dataFiltered.map(row => (
-                  <Row key={row.numero_boleta} row={row} anularVenta={deleteThis} />
+                  <Row key={row.id} row={row} anularVenta={deleteThis} />
                 ))}
               </TableBody>
             </Table>

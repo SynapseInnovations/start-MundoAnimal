@@ -243,7 +243,7 @@ const NewSaleWindow = () => {
   const handleAddItemCart = () => {
     const item = data2.find(i => i.codigo_barra === searchSelected.codigo_barra)
     if (searchResult.length <= 0) {
-      toast.error('No se han encontrado productos, pruebe escribiendo un nombre diferente.')
+      toast.error('No se han encontrado recursos, pruebe escribiendo un nombre diferente.')
 
       return
     }
@@ -306,7 +306,7 @@ const NewSaleWindow = () => {
     >
       <Grid container spacing={6}>
         <Grid item xs={12} lg={12}>
-          <Typography variant='h4'>Venta de Productos</Typography>
+          <Typography variant='h4'>Préstamos </Typography>
         </Grid>
         <Grid item xs={12} lg={8}>
           <Box
@@ -324,13 +324,14 @@ const NewSaleWindow = () => {
                 <Grid container spacing={2}>
                   <Grid item xs={12} sm={4}>
                     <Typography variant='h6' sx={{ mb: 4, fontWeight: 500 }}>
-                      Búsqueda de Productos
+                      Escanea el código de barras
                     </Typography>
                   </Grid>
                   <Grid item xs={12} sm={8}>
                     <RadioGroup row value={unitary} onChange={e => setUnitary(e.target.value)}>
-                      <FormControlLabel value={1} control={<Radio />} label='Venta Unitaria' />
-                      <FormControlLabel value={0} control={<Radio />} label='Venta por Kilo' />
+                      <FormControlLabel value={1} control={<Radio />} label='Libros' />
+                      <FormControlLabel value={0} control={<Radio />} label='Espacios' />
+                      <FormControlLabel value={0} control={<Radio />} label='Material Didáctico' />
                     </RadioGroup>
                   </Grid>
                   <Grid item xs={12} sm={4}>
@@ -367,7 +368,7 @@ const NewSaleWindow = () => {
                         setSearchResult(found)
                       }}
                       options={searchResult}
-                      renderInput={params => <TextField {...params} label='Nombre del Producto' fullWidth />}
+                      renderInput={params => <TextField {...params} label='Nombre del Recurso' fullWidth />}
                     />
                   </Grid>
                   <Grid item xs={3} sm={2}>
@@ -423,9 +424,8 @@ const NewSaleWindow = () => {
             <Card style={{ width: '100%' }}>
               <CardContent>
                 <Box display='flex' alignItems='center'>
-                  <LocalGroceryStoreIcon sx={{ fontSize: '1rem', marginRight: '10px' }} />
                   <Typography variant='h6' sx={{ fontWeight: 500 }}>
-                    Carrito
+                    Recursos
                   </Typography>
                 </Box>
                 <StyledList
@@ -462,12 +462,11 @@ const NewSaleWindow = () => {
                         }}
                       >
                         <Box display='flex' alignItems='center'>
-                          <RemoveShoppingCartIcon sx={{ fontSize: '2rem' }} />
                           <Typography
                             variant='body2'
                             sx={{ color: 'text.primary', fontSize: '1.5rem', marginLeft: '0.5rem' }}
                           >
-                            No existen productos, prueba agregándolos al carrito.
+                            ¡Busca tus recursos ingresando el código de barras!
                           </Typography>
                         </Box>
                       </Box>
@@ -529,27 +528,13 @@ const NewSaleWindow = () => {
                     ) : (
                       <>
                         <Typography variant='body2' sx={{ mb: 45, color: 'text.primary' }}>
-                          Agrega productos al carrito para actualizar el detalle.
+                          Agrega recursos para visualizar el detalle.
                         </Typography>
                       </>
                     )}
                   </Box>
                 </CardContent>
                 <Divider sx={{ my: '0 !important' }} />
-                <CardContent sx={{ py: theme => `${theme.spacing(3.5)} !important` }}>
-                  <Box
-                    sx={{
-                      gap: 2,
-                      display: 'flex',
-                      flexWrap: 'wrap',
-                      alignItems: 'center',
-                      justifyContent: 'space-between'
-                    }}
-                  >
-                    <Typography sx={{ fontWeight: 600 }}>Total</Typography>
-                    <Typography sx={{ fontWeight: 600 }}>$ {cart.length > 0 ? total.toLocaleString() : '0'}</Typography>
-                  </Box>
-                </CardContent>
               </Card>
             </Box>
           </motion.div>
@@ -605,7 +590,7 @@ const NewSaleWindow = () => {
                     <CircularProgress disableShrink size={20} sx={{ m: 7 }} /> <Typography>Vendiendo...</Typography>
                   </>
                 ) : (
-                  <>Vender</>
+                  <>¡Listo!</>
                 )}
               </Button>
             </Box>

@@ -10,55 +10,75 @@ const navigation = () => {
       path: '/home',
       subject: 'home',
       action: 'read',
-      icon: 'mdi:paw'
+      icon: 'mdi:book-open-page-variant'
     },
+
+    // {
+    //   title: 'Manual de Usuario',
+    //   path: '/usermanual',
+    //   subject: 'home',
+    //   action: 'read',
+    //   icon: 'mdi:list-box'
+    // },
+
     {
-      title: 'Manual de Usuario',
-      path: '/usermanual',
-      subject: 'home',
-      action: 'read',
-      icon: 'mdi:list-box'
-    },
-    {
-      sectionTitle: 'Panel de Biblioteca',
+      sectionTitle: 'Panel de Recursos',
       subject: 'inventory',
       action: 'read'
     },
     {
       title: 'Libros',
-      icon: 'mdi:clipboard-list-outline',
+      icon: 'mdi:bookshelf',
       subject: 'inventory',
       path: '/operator/inventory/products',
       action: 'read'
     },
     {
-      title: 'Categorias ',
-      icon: 'mdi:tune-variant',
-      subject: 'inventory',
+      title: 'Espacios (Pronto)',
+      icon: 'mdi:theater',
+      subject: 'spaces',
+      path: '/operator/spaces',
       action: 'read',
-      path: '/operator/inventory/categorization'
+      unavailableIcon: 'mdi:lock-outline'
     },
+    {
+      title: 'Material Didáctico',
+      icon: 'mdi:palette',
+      subject: 'spaces',
+      path: '/operator/spaces',
+      action: 'read',
+      unavailableIcon: 'mdi:lock-outline'
+    },
+
+    // {
+    //   title: 'Categorias ',
+    //   icon: 'mdi:tune-variant',
+    //   subject: 'inventory',
+    //   action: 'read',
+    //   path: '/operator/inventory/categorization'
+    // },
     {
       sectionTitle: 'Panel de Préstamos',
       subject: 'inventory',
       action: 'read'
     },
     {
-      title: 'Préstamo de Material',
-      icon: 'mdi:shopping-outline',
+      title: 'Préstamos',
+      icon: 'mdi:hand-heart',
       subject: 'sales',
       path: '/operator/sales/generate',
       action: 'read'
     },
+
+    // {
+    //   title: 'Devolución de Material',
+    //   icon: 'mdi:shopping-outline',
+    //   subject: 'sales',
+    //   path: '/operator/sales/generate2',
+    //   action: 'read'
+    // },
     {
-      title: 'Devolución de Material',
-      icon: 'mdi:shopping-outline',
-      subject: 'sales',
-      path: '/operator/sales/generate2',
-      action: 'read'
-    },
-    {
-      title: 'Historial de Préstamos',
+      title: 'Historial',
       icon: 'mdi:history',
       subject: 'sales',
       path: '/operator/sales/list',
@@ -75,9 +95,10 @@ const navigation = () => {
       action: 'read'
     },
     {
-      title: 'Reportes',
+      title: 'Configuración',
       path: '/admin/finance',
-      icon: 'mdi:cash-multiple',
+      icon: 'mdi:cog-outline',
+
       subject: 'finance',
       action: 'read'
 

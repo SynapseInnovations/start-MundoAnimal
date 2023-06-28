@@ -76,16 +76,16 @@ const Row = props => {
           <Collapse in={open} timeout='auto' unmountOnExit>
             <Box sx={{ m: 2 }}>
               <Typography variant='h6' gutterBottom component='div'>
-                Detalle de Productos
+                Detalle
               </Typography>
               <Table size='small' aria-label='purchases'>
                 <TableHead>
                   <TableRow>
                     <TableCell>Nombre</TableCell>
-                    <TableCell align='center'>Tipo Venta</TableCell>
+                    <TableCell align='center'>Recurso</TableCell>
                     <TableCell align='center'>Cantidad</TableCell>
-                    <TableCell align='center'>Precio Venta</TableCell>
-                    <TableCell align='center'>Total</TableCell>
+                    <TableCell align='center'>Total ??</TableCell>
+                    <TableCell align='center'>Total ?? </TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -195,8 +195,12 @@ const SalesTable = () => {
               }}
             >
               <PageHeader
-                title={<Typography variant='h5'>Historial de Ventas</Typography>}
-                subtitle={<Typography variant='body2'>Historial de ventas Mundo Animal</Typography>}
+                title={<Typography variant='h5'>Historial de Préstamos</Typography>}
+                subtitle={
+                  <Typography variant='body2'>
+                    En nuestro historial es donde las tramas de los libros cobran vida.
+                  </Typography>
+                }
               />
             </Box>
 
@@ -210,7 +214,7 @@ const SalesTable = () => {
                   mr: 1,
                   ml: 3,
                   mt: 2,
-                  fontSize: '1.2rem',
+                  fontSize: '1.1rem',
                   scrollSnapMarginRight: '10px',
                   width: '280px',
                   display: 'flex',
@@ -237,7 +241,7 @@ const SalesTable = () => {
                   setShow(!show)
                 }}
               >
-                {show ? 'Ocultar Ventas Anuladas' : 'Mostrar Ventas Anuladas'}
+                {show ? 'Ocultar Préstamos Anulados' : 'Mostrar Préstamos Anulados'}
               </Button>
             </Box>
           </Box>
@@ -249,11 +253,11 @@ const SalesTable = () => {
                 <TableRow>
                   <TableCell />
                   <TableCell>Fecha</TableCell>
-                  <TableCell align='center'>N° Boleta</TableCell>
-                  <TableCell align='center'>Tipo Venta</TableCell>
-                  <TableCell align='center'>Total</TableCell>
-                  <TableCell align='center'>RUT Vendedor</TableCell>
-                  <TableCell align='center'>Anular Venta</TableCell>
+                  <TableCell align='center'>N° Identificador</TableCell>
+                  <TableCell align='center'>Tipo de Préstamo</TableCell>
+                  <TableCell align='center'>Total ?? </TableCell>
+                  <TableCell align='center'>Rut Encargado</TableCell>
+                  <TableCell align='center'>Anular Préstamo</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>

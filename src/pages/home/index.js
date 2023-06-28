@@ -11,6 +11,7 @@ import { Box } from '@mui/material'
 import { motion } from 'framer-motion'
 import { useTheme } from '@mui/material/styles'
 import PetsIcon from '@mui/icons-material/Pets'
+import BookOpenIcon from '@mui/icons-material/Book'
 import Avatar from '@mui/material/Avatar'
 
 const Home = () => {
@@ -69,7 +70,7 @@ const Home = () => {
               <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 2, duration: 0.8 }}>
                 <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', mt: 3, mb: 3 }}>
                   <Avatar sx={{ width: 56, height: 56, mr: 2 }}>
-                    <PetsIcon />
+                    <BookOpenIcon />
                   </Avatar>
                   <Typography variant='h6'>Second Mind - Impulsando el futuro educativo.</Typography>
                 </Box>
@@ -78,14 +79,7 @@ const Home = () => {
                 initial={{ x: 100, opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
                 transition={{ delay: 2.5, duration: 0.8 }}
-              >
-                <Typography sx={{ mt: 2, fontWeight: 'bold' }}>IMPORTANTE:</Typography>
-                <Typography sx={{ mt: 1 }}>
-                  Por favor, asegúrate de leer y comprender el Manual del Usuario antes de comenzar a utilizar el
-                  sistema. El manual te proporcionará una descripción detallada de cada función y te ayudará a
-                  aprovechar al máximo el sistema de gestión. Puedes encontrarlo en la barra de navegación.
-                </Typography>
-              </motion.div>
+              ></motion.div>
             </CardContent>
           </Card>
         </motion.div>

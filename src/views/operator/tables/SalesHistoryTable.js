@@ -53,9 +53,8 @@ const Row = props => {
         <TableCell align='center'>{row.id}</TableCell>
         <TableCell align='center'>{row.rut}</TableCell>
         <TableCell align='center'>{row.codigo_barra}</TableCell>
-        <TableCell align='center'>{row.fecha_prestamo}</TableCell>
-        <TableCell align='center'>{row.fecla_devolucion}</TableCell>
-        <TableCell align='center'>{row.estado}</TableCell>
+        <TableCell align='center'>{new Date(row.fecha_prestamo).toLocaleDateString()}</TableCell>
+        <TableCell align='center'>{new Date(row.fecha_devolucion).toLocaleDateString()}</TableCell>
         <TableCell align='center'>
           <Button
             variant='outlined'
@@ -71,41 +70,6 @@ const Row = props => {
           >
             {row.estado == 1 ? 'Devuelto' : 'Devolver'}
           </Button>
-        </TableCell>
-      </TableRow>
-      <TableRow>
-        <TableCell colSpan={8} sx={{ py: '0 !important' }}>
-          <Collapse in={open} timeout='auto' unmountOnExit>
-            <Box sx={{ m: 2 }}>
-              <Typography variant='h6' gutterBottom component='div'>
-                Detalle
-              </Typography>
-              <Table size='small' aria-label='purchases'>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Nombre</TableCell>
-                    <TableCell align='center'>Recurso</TableCell>
-                    <TableCell align='center'>Cantidad</TableCell>
-                    <TableCell align='center'>Total ??</TableCell>
-                    <TableCell align='center'>Total ?? </TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {row.productos.map(p => (
-                    <TableRow key={p.id}>
-                      <TableCell component='th' scope='row' align='left'>
-                        {p.codigo_barra} - {p.nombre}
-                      </TableCell>
-                      <TableCell align='center'>{p.venta_unitaria == 1 ? 'Unitaria' : 'Por Kilo'}</TableCell>
-                      <TableCell align='center'>{p.cantidad}</TableCell>
-                      <TableCell align='center'>$ {p.precio_venta.toLocaleString()}</TableCell>
-                      <TableCell align='center'>$ {(p.cantidad * p.precio_venta).toLocaleString()}</TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </Box>
-          </Collapse>
         </TableCell>
       </TableRow>
     </Fragment>
@@ -136,7 +100,7 @@ const SalesTable = () => {
 
       return
     }
-    setDataFiltered(data.filter(f => f.anulada === 0))
+    setDataFiltered(data.filter(f => f.estado === 0))
   }, [data, show])
 
   const deleteThis = id => {

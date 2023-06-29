@@ -33,6 +33,15 @@ import CartItem from 'src/views/operator/items/CartItem'
 import RemoveShoppingCartIcon from '@mui/icons-material/RemoveShoppingCart'
 import LocalGroceryStoreIcon from '@mui/icons-material/LocalGroceryStore'
 
+import dayjs from 'dayjs'
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import { DatePicker } from '@mui/x-date-pickers/DatePicker'
+import { Container } from '@mui/material'
+import { DataGrid, esES } from '@mui/x-data-grid'
+
+dayjs.locale('es')
+
 // ** API Routes
 import APIRoutes from 'src/configs/apiRoutes'
 
@@ -84,6 +93,9 @@ const NewSaleWindow = () => {
   const { user } = useContext(AuthContext)
   const [querying, setQuerying] = useState(false)
 
+  const [fechaDevolucion, setFechaDevolucion] = useState(dayjs(new Date()))
+  const [rutSolicitante, setRutSolicitante] = useState('')
+
   const handleSubmit = e => {
     if (cart.length == 0) {
       toast.error('Debes ingresar productos al carrito antes de vender algo.')
@@ -98,6 +110,12 @@ const NewSaleWindow = () => {
     const now = new Date()
     const currentDate = new Date(now.getTime() - now.getTimezoneOffset() * 60000)
     const mysqlDate = currentDate.toISOString().slice(0, 19).replace('T', ' ')
+    const mysqlPrestamo2 = new Date(fechaDevolucion)
+
+    const mysqlPrestamo = new Date(mysqlPrestamo2.getTime() - mysqlPrestamo2.getTimezoneOffset() * 60000)
+      .toISOString()
+      .slice(0, 19)
+      .replace('T', ' ')
 
     /*
             this.rut = rut,
@@ -107,13 +125,14 @@ const NewSaleWindow = () => {
             this.estado = estado
     */
 
-    newSaleForm.append('fecha', mysqlDate)
-    newSaleForm.append('vendedor_rut', user.rut)
-    newSaleForm.append('tipoventa_id', 1)
-    newSaleForm.append('total', total)
-    newSaleForm.append('productos', JSON.stringify(cart))
+    newSaleForm.append('fecha_prestamo', mysqlDate)
+    newSaleForm.append('rut_solicitante', rutSolicitante)
+    newSaleForm.append('rut', user.rut)
+    newSaleForm.append('fecha_devolucion', mysqlPrestamo)
+    newSaleForm.append('estado', 0)
+    newSaleForm.append('codigo_barra', cart[0].codigo_barra)
     axios
-      .post(APIRoutes.libros.registrar, newSaleForm, {
+      .post(APIRoutes.prestamos.registrar, newSaleForm, {
         headers: {
           token: window.localStorage.getItem(authConfig.storageTokenKeyName),
           'Content-Type': `multipart/form-data`
@@ -141,6 +160,11 @@ const NewSaleWindow = () => {
 
         toast.error(e.response.data.msg)
       })
+  }
+
+  const handleDateChange = newValue => {
+    console.log(newValue)
+    setFechaDevolucion(newValue)
   }
 
   const updateData = () => {
@@ -348,7 +372,7 @@ const NewSaleWindow = () => {
                       <TextField
                         value={barcode}
                         type='number'
-                        label='Codigo de Barra'
+                        label='Codigo / ISBN'
                         autoFocus
                         fullWidth
                         onKeyDown={e => {
@@ -434,7 +458,7 @@ const NewSaleWindow = () => {
               <CardContent>
                 <Box display='flex' alignItems='center'>
                   <Typography variant='h6' sx={{ fontWeight: 500 }}>
-                    Recursos
+                    Detalles del Recurso
                   </Typography>
                 </Box>
                 <StyledList
@@ -475,7 +499,7 @@ const NewSaleWindow = () => {
                             variant='body2'
                             sx={{ color: 'text.primary', fontSize: '1.5rem', marginLeft: '0.5rem' }}
                           >
-                            ¡Busca tus recursos ingresando el código de barras!
+                            ¡Ingresa un recurso para ver detalles!
                           </Typography>
                         </Box>
                       </Box>
@@ -504,39 +528,33 @@ const NewSaleWindow = () => {
             >
               <Card>
                 <CardContent>
-                  <Typography sx={{ mb: 3, fontWeight: 800 }}>Listado de Libros</Typography>
-                  <Box sx={{ display: 'flex', flexGrow: 1, borderRadius: 1, flexDirection: 'column' }}>
-                    {cart.length > 0 ? (
-                      <>
-                        {cart.map((item, index) => (
-                          <Box
-                            key={index}
-                            sx={{
-                              mb: 2,
-                              gap: 2,
-                              display: 'flex',
-                              flexWrap: 'wrap',
-                              alignItems: 'center',
-                              justifyContent: 'space-between'
-                            }}
-                          >
-                            <Typography variant='body2' sx={{ color: 'text.primary' }}>
-                              {item.titulo}
-                            </Typography>
-                            <Typography variant='body2'>{item.cantInput} copia(s)</Typography>
-                          </Box>
-                        ))}
-                      </>
-                    ) : (
-                      <>
-                        <Typography variant='body2' sx={{ mb: 45, color: 'text.primary' }}>
-                          Agrega recursos para visualizar el detalle.
-                        </Typography>
-                      </>
-                    )}
-                  </Box>
+                  <Typography sx={{ mb: 3, fontWeight: 800 }}>Datos de Solicitud</Typography>
+                  <Grid container spacing={4}>
+                    <Grid item xs={12}>
+                      <Typography>RUT Solicitante</Typography>
+                      <TextField
+                        label='RUT'
+                        fullWidth
+                        value={rutSolicitante}
+                        onChange={event => setRutSolicitante(event.target.value)}
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Typography>Fecha Devolución</Typography>
+                      <Typography>.</Typography>
+                      <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <Container components={['DatePicker']} sx={{ mb: 2 }}>
+                          <DatePicker
+                            label='Fecha'
+                            views={['day']}
+                            value={fechaDevolucion}
+                            onChange={handleDateChange}
+                          />
+                        </Container>
+                      </LocalizationProvider>
+                    </Grid>
+                  </Grid>
                 </CardContent>
-                <Divider sx={{ my: '0 !important' }} />
               </Card>
             </Box>
           </motion.div>
@@ -589,7 +607,7 @@ const NewSaleWindow = () => {
               >
                 {querying ? (
                   <>
-                    <CircularProgress disableShrink size={20} sx={{ m: 7 }} /> <Typography>Vendiendo...</Typography>
+                    <CircularProgress disableShrink size={20} sx={{ m: 7 }} /> <Typography>Registrando...</Typography>
                   </>
                 ) : (
                   <>¡Listo!</>

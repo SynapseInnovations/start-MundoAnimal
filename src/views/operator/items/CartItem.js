@@ -143,52 +143,11 @@ const CartItem = ({ item, index, handleInputChange, deleteThis }) => {
             >
               <FormControl>
                 <Chip
-                  label={`${item.cantidad}/${item.cantidadOriginal} en Stock`}
+                  label={`${item.cantidadOriginal} en Stock`}
                   color={item.cantidad < 5 ? 'warning' : 'primary'}
                   size='small'
                   sx={{ mb: 4, mt: 1 }}
                 />
-                {item.isPrecioUnitario ? (
-                  <>
-                    {' '}
-                    <motion.div
-                      initial={{ opacity: 0, y: 40 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0, duration: 0.2 }}
-                    >
-                      <TextField
-                        size='small'
-                        type='number'
-                        label='Cantidad'
-                        onKeyPress={handleKeyPress}
-                        disabled={!item.isPrecioUnitario}
-                        value={item.cantInput}
-                        onChange={e => handleInputChange(e.target.value, index, 'cantidad')}
-                        inputProps={{ min: 1, max: item.cantidadOriginal }}
-                        sx={{ width: 100, display: 'block', margin: 'auto', marginTop: 2 }}
-                      />
-                    </motion.div>
-                  </>
-                ) : (
-                  <>
-                    <motion.div
-                      initial={{ opacity: 0, y: -40 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0, duration: 0.2 }}
-                    >
-                      <TextField
-                        size='small'
-                        type='number'
-                        label='Kilos'
-                        disabled={item.isPrecioUnitario}
-                        value={item.kgInput}
-                        onChange={e => handleInputChange(e.target.value, index, 'kilos')}
-                        inputProps={{ min: 0.1, step: 0.1, max: 1000.0 }}
-                        sx={{ maxWidth: 100, display: 'block', margin: 'auto', marginTop: 2 }}
-                      />
-                    </motion.div>
-                  </>
-                )}
               </FormControl>
             </Box>
           </Box>

@@ -101,8 +101,8 @@ const schema = yup.object().shape({
 })
 
 const defaultValues = {
-  clave: 'clave2',
-  rut: '66666666-6'
+  clave: '',
+  rut: ''
 }
 
 const LoginPage = () => {

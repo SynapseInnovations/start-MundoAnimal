@@ -93,7 +93,7 @@ const NewSaleWindow = () => {
   const { user } = useContext(AuthContext)
   const [querying, setQuerying] = useState(false)
 
-  const [fechaDevolucion, setFechaDevolucion] = useState(dayjs(new Date()))
+  const [fechaDevolucion, setFechaDevolucion] = useState(dayjs(new Date()).locale('es'))
   const [rutSolicitante, setRutSolicitante] = useState('')
 
   const handleSubmit = e => {
@@ -102,7 +102,7 @@ const NewSaleWindow = () => {
 
       return
     }
-    toast('Registrando venta...')
+    toast('Registrando préstamo...')
 
     setQuerying(true)
     e.preventDefault()
